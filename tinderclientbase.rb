@@ -75,7 +75,7 @@ def tinderConnect(server,port,nick,channels,channelclass)
 	}
 
 	trap("INT") {
-		channels.first.graceful = false
+		tinderChannels.first.graceful = false
 		tinderBot1.close
 		tinderBot1 = nil
 		sleep(2)
@@ -89,7 +89,7 @@ def tinderConnect(server,port,nick,channels,channelclass)
 		STDOUT.flush
 		sleep(1)
 	end
-	if channels.first.graceful == true
+	if tinderChannels.first.graceful == true
 		exit 1
 	else
 		exit 0

@@ -31,7 +31,7 @@ class TinderClientBase
 				z += ' ' + y.rjust(4, '0')
 			end
 		}
-		z = z.gsub(/___/, ' _ ')
+		z = z.gsub(/___/, ' _ _ ')
 		z =~ /(.+?)tinder(.+)/
 		if $1 != nil
 			output = "#{$1}tinder#{$2}"

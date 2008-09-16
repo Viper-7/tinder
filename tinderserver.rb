@@ -171,9 +171,9 @@ class TinderClient
             when /^:(.+?)!(.+?)@(.+?) PRIVMSG #{@nick} :\x01VERSION\x01$/i
                 puts "[ CTCP VERSION from #{$1}!#{$2}@#{$3} ]"
                 send "NOTICE #{$1} :\x01VERSION TinderBot v0.001\x01"
-            when /^:(.+?)!(.+?) PRIVMSG #{@nick} :(.*)$/
+            when /^:(.+?)!(.+?) PRIVMSG #{@nick} :(.+)$/
                 privateText $1, $2, $3
-            when /^:(.+?)!(.+?) PRIVMSG #(.*) :(.*)$/
+            when /^:(.+?)!(.+?) PRIVMSG \#(.+?) :(.+)$/
                 channelText $3, $2, $1, $4
             when /001 #{@nick}/i
 		if !@connected

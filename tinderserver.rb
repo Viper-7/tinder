@@ -35,6 +35,7 @@ class TinderClient
         if @open == true
 	        newBot = TinderBot.new(self)
 	        @tinderBots.push newBot
+	        puts "Added Bot"
 	    	return newBot
 	    	newBot = nil
 	else
@@ -44,6 +45,7 @@ class TinderClient
 
     def removeBot(bot)
     	@tinderBots.delete(bot)
+    	puts "Removed Bot"
     end
 
     def serverListenLoop()
@@ -189,7 +191,7 @@ class TinderClient
 	    	begin
 	        	x.serverText(msg)
 	    	rescue
-	    		@tinderBots.delete(x)
+			removeBot(x)
 	    	end
 	}
     end
@@ -200,7 +202,7 @@ class TinderClient
 	    	begin
 	    		x.channelText channel, host, nick, msg
 	    	rescue
-	    		@tinderBots.delete(x)
+			removeBot(x)
 	    	end
 	}
     end
@@ -211,7 +213,7 @@ class TinderClient
 	    	begin
 	    		x.privateText(nick, host, msg)
 	    	rescue
-	    		@tinderBots.delete(x)
+			removeBot(x)
 	    	end
 	}
     end

@@ -80,7 +80,7 @@ class TinderChannel < TinderClientBase
     	puts "Private\<: " + nick + " - '" + msg + "'"
     	if host == '~druss@viper-7.com'
     		case msg
-    			when /^RELOADCLIENT$/
+    			when /^RELOADCLIENT|REHASH$/
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Reloaded by request from " + host
 				@graceful = true

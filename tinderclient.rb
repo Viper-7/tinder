@@ -66,6 +66,10 @@ class TinderChannel < TinderClientBase
     						sendChannel "Command timed out"
     					end
     				end
+				if command.chomp == 'mem'
+					response = memUsage
+					sendChannel response
+				end
     			end
     		end
     	end
@@ -104,10 +108,6 @@ class TinderChannel < TinderClientBase
 			runCommand $1, $2, nick, host
 		when /^@(.+)$/
 			runCommand $1, "", nick, host
-			if $1 == 'mem'
-				response = memUsage
-				sendChannel response
-			end
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"
     	end

@@ -66,12 +66,12 @@ class TinderChannel < TinderClientBase
     						sendChannel "Command timed out"
     					end
     				end
-				if command.chomp == 'mem'
-					response = memUsage
-					sendChannel response
-				end
     			end
     		end
+		if command.chomp == 'mem'
+			response = memUsage
+			sendChannel response
+		end
     	end
     	if hit == false
     		sendChannel "Command not found"

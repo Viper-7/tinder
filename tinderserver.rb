@@ -17,7 +17,7 @@ class TinderClient
         @tinderBots = Array.new
         @buffer = Array.new
         @open = false
-        @debug = true
+        @debug = false
     end
 
     def memUsage
@@ -178,22 +178,19 @@ class TinderClient
 		if @debug != true
 			puts msg
 		end
-            	puts "Fatal Error, Closing"
+            	puts "tinderBot Fatal Error, Closing"
             	shutDown
             when /^error :/
 		if @debug != true
 			puts msg
 		end
-            	puts "Fatal Error, Closing"
+            	puts "tinderBot Fatal Error, Closing"
             	shutDown
             when /^PING :(.+)$/i
-                puts "Ping? Pong."
                 send "PONG :#{$1}"
             when /^:(.+?)!(.+?)@(.+?) PRIVMSG #{@nick} :\x01PING (.+)\x01$/i
-                puts "[ CTCP PING from #{$1}!#{$2}@#{$3} ]"
                 send "NOTICE #{$1} :\x01PING #{$4}\x01"
             when /^:(.+?)!(.+?)@(.+?) PRIVMSG #{@nick} :\x01VERSION\x01$/i
-                puts "[ CTCP VERSION from #{$1}!#{$2}@#{$3} ]"
                 send "NOTICE #{$1} :\x01VERSION TinderBot v0.001\x01"
             when /^:(.+?)!(.+?) PRIVMSG #{@nick} :(.+)$/
                 privateText $1, $2, $3
@@ -215,7 +212,7 @@ class TinderClient
 	    	begin
 	        	x.serverText(msg)
 	    	rescue Exception => ex
-			puts ex.message
+			puts ex.message if debug == true
 			removeBot(x)
 	    	end
 	}
@@ -227,7 +224,7 @@ class TinderClient
 	    	begin
 	    		x.channelText channel, host, nick, msg
 	    	rescue Exception => ex
-			puts ex.message
+			puts ex.message if debug == true
 			removeBot(x)
 	    	end
 	}
@@ -243,7 +240,7 @@ class TinderClient
 	    	begin
 	    		x.privateText(nick, host, msg)
 	    	rescue Exception => ex
-			puts ex.message
+			puts ex.message if debug == true
 			removeBot(x)
 	    	end
 	}

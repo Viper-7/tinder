@@ -29,7 +29,7 @@ class TinderChannel < TinderClientBase
     						cmdline = "#{lang} #{path}"
     					end
 
-    					puts "Exec    : " + cmdline
+    					puts "Exec    : '" + cmdline + "'"
     					timeout(10) {
     						response = %x[#{cmdline}]
 	    					if response.length == 0; response = "No Output."; end

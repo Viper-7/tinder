@@ -75,6 +75,7 @@ class TinderChannel < TinderClientBase
 				@tinderBot = nil
 				puts "Status  : Reloaded by request from " + host
 				@graceful = true
+				exit 1
     			when /^DIE$/
     				sendPrivate "Roger that, " + nick, nick
 				@tinderBot.close

@@ -120,7 +120,7 @@ while true;
 	break if !tinderBot1
 	break if tinderBot1.open != true
 	STDOUT.flush
-	sleep(0.5)
+	sleep(1)
 end
 if tinderChannel1.graceful == true
 	exit 1

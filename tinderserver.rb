@@ -67,7 +67,7 @@ class TinderClient
 				puts @buffer[0]
 			end
 			@tcpSocket.send @buffer.shift.to_s, 0
-			sleep(0.5)
+			sleep(1)
 		end
 		puts 'sender thread died'
 		shutDown

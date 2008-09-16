@@ -1,5 +1,5 @@
 require 'tinderclientbase.rb'
-puts 'woot'
+
 class TinderChannel < TinderClientBase
     include DRbUndumped
 

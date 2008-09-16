@@ -6,11 +6,12 @@ class TinderClient
     require 'socket'
     require 'timeout'
     
-    attr_accessor :server, :nick, :port, :open, :tinderBots, :connected
+    attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer
 
     def initialize
         @joined = Array.new
         @tinderBots = Array.new
+        @buffer = Array.new
         @open = false
         @debug = true
     end
@@ -42,30 +43,33 @@ class TinderClient
     end
     
     def serverListenLoop()
-	Thread.start() {
-	        timeout(30) do
-	        	begin
-				@tcpSocket = TCPSocket.new(server,port)
-			rescue
-				puts "error: #{$!}"
-				shutDown
-			else
-				@open = true
-				send "NICK #{@nick}"
-				send "USER #{@nick} localhost irc.freenode.net :#{@nick}"
-			end
+        timeout(30) do
+        	begin
+			@tcpSocket = TCPSocket.new(server,port)
+		rescue
+			puts "error: #{$!}"
+			shutdown
+		else
+			@open = true
+			send "NICK #{@nick}"
+			send "USER #{@nick} localhost irc.freenode.net :#{@nick}"
 		end
-		while true
-			begin
-				loop do
-					break if !@tcpSocket
-					msg = @tcpSocket.gets
-					next if msg == nil
-					serverEvent(msg)
-				end
-				shutDown
-			rescue	# No saviour for you, Loop till you die!!
-			end
+	end
+	Thread.start() {
+		loop do
+			break if !@tcpSocket
+			msg = @tcpSocket.gets
+			next if msg == nil
+			serverEvent(msg)
+		end
+		shutDown
+	}
+	Thread.start() {
+		loop do
+			break if !@tcpSocket
+			next if @buffer.length == 0
+			@tcpSocket.send @buffer.shift
+			sleep 0.5
 		end
 		shutDown
 	}
@@ -76,7 +80,7 @@ class TinderClient
 	if @debug == true
 		puts msg
 	end
-        @tcpSocket.send "#{msg}\n", 0
+        @buffer.push "#{msg}\n", 0
     end
 
     def sendCTCP(msg, destination)
@@ -270,6 +274,7 @@ class TinderBot
     end
 end
 
-DRb.start_service("druby://:7777", TinderClient.new) 
+tinderClient1 = TinderClient.new
+DRb.start_service("druby://:7777", tinderClient1) 
 puts DRb.uri
 DRb.thread.join

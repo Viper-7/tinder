@@ -95,6 +95,10 @@ class TinderChannel < TinderClientBase
     end
 end
 
+trap("INT") {
+	tinderBot1.shutDown
+	exit 0
+}
 
 puts "Status  : Connecting..."
 begin
@@ -112,8 +116,11 @@ tinderChannel2 = TinderChannel.new("nesreca", tinderBot1)
 tinderChannel3 = TinderChannel.new("v7test", tinderBot1)
 
 puts "Status  : Running..."
-while true; break if tinderBot1.open != true; STDOUT.flush; sleep(1); end
-
+while true; 
+	break if tinderBot1.open != true
+	STDOUT.flush
+	sleep(1)
+end
 if tinderChannel1.graceful == true
 	exit 1
 end

@@ -67,6 +67,7 @@ class TinderClient
 		}
 		loop do
 			break if !@tcpSocket
+			sleep(0.2)
 			next if @buffer.length == 0
 			if @debug == true
 				puts @buffer[0]

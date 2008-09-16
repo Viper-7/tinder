@@ -27,10 +27,9 @@ class TinderChannel < TinderClientBase
     					puts "Exec    : " + cmdline
     					timeout(10) {
     						response = %x[#{cmdline}]
-    					} rescue response = "Command timed out"
-
-    					if response.length == 0; response = "No Output."; end
-    					sendChannel response
+	    					if response.length == 0; response = "No Output."; end
+	    					sendChannel response
+    					} rescue sendChannel "Command timed out"
     				end
     			end
     		end

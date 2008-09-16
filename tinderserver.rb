@@ -275,6 +275,6 @@ class TinderBot
 end
 
 tinderClient1 = TinderClient.new
-DRb.start_service("druby://:7777", tinderClient1) 
+DRb.start_service("druby://:7777", return tinderClient1) 
 puts DRb.uri
 DRb.thread.join

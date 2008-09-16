@@ -51,8 +51,8 @@ class TinderClient
 			shutdown
 		else
 			@open = true
-			@tcpSocket.send "NICK #{@nick}\n"
-			@tcpSocket.send "USER #{@nick} localhost irc.freenode.net :#{@nick}\n"
+			@tcpSocket.send "NICK #{@nick}\n", 0
+			@tcpSocket.send "USER #{@nick} localhost irc.freenode.net :#{@nick}\n", 0
 		end
 	end
 	Thread.start() {

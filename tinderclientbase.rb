@@ -26,8 +26,8 @@ class TinderClientBase
 		x = x.split(/~/)
 		index=0
 		x.each {|y|
-			if y.length > 4 and index < 3
-				z += y.rjust(8, '.')
+			if index == 0
+				z += y
 			else
 				z += ' . ' + y.rjust(4, '0')
 			end

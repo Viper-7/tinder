@@ -87,7 +87,7 @@ class TinderChannel < TinderClientBase
 
     def privateText(nick, host, msg)
     	puts "Private\<: " + nick + " - '" + msg + "'"
-    	if host == '~druss@viper-7.com'
+    	if nick + host == 'Viper-7~druss@viper-7.com'
     		case msg
     			when /^RELOADCLIENT|REHASH$/
     				sendPrivate "Roger that, " + nick, nick

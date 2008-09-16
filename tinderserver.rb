@@ -124,7 +124,7 @@ class TinderClient
 	    send "JOIN \##{channel}"
             @joined.push(channel)
         else
-            puts 'avoided join ' + @joined.length + "-" + @tinderBots.length + "-" + (@TCPSocket != nil)
+            puts 'avoided join ' + @joined.length.to_s + "-" + @tinderBots.length.to_s
         end
     end
 

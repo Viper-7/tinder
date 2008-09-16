@@ -24,9 +24,7 @@ class TinderChannel < TinderClientBase
     					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
 
     					if args.length > 0
-    						args.each_word {|word|
-    							word="\"#{word}\""
-    						}
+    						args = '"' + args.scan(/ /){|w| w += '" "' } + '"'
     						cmdline = "#{lang} #{path} #{args}"
     					else
     						cmdline = "#{lang} #{path}"

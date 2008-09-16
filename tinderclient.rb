@@ -119,13 +119,6 @@ class TinderChannel < TinderClientBase
     end
 end
 
-trap("INT") {
-	tinderChannel1.graceful = false
-	tinderBot1.close
-	tinderBot1 = nil
-	sleep(2)
-	exit 0
-}
 
 puts "Status  : Connecting..."
 begin
@@ -141,6 +134,14 @@ tinderBot1 = tinderClient1.addBot
 tinderChannel1 = TinderChannel.new("codeworkshop", tinderBot1)
 tinderChannel2 = TinderChannel.new("nesreca", tinderBot1)
 tinderChannel3 = TinderChannel.new("v7test", tinderBot1)
+
+trap("INT") {
+	tinderChannel1.graceful = false
+	tinderBot1.close
+	tinderBot1 = nil
+	sleep(2)
+	exit 0
+}
 
 puts "Status  : Running..."
 while true

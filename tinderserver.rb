@@ -31,14 +31,13 @@ class TinderClient
         puts 'addBot called'
         if @open == true
 	        newBot = TinderBot.new(self)
-	        puts 'bot created'
 	        @tinderBots.push newBot
+	        puts 'bot created' + @tinderBots.length.to_s
 	    	return newBot
 	    	newBot = nil
 	else
 		puts 'error: Client tried to create a bot with no server'
 	end
-	puts 'addBot done'
     end
 
     def removeBot(bot)

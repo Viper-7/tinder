@@ -132,7 +132,7 @@ tinderClient1.connectServer("irc.gamesurge.net", "6667", "Tinder")
 tinderBot1 = tinderClient1.addBot
 
 tinderChannel1 = TinderChannel.new("codeworkshop", tinderBot1)
-tinderChannel2 = TinderChannel.new("nesreca", tinderBot1)
+#tinderChannel2 = TinderChannel.new("nesreca", tinderBot1)
 tinderChannel3 = TinderChannel.new("v7test", tinderBot1)
 
 trap("INT") {

@@ -18,7 +18,7 @@ class TinderChannel < TinderClientBase
 			end
 		}
 		x = x.join
-		z =~ /(.+?)tinder(.+?)/
+		z =~ /(.+?)tinder(.+)/
 		if $1 != nil
 			output = "#{$1}tinder#{$2}"
 		end
@@ -68,13 +68,13 @@ class TinderChannel < TinderClientBase
     				end
     			end
     		end
-		if command.chomp == 'mem'
-			response = memUsage
-			sendChannel response
-		end
     	end
-    	if hit == false
-    		sendChannel "Command not found"
+	if command.chomp == 'mem'
+		response = memUsage
+		sendChannel response
+	end
+	if hit == false
+		sendChannel "Command not found"
     	end
     end
 

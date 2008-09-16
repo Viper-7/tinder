@@ -133,39 +133,4 @@ class TinderChannel < TinderClientBase
     end
 end
 
-
-puts "Status  : Connecting..."
-begin
-	tinderClient1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
-rescue
-	puts "Status  : Failed to connect to Tinder server"
-	exit 0
-end
-
-tinderClient1.connectServer("irc.gamesurge.net", "6667", "Tinder")
-tinderBot1 = tinderClient1.addBot
-
-tinderChannel1 = TinderChannel.new("codeworkshop", tinderBot1)
-tinderChannel2 = TinderChannel.new("nesreca", tinderBot1)
-tinderChannel3 = TinderChannel.new("v7test", tinderBot1)
-
-trap("INT") {
-	tinderChannel1.graceful = false
-	tinderBot1.close
-	tinderBot1 = nil
-	sleep(2)
-	exit 0
-}
-
-puts "Status  : Running..."
-while true
-	break if !tinderBot1
-	break if tinderBot1.open != true
-	STDOUT.flush
-	sleep(1)
-end
-if tinderChannel1.graceful == true
-	exit 1
-else
-	exit 0
-end
+tinderConnect("irc.gamesurge.net","6667","Tinder",["codeworkshop","nesreca","v7test"], TinderChannel)

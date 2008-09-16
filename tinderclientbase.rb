@@ -57,3 +57,41 @@ class TinderClientBase
     end
 end
 
+def tinderConnect(server,port,nick,channels,channelclass)
+	puts "Status  : Connecting..."
+	begin
+		tinderClient1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
+	rescue
+		puts "Status  : Failed to connect to Tinder server"
+		exit 0
+	end
+
+	tinderClient1.connectServer(server, port, nick)
+	tinderBot1 = tinderClient1.addBot
+	tinderChannels = Array.new
+
+	channels.each {|x|
+		tinderChannels.push channelclass.new(x.to_s, tinderBot1)
+	}
+
+	trap("INT") {
+		channels.first.graceful = false
+		tinderBot1.close
+		tinderBot1 = nil
+		sleep(2)
+		exit 0
+	}
+
+	puts "Status  : Running..."
+	while true
+		break if !tinderBot1
+		break if tinderBot1.open != true
+		STDOUT.flush
+		sleep(1)
+	end
+	if channels.first.graceful == true
+		exit 1
+	else
+		exit 0
+	end
+end

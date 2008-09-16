@@ -102,8 +102,9 @@ class TinderChannel < TinderClientBase
 end
 
 trap("INT") {
+	exit 0 if !tinderBot1
 	tinderBot1.shutDown
-	exit 0
+	exit 1
 }
 
 puts "Status  : Connecting..."

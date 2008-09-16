@@ -121,14 +121,12 @@ class TinderClient
     end
 
     def shutDown()
-    	@tinderBots.each {|x|
-    		x.open = false
-    		x.channels.clear
-    		@tinderBots.delete(x)
-    	}
     	@open = false
     	@tcpSocket.close if @tcpSocket != nil
     	@tcpSocket = nil
+    	@tinderBots.each {|x|
+    		x.shutDown
+    	}
     	@tinderBots.clear
 	@connected=false
     	DRb.stop_service

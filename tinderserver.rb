@@ -73,7 +73,7 @@ class TinderClient
 			@tinderBots.each {|x|
 				if x.open != true
 					x.shutDown
-					@tinderBots.delete x
+					@tinderBots.delete(x)
 				END
 			}
 			msg = @tcpSocket.gets

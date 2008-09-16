@@ -17,6 +17,7 @@ class TinderClient
         @tinderBots = Array.new
         @buffer = Array.new
         @open = false
+        @debug = false
     end
 
     def memUsage
@@ -54,7 +55,6 @@ class TinderClient
     end
 
     def addBot
-        @debug = false
         if @open == true
 	        newBot = TinderBot.new(self)
 	        @tinderBots.push newBot

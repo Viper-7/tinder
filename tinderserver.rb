@@ -5,7 +5,7 @@ class TinderClient
 
     require 'socket'
     require 'timeout'
-    
+
     attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer
 
     def initialize
@@ -20,12 +20,12 @@ class TinderClient
         @server = server
         @nick = nick
         @port = port
-        
+
 	if @open != true
 		@open = true
 		serverListenLoop()
 	end
-    end	
+    end
 
     def addBot
         if @open == true
@@ -37,11 +37,11 @@ class TinderClient
 		puts 'error: Client tried to create a bot with no server'
 	end
     end
-    
+
     def removeBot(bot)
     	@tinderBots.delete(bot)
     end
-    
+
     def serverListenLoop()
         timeout(30) do
         	begin
@@ -103,7 +103,7 @@ class TinderClient
 	if lines > 8; msg = "Response too long"; end
 	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}"}
     end
-    
+
     def shutDown()
     	@tinderBots.each {|x| x.shutDown}
     	@open = false
@@ -149,7 +149,7 @@ class TinderClient
                 @tcpSocket.send "PONG :#{$1}\n", 0
             when /^:(.+?)!(.+?)@(.+?) PRIVMSG #{@nick} :\x01PING (.+)\x01$/i
                 puts "[ CTCP PING from #{$1}!#{$2}@#{$3} ]"
-                send "NOTICE #{$1} :\x01PING #{$4}\x01"
+                @tcpSocket.send "NOTICE #{$1} :\x01PING #{$4}\x01\n"
             when /^:(.+?)!(.+?)@(.+?) PRIVMSG #{@nick} :\x01VERSION\x01$/i
                 puts "[ CTCP VERSION from #{$1}!#{$2}@#{$3} ]"
                 send "NOTICE #{$1} :\x01VERSION TinderBot v0.001\x01"
@@ -174,7 +174,7 @@ class TinderClient
     def channelText(channel, host, nick, msg)
     	@tinderBots.each {|x| x.channelText channel, host, nick, msg }
     end
-    
+
     def privateText(nick, host, msg)
     	@tinderBots.each {|x| x.privateText(nick, host, msg) }
     end
@@ -184,13 +184,13 @@ class TinderBot
     include DRbUndumped
 
     attr_accessor :spamTime, :tinderClient, :channels, :open
-    
+
     def initialize(client)
     	@tinderClient = client
         @channels = Array.new
 	@open = true
     end
-    
+
     def addChannel(channel)
         @channels.push channel
 
@@ -216,12 +216,12 @@ class TinderBot
     def sendPrivate(msg, nick)
     	@tinderClient.sendPrivate(msg, nick)
     end
-    
+
     def sendCTCP(msg, destination)
     	@tinderClient.sendCTCP(msg, destination)
     end
-    
-    def serverText(msg) 
+
+    def serverText(msg)
         case msg.strip
             when /^:(.+)!(.+?) MODE #(.+?) (.+?) :(.+)$/	#User!~ident@host MODE  Channel Mode Message
             	channelEvent $3, $2, $1, $4, $5
@@ -239,18 +239,18 @@ class TinderBot
 	    	@channels.each {|x| x.serverText msg }
         end
     end
-    
+
     def channelText(channel, host, nick, msg)
     	@channels.find{|x| x.channel==channel}.channelText(nick, host, msg)
     end
-    
-    def channelEvent(channel, host, nick, event, msg) 
+
+    def channelEvent(channel, host, nick, event, msg)
     	@channels.find{|x| x.channel==channel}.channelEvent(channel, host, nick, event, msg)
     	if event == "KICK" and nick == @tinderClient.nick
     		@tinderClient.joinChannel channel
     	end
     end
-    
+
     def privateText(nick, host, msg)
     	@channels.first.privateText(nick, host, msg)
     end
@@ -275,6 +275,6 @@ class TinderBot
 end
 
 tinderClient1 = TinderClient.new
-DRb.start_service("druby://:7777", tinderClient1) 
+DRb.start_service("druby://:7777", tinderClient1)
 puts DRb.uri
 DRb.thread.join

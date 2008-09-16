@@ -38,7 +38,7 @@ class TinderChannel < TinderClientBase
 		    					if response.length == 0; response = "No Output."; end
 		    					sendChannel response
     						}
-    					rescue
+    					rescue Exception => ex
     						sendChannel "Command timed out"
     					end
     				end

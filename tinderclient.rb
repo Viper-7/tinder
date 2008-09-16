@@ -14,6 +14,9 @@ class TinderChannel < TinderClientBase
     			else
     				if command.chomp == File.basename(path.downcase)
     					hit = true
+
+    					args.gsub(/rm/, 'rn')
+    					args.gsub(/mail/, 'm@il')
     					lang = path.split('/')[5]
 
     					ENV['IIBOT_DIR'] = path.split('/')[0..2].join('/')

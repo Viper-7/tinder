@@ -62,7 +62,7 @@ class TinderChannel < TinderClientBase
     		when /^(hi|hey|sup|yo) #{@nick}/i
 			sendChannel $1 + " " + nick + "!"
 		when /^@rehash/i
-			sendChannel "Reloaded by request"
+			sendChannel "Reloaded by request from " + nick
 			puts "Status  : Reloaded by request from " + host
 			@tinderBot.channels.first.graceful = true
 			@tinderBot.shutDown

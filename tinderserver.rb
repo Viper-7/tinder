@@ -77,7 +77,7 @@ class TinderClient
 					@tinderBots.delete(x)
 				}
 				break
-			}
+			end
 			msg = @tcpSocket.gets
 			next if msg == nil
 			serverEvent(msg)

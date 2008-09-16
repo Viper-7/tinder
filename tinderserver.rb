@@ -70,6 +70,12 @@ class TinderClient
 	Thread.start() {
 		loop do
 			break if !@tcpSocket
+			@tinderBots.each {|x|
+				if x.open != true
+					x.shutDown
+					@tinderBots.delete x
+				END
+			}
 			msg = @tcpSocket.gets
 			next if msg == nil
 			serverEvent(msg)
@@ -276,6 +282,7 @@ class TinderBot
     end
 end
 
-DRb.start_service("druby://:7777", TinderClient.new)
+tinderClient1 = TinderClient.new
+DRb.start_service("druby://:7777", tinderClient1)
 puts DRb.uri
 DRb.thread.join

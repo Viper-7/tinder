@@ -31,7 +31,7 @@ class TinderClient
 			z += ' . ' + y.rjust(4, '0')
 		}
 
-		z = z[2..-1].gsub(/\.\.\./, ' . ')
+		z = z.gsub(/\.\.\./, ' . ')
 		z =~ /(.+?)tinder(.+)/
 		if $1 != nil
 			output = "#{$1}tinder#{$2}"
@@ -40,7 +40,7 @@ class TinderClient
 	if output == ""
 		output = "Fail"
 	end
-	return output
+	return output[2..-1]
     end
 
     def connectServer(server,port,nick)

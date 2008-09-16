@@ -18,8 +18,6 @@ class TinderClientBase
     end
 
     def shutDown()
-        @graceful = false
-        exit 0
     end
 
     def sendChannel(msg)

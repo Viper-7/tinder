@@ -71,16 +71,15 @@ class TinderChannel < TinderClientBase
     		case msg
     			when /^REHASH$/
     				sendPrivate "Roger that, " + nick, nick
-				@tinderBot.close
-				@tinderBot = nil
 				puts "Status  : Reloaded by request from " + host
 				@graceful = true
-				exit 1
-    			when /^DIE$/
-    				sendPrivate "Roger that, " + nick, nick
 				@tinderBot.close
 				@tinderBot = nil
+    			when /^DIE$/
+    				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Killed by request from " + host
+				@tinderBot.close
+				@tinderBot = nil
 			when /^SAY (.+)$/i
 				sendChannel $1
 		end

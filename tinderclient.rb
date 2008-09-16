@@ -121,8 +121,11 @@ end
 
 trap("INT") {
 	exit 0 if !tinderBot1
-	tinderBot1.shutDown
-	exit 1
+	@graceful = false
+	tinderBot1.close
+	tinderBot1 = nil
+	sleep(2)
+	exit 0
 }
 
 puts "Status  : Connecting..."

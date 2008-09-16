@@ -20,6 +20,32 @@ class TinderClient
         @debug = false
     end
 
+    def memUsage
+	response = %x[ps -eo 'cputime,%cpu,%mem,vsz,sz,command']
+	output = ""
+	response.each_line {|x|
+		z = ""
+		x = x.gsub(/  /,' ')
+		x = x.split(/ /)
+		x.each {|y|
+			if y.length > 3
+				z += y.rjust(8, '_')
+			else
+				z += y.rjust(5, '_')
+			end
+		}
+		x = x.join
+		z =~ /(.+?)tinder(.+)/
+		if $1 != nil
+			output = "#{$1}tinder#{$2}"
+		end
+	}
+	if output == ""
+		output = "Fail"
+	end
+	return output
+    end
+
     def connectServer(server,port,nick)
         @server = server
         @nick = nick
@@ -208,6 +234,10 @@ class TinderClient
 			removeBot(x)
 	    	end
 	}
+    	if msg == '@mem'
+    		response = memUsage
+    		send response
+    	end
     end
 
     def privateText(nick, host, msg)

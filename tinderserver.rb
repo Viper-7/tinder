@@ -67,7 +67,7 @@ class TinderClient
 				puts @buffer[0]
 			end
 			@tcpSocket.send @buffer.shift.to_s, 0
-			sleep(1)
+			sleep(0.5)
 		end
 		puts 'sender thread died'
 		shutDown
@@ -179,29 +179,35 @@ class TinderClient
 
     def serverText(msg)
     	break if @tinderBots.length == 0
-    	begin
-	        @tinderBots.each {|x| x.serverText(msg) }
-    	rescue
-    		@tinderBots.clear
-    	end
+        @tinderBots.each {|x|
+	    	begin
+	        	x.serverText(msg)
+	    	rescue
+	    		@tinderBots.delete(x)
+	    	end
+	}
     end
 
     def channelText(channel, host, nick, msg)
     	break if @tinderBots.length == 0
-    	begin
-    		@tinderBots.each {|x| x.channelText channel, host, nick, msg }
-    	rescue
-    		@tinderBots.clear
-    	end
+        @tinderBots.each {|x|
+	    	begin
+	    		x.channelText channel, host, nick, msg
+	    	rescue
+	    		@tinderBots.delete(x)
+	    	end
+	}
     end
 
     def privateText(nick, host, msg)
     	break if @tinderBots.length == 0
-    	begin
-    		@tinderBots.each {|x| x.privateText(nick, host, msg) }
-    	rescue
-    		@tinderBots.clear
-    	end
+        @tinderBots.each {|x|
+	    	begin
+	    		x.privateText(nick, host, msg)
+	    	rescue
+	    		@tinderBots.delete(x)
+	    	end
+	}
     end
 end
 

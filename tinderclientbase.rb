@@ -17,6 +17,32 @@ class TinderClientBase
     	@tinderBot.addChannel(self)
     end
 
+    def memUsage
+	response = %x[ps -eo 'cputime,%cpu,%mem,vsz,sz,command']
+	output = ""
+	response.each_line {|x|
+		z = ""
+		x = x.gsub(/  /,'~')
+		x = x.split(/~/)
+		x.each {|y|
+			if y.length > 4
+				z += y.rjust(8, '_')
+			else
+				z += ' ' + y.rjust(4, '0')
+			end
+		}
+		z = z.gsub(/___/, ' _ ')
+		z =~ /(.+?)tinder(.+)/
+		if $1 != nil
+			output = "#{$1}tinder#{$2}"
+		end
+	}
+	if output == ""
+		output = "Fail"
+	end
+	return output
+    end
+
     def shutDown()
 	if tinderChannel1.graceful == true
 		exit 1

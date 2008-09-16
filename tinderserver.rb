@@ -71,10 +71,7 @@ class TinderClient
 	}
 	Thread.start() {
 		loop do
-			if !@tcpSocket
-				shutDown
-				break
-			end
+			break if !@tcpSocket
 			msg = @tcpSocket.gets
 			next if msg == nil
 			serverEvent(msg)
@@ -177,15 +174,27 @@ class TinderClient
     end
 
     def serverText(msg)
+    	puts 'attempting send to client'
+    	break if @tinderBots.length == 0
+    	puts 'not stopping...'
         @tinderBots.each {|x| x.serverText(msg) }
+        puts 'sent'
     end
 
     def channelText(channel, host, nick, msg)
+    	puts 'attempting send to client'
+    	break if @tinderBots.length == 0
+    	puts 'not stopping...'
     	@tinderBots.each {|x| x.channelText channel, host, nick, msg }
+        puts 'sent'
     end
 
     def privateText(nick, host, msg)
+    	puts 'attempting send to client'
+    	break if @tinderBots.length == 0
+    	puts 'not stopping...'
     	@tinderBots.each {|x| x.privateText(nick, host, msg) }
+        puts 'sent'
     end
 end
 
@@ -277,7 +286,6 @@ class TinderBot
     def shutDown()
 	@open = false
     	@channels.each {|tinderChannel| tinderChannel.shutDown }
-    	#@channels.each {|tinderChannel| @tinderClient.partChannel(tinderChannel.channel.to_s)}
     	@tinderClient.removeBot(self)
     	@channels.clear
     end

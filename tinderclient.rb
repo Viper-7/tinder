@@ -18,7 +18,9 @@ class TinderChannel < TinderClientBase
 		}
 		x = x.join
 		z =~ /(.+?)tinder(.+?)/
-		output = "#{$1}tinder#{$2}" if $1 != nil
+		if $1 != nil
+			output = "#{$1}tinder#{$2}"
+		end
 	}
 	return output
     end

@@ -72,10 +72,7 @@ class TinderClient
 	Thread.start() {
 		loop do
 			if !@tcpSocket
-				@tinderBots.each {|x|
-					x.shutDown
-					@tinderBots.delete(x)
-				}
+				shutDown
 				break
 			end
 			msg = @tcpSocket.gets

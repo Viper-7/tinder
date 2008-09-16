@@ -236,7 +236,7 @@ class TinderClient
 	}
     	if msg == '@mem'
     		response = memUsage
-    		send response
+    		sendChannel response, channel
     	end
     end
 

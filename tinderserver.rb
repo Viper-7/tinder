@@ -190,7 +190,8 @@ class TinderClient
         @tinderBots.each {|x|
 	    	begin
 	        	x.serverText(msg)
-	    	rescue
+	    	rescue Exception => ex
+			puts ex.message
 			removeBot(x)
 	    	end
 	}
@@ -201,7 +202,8 @@ class TinderClient
         @tinderBots.each {|x|
 	    	begin
 	    		x.channelText channel, host, nick, msg
-	    	rescue
+	    	rescue Exception => ex
+			puts ex.message
 			removeBot(x)
 	    	end
 	}
@@ -212,7 +214,8 @@ class TinderClient
         @tinderBots.each {|x|
 	    	begin
 	    		x.privateText(nick, host, msg)
-	    	rescue
+	    	rescue Exception => ex
+			puts ex.message
 			removeBot(x)
 	    	end
 	}

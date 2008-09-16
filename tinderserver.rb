@@ -21,7 +21,7 @@ class TinderClient
         @nick = nick
         @port = port
 
-	if @open != true
+	if !@tcpSocket
 		@open = true
 		serverListenLoop()
 	end

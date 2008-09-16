@@ -108,7 +108,7 @@ rescue
 	exit 0
 end
 
-if tinderClient1.open != true; tinderClient1.connectServer("irc.gamesurge.net", "6667", "Tinder"); end
+tinderClient1.connectServer("irc.gamesurge.net", "6667", "Tinder")
 tinderBot1 = tinderClient1.addBot
 
 tinderChannel1 = TinderChannel.new("codeworkshop", tinderBot1)

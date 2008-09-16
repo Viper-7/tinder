@@ -27,14 +27,14 @@ class TinderClientBase
 		index=0
 		x.each {|y|
 			if y.length > 4 and index < 3
-				z += y.rjust(8, '_')
+				z += y.rjust(8, '.')
 			else
-				z += ' _ ' + y.rjust(4, '0')
+				z += ' . ' + y.rjust(4, '0')
 			end
 			index += 1
 		}
 
-		z = z.gsub(/___/, ' _ ')
+		z = z.gsub(/.../, ' . ')
 		z =~ /(.+?)tinder(.+)/
 		if $1 != nil
 			output = "#{$1}tinder#{$2}"

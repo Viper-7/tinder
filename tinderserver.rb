@@ -316,6 +316,8 @@ class TinderBot
     end
 end
 
-DRb.start_service("druby://:7777", TinderClient.new)
-puts DRb.uri
-DRb.thread.join
+while true
+	DRb.start_service("druby://:7777", TinderClient.new)
+	puts DRb.uri
+	DRb.thread.join
+end

@@ -122,7 +122,7 @@ tinderChannel1 = TinderChannel.new("codeworkshop", tinderBot1)
 tinderChannel3 = TinderChannel.new("v7test", tinderBot1)
 
 puts "Status  : Running..."
-while true;
+while true
 	break if !tinderBot1
 	break if tinderBot1.open != true
 	STDOUT.flush

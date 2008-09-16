@@ -24,14 +24,8 @@ class TinderClientBase
 		z = ""
 		x = x.gsub(/  /,'~')
 		x = x.split(/~/)
-		index=0
 		x.each {|y|
-			if index == 0
-				z += y
-			else
-				z += ' . ' + y.rjust(4, '0')
-			end
-			index += 1
+			z += ' . ' + y.rjust(4, '0')
 		}
 
 		z = z.gsub(/\.\.\./, ' . ')

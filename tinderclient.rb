@@ -120,7 +120,6 @@ class TinderChannel < TinderClientBase
 end
 
 trap("INT") {
-	exit 0 if !tinderBot1
 	@graceful = false
 	tinderBot1.close
 	tinderBot1 = nil

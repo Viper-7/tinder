@@ -12,22 +12,25 @@ class TinderChannel < TinderClientBase
 				next
     			else
     				if command.chomp == File.basename(path.downcase)
-    					puts "Path    :" + path
     					lang = path.split('/')[5]
-					
+
     					ENV['IIBOT_DIR'] = path.split('/')[0..2].join('/')
     					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'
     					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
-    					puts "Temp    :" + ENV['IIBOT_TEMP_DIR']
-    					
+
     					if args.length > 0
     						cmdline = "#{lang} #{path} #{args}"
     					else
     						cmdline = "#{lang} #{path}"
     					end
-    					
+
     					puts "Exec    : " + cmdline
-    					response = %x[#{cmdline}]
+    					timeout(10) {
+    						response = %x[#{cmdline}]
+    					} rescue {
+    						response = "Command timed out"
+    					}
+
     					if response.length == 0; response = "No Output."; end
     					sendChannel response
     				end
@@ -35,13 +38,13 @@ class TinderChannel < TinderClientBase
     		end
     	end
     end
-    
+
     def channelEvent(channel, host, nick, event, msg)
-    	puts "Event   : " + event + ": " + nick + " #" + channel + " - '" + msg + "'" 
+    	puts "Event   : " + event + ": " + nick + " #" + channel + " - '" + msg + "'"
     	case event
     		when /^MODE/
     			if nick == @nick
-	    			case msg 
+	    			case msg
 	    				when /\-o/ # On De-Op
 	    				when /\+o/ # On Op
 	    				when /\-v/ # On De-Voice
@@ -50,7 +53,7 @@ class TinderChannel < TinderClientBase
 	    		end
     	end
     end
-    
+
     def channelText(nick, host, msg)
     	puts "Text    : #" + @channel + " <" + nick + "> - '" + msg + "'"
     	case msg
@@ -64,7 +67,7 @@ class TinderChannel < TinderClientBase
 			sendChannel "FIGHT THE POWAH!"
     	end
     end
-    
+
     def privateText(nick, host, msg)
     	puts "Private\<: " + nick + " - '" + msg + "'"
     	if host == '~druss@viper-7.com'
@@ -112,11 +115,11 @@ if tinderClient1.open != true; tinderClient1.connectServer("irc.gamesurge.net", 
 tinderBot1 = tinderClient1.addBot
 
 tinderChannel1 = TinderChannel.new("codeworkshop", tinderBot1)
-tinderChannel2 = TinderChannel.new("nesreca", tinderBot1)
+#tinderChannel2 = TinderChannel.new("nesreca", tinderBot1)
 tinderChannel3 = TinderChannel.new("v7test", tinderBot1)
 
 puts "Status  : Running..."
-while true; 
+while true;
 	break if tinderBot1.open != true
 	STDOUT.flush
 	sleep(1)

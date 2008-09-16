@@ -62,7 +62,7 @@ class TinderClient
 			if @debug == true
 				puts @buffer[0]
 			end
-			@tcpSocket.send @buffer.shift, 0
+			@tcpSocket.send @buffer.shift.to_s, 0
 			sleep(1)
 		end
 		shutDown
@@ -274,7 +274,6 @@ class TinderBot
     end
 end
 
-tinderClient1 = TinderClient.new
-DRb.start_service("druby://:7777", tinderClient1)
+DRb.start_service("druby://:7777", TinderClient.new)
 puts DRb.uri
 DRb.thread.join

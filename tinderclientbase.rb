@@ -18,6 +18,11 @@ class TinderClientBase
     end
 
     def shutDown()
+	if tinderChannel1.graceful == true
+		exit 1
+	else
+		exit 0
+	end
     end
 
     def sendChannel(msg)

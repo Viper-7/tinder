@@ -51,8 +51,8 @@ class TinderClient
 			shutdown
 		else
 			@open = true
-			send "NICK #{@nick}"
-			send "USER #{@nick} localhost irc.freenode.net :#{@nick}"
+			@tcpSocket.send "NICK #{@nick}\n"
+			@tcpSocket.send "USER #{@nick} localhost irc.freenode.net :#{@nick}\n"
 		end
 	end
 	Thread.start() {
@@ -61,7 +61,7 @@ class TinderClient
 			puts @buffer.length
 			next if @buffer.length == 0
 			puts @buffer[0]
-			@tcpSocket.send @buffer.shift
+			@tcpSocket.send @buffer.shift, 0
 			sleep 1
 		end
 		shutDown
@@ -82,7 +82,7 @@ class TinderClient
 	if @debug == true
 		puts msg
 	end
-        @buffer.push "#{msg}\n", 0
+        @buffer.push "#{msg}\n"
     end
 
     def sendCTCP(msg, destination)

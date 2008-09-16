@@ -5,6 +5,7 @@ class TinderChannel < TinderClientBase
 
     def memUsage
 	response = %x[ps -eo 'cputime,%cpu,%mem,vsz,sz,command']
+	output = ""
 	response.each_line {|x|
 		z = ""
 		x = x.gsub(/  /,' ')
@@ -103,8 +104,9 @@ class TinderChannel < TinderClientBase
 			runCommand $1, $2, nick, host
 		when /^@(.+)$/
 			runCommand $1, "", nick, host
-			if msg == '@mem'
-				sendChannel memUsage
+			if $1 == 'mem'
+				response = memUsage
+				sendChannel response
 			end
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"

@@ -58,18 +58,20 @@ class TinderClient
 	Thread.start() {
 		loop do
 			break if !@tcpSocket
-			msg = @tcpSocket.gets
-			next if msg == nil
-			serverEvent(msg)
+			puts @buffer.length
+			next if @buffer.length == 0
+			puts @buffer[0]
+			@tcpSocket.send @buffer.shift
+			sleep 0.5
 		end
 		shutDown
 	}
 	Thread.start() {
 		loop do
 			break if !@tcpSocket
-			next if @buffer.length == 0
-			@tcpSocket.send @buffer.shift
-			sleep 0.5
+			msg = @tcpSocket.gets
+			next if msg == nil
+			serverEvent(msg)
 		end
 		shutDown
 	}

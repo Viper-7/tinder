@@ -1,5 +1,6 @@
 require 'tinderclientbase.rb'
 
+
 class TinderChannel < TinderClientBase
     include DRbUndumped
 

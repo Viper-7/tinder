@@ -6,12 +6,14 @@ class TinderChannel < TinderClientBase
     def runCommand(command, args, nick, host)
     	puts "Status  : Running command '" + command + " " + args + "'"
     	folders = ["/opt/ii/scripts/user","/opt/ii/scripts/by_nick","/opt/ii/scripts/builtin"]
+	hit = false
     	for folder in folders
     		Find.find(folder) do |path|
     			if FileTest.directory?(path)
 				next
     			else
     				if command.chomp == File.basename(path.downcase)
+    					hit = true
     					lang = path.split('/')[5]
 
     					ENV['IIBOT_DIR'] = path.split('/')[0..2].join('/')
@@ -33,6 +35,9 @@ class TinderChannel < TinderClientBase
     				end
     			end
     		end
+    	end
+    	if hit == false
+    		sendChannel "Command not found"
     	end
     end
 
@@ -56,6 +61,12 @@ class TinderChannel < TinderClientBase
     	case msg
     		when /^(hi|hey|sup|yo) #{@nick}/i
 			sendChannel $1 + " " + nick + "!"
+		when /^@rehash/i
+			sendChannel "Reloaded by request"
+			puts "Status  : Reloaded by request from " + host
+			@tinderBot.channels.first.graceful = true
+			@tinderBot.shutDown
+			@tinderBot = nil
 		when /^@(.+?) (.+)$/
 			runCommand $1, $2, nick, host
 		when /^@(.+)$/
@@ -126,7 +137,7 @@ tinderClient1.connectServer("irc.gamesurge.net", "6667", "Tinder")
 tinderBot1 = tinderClient1.addBot
 
 tinderChannel1 = TinderChannel.new("codeworkshop", tinderBot1)
-# tinderChannel2 = TinderChannel.new("nesreca", tinderBot1)
+tinderChannel2 = TinderChannel.new("nesreca", tinderBot1)
 tinderChannel3 = TinderChannel.new("v7test", tinderBot1)
 
 puts "Status  : Running..."

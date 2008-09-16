@@ -299,7 +299,7 @@ class TinderBot
     end
 
     def close
-    	shutDown
+    	@tinderClient.shutDown
     end
 
     def connected

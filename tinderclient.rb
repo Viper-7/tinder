@@ -73,12 +73,18 @@ class TinderChannel < TinderClientBase
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Reloaded by request from " + host
 				@graceful = true
+				@tinderBot.shutDown
+				@tinderBot = nil
+    			when /^RECONNECT$/
+    				sendPrivate "Roger that, " + nick, nick
+				puts "Status  : Reconnecting by request from " + host
+				@graceful = true
 				@tinderBot.close
 				@tinderBot = nil
     			when /^DIE$/
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Killed by request from " + host
-				@tinderBot.close
+				@tinderBot.shutDown
 				@tinderBot = nil
 			when /^SAY (.+)$/i
 				sendChannel $1

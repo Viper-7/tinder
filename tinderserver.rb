@@ -6,6 +6,10 @@ class TinderClient
     require 'socket'
     require 'timeout'
 
+    trap("INT") {
+    	shutDown
+    }
+
     attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer
 
     def initialize
@@ -60,6 +64,9 @@ class TinderClient
 		end
 	end
 	Thread.start() {
+		trap("INT") {
+			shutDown
+		}
 		loop do
 			break if !@tcpSocket
 			next if @buffer.length == 0
@@ -73,6 +80,9 @@ class TinderClient
 		shutDown
 	}
 	Thread.start() {
+		trap("INT") {
+			shutDown
+		}
 		loop do
 			break if !@tcpSocket
 			msg = @tcpSocket.gets

@@ -127,6 +127,7 @@ class TinderClient
     	@tcpSocket = nil
     	@tinderBots.clear
 	@connected=false
+	load 'tinderserver.rb'
     end
 
     def joinChannel(channel)

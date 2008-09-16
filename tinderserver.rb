@@ -62,7 +62,7 @@ class TinderClient
 			next if @buffer.length == 0
 			puts @buffer[0]
 			@tcpSocket.send @buffer.shift
-			sleep 0.5
+			sleep 1
 		end
 		shutDown
 	}

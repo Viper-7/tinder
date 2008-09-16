@@ -28,13 +28,13 @@ class TinderClient
 		x = x.gsub(/  /,'~')
 		x = x.split(/~/)
 		x.each {|y|
-			if y.length > 4
+			if y.length > 3
 				z += y.rjust(8, '_')
 			else
-				z += ' ' + y.rjust(4, '0')
+				z += ' _ ' + y.rjust(4, '0')
 			end
 		}
-		z = z.gsub(/___/, ' _ _ ')
+		z = z.gsub(/___/, ' _ ')
 		z =~ /(.+?)tinder(.+)/
 		if $1 != nil
 			output = "#{$1}tinder#{$2}"

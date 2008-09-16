@@ -81,6 +81,7 @@ class TinderChannel < TinderClientBase
 				@graceful = true
 				@tinderBot.close
 				@tinderBot = nil
+				exit 1
     			when /^DIE$/
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Killed by request from " + host

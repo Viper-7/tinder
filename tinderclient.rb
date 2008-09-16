@@ -18,8 +18,9 @@ class TinderChannel < TinderClientBase
 		}
 		x = x.join
 		z =~ /(.+?)tinder(.+?)/
-		return "#{$1}tinder#{$2}" if $1 != nil
+		output = "#{$1}tinder#{$2}" if $1 != nil
 	}
+	return output
     end
 
     def runCommand(command, args, nick, host)
@@ -102,7 +103,7 @@ class TinderChannel < TinderClientBase
 			runCommand $1, "", nick, host
 			if msg == '@mem'
 				sendChannel memUsage
-			END
+			end
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"
     	end

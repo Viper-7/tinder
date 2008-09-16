@@ -129,8 +129,8 @@ class TinderClient
     end
 
     def joinChannel(channel)
+        send "JOIN \##{channel}"
         if !@joined.include?(channel)
-	    send "JOIN \##{channel}"
             @joined.push(channel)
         else
             @joined.delete(channel)

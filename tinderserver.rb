@@ -127,6 +127,7 @@ class TinderClient
     	@tcpSocket = nil
     	@tinderBots.clear
 	@connected=false
+    	DRb.stop_service
 	load 'tinderserver.rb'
     end
 

@@ -17,7 +17,6 @@ class TinderClient
         @tinderBots = Array.new
         @buffer = Array.new
         @open = false
-        @debug = false
     end
 
     def memUsage
@@ -47,6 +46,7 @@ class TinderClient
         @server = server
         @nick = nick
         @port = port
+        @debug = false
 
 	if !@tcpSocket
 		@open = true

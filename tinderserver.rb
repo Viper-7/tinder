@@ -123,7 +123,7 @@ class TinderClient
     def shutDown()
     	@tinderBots.each {|x| x.shutDown}
     	@open = false
-    	@tcpSocket.close
+    	@tcpSocket.close if @tcpSocket != nil
     	@tcpSocket = nil
     	@tinderBots.clear
 	@connected=false

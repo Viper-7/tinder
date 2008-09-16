@@ -58,9 +58,10 @@ class TinderClient
 	Thread.start() {
 		loop do
 			break if !@tcpSocket
-			puts @buffer.length
 			next if @buffer.length == 0
-			puts @buffer[0]
+			if @debug == true
+				puts @buffer[0]
+			end
 			@tcpSocket.send @buffer.shift, 0
 			sleep 1
 		end
@@ -79,9 +80,6 @@ class TinderClient
 
     def send(msg)
     	msg = msg.gsub(/lemonparty/, 'rickroll')
-	if @debug == true
-		puts msg
-	end
         @buffer.push "#{msg}\n"
     end
 

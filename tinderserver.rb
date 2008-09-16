@@ -178,27 +178,30 @@ class TinderClient
     end
 
     def serverText(msg)
-    	puts 'attempting send to client'
     	break if @tinderBots.length == 0
-    	puts 'not stopping...'
-        @tinderBots.each {|x| x.serverText(msg) }
-        puts 'sent'
+    	begin
+	        @tinderBots.each {|x| x.serverText(msg) }
+    	rescue
+    		@tinderBots.clear
+    	end
     end
 
     def channelText(channel, host, nick, msg)
-    	puts 'attempting send to client'
     	break if @tinderBots.length == 0
-    	puts 'not stopping...'
-    	@tinderBots.each {|x| x.channelText channel, host, nick, msg }
-        puts 'sent'
+    	begin
+    		@tinderBots.each {|x| x.channelText channel, host, nick, msg }
+    	rescue
+    		@tinderBots.clear
+    	end
     end
 
     def privateText(nick, host, msg)
-    	puts 'attempting send to client'
     	break if @tinderBots.length == 0
-    	puts 'not stopping...'
-    	@tinderBots.each {|x| x.privateText(nick, host, msg) }
-        puts 'sent'
+    	begin
+    		@tinderBots.each {|x| x.privateText(nick, host, msg) }
+    	rescue
+    		@tinderBots.clear
+    	end
     end
 end
 

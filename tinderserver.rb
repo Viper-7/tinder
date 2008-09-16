@@ -22,8 +22,10 @@ class TinderClient
         @port = port
 
 	if !@tcpSocket
+		puts 'New connection'
 		@open = true
 		serverListenLoop()
+		puts 'connection created'
 	end
     end
 
@@ -67,6 +69,7 @@ class TinderClient
 			@tcpSocket.send @buffer.shift.to_s, 0
 			sleep(1)
 		end
+		puts 'sender thread died'
 		shutDown
 	}
 	Thread.start() {
@@ -76,6 +79,7 @@ class TinderClient
 			next if msg == nil
 			serverEvent(msg)
 		end
+		puts 'listen thread died'
 		shutDown
 	}
     end

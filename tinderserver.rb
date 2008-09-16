@@ -162,10 +162,10 @@ class TinderClient
             	shutDown
             when /^PING :(.+)$/i
                 puts "Ping? Pong."
-                @tcpSocket.send "PONG :#{$1}\n", 0
+                send "PONG :#{$1}"
             when /^:(.+?)!(.+?)@(.+?) PRIVMSG #{@nick} :\x01PING (.+)\x01$/i
                 puts "[ CTCP PING from #{$1}!#{$2}@#{$3} ]"
-                @tcpSocket.send "NOTICE #{$1} :\x01PING #{$4}\x01\n"
+                send "NOTICE #{$1} :\x01PING #{$4}\x01"
             when /^:(.+?)!(.+?)@(.+?) PRIVMSG #{@nick} :\x01VERSION\x01$/i
                 puts "[ CTCP VERSION from #{$1}!#{$2}@#{$3} ]"
                 send "NOTICE #{$1} :\x01VERSION TinderBot v0.001\x01"

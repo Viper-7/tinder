@@ -104,7 +104,7 @@ class TinderChannel < TinderClientBase
 				@graceful = false
 				@tinderBot.close
 				@tinderBot = nil
-			when /^SAY (.+)$/i
+			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1
 		end
 	end

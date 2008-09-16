@@ -46,7 +46,6 @@ class TinderClient
         @server = server
         @nick = nick
         @port = port
-        @debug = false
 
 	if !@tcpSocket
 		@open = true
@@ -55,6 +54,7 @@ class TinderClient
     end
 
     def addBot
+        @debug = false
         if @open == true
 	        newBot = TinderBot.new(self)
 	        @tinderBots.push newBot

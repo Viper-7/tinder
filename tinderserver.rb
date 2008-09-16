@@ -17,7 +17,7 @@ class TinderClient
         @tinderBots = Array.new
         @buffer = Array.new
         @open = false
-        @debug = true
+        @debug = false
     end
 
     def connectServer(server,port,nick)

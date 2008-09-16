@@ -3,6 +3,25 @@ require 'tinderclientbase.rb'
 class TinderChannel < TinderClientBase
     include DRbUndumped
 
+    def memUsage
+	response = %x[ps -eo 'cputime,%cpu,%mem,vsz,sz,command']
+	response.each_line {|x|
+		z = ""
+		x = x.gsub(/  /,' ')
+		x = x.split(/ /)
+		x.each {|y|
+			if y.length > 3
+				z += y.rjust(8, '_')
+			else
+				z += y.rjust(5, '_')
+			end
+		}
+		x = x.join
+		z =~ /(.+?)tinder(.+?)/
+		return "#{$1}tinder#{$2}" if $1 != nil
+	}
+    end
+
     def runCommand(command, args, nick, host)
     	puts "Status  : Running command '" + command + " " + args + "'"
     	folders = ["/opt/ii/scripts/user","/opt/ii/scripts/by_nick","/opt/ii/scripts/builtin"]
@@ -81,6 +100,9 @@ class TinderChannel < TinderClientBase
 			runCommand $1, $2, nick, host
 		when /^@(.+)$/
 			runCommand $1, "", nick, host
+			if msg == '@mem'
+				sendChannel memUsage
+			END
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"
     	end

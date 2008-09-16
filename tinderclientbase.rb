@@ -37,7 +37,7 @@ class TinderClientBase
 	if output == ""
 		output = "Fail"
 	end
-	return output[2..-1]
+	return output[3..-1]
     end
 
     def shutDown()

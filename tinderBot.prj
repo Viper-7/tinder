@@ -1,0 +1,46 @@
+[Project ID]
+Signature=UE Proj: v.1
+[Project Information]
+Compilable=1
+Use Relative Directory=1
+Relative to Project File=1
+Project Directory=\\kodiak\viper7\viper-7.com\tinderBot
+Include Sub Directories=1
+Project Tagfile=
+Project Wordfile=
+Filter=
+Using VCS=0
+Save Account=0
+Create Tagfile=0
+CTags Legacy Support=0
+[uemakeXp]
+ReleaseMode=0
+[Debug Settings]
+Program Arguments=
+Symbol Paths=
+Working Directory=
+Selected Debugger=0
+Source Paths=
+[Open Files]
+Open File0=\\kodiak\viper7\viper-7.com\tinderBot\tinderclient.rb
+Active File Display Mode=3
+Open File Pos0=0
+Open File Line0=0
+Active File Index=0
+Open File Window Pos0=2,3,-1,-1,-4,-28,0,0,1064,567
+Open File1=\\kodiak\viper7\viper-7.com\tinderBot\tinderclientbase.rb
+Open File Pos1=0
+Open File Line1=0
+Open File Window Pos1=0,1,-1,-1,-4,-28,22,27,1066,586
+Open File2=\\kodiak\viper7\viper-7.com\tinderBot\tinderserver.rb
+Open File Pos2=0
+Open File Line2=0
+Open File Window Pos2=0,1,-1,-1,-4,-28,44,54,1096,617
+Open File3=
+[Files]
+0=tinderclient.rb
+1=tinderclientbase.rb
+2=tinderserver.rb
+3=runTinder.sh
+[Group]
+0=

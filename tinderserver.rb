@@ -128,7 +128,6 @@ class TinderClient
     	@tinderBots.clear
 	@connected=false
     	DRb.stop_service
-	load 'tinderserver.rb'
     end
 
     def joinChannel(channel)
@@ -319,3 +318,4 @@ end
 DRb.start_service("druby://:7777", TinderClient.new)
 puts DRb.uri
 DRb.thread.join
+load 'tinderserver.rb'

@@ -28,14 +28,17 @@ class TinderClient
     end
 
     def addBot
+        puts 'addBot called'
         if @open == true
 	        newBot = TinderBot.new(self)
+	        puts 'bot created'
 	        @tinderBots.push newBot
 	    	return newBot
 	    	newBot = nil
 	else
 		puts 'error: Client tried to create a bot with no server'
 	end
+	puts 'addBot done'
     end
 
     def removeBot(bot)
@@ -124,6 +127,8 @@ class TinderClient
 	    send "JOIN \##{channel}"
             @joined.push(channel)
         else
+            @joined.delete(channel)
+            @joined.push(channel)
             puts 'avoided join ' + @joined.length.to_s + "-" + @tinderBots.length.to_s
         end
     end

@@ -26,19 +26,15 @@ class TinderClient
         @port = port
 
 	if !@tcpSocket
-		puts 'New connection'
 		@open = true
 		serverListenLoop()
-		puts 'connection created'
 	end
     end
 
     def addBot
-        puts 'addBot called'
         if @open == true
 	        newBot = TinderBot.new(self)
 	        @tinderBots.push newBot
-	        puts 'bot created' + @tinderBots.length.to_s
 	    	return newBot
 	    	newBot = nil
 	else
@@ -76,7 +72,6 @@ class TinderClient
 			@tcpSocket.send @buffer.shift.to_s, 0
 			sleep(1)
 		end
-		puts 'sender thread died'
 		shutDown
 	}
 	Thread.start() {
@@ -89,7 +84,6 @@ class TinderClient
 			next if msg == nil
 			serverEvent(msg)
 		end
-		puts 'listen thread died'
 		shutDown
 	}
     end
@@ -139,7 +133,6 @@ class TinderClient
         else
             @joined.delete(channel)
             @joined.push(channel)
-            puts 'avoided join ' + @joined.length.to_s + "-" + @tinderBots.length.to_s
         end
     end
 

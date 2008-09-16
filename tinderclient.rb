@@ -69,22 +69,29 @@ class TinderChannel < TinderClientBase
     	puts "Private\<: " + nick + " - '" + msg + "'"
     	if host == '~druss@viper-7.com'
     		case msg
-    			when /^REHASH$/
+    			when /^RELOADCLIENT$/
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Reloaded by request from " + host
 				@graceful = true
 				@tinderBot.shutDown
 				@tinderBot = nil
-    			when /^RECONNECT$/
+    			when /^RELOADSERVER$/
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Reconnecting by request from " + host
 				@graceful = true
 				@tinderBot.close
 				@tinderBot = nil
-    			when /^DIE$/
+    			when /^KILLCLIENT$/
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Killed by request from " + host
+				@graceful = false
 				@tinderBot.shutDown
+				@tinderBot = nil
+			when /^KILLSERVER$/
+    				sendPrivate "Roger that, " + nick, nick
+				puts "Status  : Killed server by request from " + host
+				@graceful = false
+				@tinderBot.close
 				@tinderBot = nil
 			when /^SAY (.+)$/i
 				sendChannel $1

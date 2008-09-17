@@ -117,10 +117,8 @@ def tinderConnect(server,port,nick,channels)
 			if x.channel.to_s == 'nesreca'
 				if x.uptime > 5
 					the_file =~ /\#<File:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)>/
-					if $1.length > 1
-						p $1
-						x.sendChannel "Dropbox : " + $1 + " Added!"
-					}
+					p $1
+					x.sendChannel "Dropbox : " + $1 + " Added!"
 				end
 			end
 		}
@@ -131,10 +129,8 @@ def tinderConnect(server,port,nick,channels)
 			if x.channel.to_s == 'nesreca'
 				if x.uptime > 5
 					the_file =~ /\#<File:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)>/
-					if $1.length > 1
-						p $1
-						x.sendChannel "Dropbox : " + $1 + " Updated!"
-					end
+					p $1
+					x.sendChannel "Dropbox : " + $1 + " Updated!"
 				end
 			end
 		}

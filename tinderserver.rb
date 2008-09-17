@@ -211,7 +211,7 @@ class TinderClient
         @tinderBots.each {|x|
 	    	begin
 	        	x.serverText(msg)
-	    	rescue Exception => ex
+	    	rescue
 			puts ex.message if debug == true
 			removeBot(x)
 	    	end
@@ -223,7 +223,7 @@ class TinderClient
         @tinderBots.each {|x|
 	    	begin
 	    		x.channelText channel, host, nick, msg
-	    	rescue Exception => ex
+	    	rescue
 			puts ex.message if debug == true
 			removeBot(x)
 	    	end
@@ -239,7 +239,7 @@ class TinderClient
         @tinderBots.each {|x|
 	    	begin
 	    		x.privateText(nick, host, msg)
-	    	rescue Exception => ex
+	    	rescue
 			puts ex.message if debug == true
 			removeBot(x)
 	    	end

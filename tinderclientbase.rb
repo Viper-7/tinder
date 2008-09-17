@@ -125,13 +125,13 @@ def tinderConnect(server,port,nick,channels)
 	}
 
 	dropboxWatcher.on_modify = Proc.new{ |the_file, stats_hash|
-		@tinderChannels.each {|x|
-			if x.channel == "nesreca" and x.uptime > 5
-				puts 'change'
-				the_file.scan(/^\#\<File\:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)\>/) {|y, z|
-					x.sendChannel "Dropbox : " + y + "." + z + " Modified!"
-				}
-				puts 'done?'
+		@tinderChannels.each{|x|
+			if x.channel.to_s == 'nesreca'
+				if x.uptime > 5
+					the_file.inspect.scan(/^\#\<File\:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)\>/) {|y|
+						x.sendChannel "Dropbox : " + y + " Modified!"
+					}
+				end
 			end
 		}
 	}

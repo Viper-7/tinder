@@ -133,8 +133,7 @@ class TinderClientBase
     		end
     	end
 	if command.chomp == 'mem'
-		usage = memUsage
-		response = response + "\n" + usage + "\n"
+		response = memUsage
 	end
 	if hit == false
 		response = "Command not found"

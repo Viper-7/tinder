@@ -118,11 +118,11 @@ def tinderConnect(server,port,nick,channels)
 		@tinderChannels.each{|x|
 			puts '2adding?'
 			p x
-			puts x.uptime + ':' + x.channel
+			puts x.uptime.to_s + ':' + x.channel.to_s
 			if x.channel.to_s == 'nesreca'
-				puts '3adding?' + x.uptime + ':' + x.channel
+				puts '3adding?' + x.uptime.to_s + ':' + x.channel.to_s
 				if x.uptime > 5
-					puts '4adding?' + x.uptime + ':' + x.channel
+					puts '4adding?' + x.uptime.to_s + ':' + x.channel.to_s
 					x.scan(/^\#\<File\:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)\>/) {|y|
 						x.sendChannel "Dropbox : " + y + " Added!"
 					}

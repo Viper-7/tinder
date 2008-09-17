@@ -339,14 +339,7 @@ class TinderBot
 
     def shutDown()
 	@open = false
-    	begin
-    		@channels.each {|tinderChannel| tinderChannel.shutDown }
-	    	@tinderClient.removeBot(self)
-	    	@channels.clear
-    	rescue
-    		@tinderClient.removeBot(self)
-	    	@channels.clear
-	end
+    	@tinderClient.removeBot(self)
     end
 end
 

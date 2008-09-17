@@ -40,10 +40,10 @@ class TinderChannel < TinderClientBase
 						timeout(11) {
 	    						response = %x[#{cmdline}]
 		    					response = "No Output." if response.length == 0
-		    					sendChannel response
+		    					return response
     						}
     					rescue Timeout::Error => ex
-    						sendChannel "Command timed out - " + pid
+    						return "Command timed out - " + pid
 	    				end
     				end
     			end
@@ -51,10 +51,10 @@ class TinderChannel < TinderClientBase
     	end
 	if command.chomp == 'mem'
 		response = memUsage
-		sendChannel response
+		return response
 	end
 	if hit == false
-		sendChannel "Command not found"
+		return "Command not found"
     	end
     end
 
@@ -85,9 +85,9 @@ class TinderChannel < TinderClientBase
 			@tinderBot.shutDown
 			@tinderBot = nil
 		when /^@(.+?) (.+)$/
-			runCommand $1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"]
+			sendChannel(runCommand $1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"])
 		when /^@(.+)$/
-			runCommand $1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"]
+			sendChannel(runCommand $1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"])
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"
     	end
@@ -124,9 +124,9 @@ class TinderChannel < TinderClientBase
 				exit 0
 				break
 			when /^@(.+?) (.+)$/
-				runCommand $1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"]
+				sendPrivate(runCommand $1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"], nick)
 			when /^@(.+)$/
-				runCommand $1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"]
+				sendPrivate(runCommand $1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"], nick)
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1
 				break

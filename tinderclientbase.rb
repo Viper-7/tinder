@@ -216,9 +216,9 @@ class TinderClientBase
 				sleep(2)
 				exit 0
 				break
-			when /^@startdump$/
+			when /^startdump$/
 				@dumpnicks.push nick
-			when /^@stopdump$/
+			when /^stopdump$/
 				@dumpnicks.delete nick
 			when /^@(.+?) (.+)$/
 				response = runCommand($1, $2, nick, host, ["global", "private"])
@@ -231,6 +231,7 @@ class TinderClientBase
 				break
 		end
 	end
+
 	case msg
 		when /^(hi|hey|sup|yo) #{@nick}$/i
 			sendPrivate $1.capitalize + " " + nick + "!", nick

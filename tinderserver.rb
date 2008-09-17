@@ -56,6 +56,7 @@ class TinderClient
 
     def addBot
         if @open == true
+        	sleep 2
 	        newBot = TinderBot.new(self)
 	        @tinderBots.push newBot
 	        puts "tinderBot - Added Bot" if @debug == true

@@ -44,11 +44,7 @@ class TinderClientBase
 
     def shutDown()
 	if tinderChannel1.graceful == true
-		sleep(2)
-		exit 1
 	else
-		sleep(2)
-		exit 0
 	end
     end
 

@@ -3,9 +3,8 @@ require 'tinderclientbase.rb'
 class TinderChannel < TinderClientBase
     include DRbUndumped
 
-    def runCommand(command, args, nick, host)
+    def runCommand(command, args, nick, host, folders)
     	puts "Status  : Running command '" + command + " " + args + "'"
-    	folders = ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"]
 	hit = false
     	for folder in folders
     		Find.find(folder) do |path|
@@ -40,7 +39,7 @@ class TinderChannel < TinderClientBase
 					begin
 						timeout(11) {
 	    						response = %x[#{cmdline}]
-		    					if response.length == 0; response = "No Output."; end
+		    					response = "No Output." if response.length == 0
 		    					sendChannel response
     						}
     					rescue Timeout::Error => ex
@@ -86,9 +85,9 @@ class TinderChannel < TinderClientBase
 			@tinderBot.shutDown
 			@tinderBot = nil
 		when /^@(.+?) (.+)$/
-			runCommand $1, $2, nick, host
+			runCommand $1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"]
 		when /^@(.+)$/
-			runCommand $1, "", nick, host
+			runCommand $1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"]
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"
     	end
@@ -124,6 +123,10 @@ class TinderChannel < TinderClientBase
 				sleep(2)
 				exit 0
 				break
+			when /^@(.+?) (.+)$/
+				runCommand $1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"]
+			when /^@(.+)$/
+				runCommand $1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"]
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1
 				break

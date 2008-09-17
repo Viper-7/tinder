@@ -42,7 +42,7 @@ class TinderChannel < TinderClientBase
 		    					response = "No Output." if response.length == 0
 		    					return response
     						}
-    					rescue Timeout::Error => ex
+    					rescue Exception => ex
     						return "Command timed out - " + pid
 	    				end
     				end

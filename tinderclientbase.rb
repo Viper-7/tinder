@@ -119,7 +119,7 @@ def tinderConnect(server,port,nick,channels)
 					y = the_file.path.to_s.split(/\//)
 					y = y.last
 					puts y
-					x.sendChannel 'Dropbox : ' + y + " Added!"
+					x.sendChannel y + " Added to Dropbox!"
 				end
 			end
 		}
@@ -132,7 +132,7 @@ def tinderConnect(server,port,nick,channels)
 					y = the_file.path.to_s.split(/\//)
 					y = y.last
 					puts y
-					x.sendChannel 'Dropbox : ' + y + " Updated!"
+					x.sendChannel y + " Updated in Dropbox!"
 				end
 			end
 		}

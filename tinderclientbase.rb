@@ -187,7 +187,7 @@ class TinderClientBase
     end
 
     def privateText(nick, host, msg)
-    	status "Private\<: " + nick + " - '" + msg + "'"
+    	puts "Private\<: " + nick + " - '" + msg + "'"
     	if nick + host == 'Viper-7~druss@viper-7.com'
     		case msg
     			when /^RELOADCLIENT|REHASH$/

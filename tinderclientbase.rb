@@ -117,8 +117,9 @@ def tinderConnect(server,port,nick,channels)
 			if x.channel.to_s == 'nesreca'
 				if x.uptime > 5
 					y = the_file.split(/\//)
-					p y.last
-					x.sendChannel "Dropbox : " + y.last + " Added!"
+					y = y.last
+					puts y
+					x.sendChannel 'Dropbox : ' + y + " Added!"
 				end
 			end
 		}
@@ -129,8 +130,9 @@ def tinderConnect(server,port,nick,channels)
 			if x.channel.to_s == 'nesreca'
 				if x.uptime > 5
 					y = the_file.split(/\//)
-					p y.last
-					x.sendChannel "Dropbox : " + y.last + " Updated!"
+					y = y.last
+					puts y
+					x.sendChannel 'Dropbox : ' + y + " Updated!"
 				end
 			end
 		}

@@ -97,14 +97,14 @@ def tinderConnect(server,port,nick,channels)
 
 	tinderClient1.connectServer(server, port, nick)
 	tinderBot1 = tinderClient1.addBot
-	tinderChannels = Array.new
+	@tinderChannels = Array.new
 
 	channels.each {|x|
-		tinderChannels.push TinderChannel.new(x.to_s, tinderBot1)
+		@tinderChannels.push TinderChannel.new(x.to_s, tinderBot1)
 	}
 
 	trap("INT") {
-		tinderChannels.first.graceful = false
+		@tinderChannels.first.graceful = false
 		tinderBot1.rehash
 		tinderBot1 = nil
 	}
@@ -113,7 +113,7 @@ def tinderConnect(server,port,nick,channels)
 	dropboxWatcher.name_regexp = /^[^.].*[^db]$/
 
 	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
-		tinderChannels.each {|x|
+		@tinderChannels.each {|x|
 			if x.channel == "nesreca" and x.uptime > 5
 				x.scan(/^\#\<File\:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)\>/) {|y|
 					x.sendChannel "Dropbox : " + y + " Added!"
@@ -123,7 +123,7 @@ def tinderConnect(server,port,nick,channels)
 	}
 
 	dropboxWatcher.on_modify = Proc.new{ |the_file, stats_hash|
-		tinderChannels.each {|x|
+		@tinderChannels.each {|x|
 			if x.channel == "nesreca" and x.uptime > 5
 				the_file.scan(/^\#\<File\:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)\>/) {|y, z|
 					x.sendChannel "Dropbox : " + y + "." + z + " Modified!"
@@ -140,12 +140,12 @@ def tinderConnect(server,port,nick,channels)
 	puts "Status  : Running..."
 	while tinderBot1
 		break if tinderBot1.open != true
-		tinderChannels.each {|x|
+		@tinderChannels.each {|x|
 			x.poll
 		}
 		sleep 1
 	end
-	exit 1 if tinderChannels.first.graceful == true
+	exit 1 if @tinderChannels.first.graceful == true
 	exit 0
 end
 

@@ -113,15 +113,19 @@ def tinderConnect(server,port,nick,channels)
 	dropboxWatcher.name_regexp = /^[^.].*[^db]$/
 
 	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
-		puts 'adding?'
+		puts '1adding?'
 		puts @tinderChannels.length
 		@tinderChannels.each {|x|
-			puts 'adding?' + x.uptime + ':' + x.channel
-			if x.channel == "nesreca" and x.uptime > 5
-				x.scan(/^\#\<File\:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)\>/) {|y|
-					x.sendChannel "Dropbox : " + y + " Added!"
-				}
-				puts 'done?'
+			puts '2adding?' + x.uptime + ':' + x.channel
+			if x.channel.to_s == 'nesreca'
+				puts '3adding?' + x.uptime + ':' + x.channel
+				if x.uptime > 5
+					puts '4adding?' + x.uptime + ':' + x.channel
+					x.scan(/^\#\<File\:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)\>/) {|y|
+						x.sendChannel "Dropbox : " + y + " Added!"
+					}
+					puts 'done?'
+				end
 			end
 		}
 	}

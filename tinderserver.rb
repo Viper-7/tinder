@@ -25,8 +25,8 @@ class TinderClient
 	output = ""
 	response.each_line {|x|
 		z = ""
-		x = x.gsub(/  /,'~')
-		x = x.split(/~/)
+		x = x.gsub(/  /,' ')
+		x = x.split(/ /)
 		x.each {|y|
 			z += ' . ' + y.rjust(4, '0')
 		}

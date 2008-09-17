@@ -39,6 +39,7 @@ class TinderChannel < TinderClientBase
     						cmdline = "#{lang} #{filename}.#{ext}"
     					end
 
+					sendChannel ENV['IIBOT_TEMP_DIR']
 					response = ""
     					puts "Exec    : '" + cmdline + "'"
 					begin

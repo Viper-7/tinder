@@ -1,0 +1,42 @@
+import sys, string
+def eval_(sysArgs):
+	try:
+		x=sysArgs[1]
+		y=sysArgs[2:]
+		y="".join(y)
+	except IndexError:
+		x=sysArgs[1]
+		y=""
+	
+	i=0;w=[];p=[0]*30000;z=0;c=0
+	while i<len(x):
+		if x[i]=="<":z-=1
+		if x[i]==">":z+=1
+		if x[i]=="+":p[z]+=1
+		if x[i]=="-":p[z]-=1
+		if x[i]==".":
+			try:
+				sys.stdout.write(chr(p[z]))
+			except ValueError:
+				sys.stdout.write(str(z))
+				break
+		if x[i]==",":
+			try:
+				p[z]=ord(y[c]);c+=1
+			except ValueError:
+				p[z]=p[z]
+		if x[i]=="[":w.append(i)
+		if x[i]=="]":
+			if p[z]:i=w[-1]
+			else:w.pop()
+		i+=1
+
+def main(sysArgs):
+	if len(sysArgs)>1:
+		eval_(sysArgs)
+	else:
+		sys.stdout.write("Usage: @brainfuck +++++[>,.<-] teststring")
+	print
+
+if __name__ == "__main__":
+	main(sys.argv)

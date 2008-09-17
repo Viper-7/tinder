@@ -11,9 +11,8 @@ class TinderChannel < TinderClientBase
     			if FileTest.directory?(path)
 				next
     			else
-    				next if path.match(/\.svn/)
 				puts 'path:' + path
-				next if !path.match(/^.+\..+/)
+				next if !path.include? '.'
     				path =~ /^(.+)\.(.+)/
     				ext = $2
     				filename = $1

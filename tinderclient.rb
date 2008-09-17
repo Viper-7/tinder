@@ -12,11 +12,11 @@ class TinderChannel < TinderClientBase
     			if FileTest.directory?(path)
 				next
     			else
-    				path.downcase =~ /^(.+)\.(.+?)$/
+    				path =~ /^(.+)\.(.+?)$/
     				ext = $2
     				filename = $1
 
-    				if command.chomp == File.basename(filename)
+    				if command.chomp == File.basename(filename.downcase)
     					hit = true
 
     					args.gsub(/rm/, 'rn')

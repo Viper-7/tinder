@@ -11,7 +11,7 @@ class TinderChannel < TinderClientBase
     			if FileTest.directory?(path)
 				next
     			else
-    				path =~ /^(.+)\.(.+?)$/
+    				path =~ /^(.+)\.(.+?)/
     				ext = $2
     				filename = $1
 
@@ -37,14 +37,14 @@ class TinderChannel < TinderClientBase
 
     					puts "Exec    : '" + cmdline + "'"
 					begin
-						timeout(11) {
+						timeout(10) {
 	    						response = %x[#{cmdline}]
 		    					response = "No Output." if response.length == 0
-		    					return response
     						}
     					rescue Exception => ex
-    						return "Command timed out - " + pid
+    						response = "Command timed out - "
 	    				end
+    					return response
     				end
     			end
     		end

@@ -87,7 +87,11 @@ class TinderClientBase
     end
 
     def runCommand(command, args, nick, host, commandtypes)
-    	status "Status  : Running command '" + command + " " + args + "'"
+    	if args.length > 0
+    		status "Status  : Running command '" + command + " " + args + "'"
+    	else
+    		status "Status  : Running command '" + command
+	end
 	hit = false
 	response = ""
     	commandtypes.each{|z|

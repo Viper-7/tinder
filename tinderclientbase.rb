@@ -88,6 +88,7 @@ class TinderClientBase
     def runCommand(command, args, nick, host, folders)
     	puts "Status  : Running command '" + command + " " + args + "'"
 	hit = false
+	response = ""
     	for folder in folders
     		Find.find(folder) do |path|
     			if FileTest.directory?(path)
@@ -118,7 +119,6 @@ class TinderClientBase
     						cmdline = "#{lang} #{filename}.#{ext}"
     					end
 
-					response = ""
     					puts "Exec    : '" + cmdline + "'"
 					begin
 						timeout(10) {

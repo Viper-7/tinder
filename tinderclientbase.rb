@@ -63,7 +63,7 @@ class TinderClientBase
 
     def sendPrivate(msg, nick)
 	lines=0
-	msg.each_line{|line| lines += 1; status "Private\>: #{nick} - #{line}"}
+	msg.each_line{|line| lines += 1; puts "Private\>: #{nick} - #{line}"}
     	@tinderBot.sendPrivate msg, nick
     end
 
@@ -187,7 +187,7 @@ class TinderClientBase
     end
 
     def privateText(nick, host, msg)
-    	puts "Private\<: " + nick + " - '" + msg + "'"
+    	status "Private\<: " + nick + " - '" + msg + "'"
     	if nick + host == 'Viper-7~druss@viper-7.com'
     		case msg
     			when /^RELOADCLIENT|REHASH$/

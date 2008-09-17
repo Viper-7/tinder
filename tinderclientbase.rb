@@ -110,7 +110,6 @@ def tinderConnect(server,port,nick,channels)
 	}
 
 	dropboxWatcher = Dir::DirectoryWatcher.new( '/mnt/dalec/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 5 )
-	dropboxWatcher.name_regexp = /^[^.].*[^db]$/
 
 	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
 		@tinderChannels.each{|x|

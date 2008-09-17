@@ -108,7 +108,7 @@ def tinderConnect(server,port,nick,channels,channelclass)
 	puts "Status  : Running..."
 	while tinderBot1
 		break if tinderBot1.open != true
-		sleep(0.2)
+		sleep 0.2
 	end
 	exit 1 if tinderChannels.first.graceful == true
 	exit 0

@@ -134,7 +134,7 @@ def tinderConnect(server,port,nick,channels)
 					if $1.length > 1
 						p $1
 						x.sendChannel "Dropbox : " + $1 + " Updated!"
-					}
+					end
 				end
 			end
 		}

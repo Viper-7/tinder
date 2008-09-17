@@ -140,7 +140,7 @@ class TinderClient
 	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}"}
     end
 
-    def shutDown()
+    def shutDown
     	@open = false
     	@tcpSocket.close if @tcpSocket != nil
     	@tcpSocket = nil

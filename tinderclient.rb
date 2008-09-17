@@ -80,7 +80,7 @@ class TinderChannel < TinderClientBase
 	dirty = ["abject", "bedraggled", "befouled", "begrimed", "besmeared", "contemptible", "daggletailed", "defiled", "despicable", "dishonorable", "disreputable", "excrementitious", "feculent", "filthy", "foul", "grimy", "groveling", "insanitary", "loathsome", "nasty", "ordurous", "putrid", "saprogenic", "sleazy", "soiled", "sordid", "squalid", "stercoraceous", "sullied", "unclean", "uncleanly", "unsportsmanlike", "vile"].sort_by { rand }
 	whore = ["bawd", "courtesan", "cyprian", "demirep", "drab", "harlot", "hooker", "hussy", "pro", "prostitute", "punk", "slut", "streetwalker", "strumpet", "tramp", "wench", "woman of ill fame"].sort_by { rand }
 
-	sendChannel 'Fuck my ' + vagoo.first + ' ' + nick + '! You ' + dirty.first + ' ' + whore.first + '.'
+	sendChannel 'Fuck my ' + vagoo.first + ' ' + nick + ' you ' + dirty.first + ' ' + whore.first + '.'
     end
 
     def channelText(nick, host, msg)
@@ -102,7 +102,7 @@ class TinderChannel < TinderClientBase
 			sendChannel response
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"
-		when /^fuck you/i
+		when /fuck you/i
 			fuckYou nick
     	end
     end

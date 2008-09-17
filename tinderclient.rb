@@ -12,10 +12,11 @@ class TinderChannel < TinderClientBase
 				next
     			else
     				next if path.match(/\.svn/)
+				next if !path.match(/\./)
+				puts 'path:' + path
     				path =~ /^(.+)\.(.+)/
     				ext = $2
     				filename = $1
-				puts 'path:' + path
 				puts 'filename:' + filename
 				puts 'lang:' + ext
 

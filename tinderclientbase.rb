@@ -84,6 +84,62 @@ class TinderClientBase
 
     def serverText(msg)
     end
+
+    def runCommand(command, args, nick, host, folders)
+    	puts "Status  : Running command '" + command + " " + args + "'"
+	hit = false
+    	for folder in folders
+    		Find.find(folder) do |path|
+    			if FileTest.directory?(path)
+				next
+    			else
+				next if !path.include? '.'
+    				path =~ /^(.+)\.(.+)/
+    				ext = $2
+    				filename = $1
+
+    				if command.chomp == File.basename(filename.downcase)
+    					hit = true
+
+    					args.gsub(/rm/, 'rn')
+    					args.gsub(/mail/, 'm@il')
+    					lang = ext
+
+    					ENV['IIBOT_DIR'] = filename.split('/')[0..2].join('/')
+    					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'
+    					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
+
+    					if args.length > 0
+    						args = args.gsub(/\"/,'\"')
+    						args = args.split(/ /).join('" "')
+    						args = '"' + args + '"'
+    						cmdline = "#{lang} #{filename}.#{ext} #{args}"
+    					else
+    						cmdline = "#{lang} #{filename}.#{ext}"
+    					end
+
+					response = ""
+    					puts "Exec    : '" + cmdline + "'"
+					begin
+						timeout(10) {
+	    						response = %x[#{cmdline}]
+		    					response = "No Output." if response.length == 0
+    						}
+    					rescue Exception => ex
+    						response = "Command timed out - "
+	    				end
+    				end
+    			end
+    		end
+    	end
+	if command.chomp == 'mem'
+		response += "\n" + memUsage + "\n"
+	end
+	if hit == false
+		response = "Command not found"
+    	end
+	return response
+    end
 end
 
 def tinderConnect(server,port,nick,channels)

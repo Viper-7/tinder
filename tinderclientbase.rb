@@ -229,7 +229,6 @@ class TinderClientBase
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1
 				break
-
 		end
 	end
 

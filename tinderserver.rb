@@ -326,6 +326,11 @@ class TinderBot
     	@tinderClient.shutDown
     end
 
+    def rehash
+    	@open = false
+    	@tinderClient.removeBot(self)
+    end
+
     def connected
 	@open = true
     	@channels.each {|tinderChannel| @tinderClient.joinChannel tinderChannel.channel.to_s }

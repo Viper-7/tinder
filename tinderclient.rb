@@ -108,7 +108,7 @@ class TinderChannel < TinderClientBase
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Reloaded by request from " + host
 				@graceful = true
-				@tinderBot.close
+				@tinderBot.rehash
 				@tinderBot = nil
 				break
 			when /^KILL$/
@@ -118,6 +118,7 @@ class TinderChannel < TinderClientBase
 				@graceful = false
 				@tinderBot.close
 				@tinderBot = nil
+				DRb.stop_service
 				break
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1

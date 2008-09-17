@@ -116,7 +116,9 @@ def tinderConnect(server,port,nick,channels)
 		puts '1adding?'
 		puts @tinderChannels.length
 		@tinderChannels.each{|x|
-			puts '2adding?' + x.uptime + ':' + x.channel
+			puts '2adding?'
+			p x
+			puts x.uptime + ':' + x.channel
 			if x.channel.to_s == 'nesreca'
 				puts '3adding?' + x.uptime + ':' + x.channel
 				if x.uptime > 5

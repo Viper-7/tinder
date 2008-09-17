@@ -336,10 +336,12 @@ class TinderBot
 	@open = false
     	begin
     		@channels.each {|tinderChannel| tinderChannel.shutDown }
+	    	@tinderClient.removeBot(self)
+	    	@channels.clear
     	rescue
+    		@tinderClient.removeBot(self)
+	    	@channels.clear
 	end
-    	@tinderClient.removeBot(self)
-    	@channels.clear
     end
 end
 

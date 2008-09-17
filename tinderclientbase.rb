@@ -116,10 +116,10 @@ def tinderConnect(server,port,nick,channels)
 		@tinderChannels.each{|x|
 			if x.channel.to_s == 'nesreca'
 				if x.uptime > 5
-					p the_file
-					the_file.scan(/\#\<File:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)\>/) {|y|
-						p y
-						x.sendChannel "Dropbox : " + y + " Added!"
+					the_file =~ /\#<File:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)>/
+					if $1.length > 1
+						p $1
+						x.sendChannel "Dropbox : " + $1 + " Added!"
 					}
 				end
 			end
@@ -130,9 +130,10 @@ def tinderConnect(server,port,nick,channels)
 		@tinderChannels.each{|x|
 			if x.channel.to_s == 'nesreca'
 				if x.uptime > 5
-					p the_file
-					the_file.scan(/\#\<File:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)\>/) {|y|
-						x.sendChannel "Dropbox : " + y + " Modified!"
+					the_file =~ /\#<File:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)>/
+					if $1.length > 1
+						p $1
+						x.sendChannel "Dropbox : " + $1 + " Updated!"
 					}
 				end
 			end

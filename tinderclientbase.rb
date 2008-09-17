@@ -109,7 +109,7 @@ def tinderConnect(server,port,nick,channels)
 		tinderBot1 = nil
 	}
 
-	dropboxWatcher = Dir::DirectoryWatcher.new( '/mnt/dalec/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 2 )
+	dropboxWatcher = Dir::DirectoryWatcher.new( '/mnt/dalec/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 5 )
 	dropboxWatcher.name_regexp = /^[^.].*[^db]$/
 
 	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
@@ -118,7 +118,7 @@ def tinderConnect(server,port,nick,channels)
 				if x.uptime > 5
 					y = the_file.path.to_s.split(/\//)
 					y = y.last
-					x.sendChannel y + ' Added to Dropbox!'
+					x.sendChannel "#{y} Added to Dropbox!"
 				end
 			end
 		}
@@ -130,7 +130,7 @@ def tinderConnect(server,port,nick,channels)
 				if x.uptime > 5
 					y = the_file.path.to_s.split(/\//)
 					y = y.last
-					x.sendChannel y + ' Updated in Dropbox!'
+					x.sendChannel "#{y} Updated in Dropbox!"
 				end
 			end
 		}
@@ -142,7 +142,7 @@ def tinderConnect(server,port,nick,channels)
 				if x.uptime > 5
 					y = the_file.path.to_s.split(/\//)
 					y = y.last
-					x.sendChannel y + ' Deleted from Dropbox :('
+					x.sendChannel "#{y} Deleted from Dropbox!"
 				end
 			end
 		}

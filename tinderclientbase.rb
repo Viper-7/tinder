@@ -117,7 +117,9 @@ def tinderConnect(server,port,nick,channels)
 			if x.channel.to_s == 'nesreca'
 				if x.uptime > 5
 					response = the_file.inspect
+					p response
 					response.scan(/\#\<File:\/mnt\/dalec\/Documents and Settings\/Viper-7\/My Documents\/My Dropbox\/nesreca\/(.+)\.(.+)\>/) {|y|
+						p y
 						x.sendChannel "Dropbox : " + y + " Added!"
 					}
 				end

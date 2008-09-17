@@ -14,6 +14,9 @@ class TinderChannel < TinderClientBase
     				path =~ /^(.+)\.(.+?)/
     				ext = $2
     				filename = $1
+				puts 'path:' + path
+				puts 'filename:' + filename
+				puts 'lang:' + ext
 
     				if command.chomp == File.basename(filename.downcase)
     					hit = true

@@ -114,36 +114,27 @@ def tinderConnect(server,port,nick,channels)
 
 	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
 		@tinderChannels.each{|x|
-			if x.channel.to_s == 'nesreca'
-				if x.uptime > 5
-					y = the_file.path.to_s.split(/\//)
-					y = y.last
-					x.sendChannel "#{y} Added to Dropbox!"
-				end
+			if x.channel.to_s == 'nesreca' and x.uptime > 5
+				y = the_file.path.to_s.split(/\//).last
+				x.sendChannel "#{y} Added to Dropbox!"
 			end
 		}
 	}
 
 	dropboxWatcher.on_modify = Proc.new{ |the_file, stats_hash|
 		@tinderChannels.each{|x|
-			if x.channel.to_s == 'nesreca'
-				if x.uptime > 5
-					y = the_file.path.to_s.split(/\//)
-					y = y.last
-					x.sendChannel "#{y} Updated in Dropbox!"
-				end
+			if x.channel.to_s == 'nesreca' and x.uptime > 5
+				y = the_file.path.to_s.split(/\//).last
+				x.sendChannel "#{y} Updated in Dropbox!"
 			end
 		}
 	}
 
 	dropboxWatcher.on_remove = Proc.new{ |stats_hash|
 		@tinderChannels.each{|x|
-			if x.channel.to_s == 'nesreca'
-				if x.uptime > 5
-					y = stats_hash.path.split(/\//)
-					y = y.last
-					x.sendChannel "#{y} Deleted from Dropbox!"
-				end
+			if x.channel.to_s == 'nesreca' and x.uptime > 5
+				y = the_file.path.to_s.split(/\//).last
+				x.sendChannel "#{y} Deleted from Dropbox!"
 			end
 		}
 	}

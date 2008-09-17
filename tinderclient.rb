@@ -108,25 +108,12 @@ class TinderChannel < TinderClientBase
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Reloaded by request from " + host
 				@graceful = true
-				@tinderBot.shutDown
-				@tinderBot = nil
-				break
-    			when /^RELOADSERVER$/
-    				sendPrivate "Roger that, " + nick, nick
-				puts "Status  : Reconnecting by request from " + host
-				@graceful = true
 				@tinderBot.close
 				@tinderBot = nil
 				break
-    			when /^KILLCLIENT$/
+			when /^KILL$/
     				sendPrivate "Roger that, " + nick, nick
-				puts "Status  : Killed by request from " + host
-				@graceful = false
-				@tinderBot.shutDown
-				@tinderBot = nil
-				break
-			when /^KILLSERVER$/
-    				sendPrivate "Roger that, " + nick, nick
+    				sleep(0.4)
 				puts "Status  : Killed server by request from " + host
 				@graceful = false
 				@tinderBot.close

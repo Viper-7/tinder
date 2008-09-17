@@ -5,66 +5,62 @@ class TinderChannel < TinderClientBase
 
     def runCommand(command, args, nick, host, folders)
     	puts "Status  : Running command '" + command + " " + args + "'"
-	begin
-		hit = false
-	    	for folder in folders
-	    		Find.find(folder) do |path|
-	    			if FileTest.directory?(path)
-					next
-	    			else
-	    				next if path.match(/\.svn/)
-					next if !path.match(/\./)
-					puts 'path:' + path
-	    				path =~ /^(.+)\.(.+)/
-	    				ext = $2
-	    				filename = $1
-					puts 'filename:' + filename
-					puts 'lang:' + ext
+	hit = false
+    	for folder in folders
+    		Find.find(folder) do |path|
+    			if FileTest.directory?(path)
+				next
+    			else
+    				next if path.match(/\.svn/)
+				next if !path.match(/\./)
+				puts 'path:' + path
+    				path =~ /^(.+)\.(.+)/
+    				ext = $2
+    				filename = $1
+				puts 'filename:' + filename
+				puts 'lang:' + ext
 
-	    				if command.chomp == File.basename(filename.downcase)
-	    					hit = true
+    				if command.chomp == File.basename(filename.downcase)
+    					hit = true
 
-	    					args.gsub(/rm/, 'rn')
-	    					args.gsub(/mail/, 'm@il')
-	    					lang = ext
+    					args.gsub(/rm/, 'rn')
+    					args.gsub(/mail/, 'm@il')
+    					lang = ext
 
-	    					ENV['IIBOT_DIR'] = filename.split('/')[0..2].join('/')
-	    					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'
-	    					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
+    					ENV['IIBOT_DIR'] = filename.split('/')[0..2].join('/')
+    					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'
+    					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
 
-	    					if args.length > 0
-	    						args = args.gsub(/\"/,'\"')
-	    						args = args.split(/ /).join('" "')
-	    						args = '"' + args + '"'
-	    						cmdline = "#{lang} #{filename}.#{ext} #{args}"
-	    					else
-	    						cmdline = "#{lang} #{filename}.#{ext}"
-	    					end
+    					if args.length > 0
+    						args = args.gsub(/\"/,'\"')
+    						args = args.split(/ /).join('" "')
+    						args = '"' + args + '"'
+    						cmdline = "#{lang} #{filename}.#{ext} #{args}"
+    					else
+    						cmdline = "#{lang} #{filename}.#{ext}"
+    					end
 
-	    					puts "Exec    : '" + cmdline + "'"
-						begin
-							timeout(10) {
-		    						response = %x[#{cmdline}]
-			    					response = "No Output." if response.length == 0
-	    						}
-	    					rescue Exception => ex
-	    						response = "Command timed out - "
-		    				end
-	    					return response
+    					puts "Exec    : '" + cmdline + "'"
+					begin
+						timeout(10) {
+	    						response = %x[#{cmdline}]
+		    					response = "No Output." if response.length == 0
+    						}
+    					rescue Exception => ex
+    						response = "Command timed out - "
 	    				end
-	    			end
-	    		end
-	    	end
-		if command.chomp == 'mem'
-			response = memUsage
-			return response
-		end
-		if hit == false
-			return "Command not found"
-	    	end
- 	  rescue Exception => ex
- 	  	puts ex
- 	  end
+    					return response
+    				end
+    			end
+    		end
+    	end
+	if command.chomp == 'mem'
+		response = memUsage
+		return response
+	end
+	if hit == false
+		return "Command not found"
+    	end
     end
 
     def channelEvent(channel, host, nick, event, msg)
@@ -94,9 +90,11 @@ class TinderChannel < TinderClientBase
 			@tinderBot.shutDown
 			@tinderBot = nil
 		when /^@(.+?) (.+)$/
-			sendChannel runCommand($1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"])
+			response = runCommand($1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"])
+			sendChannel response
 		when /^@(.+)$/
-			sendChannel runCommand($1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"])
+			response = runCommand($1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"])
+			sendChannel response
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"
     	end
@@ -133,9 +131,11 @@ class TinderChannel < TinderClientBase
 				exit 0
 				break
 			when /^@(.+?) (.+)$/
-				sendPrivate runCommand($1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"], nick)
+				response = runCommand($1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"], nick)
+				sendPrivate response, nick
 			when /^@(.+)$/
-				sendPrivate runCommand($1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"], nick)
+				response = runCommand($1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"], nick)
+				sendPrivate response, nick
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1
 				break

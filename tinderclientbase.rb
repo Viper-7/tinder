@@ -113,6 +113,7 @@ def tinderConnect(server,port,nick,channels)
 	dropboxWatcher.name_regexp = /^[^.].*[^db]$/
 
 	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
+		puts 'adding?' + @tinderChannels.length
 		@tinderChannels.each {|x|
 			puts 'adding?' + x.uptime + ":" + x.channel
 			if x.channel == "nesreca" and x.uptime > 5

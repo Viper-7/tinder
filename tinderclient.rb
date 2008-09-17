@@ -146,8 +146,6 @@ class TinderChannel < TinderClientBase
 			sendPrivate $1.capitalize + " " + nick + "!", nick
 		when /^\x01(.+)\x01$/
 			sendCTCP $1, nick
-		else
-			sendPrivate msg, nick
 	end
     end
 end

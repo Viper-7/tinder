@@ -212,8 +212,9 @@ class TinderClient
         @tinderBots.each {|x|
 	    	begin
 	        	x.serverText(msg)
-	    	rescue
+	    	rescue Exception => ex
 			removeBot(x)
+			puts ex
 	    	end
 	}
     end
@@ -223,8 +224,9 @@ class TinderClient
         @tinderBots.each {|x|
 	    	begin
 	    		x.channelText channel, host, nick, msg
-	    	rescue
+	    	rescue Exception => ex
 			removeBot(x)
+			puts ex
 	    	end
 	}
     	if msg == '@mem'
@@ -238,8 +240,9 @@ class TinderClient
         @tinderBots.each {|x|
 	    	begin
 	    		x.privateText(nick, host, msg)
-	    	rescue
+	    	rescue Exception => ex
 			removeBot(x)
+			puts ex
 	    	end
 	}
     end

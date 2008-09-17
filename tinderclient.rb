@@ -11,7 +11,7 @@ class TinderChannel < TinderClientBase
     			if FileTest.directory?(path)
 				next
     			else
-    				path =~ /^(.+)\.(.+?)/
+    				path =~ /^(.+)\.(.+)/
     				ext = $2
     				filename = $1
 				puts 'path:' + path

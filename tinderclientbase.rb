@@ -106,7 +106,10 @@ def tinderConnect(server,port,nick,channels,channelclass)
 	}
 
 	puts "Status  : Running..."
-	DRb.thread.join
+	while tinderBot1
+		break if tinderBot1.open != true
+		sleep(1)
+	end
 	exit 1 if tinderChannels.first.graceful == true
 	exit 0
 end

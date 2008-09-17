@@ -3,6 +3,8 @@ require 'socket'
 require 'timeout'
 require 'find'
 
+STDOUT.sync = true
+
 DRb.start_service
 
 class TinderClientBase
@@ -105,12 +107,7 @@ def tinderConnect(server,port,nick,channels,channelclass)
 	}
 
 	puts "Status  : Running..."
-	while true
-		break if !tinderBot1
-		break if tinderBot1.open != true
-		STDOUT.flush
-		sleep(1)
-	end
+	DRb.thread.join
 	if tinderChannels.first.graceful == true
 		exit 1
 	else

@@ -33,17 +33,25 @@ class TinderChannel < TinderClientBase
     					end
 
     					puts "Exec    : '" + cmdline + "'"
-    					fork do
-	    					begin
-	    						timeout(11) {
-		    						response = %x[#{cmdline}]
-			    					if response.length == 0; response = "No Output."; end
-			    					sendChannel response
-	    						}
-	    					rescue Timeout::Error => ex
-	    						sendChannel "Command timed out"
-	    						%x[kill -9 #{$$}]
-	    					end
+    					r, w = IO.pipe
+    					pid = fork {
+						STDOUT.reopen w
+						w.close
+    						system(cmdline)
+					}
+					begin
+						timeout(11) {
+	    						w.close
+	    						response = ""
+	    						while ((line=r.readline))
+	    							response += line + "\n"
+	    						end
+		    					if response.length == 0; response = "No Output."; end
+		    					sendChannel response
+    						}
+    					rescue Timeout::Error => ex
+    						sendChannel "Command timed out"
+    						%x[kill -9 #{pid}]
 	    				end
     				end
     			end

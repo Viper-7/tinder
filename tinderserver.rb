@@ -68,7 +68,11 @@ class TinderClient
     end
 
     def removeBot(bot)
-    	@tinderBots.delete(bot) if @tinderBots.include?(bot)
+    	begin
+    		@tinderBots.delete(bot) if @tinderBots.include?(bot)
+    	rescue
+    		@tinderBots.clear
+    	end
     	puts "tinderBot - Removed Bot" if @debug == true
     end
 
@@ -146,7 +150,12 @@ class TinderClient
     	@tcpSocket.close if @tcpSocket != nil
     	@tcpSocket = nil
     	@tinderBots.each {|x|
-    		x.shutDown
+		begin
+			removeBot(x)
+	    		x.shutDown
+	    	rescue Exception => ex
+			puts ex
+	    	end
     	}
     	@tinderBots.clear
 	@connected=false
@@ -199,7 +208,12 @@ class TinderClient
                 channelText $3, $2, $1, $4
             when /001 #{@nick}/i
 		if !@connected
-			@tinderBots.each {|x| x.connected()}
+		    	begin
+				@tinderBots.each {|x| x.connected()}
+		    	rescue Exception => ex
+				removeBot(x)
+				puts ex
+		    	end
 			@connected=true
 		end
             else
@@ -208,7 +222,6 @@ class TinderClient
     end
 
     def serverText(msg)
-    	break if @tinderBots.length == 0
         @tinderBots.each {|x|
 	    	begin
 	        	x.serverText(msg)
@@ -220,7 +233,6 @@ class TinderClient
     end
 
     def channelText(channel, host, nick, msg)
-    	break if @tinderBots.length == 0
         @tinderBots.each {|x|
 	    	begin
 	    		x.channelText channel, host, nick, msg
@@ -236,7 +248,6 @@ class TinderClient
     end
 
     def privateText(nick, host, msg)
-    	break if @tinderBots.length == 0
         @tinderBots.each {|x|
 	    	begin
 	    		x.privateText(nick, host, msg)

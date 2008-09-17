@@ -31,9 +31,9 @@ class TinderChannel < TinderClientBase
     						args = args.gsub(/\"/,'\"')
     						args = args.split(/ /).join('" "')
     						args = '"' + args + '"'
-    						cmdline = "#{lang} #{filename} #{args}"
+    						cmdline = "#{lang} #{filename}.#{ext} #{args}"
     					else
-    						cmdline = "#{lang} #{filename}"
+    						cmdline = "#{lang} #{filename}.#{ext}"
     					end
 
     					puts "Exec    : '" + cmdline + "'"

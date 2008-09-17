@@ -50,7 +50,8 @@ class TinderChannel < TinderClientBase
 		    					sendChannel response
     						}
     					rescue Timeout::Error => ex
-    						sendChannel "Command timed out"
+    						sendChannel "Command timed out - " + pid
+
     						%x[kill -9 #{pid}]
 	    				end
     				end

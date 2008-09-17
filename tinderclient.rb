@@ -33,7 +33,7 @@ class TinderChannel < TinderClientBase
     					end
 
     					puts "Exec    : '" + cmdline + "'"
-    					pid = fork do
+    					@pid = fork do
 	    					begin
 	    						timeout(11) {
 		    						response = %x[#{cmdline}]
@@ -41,7 +41,7 @@ class TinderChannel < TinderClientBase
 			    					sendChannel response
 	    						}
 	    					rescue Timeout::Error => ex
-	    						sendChannel "Command timed out - #{pid}"
+	    						sendChannel "Command timed out - #{@pid}"
 	    					end
 	    				end
     				end

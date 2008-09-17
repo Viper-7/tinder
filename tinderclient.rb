@@ -110,6 +110,8 @@ class TinderChannel < TinderClientBase
 				@graceful = true
 				@tinderBot.rehash
 				@tinderBot = nil
+				sleep(2)
+				exit 0
 				break
 			when /^KILL$/
     				sendPrivate "Roger that, " + nick, nick
@@ -119,6 +121,8 @@ class TinderChannel < TinderClientBase
 				@tinderBot.close
 				@tinderBot = nil
 				DRb.stop_service
+				sleep(2)
+				exit 0
 				break
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1

@@ -99,7 +99,7 @@ def tinderConnect(server,port,nick,channels,channelclass)
 
 	trap("INT") {
 		tinderChannels.first.graceful = false
-		tinderBot1.close
+		tinderBot1.rehash
 		tinderBot1 = nil
 		sleep(2)
 		exit 0

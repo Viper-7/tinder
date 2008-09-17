@@ -1,6 +1,6 @@
 require 'tinderclientbase.rb'
 
-class TinderChannel < TinderClientBase
+class TinderChannel < TinderChannelBase
     include DRbUndumped
 
     def fuckYou(nick)

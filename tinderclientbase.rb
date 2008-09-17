@@ -7,7 +7,7 @@ STDOUT.sync = true
 
 DRb.start_service
 
-class TinderClientBase
+class TinderChannelBase
     include DRbUndumped
 
     attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks
@@ -262,7 +262,11 @@ def tinderConnect(server,port,nick,channels)
 	@tinderChannels = Array.new
 
 	channels.each {|x|
-		@tinderChannels.push TinderChannel.new(x.to_s, tinderBot1)
+		if x == "nesreca"
+			@tinderChannels.push TinderChannel.new(x.to_s, tinderBot1)
+		else
+			@tinderChannels.push TinderChannelBase.new(x.to_s, tinderBot1)
+		end
 	}
 
 	trap("INT") {

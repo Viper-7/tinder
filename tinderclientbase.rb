@@ -10,13 +10,14 @@ DRb.start_service
 class TinderClientBase
     include DRbUndumped
 
-    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime
+    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks
 
     def initialize(channel, tinderBot)
         @channel = channel
         @graceful = false
         @tinderBot = tinderBot
     	@tinderBot.addChannel(self)
+    	@dumpnicks = Array.new
     	@uptime = 0
     end
 
@@ -56,25 +57,25 @@ class TinderClientBase
 
     def sendChannel(msg)
 	lines=0
-	msg.each_line{|line| lines += 1; puts "Output  : \##{@channel} - #{line}"}
+	msg.each_line{|line| lines += 1; status "Output  : \##{@channel} - #{line}"}
     	@tinderBot.sendChannel msg, @channel
     end
 
     def sendPrivate(msg, nick)
 	lines=0
-	msg.each_line{|line| lines += 1; puts "Private\>: #{nick} - #{line}"}
+	msg.each_line{|line| lines += 1; status "Private\>: #{nick} - #{line}"}
     	@tinderBot.sendPrivate msg, nick
     end
 
     def sendAction(msg)
 	lines=0
-	msg.each_line{|line| lines += 1; puts "Action \>: \##{@channel} - #{line}"}
+	msg.each_line{|line| lines += 1; status "Action \>: \##{@channel} - #{line}"}
     	@tinderBot.sendCTCP "ACTION #{msg}", "\##{@channel}"
     end
 
     def sendCTCP(msg, nick)
 	lines=0
-	msg.each_line{|line| lines += 1; puts "CTCP   \>: #{nick} - #{line}"}
+	msg.each_line{|line| lines += 1; status "CTCP   \>: #{nick} - #{line}"}
     	@tinderBot.sendCTCP msg, nick
     end
 
@@ -85,53 +86,56 @@ class TinderClientBase
     def serverText(msg)
     end
 
-    def runCommand(command, args, nick, host, folders)
-    	puts "Status  : Running command '" + command + " " + args + "'"
+    def runCommand(command, args, nick, host, commandtypes)
+    	status "Status  : Running command '" + command + " " + args + "'"
 	hit = false
 	response = ""
-    	for folder in folders
-    		Find.find(folder) do |path|
-    			if FileTest.directory?(path)
-				next
-    			else
-				next if !path.include? '.'
-    				path =~ /^(.+)\.(.+)/
-    				ext = $2
-    				filename = $1
+    	commandtypes.each{|z|
+    		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
+	    	for folder in folders
+	    		Find.find(folder) do |path|
+	    			if FileTest.directory?(path)
+					next
+	    			else
+					next if !path.include? '.'
+	    				path =~ /^(.+)\.(.+)/
+	    				ext = $2
+	    				filename = $1
 
-    				if command.chomp == File.basename(filename.downcase)
-    					hit = true
+	    				if command.chomp == File.basename(filename.downcase)
+	    					hit = true
 
-    					args.gsub(/rm/, 'rn')
-    					args.gsub(/mail/, 'm@il')
-    					lang = ext
+	    					args.gsub(/rm/, 'rn')
+	    					args.gsub(/mail/, 'm@il')
+	    					lang = ext
 
-    					ENV['IIBOT_DIR'] = filename.split('/')[0..2].join('/')
-    					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'
-    					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
+	    					ENV['IIBOT_DIR'] = filename.split('/')[0..2].join('/')
+	    					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'
+	    					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
 
-    					if args.length > 0
-    						args = args.gsub(/\"/,'\"')
-    						args = args.split(/ /).join('" "')
-    						args = '"' + args + '"'
-    						cmdline = "#{lang} #{filename}.#{ext} #{args}"
-    					else
-    						cmdline = "#{lang} #{filename}.#{ext}"
-    					end
+	    					if args.length > 0
+	    						args = args.gsub(/\"/,'\"')
+	    						args = args.split(/ /).join('" "')
+	    						args = '"' + args + '"'
+	    						cmdline = "#{lang} #{filename}.#{ext} #{args}"
+	    					else
+	    						cmdline = "#{lang} #{filename}.#{ext}"
+	    					end
 
-    					puts "Exec    : '" + cmdline + "'"
-					begin
-						timeout(10) {
-	    						response = %x[#{cmdline}]
-		    					response = "No Output." if response.length == 0
-    						}
-    					rescue Exception => ex
-    						response = "Command timed out - "
+	    					status "Exec    : '" + cmdline + "'"
+						begin
+							timeout(10) {
+		    						response = %x[#{cmdline}]
+			    					response = "No Output." if response.length == 0
+	    						}
+	    					rescue Exception => ex
+	    						response = "Command timed out - "
+		    				end
 	    				end
-    				end
-    			end
-    		end
-    	end
+	    			end
+	    		end
+	    	end
+	}
 	if command.chomp == 'mem'
 		usage = memUsage
 		response = response + usage
@@ -143,7 +147,7 @@ class TinderClientBase
     end
 
     def channelEvent(channel, host, nick, event, msg)
-    	puts "Event   : " + event + ": " + nick + " #" + channel + " - '" + msg + "'"
+    	status "Event   : " + event + ": " + nick + " #" + channel + " - '" + msg + "'"
     	case event
     		when /^MODE/
     			if nick == @nick
@@ -157,40 +161,45 @@ class TinderClientBase
     	end
     end
 
+    def status(msg)
+    	puts msg
+	@dumpnicks.each{|x| sendPrivate msg, x}
+    end
+
     def channelText(nick, host, msg)
-    	puts "Text    : #" + @channel + " <" + nick + "> - '" + msg + "'"
+    	status "Text    : #" + @channel + " <" + nick + "> - '" + msg + "'"
     	case msg
     		when /^(hi|hey|sup|yo) #{@nick}/i
 			sendChannel $1 + " " + nick + "!"
 		when /^@rehash/i
 			sendChannel "Reloaded by request from " + nick
-			puts "Status  : Reloaded by request from " + host
+			status "Status  : Reloaded by request from " + host
 			@tinderBot.channels.first.graceful = true
 			@tinderBot.shutDown
 			@tinderBot = nil
 		when /^@(.+?) (.+)$/
-			response = runCommand($1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"])
+			response = runCommand($1, $2, nick, host, ["global", "channel"])
 			sendChannel response
 		when /^@(.+)$/
-			response = runCommand($1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"])
+			response = runCommand($1, "", nick, host, ["global", "channel"])
 			sendChannel response
     	end
     end
 
     def privateText(nick, host, msg)
-    	puts "Private\<: " + nick + " - '" + msg + "'"
+    	status "Private\<: " + nick + " - '" + msg + "'"
     	if nick + host == 'Viper-7~druss@viper-7.com'
     		case msg
     			when /^RELOADCLIENT|REHASH$/
     				sendPrivate "Roger that, " + nick, nick
-				puts "Status  : Reloaded by request from " + host
+				status "Status  : Reloaded by request from " + host
 				@graceful = true
 				@tinderBot.rehash
 				@tinderBot = nil
 				break
 			when /^KILLCLIENTS$/
     				sendPrivate "Roger that, " + nick, nick
-				puts "Status  : Reloaded by request from " + host
+				status "Status  : Reloaded by request from " + host
 				@graceful = true
 				@tinderBot.rehash
 				@tinderBot = nil
@@ -199,7 +208,7 @@ class TinderClientBase
 			when /^KILL$/
     				sendPrivate "Roger that, " + nick, nick
     				sleep(0.4)
-				puts "Status  : Killed server by request from " + host
+				status "Status  : Killed server by request from " + host
 				@graceful = false
 				@tinderBot.close
 				@tinderBot = nil
@@ -207,11 +216,15 @@ class TinderClientBase
 				sleep(2)
 				exit 0
 				break
+			when /^@startdump$/
+				@dumpnicks.push nick
+			when /^@stopdump$/
+				@dumpnicks.delete nick
 			when /^@(.+?) (.+)$/
-				response = runCommand($1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"])
+				response = runCommand($1, $2, nick, host, ["global", "private"])
 				sendPrivate response, nick
 			when /^@(.+)$/
-				response = runCommand($1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"])
+				response = runCommand($1, "", nick, host, ["global", "private"])
 				sendPrivate response, nick
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1

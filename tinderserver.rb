@@ -68,7 +68,7 @@ class TinderClient
     end
 
     def removeBot(bot)
-    	@tinderBots.delete(bot)
+    	@tinderBots.delete(bot) if @tinderBots.include?(bot)
     	puts "tinderBot - Removed Bot" if @debug == true
     end
 

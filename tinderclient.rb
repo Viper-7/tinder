@@ -5,21 +5,25 @@ class TinderChannel < TinderClientBase
 
     def runCommand(command, args, nick, host)
     	puts "Status  : Running command '" + command + " " + args + "'"
-    	folders = ["/opt/ii/scripts/user","/opt/ii/scripts/by_nick","/opt/ii/scripts/builtin"]
+    	folders = ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"]
 	hit = false
     	for folder in folders
     		Find.find(folder) do |path|
     			if FileTest.directory?(path)
 				next
     			else
-    				if command.chomp == File.basename(path.downcase)
+    				path.downcase =~ /^(.+)\.(.+?)$/
+    				ext = $2
+    				filename = $1
+
+    				if command.chomp == File.basename(filename)
     					hit = true
 
     					args.gsub(/rm/, 'rn')
     					args.gsub(/mail/, 'm@il')
-    					lang = path.split('/')[5]
+    					lang = ext
 
-    					ENV['IIBOT_DIR'] = path.split('/')[0..2].join('/')
+    					ENV['IIBOT_DIR'] = filename.split('/')[0..2].join('/')
     					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'
     					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
 
@@ -27,9 +31,9 @@ class TinderChannel < TinderClientBase
     						args = args.gsub(/\"/,'\"')
     						args = args.split(/ /).join('" "')
     						args = '"' + args + '"'
-    						cmdline = "#{lang} #{path} #{args}"
+    						cmdline = "#{lang} #{filename} #{args}"
     					else
-    						cmdline = "#{lang} #{path}"
+    						cmdline = "#{lang} #{filename}"
     					end
 
     					puts "Exec    : '" + cmdline + "'"
@@ -110,7 +114,13 @@ class TinderChannel < TinderClientBase
 				@graceful = true
 				@tinderBot.rehash
 				@tinderBot = nil
-				sleep(2)
+				break
+			when /^KILLCLIENTS$/
+    				sendPrivate "Roger that, " + nick, nick
+				puts "Status  : Reloaded by request from " + host
+				@graceful = true
+				@tinderBot.rehash
+				@tinderBot = nil
 				exit 0
 				break
 			when /^KILL$/

@@ -101,8 +101,6 @@ def tinderConnect(server,port,nick,channels)
 		tinderChannels.first.graceful = false
 		tinderBot1.rehash
 		tinderBot1 = nil
-		sleep(2)
-		exit 0
 	}
 
 	puts "Status  : Running..."

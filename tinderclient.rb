@@ -18,6 +18,7 @@ class TinderChannel < TinderClientBase
 		when /fuck you/i
 			fuckYou nick
 	end
+    end
 end
 
 tinderConnect("irc.gamesurge.net","6667","Tinder",["codeworkshop","nesreca","v7test"])

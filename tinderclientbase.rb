@@ -222,8 +222,10 @@ class TinderClientBase
 				break
 			when /^startdump$/
 				@dumpnicks.push nick
+				status "Now dumping to #{nick}@#{host}"
 			when /^stopdump$/
 				@dumpnicks.delete nick
+				status "Stopped dumping to #{nick}@#{host}"
 			when /^@(.+?) (.+)$/
 				response = runCommand($1, $2, nick, host, ["global", "private"])
 				sendPrivate response, nick

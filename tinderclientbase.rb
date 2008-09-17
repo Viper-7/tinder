@@ -103,6 +103,7 @@ def tinderConnect(server,port,nick,channels,channelclass)
 		tinderChannels.first.graceful = false
 		tinderBot1.close
 		tinderBot1 = nil
+		sleep(1)
 		exit 0
 	}
 

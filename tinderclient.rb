@@ -39,6 +39,7 @@ class TinderChannel < TinderClientBase
     						cmdline = "#{lang} #{filename}.#{ext}"
     					end
 
+					response = ""
     					puts "Exec    : '" + cmdline + "'"
 					begin
 						timeout(10) {

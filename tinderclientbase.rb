@@ -44,8 +44,10 @@ class TinderClientBase
 
     def shutDown()
 	if tinderChannel1.graceful == true
+		sleep(2)
 		exit 1
 	else
+		sleep(2)
 		exit 0
 	end
     end
@@ -103,7 +105,7 @@ def tinderConnect(server,port,nick,channels,channelclass)
 		tinderChannels.first.graceful = false
 		tinderBot1.close
 		tinderBot1 = nil
-		sleep(1)
+		sleep(2)
 		exit 0
 	}
 

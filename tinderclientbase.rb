@@ -118,8 +118,7 @@ def tinderConnect(server,port,nick,channels)
 				if x.uptime > 5
 					y = the_file.path.to_s.split(/\//)
 					y = y.last
-					puts y
-					x.sendChannel y + " Added to Dropbox!"
+					x.sendChannel y + ' Added to Dropbox!'
 				end
 			end
 		}
@@ -131,14 +130,22 @@ def tinderConnect(server,port,nick,channels)
 				if x.uptime > 5
 					y = the_file.path.to_s.split(/\//)
 					y = y.last
-					puts y
-					x.sendChannel y + " Updated in Dropbox!"
+					x.sendChannel y + ' Updated in Dropbox!'
 				end
 			end
 		}
 	}
 
 	dropboxWatcher.on_remove = Proc.new{ |stats_hash|
+		@tinderChannels.each{|x|
+			if x.channel.to_s == 'nesreca'
+				if x.uptime > 5
+					y = the_file.path.to_s.split(/\//)
+					y = y.last
+					x.sendChannel y + ' Deleted from Dropbox :('
+				end
+			end
+		}
 	}
 
 	dropboxWatcher.start_watching

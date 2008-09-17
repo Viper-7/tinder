@@ -46,18 +46,17 @@ class TinderChannel < TinderClientBase
     					rescue Exception => ex
     						response = "Command timed out - "
 	    				end
-    					return response
     				end
     			end
     		end
     	end
 	if command.chomp == 'mem'
 		response = memUsage
-		return response
 	end
 	if hit == false
-		return "Command not found"
+		response = "Command not found"
     	end
+	return response
     end
 
     def channelEvent(channel, host, nick, event, msg)

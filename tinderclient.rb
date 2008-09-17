@@ -39,17 +39,7 @@ class TinderChannel < TinderClientBase
     					puts "Exec    : '" + cmdline + "'"
 					begin
 						timeout(11) {
-		    					r, w = IO.pipe
-		    					pid = fork {
-								STDOUT.reopen w
-								w.close
-		    						system(cmdline)
-							}
-	    						w.close
-	    						response = ""
-	    						while ((line=r.readline))
-	    							response += line + "\n"
-	    						end
+	    						response = %x[cmdline]
 		    					if response.length == 0; response = "No Output."; end
 		    					sendChannel response
     						}

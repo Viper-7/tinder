@@ -85,9 +85,9 @@ class TinderChannel < TinderClientBase
 			@tinderBot.shutDown
 			@tinderBot = nil
 		when /^@(.+?) (.+)$/
-			sendChannel(runCommand $1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"])
+			sendChannel runCommand $1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"]
 		when /^@(.+)$/
-			sendChannel(runCommand $1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"])
+			sendChannel runCommand $1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/channel/builtin","/opt/tinderBot/scripts/channel/user"]
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"
     	end
@@ -124,9 +124,9 @@ class TinderChannel < TinderClientBase
 				exit 0
 				break
 			when /^@(.+?) (.+)$/
-				sendPrivate(runCommand $1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"], nick)
+				sendPrivate runCommand $1, $2, nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"], nick
 			when /^@(.+)$/
-				sendPrivate(runCommand $1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"], nick)
+				sendPrivate runCommand $1, "", nick, host, ["/opt/tinderBot/scripts/global/builtin","/opt/tinderBot/scripts/global/user","/opt/tinderBot/scripts/private/builtin","/opt/tinderBot/scripts/private/user"], nick
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1
 				break

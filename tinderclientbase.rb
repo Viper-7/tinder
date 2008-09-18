@@ -68,7 +68,7 @@ class TinderChannelBase
 
     def sendPrivate(msg, nick)
 	lines=0
-	msg.each_line{|line| lines += 1; puts "Private\>: #{nick} - #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "Private\>: #{nick} - #{line}"}
     	@tinderBot.sendPrivate msg, nick
     end
 

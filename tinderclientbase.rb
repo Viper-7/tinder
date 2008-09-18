@@ -348,7 +348,7 @@ def startDirWatcher(dirWatch)
 	dropboxWatcher = dirWatch.watcher
 	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
 		dirWatch.channels.each{|x|
-			if x.channel.to_s == dirWatch.channel
+			if x.channel.to_s == dirWatch.channel and x.uptime > 5
 				y = the_file.path.to_s.split(/\//).last.gsub(/ /,'%20')
 				x.sendChannel dirWatch.url + "#{y} Added to #{dirWatch.name}!"
 			end
@@ -417,7 +417,7 @@ class Dir
 	      @known_file_stats = {}
 	      @onmodify_checks = [ :date ]
 	      @onmodify_requiresall = false
-	      @onadd_for_existing = false
+	      @onadd_for_existing = true
 	      @scanned_once = false
 	      @name_regexp = /^[^.].*[^db]$/
 	   end

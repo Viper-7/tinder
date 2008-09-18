@@ -1,4 +1,6 @@
 require 'tinderclientbase.rb'
+require 'net/http'
+require 'open-uri'
 
 class TinderChannel < TinderChannelBase
     include DRbUndumped
@@ -9,6 +11,10 @@ class TinderChannel < TinderChannelBase
     	@rss_tvnzb_buffer = Array.new
 	@rss_nzbsrus_buffer = Array.new
     	super(channel, tinderBot)
+    end
+
+    def tinyURL(url)
+    	return open('http://tinyurl.viper-7.com/?url=' + url).read
     end
 
     def startRSS(url, buffer)
@@ -38,7 +44,7 @@ class TinderChannel < TinderChannelBase
 		if !buffer.include?(x.title + ' - ' + x.link)
 			count += 1
 			buffer.push(x.title + ' - ' + x.link)
-			sendChannel 'New NZB: ' + x.title + ' - ' + x.link
+			sendChannel 'New NZB: ' + x.title + ' - ' + tinyURL(x.link)
 		end
 	}
 	puts "Polled RSS, found #{count} entries" if count > 0

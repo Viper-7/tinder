@@ -167,11 +167,12 @@ class TinderChannelBase
 
     def statusMsg(msg)
     	puts msg
+    	puts @dumpnicks.length
 	@dumpnicks.each{|x|
+		puts x + ">" + msg
 		sendPrivate msg, x
 	}
     end
-
 
     def channelText(nick, host, msg)
     	@tinderBot.status "Text    : #" + @channel + " <" + nick + "> - '" + msg + "'"

@@ -104,7 +104,7 @@ class TinderChannel < TinderChannelBase
     	case msg
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"
-		when /fuck/i
+		when /fuck you/i
 			fuckYou nick
 		when /^@lastnzb$/
 			sendChannel lastnzb

@@ -200,6 +200,7 @@ class TinderChannelBase
     end
 
     def statusMsg(msg)
+	puts msg
 	@dumpnicks.each{|x|
 		@tinderBot.sendPrivate msg, x.to_s
 	} if @dumpnicks.length > 0

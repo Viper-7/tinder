@@ -44,7 +44,7 @@ class TinderChannel < TinderChannelBase
 		if !buffer.include?(x.title + ' - ' + x.link)
 			count += 1
 			buffer.push(x.title + ' - ' + x.link)
-			sendChannel 'New NZB: ' + x.title + ' - ' + tinyURL(x.link) if url == 'http://www.tvnzb.com/tvnzb_new.rss'
+			sendChannel 'New NZB: ' + x.title + ' - ' + tinyURL(x.link) + ' - @latestnzb <name> to search!' if url == 'http://www.tvnzb.com/tvnzb_new.rss'
 		end
 	}
     end

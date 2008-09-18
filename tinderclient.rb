@@ -105,8 +105,8 @@ class TinderChannel < TinderChannelBase
 			fuckYou nick
 		when /^@lastnzb$/
 			sendChannel lastnzb
-		when /^@latestnzb$/
-			sendChannel latestnzb(args)
+		when /^@latestnzb (.+)$/
+			sendChannel latestnzb($1)
 	end
     end
 end

@@ -340,7 +340,7 @@ class DirWatcher
 		@channel = channel
 		@channels = channels
 		@url = url
-		@watcher = Dir::DirectoryWatcher.new( path, 5 )
+		@watcher = Dir::DirectoryWatcher.new( path, 15 )
 	end
 end
 

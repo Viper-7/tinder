@@ -63,12 +63,12 @@ class TinderChannelBase
     	output = ""
     	if @rss_tvnzb_buffer.length > 0
 		@rss_nzbsrus_buffer.each {|x|
-			if x.include? nzb
+			if x.match(/#{nzb}/i)
 				output = x
 			end
 		}
 		@rss_tvnzb_buffer.each {|x|
-			if x.include? nzb
+			if x.match(/#{nzb}/i)
 				output = x
 			end
 		}

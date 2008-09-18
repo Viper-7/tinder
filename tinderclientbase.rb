@@ -344,6 +344,7 @@ class DirWatcher
 	end
 end
 
+
 def startDirWatcher(dirWatch)
 	dropboxWatcher = dirWatch.watcher
 	dropboxWatcher.name_regexp = /^[^.].*[^db]$/

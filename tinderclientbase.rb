@@ -86,7 +86,7 @@ class TinderChannelBase
     def serverText(msg)
     end
 
-    def help
+    def help(commandtypes)
     	lines = ""
     	commandtypes.each{|z|
     		response = z.capitalize + ' Commands: '
@@ -108,9 +108,10 @@ class TinderChannelBase
 	    			end
 	    		end
 	    	end
-	    	puts response
+	    	lines += response + "\n"
 	}
-	puts 'Type a command to see its usage'
+	lines += 'Type a command to see its usage'
+	return lines
     end
 
     def runCommand(command, args, nick, host, commandtypes)

@@ -97,6 +97,7 @@ class TinderChannelBase
 					next
 	    			else
 					next if !path.include? '.'
+					next if path.include? '.svn'
 	    				begin
 		    				filename =~ /^.+\/(.+?)\.(.+)/
 		    				ext = $2
@@ -128,6 +129,7 @@ class TinderChannelBase
 					next
 	    			else
 					next if !path.include? '.'
+					next if path.include? '.svn'
 	    				path =~ /^(.+)\.(.+)/
 	    				ext = $2
 	    				filename = $1

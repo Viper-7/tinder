@@ -58,7 +58,7 @@ class TinderChannel < TinderChannelBase
 			end
 		}
 	end
-	output = 'No Hits, try using .+ between words.' if output = ""
+	output = 'No Hits, try using .+ between words.' if output == ""
 	return output
     end
 

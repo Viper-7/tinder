@@ -99,7 +99,7 @@ class TinderChannelBase
 					next if !path.include? '.'
 					next if path.include? '.svn'
 	    				begin
-		    				filename =~ /^.+\/(.+?)\.(.+)/
+		    				path =~ /^.+\/(.+?)\.(.+)/
 		    				ext = $2
 		    				filename = $1
 		    				response = response + '@' + filename + ' '
@@ -111,7 +111,6 @@ class TinderChannelBase
 	    	lines += response + "\n"
 	}
 	lines += 'Type a command to see its usage'
-	puts lines
 	return lines
     end
 
@@ -170,6 +169,9 @@ class TinderChannelBase
 	    		end
 	    	end
 	}
+	if hit == false
+		response = "Command not found"
+    	end
 	case command.chomp
 		when /^mem$/
 			usage = memUsage
@@ -177,9 +179,6 @@ class TinderChannelBase
 		when /^help$/
 			response = help(commandtypes)
 	end
-	if hit == false
-		response = "Command not found"
-    	end
 	return response
     end
 

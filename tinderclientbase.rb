@@ -194,7 +194,7 @@ class TinderChannelBase
     end
 
     def privateText(nick, host, msg)
-    	puts "Private\<: " + nick + " - '" + msg + "'"
+    	@tinderBot.status "Private\<: " + nick + " - '" + msg + "'"
     	if nick + host == 'Viper-7~druss@viper-7.com'
     		case msg
     			when /^RELOADCLIENT|REHASH$/

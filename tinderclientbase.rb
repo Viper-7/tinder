@@ -7,7 +7,7 @@ require 'rss/2.0'
 require 'open-uri'
 
 STDOUT.sync = true
-dirWatchers = Array.new
+@dirWatchers = Array.new
 tinderChannels = Array.new
 
 DRb.start_service
@@ -392,7 +392,7 @@ def connect(channels)
 		tinderBot1 = nil
 	}
 
-	dirWatchers.each {|x| startDirWatcher(x)}
+	@dirWatchers.each {|x| startDirWatcher(x)}
 
 	puts "Status  : Running..."
 	while tinderBot1
@@ -407,7 +407,7 @@ def connect(channels)
 end
 
 def addDirectoryWatcher(path, name, channel, url, channels)
-	dirWatchers.push DirWatcher.new(path, name, channel, url, channels)
+	@dirWatchers.push DirWatcher.new(path, name, channel, url, channels)
 end
 
 class DirWatcher

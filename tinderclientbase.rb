@@ -111,6 +111,7 @@ class TinderChannelBase
 	    	lines += response + "\n"
 	}
 	lines += 'Type a command to see its usage'
+	puts lines
 	return lines
     end
 
@@ -174,7 +175,6 @@ class TinderChannelBase
 			usage = memUsage
 			response = response + usage
 		when /^help$/
-			puts 'help'
 			response = help(commandtypes)
 	end
 	if hit == false

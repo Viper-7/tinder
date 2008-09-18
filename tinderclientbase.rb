@@ -76,7 +76,7 @@ class TinderChannelBase
 	return output
     end
 
-    def lastrss
+    def lastnzb
     	output = ""
     	if @rss_tvnzb_buffer.length > 0
 		lasttvnzb = @rss_tvnzb_buffer.last.to_s
@@ -250,8 +250,8 @@ class TinderChannelBase
 			response = response + usage
 		when /^help$/
 			response = help(commandtypes)
-		when /^lastrss$/
-			response = lastrss()
+		when /^lastnzb$/
+			response = lastnzb()
 		when /^latestnzb$/
 			response = latestnzb(args)
 	end

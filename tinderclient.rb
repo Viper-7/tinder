@@ -80,11 +80,14 @@ class TinderChannel < TinderChannelBase
     def poll
     	super
     	if @channel.to_s == 'nesreca'
-	    	startRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime == 2
-	    	updateRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime % 60 == 0
+		begin
+		    	startRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime == 2
+		    	startRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime == 2
 
-	    	startRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime == 2
-	    	updateRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime % 60 == 0
+		    	updateRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime % 60 == 0
+		    	updateRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime % 60 == 0
+		rescue
+		end
 	end
     end
 

@@ -57,7 +57,7 @@ class TinderChannelBase
 
     def sendChannel(msg)
 	lines=0
-	msg.each_line{|line| lines += 1; status "Output  : \##{@channel} - #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "Output  : \##{@channel} - #{line}"}
     	@tinderBot.sendChannel msg, @channel
     end
 
@@ -69,13 +69,13 @@ class TinderChannelBase
 
     def sendAction(msg)
 	lines=0
-	msg.each_line{|line| lines += 1; status "Action \>: \##{@channel} - #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "Action \>: \##{@channel} - #{line}"}
     	@tinderBot.sendCTCP "ACTION #{msg}", "\##{@channel}"
     end
 
     def sendCTCP(msg, nick)
 	lines=0
-	msg.each_line{|line| lines += 1; status "CTCP   \>: #{nick} - #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "CTCP   \>: #{nick} - #{line}"}
     	@tinderBot.sendCTCP msg, nick
     end
 
@@ -88,9 +88,9 @@ class TinderChannelBase
 
     def runCommand(command, args, nick, host, commandtypes)
     	if args.length > 0
-    		status "Status  : Running command '" + command + " " + args + "'"
+    		@tinderBot.status "Status  : Running command '" + command + " " + args + "'"
     	else
-    		status "Status  : Running command '" + command
+    		@tinderBot.status "Status  : Running command '" + command
 	end
 	hit = false
 	response = ""
@@ -126,7 +126,7 @@ class TinderChannelBase
 	    						cmdline = "#{lang} #{filename}.#{ext}"
 	    					end
 
-	    					status "Exec    : '" + cmdline + "'"
+	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 						begin
 							timeout(10) {
 		    						response = %x[#{cmdline}]
@@ -151,7 +151,7 @@ class TinderChannelBase
     end
 
     def channelEvent(channel, host, nick, event, msg)
-    	status "Event   : " + event + ": " + nick + " #" + channel + " - '" + msg + "'"
+    	@tinderBot.status "Event   : " + event + ": " + nick + " #" + channel + " - '" + msg + "'"
     	case event
     		when /^MODE/
     			if nick == @nick
@@ -165,23 +165,22 @@ class TinderChannelBase
     	end
     end
 
-    def status(msg)
+    def statusMsg(msg)
     	puts msg
-    	tmpChannel = @tinderBot.channels.first
-    	puts tmpChannel.channel
-	@tinderBot.:channels.first.:dumpnicks.each{|x|
+	@dumpnicks.each{|x|
 		sendPrivate msg, x
 	}
     end
 
+
     def channelText(nick, host, msg)
-    	status "Text    : #" + @channel + " <" + nick + "> - '" + msg + "'"
+    	@tinderBot.status "Text    : #" + @channel + " <" + nick + "> - '" + msg + "'"
     	case msg
     		when /^(hi|hey|sup|yo) #{@nick}/i
 			sendChannel $1 + " " + nick + "!"
 		when /^@rehash/i
 			sendChannel "Reloaded by request from " + nick
-			status "Status  : Reloaded by request from " + host
+			puts "Status  : Reloaded by request from " + host
 			@tinderBot.channels.first.graceful = true
 			@tinderBot.shutDown
 			@tinderBot = nil
@@ -200,14 +199,14 @@ class TinderChannelBase
     		case msg
     			when /^RELOADCLIENT|REHASH$/
     				sendPrivate "Roger that, " + nick, nick
-				status "Status  : Reloaded by request from " + host
+				puts "Status  : Reloaded by request from " + host
 				@graceful = true
 				@tinderBot.rehash
 				@tinderBot = nil
 				break
 			when /^KILLCLIENTS$/
     				sendPrivate "Roger that, " + nick, nick
-				status "Status  : Reloaded by request from " + host
+				puts "Status  : Reloaded by request from " + host
 				@graceful = true
 				@tinderBot.rehash
 				@tinderBot = nil
@@ -216,7 +215,7 @@ class TinderChannelBase
 			when /^KILL$/
     				sendPrivate "Roger that, " + nick, nick
     				sleep(0.4)
-				status "Status  : Killed server by request from " + host
+				puts "Status  : Killed server by request from " + host
 				@graceful = false
 				@tinderBot.close
 				@tinderBot = nil
@@ -226,10 +225,10 @@ class TinderChannelBase
 				break
 			when /^startdump$/
 				@tinderBot.channels.first.dumpnicks.push nick
-				status "Now dumping to #{nick}@#{host}"
+				@tinderBot.status "Now dumping to #{nick}@#{host}"
 			when /^stopdump$/
 				@tinderBot.channels.first.dumpnicks.delete nick
-				status "Stopped dumping to #{nick}@#{host}"
+				@tinderBot.status "Stopped dumping to #{nick}@#{host}"
 			when /^@(.+?) (.+)$/
 				response = runCommand($1, $2, nick, host, ["global", "private"])
 				sendPrivate response, nick

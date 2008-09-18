@@ -353,6 +353,12 @@ class TinderBot
 	@open = false
     	@tinderClient.removeBot(self)
     end
+
+    def status(msg)
+	@channels.first{|y|
+	    	y.statusMsg msg
+	}
+    end
 end
 
 DRb.start_service("druby://:7777", TinderClient.new)

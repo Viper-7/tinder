@@ -290,7 +290,7 @@ def startDropbox(dropboxWatcher)
 		@tinderChannels.each{|x|
 			if x.channel.to_s == 'nesreca' and x.uptime > 5
 				y = the_file.path.to_s.split(/\//).last
-				x.sendChannel "#{y} Added to Dropbox!"
+				x.sendChannel 'http://dropbox.intertoobz.com/' + "#{y} Added to Dropbox!"
 			end
 		}
 	}
@@ -299,7 +299,7 @@ def startDropbox(dropboxWatcher)
 		@tinderChannels.each{|x|
 			if x.channel.to_s == 'nesreca' and x.uptime > 5
 				y = the_file.path.to_s.split(/\//).last
-				x.sendChannel "#{y} Updated in Dropbox!"
+				x.sendChannel 'http://dropbox.intertoobz.com/' + "#{y} Updated in Dropbox!"
 			end
 		}
 	}
@@ -308,7 +308,7 @@ def startDropbox(dropboxWatcher)
 		@tinderChannels.each{|x|
 			if x.channel.to_s == 'nesreca' and x.uptime > 5
 				y = the_file.path.to_s.split(/\//).last
-				x.sendChannel "#{y} Deleted from Dropbox!"
+				x.sendChannel 'http://dropbox.intertoobz.com/' + "#{y} Deleted from Dropbox!"
 			end
 		}
 	}

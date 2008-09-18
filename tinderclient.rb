@@ -42,6 +42,7 @@ class TinderChannel < TinderChannelBase
 
 	rss.items.each{|x|
 		if !buffer.include?(x.title + ' - ' + x.link)
+			puts 'RSS     : ' + x.link
 			count += 1
 			buffer.push(x.title + ' - ' + x.link)
 			sendChannel 'New NZB: ' + x.title + ' - ' + tinyURL(x.link) + ' - @latestnzb to search!' if url == 'http://www.tvnzb.com/tvnzb_new.rss'

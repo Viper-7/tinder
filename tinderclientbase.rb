@@ -318,14 +318,14 @@ end
 def connect(tinderBot, tinderChannels)
 	trap("INT") {
 		tinderChannels.first.graceful = false
-		tinderBot1.rehash
-		tinderBot1 = nil
+		tinderBot.rehash
+		tinderBot = nil
 	}
 
 	@dirWatchers.each {|x| startDirWatcher(x)}
 
 	puts "Status  : Running..."
-	while tinderBot1
+	while tinderBot
 		break if tinderBot1.open != true
 		tinderChannels.each {|x|
 			x.poll

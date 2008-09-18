@@ -60,7 +60,9 @@ class TinderChannelBase
     end
 
     def lastRSS
-	return 'Latest TVNZB: ' + @rss_tvnsb_buffer.last.to_s + "\n" + 'Latest NZBsRUs: ' + @rss_nzbsrus_buffer.last.to_s
+	output = 'Latest TVNZB: ' + @rss_tvnsb_buffer.last.to_s + "\n" + 'Latest NZBsRUs: ' + @rss_nzbsrus_buffer.last.to_s
+	puts output
+	return output
     end
 
     def poll
@@ -228,7 +230,7 @@ class TinderChannelBase
 		when /^help$/
 			response = help(commandtypes)
 		when /^lastrss$/
-			response = lastRSS
+			response = lastRSS()
 	end
 	return response
     end

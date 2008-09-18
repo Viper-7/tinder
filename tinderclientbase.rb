@@ -60,8 +60,7 @@ class TinderChannelBase
     end
 
     def lastRSS
-	sendChannel 'Latest TVNZB: ' + @rss_tvnsb_buffer.last.to_s
-	sendChannel 'Latest NZBsRUs: ' + @rss_nzbsrus_buffer.last.to_s
+	return 'Latest TVNZB: ' + @rss_tvnsb_buffer.last.to_s + "\n" + 'Latest NZBsRUs: ' + @rss_nzbsrus_buffer.last.to_s
     end
 
     def poll

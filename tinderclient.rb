@@ -103,6 +103,10 @@ class TinderChannel < TinderChannelBase
 			sendChannel "FIGHT THE POWAH!"
 		when /fuck you/i
 			fuckYou nick
+		when /^@lastnzb$/
+			sendChannel lastnzb
+		when /^@latestnzb$/
+			sendChannel latestnzb(args)
 	end
     end
 end

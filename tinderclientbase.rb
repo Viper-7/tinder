@@ -167,26 +167,19 @@ class TinderChannelBase
 			    					response = "No Output." if response.length == 0
 	    						}
 	    					rescue Exception => ex
-	    						response = "Command timed out - "
+	    						response = "Command timed out"
 		    				end
 	    				end
 	    			end
 	    		end
 	    	end
 	}
-	if hit == false
-		response = "Command not found"
-    	end
 	case command.chomp
 		when /^mem$/
 			usage = memUsage
 			response = response + usage
 		when /^help$/
 			response = help(commandtypes)
-		when /^lastnzb$/
-			response = lastnzb()
-		when /^latestnzb$/
-			response = latestnzb(args)
 	end
 	return response
     end

@@ -13,7 +13,7 @@ DRb.start_service
 class TinderChannelBase
     include DRbUndumped
 
-    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks
+    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :rss_tvnzb_buffer
 
     def initialize(channel, tinderBot)
         @channel = channel
@@ -22,11 +22,10 @@ class TinderChannelBase
     	@tinderBot.addChannel(self)
     	@dumpnicks = Array.new
     	@uptime = 0
+	@rss_tvnzb_buffer = Array.new
     end
 
     def startRSS
-	@rss_tvnzb_buffer = Array.new
-
 	source = "http://www.tvnzb.com/tvnzb_new.rss" # url or local file
 	content = "" # raw content of rss feed will be loaded here
 	open(source) do |s| content = s.read end
@@ -43,8 +42,6 @@ class TinderChannelBase
     end
 
     def updateRSS
-	@rss_tvnzb_buffer = Array.new
-
 	source = "http://www.tvnzb.com/tvnzb_new.rss" # url or local file
 	content = "" # raw content of rss feed will be loaded here
 	open(source) do |s| content = s.read end

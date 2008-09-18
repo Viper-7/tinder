@@ -61,8 +61,8 @@ class TinderChannelBase
 
     def lastrss()
     	puts 'checking'
-	lasttvnzb = @rss_tvnsb_buffer.last
-	puts lasttvnzb.to_s
+	lasttvnzb = @rss_tvnsb_buffer.last.to_s
+	puts lasttvnzb
 	lastnzbsrus = @rss_nzbsrus_buffer.last
 	output = 'Latest TVNZB: ' + lasttvnzb + "\n" + 'Latest NZBsRUs: ' + lastnzbsrus
 	puts output

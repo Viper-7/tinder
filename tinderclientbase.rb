@@ -53,7 +53,7 @@ class TinderChannelBase
 		if !buffer.include?(x.title + ' - ' + x.link)
 			count += 1
 			buffer.push(x.title + ' - ' + x.link)
-			sendChannel 'New TVNZB: ' + x.title + ' - ' + x.link
+			sendChannel 'New NZB: ' + x.title + ' - ' + x.link
 		end
 	}
 	puts "Polled RSS, found #{count} entries" if count > 0

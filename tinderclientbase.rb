@@ -50,7 +50,7 @@ class TinderChannelBase
 	rss.items.each{|x|
 		if !@rss_tvnzb_buffer.include?(x.title + ' - ' + x.link)
 			@rss_tvnzb_buffer.push(x.title + ' - ' + x.link)
-			if @channel.to_s == 'nesreca' and @uptime > 5
+			if @uptime > 5
 				sendChannel 'RSS: ' + x.title + ' - ' + x.link
 			end
 		end
@@ -60,9 +60,11 @@ class TinderChannelBase
 
     def poll
     	@uptime += 1
-    	startRSS if @uptime == 2
     	@uptime = 5 if @uptime > 600
-    	updateRSS if @uptime % 60 == 0
+    	if @channel.to_s == 'nesreca'
+	    	startRSS if @uptime == 2
+	    	updateRSS if @uptime % 60 == 0
+	end
     end
 
     def memUsage

@@ -59,6 +59,10 @@ class TinderChannelBase
 	puts "Polled RSS, found #{count} entries" if count > 0
     end
 
+    def lastRSS
+	sendChannel 'Latest TVNZB: ' + @rss_tvnsb_buffer.last
+	sendChannel 'Latest NZBsRUs: ' + @rss_nzbsrus_buffer.last
+    end
 
     def poll
     	@uptime += 1
@@ -224,6 +228,8 @@ class TinderChannelBase
 			response = response + usage
 		when /^help$/
 			response = help(commandtypes)
+		when /^lastrss$/
+			response = lastRSS
 	end
 	return response
     end

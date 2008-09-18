@@ -50,9 +50,7 @@ class TinderChannelBase
 	rss.items.each{|x|
 		if !@rss_tvnzb_buffer.include?(x.title + ' - ' + x.link)
 			@rss_tvnzb_buffer.push(x.title + ' - ' + x.link)
-			if @uptime > 5
-				sendChannel 'RSS: ' + x.title + ' - ' + x.link
-			end
+			sendChannel 'RSS: ' + x.title + ' - ' + x.link
 		end
 	}
     end

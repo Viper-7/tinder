@@ -51,7 +51,7 @@ class TinderChannelBase
 		if !@rss_tvnzb_buffer.include?(x.title + ' - ' + x.link)
 			puts 'new rss entry found ' + x.title + ' - ' + x.link
 			@rss_tvnzb_buffer.push(x.title + ' - ' + x.link)
-			sendChannel 'RSS: ' + x.title + ' - ' + x.link
+			sendChannel 'New TVNZB: ' + x.title + ' - ' + x.link
 		end
 	}
     end

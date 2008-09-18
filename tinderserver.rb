@@ -355,7 +355,7 @@ class TinderBot
     end
 
     def status(msg)
-	@channels.each{|y|
+	@channels.first{|y|
 	    	y.statusMsg msg.to_s
 	}
     end

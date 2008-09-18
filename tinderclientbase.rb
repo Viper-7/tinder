@@ -86,6 +86,30 @@ class TinderChannelBase
     def serverText(msg)
     end
 
+    def help
+    	lines = ""
+    	commandtypes.each{|z|
+    		response = z.capitalize + ' Commands: '
+    		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
+	    	for folder in folders
+	    		Find.find(folder) do |path|
+	    			if FileTest.directory?(path)
+					next
+	    			else
+					next if !path.include? '.'
+	    				filename =~ /^.+\/(.+?)\.(.+)/
+	    				ext = $2
+	    				filename = $1
+	    				response += '@' + filename + ' '
+	    			end
+	    		end
+	    	end
+	    	lines += response + "\n"
+	}
+	lines += 'Type a command to see its usage'
+	return lines
+    end
+
     def runCommand(command, args, nick, host, commandtypes)
     	if args.length > 0
     		@tinderBot.status "Status  : Running command '" + command + " " + args + "'"
@@ -140,9 +164,12 @@ class TinderChannelBase
 	    		end
 	    	end
 	}
-	if command.chomp == 'mem'
-		usage = memUsage
-		response = response + usage
+	case command.chomp
+		when /^mem$/
+			usage = memUsage
+			response = response + usage
+		when /^help$/
+			response = help commandtypes
 	end
 	if hit == false
 		response = "Command not found"

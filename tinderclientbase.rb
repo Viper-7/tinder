@@ -174,7 +174,8 @@ class TinderChannelBase
 			usage = memUsage
 			response = response + usage
 		when /^help$/
-			response = help commandtypes
+			puts 'help'
+			response = help(commandtypes)
 	end
 	if hit == false
 		response = "Command not found"

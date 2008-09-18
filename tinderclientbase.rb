@@ -167,10 +167,9 @@ class TinderChannelBase
 
     def statusMsg(msg)
     	puts msg
-    	puts @dumpnicks.length
 	@dumpnicks.each{|x|
-		puts x + ">" + msg
-		sendPrivate msg, x
+		puts x.to_s + ">" + msg
+		sendPrivate msg, x.to_s
 	}
     end
 
@@ -252,34 +251,7 @@ class TinderChannelBase
     end
 end
 
-def tinderConnect(server,port,nick,channels)
-	puts "Status  : Connecting..."
-	begin
-		tinderClient1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
-	rescue
-		puts "Status  : Failed to connect to Tinder server"
-		exit 0
-	end
-
-	tinderClient1.connectServer(server, port, nick)
-	tinderBot1 = tinderClient1.addBot
-	@tinderChannels = Array.new
-
-	channels.each {|x|
-		if x == "nesreca"
-			@tinderChannels.push TinderChannel.new(x.to_s, tinderBot1)
-		else
-			@tinderChannels.push TinderChannelBase.new(x.to_s, tinderBot1)
-		end
-	}
-
-	trap("INT") {
-		@tinderChannels.first.graceful = false
-		tinderBot1.rehash
-		tinderBot1 = nil
-	}
-
-	dropboxWatcher = Dir::DirectoryWatcher.new( '/mnt/dalec/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 5 )
+def startDropbox(dropboxWatcher)
 	dropboxWatcher.name_regexp = /^[^.].*[^db]$/
 
 	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
@@ -310,6 +282,37 @@ def tinderConnect(server,port,nick,channels)
 	}
 
 	dropboxWatcher.start_watching
+end
+
+def tinderConnect(server,port,nick,channels)
+	puts "Status  : Connecting..."
+	begin
+		tinderClient1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
+	rescue
+		puts "Status  : Failed to connect to Tinder server"
+		exit 0
+	end
+
+	tinderClient1.connectServer(server, port, nick)
+	tinderBot1 = tinderClient1.addBot
+	@tinderChannels = Array.new
+
+	channels.each {|x|
+		if x == "nesreca"
+			@tinderChannels.push TinderChannel.new(x.to_s, tinderBot1)
+		else
+			@tinderChannels.push TinderChannelBase.new(x.to_s, tinderBot1)
+		end
+	}
+
+	trap("INT") {
+		@tinderChannels.first.graceful = false
+		tinderBot1.rehash
+		tinderBot1 = nil
+	}
+
+	dropboxWatcher = Dir::DirectoryWatcher.new( '/mnt/dalec/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 5 )
+	startDropbox(dropboxWatcher)
 
 	puts "Status  : Running..."
 	while tinderBot1

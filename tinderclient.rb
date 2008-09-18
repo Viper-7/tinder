@@ -21,4 +21,4 @@ class TinderChannel < TinderChannelBase
     end
 end
 
-tinderConnect("irc.gamesurge.net","6667","Tinder",["codeworkshop","v7test"])
+tinderConnect("irc.gamesurge.net","6667","Tinder",["codeworkshop","v7test","ausquake","nesreca"])

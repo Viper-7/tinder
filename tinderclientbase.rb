@@ -167,7 +167,7 @@ class TinderChannelBase
 
     def status(msg)
     	puts msg
-	@dumpnicks.each{|x|
+	@tinderBot.channels.first.dumpnicks.each{|x|
 		sendPrivate msg, x
 	}
     end
@@ -223,10 +223,10 @@ class TinderChannelBase
 				exit 0
 				break
 			when /^startdump$/
-				@dumpnicks.push nick
+				@tinderBot.channels.first.dumpnicks.push nick
 				status "Now dumping to #{nick}@#{host}"
 			when /^stopdump$/
-				@dumpnicks.delete nick
+				@tinderBot.channels.first.dumpnicks.delete nick
 				status "Stopped dumping to #{nick}@#{host}"
 			when /^@(.+?) (.+)$/
 				response = runCommand($1, $2, nick, host, ["global", "private"])

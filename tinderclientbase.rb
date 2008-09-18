@@ -170,7 +170,7 @@ class TinderChannelBase
 	@dumpnicks.each{|x|
 		puts x.to_s + ">" + msg
 		sendPrivate msg, x.to_s
-	}
+	} if @dumpnicks.length > 0
     end
 
     def channelText(nick, host, msg)

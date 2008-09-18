@@ -108,9 +108,9 @@ class TinderChannelBase
 	    			end
 	    		end
 	    	end
-	    	return response
+	    	puts response
 	}
-	return 'Type a command to see its usage'
+	puts 'Type a command to see its usage'
     end
 
     def runCommand(command, args, nick, host, commandtypes)

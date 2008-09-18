@@ -59,8 +59,10 @@ class TinderChannelBase
 	puts "Polled RSS, found #{count} entries" if count > 0
     end
 
-    def lastRSS
-	output = 'Latest TVNZB: ' + @rss_tvnsb_buffer.last.to_s + "\n" + 'Latest NZBsRUs: ' + @rss_nzbsrus_buffer.last.to_s
+    def lastrss()
+	lasttvnzb = @rss_tvnsb_buffer.last
+	lastnzbsrus = @rss_nzbsrus_buffer.last
+	output = 'Latest TVNZB: ' + lasttvnzb + "\n" + 'Latest NZBsRUs: ' + lastnzbsrus
 	puts output
 	return output
     end
@@ -230,7 +232,7 @@ class TinderChannelBase
 		when /^help$/
 			response = help(commandtypes)
 		when /^lastrss$/
-			response = lastRSS()
+			response = lastrss()
 	end
 	return response
     end

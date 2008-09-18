@@ -47,7 +47,6 @@ class TinderChannel < TinderChannelBase
 			sendChannel 'New NZB: ' + x.title + ' - ' + tinyURL(x.link)
 		end
 	}
-	@tinderBot.status "Polled RSS, found #{count} entries" if count > 0
     end
 
     def latestnzb(nzb)

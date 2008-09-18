@@ -30,7 +30,7 @@ class TinderChannel < TinderChannelBase
 			count += 1
 		end
 	}
-	puts "Added #{count} entries to RSS log"
+	status "Added #{count} entries to RSS log"
     end
 
     def updateRSS(url, buffer)
@@ -47,7 +47,7 @@ class TinderChannel < TinderChannelBase
 			sendChannel 'New NZB: ' + x.title + ' - ' + tinyURL(x.link)
 		end
 	}
-	puts "Polled RSS, found #{count} entries" if count > 0
+	status "Polled RSS, found #{count} entries" if count > 0
     end
 
     def latestnzb(nzb)

@@ -51,12 +51,11 @@ class TinderChannelBase
 	rss.items.each{|x|
 		if !@rss_tvnzb_buffer.include?(x.title + ' - ' + x.link)
 			count += 1
-			puts 'new rss entry found ' + x.title + ' - ' + x.link
 			@rss_tvnzb_buffer.push(x.title + ' - ' + x.link)
 			sendChannel 'New TVNZB: ' + x.title + ' - ' + x.link
 		end
 	}
-	puts "Polled RSS, found #{count} entries"
+	puts "Polled RSS, found #{count} entries" if count > 0
     end
 
 

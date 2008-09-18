@@ -97,17 +97,19 @@ class TinderChannelBase
 					next
 	    			else
 					next if !path.include? '.'
-	    				filename =~ /^.+\/(.+?)\.(.+)/
-	    				ext = $2
-	    				filename = $1
-	    				response += '@' + filename + ' '
+	    				begin
+		    				filename =~ /^.+\/(.+?)\.(.+)/
+		    				ext = $2
+		    				filename = $1
+		    				response = response + '@' + filename + ' '
+	    				rescue
+	    				end
 	    			end
 	    		end
 	    	end
-	    	lines += response + "\n"
+	    	return response
 	}
-	lines += 'Type a command to see its usage'
-	return lines
+	return 'Type a command to see its usage'
     end
 
     def runCommand(command, args, nick, host, commandtypes)

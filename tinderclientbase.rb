@@ -59,6 +59,23 @@ class TinderChannelBase
 	puts "Polled RSS, found #{count} entries" if count > 0
     end
 
+    def latestnzb(nzb)
+    	output = ""
+    	if @rss_tvnzb_buffer.length > 0
+		@rss_nzbsrus_buffer.each {|x|
+			if x.include? nzb
+				output = x
+			end
+		}
+		@rss_tvnzb_buffer.each {|x|
+			if x.include? nzb
+				output = x
+			end
+		}
+	end
+	return output
+    end
+
     def lastrss
     	output = ""
     	if @rss_tvnzb_buffer.length > 0
@@ -235,6 +252,8 @@ class TinderChannelBase
 			response = help(commandtypes)
 		when /^lastrss$/
 			response = lastrss()
+		when /^latestnzb$/
+			response = latestnzb(args)
 	end
 	return response
     end

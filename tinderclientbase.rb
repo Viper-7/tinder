@@ -358,21 +358,9 @@ def startDirWatcher(dirWatch)
 	}
 
 	dropboxWatcher.on_modify = Proc.new{ |the_file, stats_hash|
-		dirWatch.channels.each{|x|
-			if x.channel.to_s == dirWatch.channel and x.uptime > 5
-				y = the_file.path.to_s.split(/\//).last
-				x.sendChannel dirWatch.url + "#{y} Updated in #{dirWatch.name}!"
-			end
-		}
 	}
 
 	dropboxWatcher.on_remove = Proc.new{ |stats_hash|
-		dirWatch.channels.each{|x|
-			if x.channel.to_s == dirWatch.channel and x.uptime > 5
-				y = stats_hash.path.to_s.split(/\//).last
-				x.sendChannel dirWatch.url + "#{y} Deleted from #{dirWatch.name}!"
-			end
-		}
 	}
 
 	dropboxWatcher.start_watching

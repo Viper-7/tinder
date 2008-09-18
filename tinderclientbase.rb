@@ -13,7 +13,7 @@ DRb.start_service
 class TinderChannelBase
     include DRbUndumped
 
-    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :rss_tvnzb_buffer
+    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :rss_tvnzb_buffer, :rss_nzbsrus_buffer
 
     def initialize(channel, tinderBot)
         @channel = channel
@@ -23,35 +23,36 @@ class TinderChannelBase
     	@dumpnicks = Array.new
     	@uptime = 0
 	@rss_tvnzb_buffer = Array.new
+	@rss_nzbsrus_buffer = Array.new
     end
 
-    def startRSS
-	source = "http://www.tvnzb.com/tvnzb_new.rss" # url or local file
+    def startRSS(url, buffer)
+	source = url # url or local file
 	content = "" # raw content of rss feed will be loaded here
 	open(source) do |s| content = s.read end
 	rss = RSS::Parser.parse(content, false)
 	count = 0
 
 	rss.items.each{|x|
-		if !@rss_tvnzb_buffer.include?(x.title + ' - ' + x.link)
-			@rss_tvnzb_buffer.push(x.title + ' - ' + x.link)
+		if !buffer.include?(x.title + ' - ' + x.link)
+			buffer.push(x.title + ' - ' + x.link)
 			count += 1
 		end
 	}
 	puts "Added #{count} entries to RSS log"
     end
 
-    def updateRSS
-	source = "http://www.tvnzb.com/tvnzb_new.rss" # url or local file
+    def updateRSS(url, buffer)
+	source = url # url or local file
 	content = "" # raw content of rss feed will be loaded here
 	open(source) do |s| content = s.read end
 	rss = RSS::Parser.parse(content, false)
 	count = 0
 
 	rss.items.each{|x|
-		if !@rss_tvnzb_buffer.include?(x.title + ' - ' + x.link)
+		if !buffer.include?(x.title + ' - ' + x.link)
 			count += 1
-			@rss_tvnzb_buffer.push(x.title + ' - ' + x.link)
+			buffer.push(x.title + ' - ' + x.link)
 			sendChannel 'New TVNZB: ' + x.title + ' - ' + x.link
 		end
 	}
@@ -63,8 +64,11 @@ class TinderChannelBase
     	@uptime += 1
     	@uptime = 5 if @uptime > 600
     	if @channel.to_s == 'nesreca'
-	    	startRSS if @uptime == 2
-	    	updateRSS if @uptime % 60 == 0
+	    	startRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime == 2
+	    	updateRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime % 60 == 0
+
+	    	startRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime == 2
+	    	updateRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime % 60 == 0
 	end
     end
 
@@ -280,7 +284,7 @@ class TinderChannelBase
 				break
 			when /^KILLCLIENTS$/
     				sendPrivate "Roger that, " + nick, nick
-				puts "Status  : Reloaded by request from " + host
+				puts "Status  : Killed client by request from " + host
 				@graceful = true
 				@tinderBot.rehash
 				@tinderBot = nil

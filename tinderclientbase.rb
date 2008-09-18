@@ -224,10 +224,10 @@ class TinderChannelBase
 				exit 0
 				break
 			when /^startdump$/
-				@tinderBot.channels.first.dumpnicks.push nick
+				@dumpnicks.push nick
 				@tinderBot.status "Now dumping to #{nick}@#{host}"
 			when /^stopdump$/
-				@tinderBot.channels.first.dumpnicks.delete nick
+				@dumpnicks.delete nick
 				@tinderBot.status "Stopped dumping to #{nick}@#{host}"
 			when /^@(.+?) (.+)$/
 				response = runCommand($1, $2, nick, host, ["global", "private"])

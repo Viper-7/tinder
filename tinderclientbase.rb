@@ -59,13 +59,13 @@ class TinderChannelBase
 	puts "Polled RSS, found #{count} entries" if count > 0
     end
 
-    def lastrss()
-    	puts 'checking'
-	lasttvnzb = @rss_tvnsb_buffer
-	puts lasttvnzb.last
-	lastnzbsrus = @rss_nzbsrus_buffer.last
-	output = 'Latest TVNZB: ' + lasttvnzb + "\n" + 'Latest NZBsRUs: ' + lastnzbsrus
-	puts output
+    def lastrss
+    	output = ""
+    	if @rss_tvnzb_buffer.length > 0
+		lasttvnzb = @rss_tvnzb_buffer.last.to_s
+		lastnzbsrus = @rss_nzbsrus_buffer.last.to_s
+		output = 'Latest TVNZB: ' + lasttvnzb + "\n" + 'Latest NZBsRUs: ' + lastnzbsrus
+	end
 	return output
     end
 

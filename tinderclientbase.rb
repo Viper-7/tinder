@@ -326,7 +326,7 @@ def connect(tinderBot, tinderChannels)
 
 	puts "Status  : Running..."
 	while tinderBot
-		break if tinderBot1.open != true
+		break if tinderBot.open != true
 		tinderChannels.each {|x|
 			x.poll
 		}

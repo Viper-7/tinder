@@ -57,6 +57,7 @@ class TinderChannelBase
 	}
     end
 
+
     def poll
     	@uptime += 1
     	startRSS if @uptime == 2

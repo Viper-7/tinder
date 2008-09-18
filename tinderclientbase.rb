@@ -7,6 +7,8 @@ require 'rss/2.0'
 require 'open-uri'
 
 STDOUT.sync = true
+dirWatchers = Array.new
+tinderChannels = Array.new
 
 DRb.start_service
 
@@ -53,7 +55,7 @@ class TinderChannelBase
 		if !buffer.include?(x.title + ' - ' + x.link)
 			count += 1
 			buffer.push(x.title + ' - ' + x.link)
-			sendChannel 'New NZB: ' + x.title + ' - ' + x.link
+			sendChannel 'New NZB: ' + x.title + ' - ' + x.link
 		end
 	}
 	puts "Polled RSS, found #{count} entries" if count > 0
@@ -360,40 +362,7 @@ class TinderChannelBase
     end
 end
 
-def startDropbox(dropboxWatcher)
-	dropboxWatcher.name_regexp = /^[^.].*[^db]$/
-
-	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
-		@tinderChannels.each{|x|
-			if x.channel.to_s == 'nesreca' and x.uptime > 5
-				y = the_file.path.to_s.split(/\//).last
-				x.sendChannel 'http://dropbox.intertoobz.com/' + "#{y} Added to Dropbox!"
-			end
-		}
-	}
-
-	dropboxWatcher.on_modify = Proc.new{ |the_file, stats_hash|
-		@tinderChannels.each{|x|
-			if x.channel.to_s == 'nesreca' and x.uptime > 5
-				y = the_file.path.to_s.split(/\//).last
-				x.sendChannel 'http://dropbox.intertoobz.com/' + "#{y} Updated in Dropbox!"
-			end
-		}
-	}
-
-	dropboxWatcher.on_remove = Proc.new{ |stats_hash|
-		@tinderChannels.each{|x|
-			if x.channel.to_s == 'nesreca' and x.uptime > 5
-				y = the_file.path.to_s.split(/\//).last
-				x.sendChannel 'http://dropbox.intertoobz.com/' + "#{y} Deleted from Dropbox!"
-			end
-		}
-	}
-
-	dropboxWatcher.start_watching
-end
-
-def tinderConnect(server,port,nick,channels)
+def addServer(server,port,nick,channels)
 	puts "Status  : Connecting..."
 	begin
 		tinderClient1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
@@ -404,35 +373,87 @@ def tinderConnect(server,port,nick,channels)
 
 	tinderClient1.connectServer(server, port, nick)
 	tinderBot1 = tinderClient1.addBot
-	@tinderChannels = Array.new
+	tinderChannels = Array.new
 
 	channels.each {|x|
 		if x == "nesreca"
-			@tinderChannels.push TinderChannel.new(x.to_s, tinderBot1)
+			tinderChannels.push TinderChannel.new(x.to_s, tinderBot1)
 		else
-			@tinderChannels.push TinderChannelBase.new(x.to_s, tinderBot1)
+			tinderChannels.push TinderChannelBase.new(x.to_s, tinderBot1)
 		end
 	}
+	return tinderChannels
+end
 
+def connect(channels)
 	trap("INT") {
-		@tinderChannels.first.graceful = false
+		channels.first.graceful = false
 		tinderBot1.rehash
 		tinderBot1 = nil
 	}
 
-	dropboxWatcher = Dir::DirectoryWatcher.new( '/mnt/dalec/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 5 )
-	startDropbox(dropboxWatcher)
+	dirWatchers.each {|x| startDirWatcher(x)}
 
 	puts "Status  : Running..."
 	while tinderBot1
 		break if tinderBot1.open != true
-		@tinderChannels.each {|x|
+		channels.each {|x|
 			x.poll
 		}
 		sleep 1
 	end
-	exit 1 if @tinderChannels.first.graceful == true
+	exit 1 if channels.first.graceful == true
 	exit 0
+end
+
+def addDirectoryWatcher(path, name, channel, url, channels)
+	dirWatchers.push DirWatcher.new(path, name, channel, url, channels)
+end
+
+class DirWatcher
+	attr_accessor :watcher, :path, :name, :channel, :url, :channels
+	def initialize(path, name, channel, url, channels)
+		@path = path
+		@name = name
+		@channel = channel
+		@channels = channels
+		@url = url
+		@watcher = Dir::DirectoryWatcher.new( path, 2 )
+	end
+end
+
+def startDirWatcher(dirWatch)
+	dropboxWatcher = dirWatch.watcher
+	dropboxWatcher.name_regexp = /^[^.].*[^db]$/
+
+	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
+		dirWatch.channels.each{|x|
+			if x.channel.to_s == dirWatch.channel and x.uptime > 5
+				y = the_file.path.to_s.split(/\//).last
+				x.sendChannel dirWatch.url + "#{y} Added to #{dirWatch.name}!"
+			end
+		}
+	}
+
+	dropboxWatcher.on_modify = Proc.new{ |the_file, stats_hash|
+		dirWatch.channels.each{|x|
+			if x.channel.to_s == dirWatch.channel and x.uptime > 5
+				y = the_file.path.to_s.split(/\//).last
+				x.sendChannel dirWatch.url + "#{y} Updated in #{dirWatch.name}!"
+			end
+		}
+	}
+
+	dropboxWatcher.on_remove = Proc.new{ |stats_hash|
+		dirWatch.channels.each{|x|
+			if x.channel.to_s == dirWatch.channel and x.uptime > 5
+				y = the_file.path.to_s.split(/\//).last
+				x.sendChannel dirWatch.url + "#{y} Deleted from #{dirWatch.name}!"
+			end
+		}
+	}
+
+	dropboxWatcher.start_watching
 end
 
 class Dir

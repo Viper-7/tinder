@@ -21,4 +21,6 @@ class TinderChannel < TinderChannelBase
     end
 end
 
-tinderConnect("irc.gamesurge.net","6667","Tinder",["codeworkshop","v7test","ausquake","nesreca"])
+tinderChannels = addServer("irc.gamesurge.net","6667","Tinder",["codeworkshop","v7test","ausquake","nesreca"])
+addDirectoryWatcher('/mnt/dalec/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/', tinderChannels)
+connect tinderChannels

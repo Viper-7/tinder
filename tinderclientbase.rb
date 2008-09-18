@@ -24,9 +24,47 @@ class TinderChannelBase
     	@uptime = 0
     end
 
+    def startRSS
+	@rss_tvnzb_buffer = Array.new
+
+	source = "http://www.tvnzb.com/tvnzb_new.rss" # url or local file
+	content = "" # raw content of rss feed will be loaded here
+	open(source) do |s| content = s.read end
+	rss = RSS::Parser.parse(content, false)
+	count = 0
+
+	rss.items.each{|x|
+		if !@rss_tvnzb_buffer.include?(x.title + ' - ' + x.link)
+			@rss_tvnzb_buffer.push(x.title + ' - ' + x.link)
+			count += 1
+		end
+	}
+	puts "Added #{count} entries to RSS log"
+    end
+
+    def updateRSS
+	@rss_tvnzb_buffer = Array.new
+
+	source = "http://www.tvnzb.com/tvnzb_new.rss" # url or local file
+	content = "" # raw content of rss feed will be loaded here
+	open(source) do |s| content = s.read end
+	rss = RSS::Parser.parse(content, false)
+
+	rss.items.each{|x|
+		if !@rss_tvnzb_buffer.include?(x.title + ' - ' + x.link)
+			@rss_tvnzb_buffer.push(x.title + ' - ' + x.link)
+			if @channel.to_s == 'nesreca' and @uptime > 5
+				sendChannel 'RSS: ' + x.title + ' - ' + x.link
+			end
+		end
+	}
+    end
+
     def poll
     	@uptime += 1
-    	@uptime = 5 if @uptime > 500
+    	startRSS if @uptime == 2
+    	@uptime = 5 if @uptime > 600
+    	updateRSS if @uptime % 60 == 0
     end
 
     def memUsage
@@ -284,26 +322,6 @@ class TinderChannelBase
 			sendCTCP $1, nick
 	end
     end
-end
-
-def updateRSS
-	@rss_tvnzb_buffer = Array.new
-
-	source = "http://www.tvnzb.com/tvnzb_new.rss" # url or local file
-	content = "" # raw content of rss feed will be loaded here
-	open(source) do |s| content = s.read end
-	rss = RSS::Parser.parse(content, false)
-
-	rss.items.each{|x|
-		if !@rss_tvnzb_buffer.include?(x.title + ' - ' + x.link)
-			@rss_tvnzb_buffer.push(x.title + ' - ' + x.link)
-			@tinderChannels.each{|x|
-				if x.channel.to_s == 'nesreca' and x.uptime > 5
-					x.sendChannel 'RSS: ' + x.title + ' - ' + x.link
-				end
-			}
-		end
-	}
 end
 
 def startDropbox(dropboxWatcher)

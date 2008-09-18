@@ -167,7 +167,7 @@ class TinderChannelBase
 
     def status(msg)
     	puts msg
-    	puts @tinderBot.:channels.first.:dumpnicks.first
+    	puts @tinderBot.channels.first.channel
 	@tinderBot.:channels.first.:dumpnicks.each{|x|
 		sendPrivate msg, x
 	}

@@ -81,10 +81,10 @@ class TinderChannel < TinderChannelBase
     	super
     	if @channel.to_s == 'nesreca'
 	    	startRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime == 2
-	    	updateRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime % 20 == 0
+	    	updateRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime % 60 == 0
 
 	    	startRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime == 2
-	    	updateRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime % 20 == 0
+	    	updateRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime % 60 == 0
 	end
     end
 

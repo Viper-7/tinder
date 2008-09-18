@@ -15,7 +15,7 @@ DRb.start_service
 class TinderChannelBase
     include DRbUndumped
 
-    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :rss_tvnzb_buffer, :rss_nzbsrus_buffer
+    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks
 
     def initialize(channel, tinderBot)
         @channel = channel
@@ -24,81 +24,11 @@ class TinderChannelBase
     	@tinderBot.addChannel(self)
     	@dumpnicks = Array.new
     	@uptime = 0
-	@rss_tvnzb_buffer = Array.new
-	@rss_nzbsrus_buffer = Array.new
-    end
-
-    def startRSS(url, buffer)
-	source = url # url or local file
-	content = "" # raw content of rss feed will be loaded here
-	open(source) do |s| content = s.read end
-	rss = RSS::Parser.parse(content, false)
-	count = 0
-
-	rss.items.each{|x|
-		if !buffer.include?(x.title + ' - ' + x.link)
-			buffer.push(x.title + ' - ' + x.link)
-			count += 1
-		end
-	}
-	puts "Added #{count} entries to RSS log"
-    end
-
-    def updateRSS(url, buffer)
-	source = url # url or local file
-	content = "" # raw content of rss feed will be loaded here
-	open(source) do |s| content = s.read end
-	rss = RSS::Parser.parse(content, false)
-	count = 0
-
-	rss.items.each{|x|
-		if !buffer.include?(x.title + ' - ' + x.link)
-			count += 1
-			buffer.push(x.title + ' - ' + x.link)
-			sendChannel 'New NZB: ' + x.title + ' - ' + x.link
-		end
-	}
-	puts "Polled RSS, found #{count} entries" if count > 0
-    end
-
-    def latestnzb(nzb)
-    	output = ""
-    	if @rss_tvnzb_buffer.length > 0
-		@rss_nzbsrus_buffer.each {|x|
-			if x.match(/#{nzb}/i)
-				output = x
-			end
-		}
-		@rss_tvnzb_buffer.each {|x|
-			if x.match(/#{nzb}/i)
-				output = x
-			end
-		}
-	end
-	output = 'No Hits, try using .+ between words.' if output = ""
-	return output
-    end
-
-    def lastnzb
-    	output = ""
-    	if @rss_tvnzb_buffer.length > 0
-		lasttvnzb = @rss_tvnzb_buffer.last.to_s
-		lastnzbsrus = @rss_nzbsrus_buffer.last.to_s
-		output = 'Latest TVNZB: ' + lasttvnzb + "\n" + 'Latest NZBsRUs: ' + lastnzbsrus
-	end
-	return output
     end
 
     def poll
     	@uptime += 1
     	@uptime = 5 if @uptime > 600
-    	if @channel.to_s == 'nesreca'
-	    	startRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime == 2
-	    	updateRSS("http://www.tvnzb.com/tvnzb_new.rss",@rss_tvnzb_buffer) if @uptime % 60 == 0
-
-	    	startRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime == 2
-	    	updateRSS("http://www.nzbsrus.com/rssfeed.php",@rss_nzbsrus_buffer) if @uptime % 60 == 0
-	end
     end
 
     def memUsage
@@ -382,12 +312,12 @@ def addServer(server,port,nick,channels)
 			tinderChannels.push TinderChannelBase.new(x.to_s, tinderBot1)
 		end
 	}
-	return tinderChannels
+	return tinderClient1, tinderBot1, tinderChannels
 end
 
-def connect(channels)
+def connect(tinderBot, tinderChannels)
 	trap("INT") {
-		channels.first.graceful = false
+		tinderChannels.first.graceful = false
 		tinderBot1.rehash
 		tinderBot1 = nil
 	}
@@ -397,12 +327,12 @@ def connect(channels)
 	puts "Status  : Running..."
 	while tinderBot1
 		break if tinderBot1.open != true
-		channels.each {|x|
+		tinderChannels.each {|x|
 			x.poll
 		}
 		sleep 1
 	end
-	exit 1 if channels.first.graceful == true
+	exit 1 if tinderChannels.first.graceful == true
 	exit 0
 end
 

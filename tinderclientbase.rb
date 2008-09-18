@@ -369,7 +369,7 @@ def startDirWatcher(dirWatch)
 	dropboxWatcher.on_remove = Proc.new{ |stats_hash|
 		dirWatch.channels.each{|x|
 			if x.channel.to_s == dirWatch.channel and x.uptime > 5
-				y = the_file.path.to_s.split(/\//).last
+				y = stats_hash.path.to_s.split(/\//).last
 				x.sendChannel dirWatch.url + "#{y} Deleted from #{dirWatch.name}!"
 			end
 		}

@@ -1,8 +1,7 @@
-require 'drb'
-
 class TinderClient
     include DRbUndumped
 
+    require 'drb'
     require 'socket'
     require 'timeout'
 
@@ -166,7 +165,7 @@ class TinderClient
     	}
     	@tinderBots.clear
     	@joined.clear
-    	exit
+    	DRb.stop_service
     end
 
     def joinChannel(channel)

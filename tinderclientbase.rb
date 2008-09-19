@@ -196,6 +196,9 @@ class TinderChannelBase
 	    				when /\+v/ # On Voice
 	    			end
 	    		end
+	    	when /^KICK/
+	    		sendChannel 'Oi! Screw you ' + nick
+	    	end
     	end
     end
 

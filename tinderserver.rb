@@ -145,8 +145,8 @@ class TinderClient
 
     def shutDown
     	@open = false
-    	@tcpSocket.close if @tcpSocket != nil
-    	@tcpSocket = nil
+#    	@tcpSocket.close if @tcpSocket != nil
+#    	@tcpSocket = nil
     	@tinderBots.each {|x|
 		begin
 			removeBot(x)
@@ -323,9 +323,6 @@ class TinderBot
 
     def channelEvent(channel, host, nick, event, msg)
     	@channels.find{|x| x.channel==channel}.channelEvent(channel, host, nick, event, msg)
-    	if event == "KICK" and nick == @tinderClient.nick
-    		@tinderClient.joinChannel channel
-    	end
     end
 
     def privateText(nick, host, msg)
@@ -357,8 +354,7 @@ class TinderBot
     end
 end
 
-@tinderClient = TinderClient.new
-DRb.start_service("druby://:7777", @tinderClient)
+DRb.start_service("druby://:7777", TinderClient.new)
 puts DRb.uri
 DRb.thread.join
 load 'tinderserver.rb'

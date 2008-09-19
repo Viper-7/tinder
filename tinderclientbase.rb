@@ -197,8 +197,10 @@ class TinderChannelBase
 	    			end
 	    		end
 	    	when /^KICK/
-	    		sleep 2
-	    		sendChannel 'Oi! Screw you ' + nick
+	    		if nick == @nick
+		    		@tinderBot.TinderClient.joinChannel channel
+		    		sendChannel 'Screw you!'
+		    	end
     	end
     end
 

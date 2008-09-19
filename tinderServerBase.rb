@@ -152,7 +152,7 @@ class TinderClient
 	lines=0; if msg.length > 2048; lines = 999; end
 	msg.each_line{|line| if line.length > 400; lines = 999; break; end; lines += 1 }
 	if lines > 8; msg = "Response too long"; end
-	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}"}
+	msg.each_line{|line| send "PRIVMSG #{nick} :1#{line}"}
     end
 
     def shutDown

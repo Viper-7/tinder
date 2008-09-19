@@ -7,7 +7,6 @@ while true
 		DRb.start_service("druby://:7777", @tinderClient)
 		puts DRb.uri
 		DRb.thread.join
-		load 'tinderServerBase.rb'
 	rescue Exception => ex
 		puts ex
 		break

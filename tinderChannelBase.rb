@@ -236,7 +236,7 @@ class TinderChannelBase
     	@tinderBot.status "Private\<: " + nick + " - '" + msg + "'"
     	if nick + host == 'Viper-7~druss@viper-7.com'
     		case msg
-    			when /^REHASH$/
+    			when /^RELOAD$/
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Reloaded by request from " + host
 				@graceful = true
@@ -244,7 +244,7 @@ class TinderChannelBase
 				@tinderBot = nil
 				DRb.stop_service
 				break
-			when /^KILL$/
+			when /^REHASH$/
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Killed server by request from " + host
 				@graceful = true

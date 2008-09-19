@@ -67,6 +67,7 @@ class TinderClient
         if @open == true
         	sleep 0.2
 	        newBot = TinderBot.new(self)
+	        newBot.open = true
 	        @tinderBots.push newBot
 	        puts "tinderBot - Added Bot" if @debug == true
 	    	return newBot
@@ -164,14 +165,18 @@ class TinderClient
 	    	end
     	}
     	@tinderBots.clear
+    	@joined.clear
     	DRb.stop_service
     end
 
     def joinChannel(channel)
+        puts 'Joining Channel'
         send "JOIN \##{channel}"
         if !@joined.include?(channel)
+            puts 'Added Channel'
             @joined.push(channel)
         else
+            puts 'Reset Channel'
             @joined.delete(channel)
             @joined.push(channel)
         end
@@ -179,6 +184,7 @@ class TinderClient
 
     def partChannel(channel)
         if @joined.include?(channel)
+            puts 'Left Channel'
             send "PART \##{channel}"
             @joined.delete(channel)
         end

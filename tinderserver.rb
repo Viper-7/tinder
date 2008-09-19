@@ -87,6 +87,7 @@ class TinderClient
 			@open = true
 			@tcpSocket.send "NICK #{@nick}\n", 0
 			@tcpSocket.send "USER #{@nick} localhost irc.freenode.net :#{@nick}\n", 0
+			@connected = true
 		end
 	end
 	Thread.start() {
@@ -101,6 +102,7 @@ class TinderClient
 			@tcpSocket.send @buffer.shift.to_s, 0
 		end
 		@open = false
+		@connected = false
 		shutDown
 	}
 	Thread.start() {
@@ -115,6 +117,7 @@ class TinderClient
 			serverEvent(msg)
 		end
 		@open = false
+		@connected = false
 		shutDown
 	}
     end
@@ -157,7 +160,6 @@ class TinderClient
 	    	end
     	}
     	@tinderBots.clear
-	@connected=false
     	DRb.stop_service
     end
 

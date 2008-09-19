@@ -367,12 +367,7 @@ class TinderBot
     end
 end
 
-begin
-	@tinderClient = TinderClient.new if !@tinderClient
-rescue
-	@tinderClient = TinderClient.new
-end
-DRb.start_service("druby://:7777", @tinderClient)
+DRb.start_service("druby://:7777", TinderClient.new)
 puts DRb.uri
 DRb.thread.join
 load 'tinderserver.rb'

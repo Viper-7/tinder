@@ -259,8 +259,6 @@ class TinderChannelBase
 				@tinderBot.close
 				@tinderBot = nil
 				DRb.stop_service
-				sleep(2)
-				exit 0
 				break
 			when /^startdump$/
 				@dumpnicks.push nick

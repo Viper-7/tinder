@@ -167,7 +167,7 @@ class TinderClient
     	}
     	@tinderBots.clear
     	@joined.clear
-    	DRb.stop_service
+    	exit
     end
 
     def joinChannel(channel)

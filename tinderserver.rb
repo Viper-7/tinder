@@ -48,12 +48,19 @@ class TinderClient
         @nick = nick
         @port = port
 
-	@connected = true
-
 	if !@tcpSocket
 		@open = true
 		serverListenLoop()
 	end
+    end
+
+    def disconnect
+        @buffer.push "QUIT :Tinder :D\n"
+        sleep 2
+        @tcpSocket.close if @tcpSocket
+        @tcpSocket = nil
+        shutDown
+        exit 0
     end
 
     def addBot
@@ -103,7 +110,6 @@ class TinderClient
 			@tcpSocket.send @buffer.shift.to_s, 0
 		end
 		@open = false
-		@connected = false
 		shutDown
 	}
 	Thread.start() {
@@ -118,7 +124,6 @@ class TinderClient
 			serverEvent(msg)
 		end
 		@open = false
-		@connected = false
 		shutDown
 	}
     end
@@ -216,7 +221,7 @@ class TinderClient
 				removeBot(x)
 				puts ex
 		    	end
-			@connected=true
+			@connected = true
 		end
             else
             	serverText msg

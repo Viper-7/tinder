@@ -18,11 +18,10 @@ class TinderChannel < TinderChannelBase
     end
 
     def startRSS(url, buffer)
-	source = url # url or local file
 	content = "" # raw content of rss feed will be loaded here
-	open(source) do |s| content = s.read end
-	rss = RSS::Parser.parse(content, false)
 	count = 0
+	open(url) do |s| content = s.read end
+	rss = RSS::Parser.parse(content, false)
 
 	rss.items.each{|x|
 		if !buffer.include?(x.title + ' - ' + x.link)
@@ -51,6 +50,7 @@ class TinderChannel < TinderChannelBase
     end
 
     def latestnzb(nzb)
+    	nzb = nzb.gsub(/ /,'.+')
     	output = ""
     	if @rss_tvnzb_buffer.length > 0
 		@rss_nzbsrus_buffer.each {|x|
@@ -64,7 +64,7 @@ class TinderChannel < TinderChannelBase
 			end
 		}
 	end
-	output = 'No Hits, try using .+ between words.' if output == ""
+	output = 'No Hits.' if output == ""
 	return output
     end
 

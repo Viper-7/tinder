@@ -198,7 +198,6 @@ class TinderChannelBase
 	    		end
 	    	when /^KICK/
 	    		sendChannel 'Oi! Screw you ' + nick
-	    	end
     	end
     end
 

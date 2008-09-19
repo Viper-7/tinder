@@ -59,7 +59,8 @@ class TinderClient
         @tcpSocket.close if @tcpSocket
         @tcpSocket = nil
         shutDown
-        exit 0
+        DRB.stop_service
+        raise Exception
     end
 
     def addBot

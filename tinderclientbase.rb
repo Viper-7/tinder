@@ -197,6 +197,7 @@ class TinderChannelBase
 	    			end
 	    		end
 	    	when /^KICK/
+	    		puts nick + ":" + event + ":" + msg
 	    		if nick == @nick
 		    		@tinderBot.TinderClient.joinChannel channel
 		    		sendChannel 'Screw you!'

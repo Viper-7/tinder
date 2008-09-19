@@ -6,10 +6,6 @@ class TinderClient
     require 'socket'
     require 'timeout'
 
-    trap("INT") {
-    	disconnect
-    }
-
     attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer
 
     def initialize
@@ -19,6 +15,20 @@ class TinderClient
         @open = false
         @debug = true
     end
+
+    def disconnect
+        @buffer.push "QUIT :Tinder :D\n"
+        sleep 2
+        @tcpSocket.close if @tcpSocket
+        @tcpSocket = nil
+        shutDown
+        DRB.stop_service
+        raise Exception
+    end
+
+    trap("INT") {
+    	disconnect
+    }
 
     def memUsage
 	response = %x[ps -eo 'cputime,%cpu,%mem,vsz,sz,command']
@@ -52,16 +62,6 @@ class TinderClient
 		@open = true
 		serverListenLoop()
 	end
-    end
-
-    def disconnect
-        @buffer.push "QUIT :Tinder :D\n"
-        sleep 2
-        @tcpSocket.close if @tcpSocket
-        @tcpSocket = nil
-        shutDown
-        DRB.stop_service
-        raise Exception
     end
 
     def addBot
@@ -172,13 +172,10 @@ class TinderClient
     end
 
     def joinChannel(channel)
-        puts 'Joining Channel'
         send "JOIN \##{channel}"
         if !@joined.include?(channel)
-            puts 'Added Channel'
             @joined.push(channel)
         else
-            puts 'Reset Channel'
             @joined.delete(channel)
             @joined.push(channel)
         end

@@ -262,12 +262,6 @@ class TinderChannelBase
 			when /^stopdump$/
 				@dumpnicks.delete nick
 				@tinderBot.status "Stopped dumping to #{nick}@#{host}"
-			when /^@(.+?) (.+)$/
-				response = runCommand($1, $2, nick, host, ["global", "private"])
-				sendPrivate response, nick
-			when /^@(.+)$/
-				response = runCommand($1, "", nick, host, ["global", "private"])
-				sendPrivate response, nick
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1
 				break
@@ -280,6 +274,12 @@ class TinderChannelBase
 			sendPrivate $1.capitalize + " " + nick + "!", nick
 		when /^\x01(.+)\x01$/
 			sendCTCP $1, nick
+		when /^@(.+?) (.+)$/
+			response = runCommand($1, $2, nick, host, ["global", "private"])
+			sendPrivate response, nick
+		when /^@(.+)$/
+			response = runCommand($1, "", nick, host, ["global", "private"])
+			sendPrivate response, nick
 	end
     end
 end

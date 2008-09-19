@@ -1,4 +1,4 @@
-require 'tinderclientbase.rb'
+require 'tinderChannelBase.rb'
 require 'net/http'
 require 'open-uri'
 

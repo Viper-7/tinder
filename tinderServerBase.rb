@@ -80,7 +80,8 @@ class TinderClient
     def removeBot(bot)
     	begin
     		@tinderBots.delete(bot) if @tinderBots.include?(bot)
-    	rescue
+    	rescue Exception => ex
+    		puts ex
     		@tinderBots.clear
     	end
     	puts "tinderBot - Removed Bot" if @debug == true

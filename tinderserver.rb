@@ -1,7 +1,5 @@
 require 'drb'
 
-STDOUT.sync = true
-
 class TinderClient
     include DRbUndumped
 
@@ -19,7 +17,7 @@ class TinderClient
         @tinderBots = Array.new
         @buffer = Array.new
         @open = false
-        @debug = true
+        @debug = false
     end
 
     def memUsage

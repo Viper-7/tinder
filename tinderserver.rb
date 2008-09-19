@@ -1,5 +1,7 @@
 require 'drb'
 
+STDOUT.sync = true
+
 class TinderClient
     include DRbUndumped
 

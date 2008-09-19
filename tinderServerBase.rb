@@ -155,8 +155,6 @@ class TinderClient
     end
 
     def shutDown
-#    	@tcpSocket.close if @tcpSocket != nil
-#    	@tcpSocket = nil
     	@tinderBots.each {|x|
 		begin
 	    		x.shutDown

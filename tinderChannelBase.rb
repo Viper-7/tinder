@@ -306,7 +306,7 @@ end
 def connect(tinderBot, tinderChannels)
 	trap("INT") {
 		tinderChannels.first.graceful = false
-		tinderBot.rehash
+		tinderBot.close
 		tinderBot = nil
 	}
 

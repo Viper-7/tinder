@@ -236,26 +236,18 @@ class TinderChannelBase
     	@tinderBot.status "Private\<: " + nick + " - '" + msg + "'"
     	if nick + host == 'Viper-7~druss@viper-7.com'
     		case msg
-    			when /^RELOADCLIENT|REHASH$/
+    			when /^REHASH$/
     				sendPrivate "Roger that, " + nick, nick
 				puts "Status  : Reloaded by request from " + host
 				@graceful = true
 				@tinderBot.rehash
 				@tinderBot = nil
-				break
-			when /^KILLCLIENTS$/
-    				sendPrivate "Roger that, " + nick, nick
-				puts "Status  : Killed client by request from " + host
-				@graceful = true
-				@tinderBot.rehash
-				@tinderBot = nil
-				exit 0
+				DRb.stop_service
 				break
 			when /^KILL$/
     				sendPrivate "Roger that, " + nick, nick
-    				sleep(0.4)
 				puts "Status  : Killed server by request from " + host
-				@graceful = false
+				@graceful = true
 				@tinderBot.close
 				@tinderBot = nil
 				DRb.stop_service

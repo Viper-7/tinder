@@ -48,7 +48,7 @@ class TinderClient
         @nick = nick
         @port = port
 
-	if !@tcpSocket
+	if @open != true
 		@open = true
 		serverListenLoop()
 	end
@@ -159,10 +159,10 @@ class TinderClient
 #    	@tcpSocket = nil
     	@tinderBots.each {|x|
 		begin
-			removeBot(x)
 	    		x.shutDown
 	    	rescue Exception => ex
 			puts ex
+			removeBot(x)
 	    	end
     	}
     	@tinderBots.clear
@@ -343,6 +343,7 @@ class TinderBot
     end
 
     def close
+    	@open = false
     	@tinderClient.shutDown
     end
 

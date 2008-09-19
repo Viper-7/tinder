@@ -359,7 +359,6 @@ class TinderBot
     end
 end
 
-@tinderclient = ""
 begin
 	@tinderClient = TinderClient.new if !@tinderClient
 rescue

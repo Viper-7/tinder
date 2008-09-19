@@ -320,6 +320,7 @@ def connect(tinderBot, tinderChannels)
 		}
 		sleep 1
 	end
+	sleep 2
 	exit 1 if tinderChannels.first.graceful == true
 	exit 0
 end

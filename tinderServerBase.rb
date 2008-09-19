@@ -7,7 +7,7 @@ class TinderClient
     require 'timeout'
 
     trap("INT") {
-    	shutDown
+    	disconnect
     }
 
     attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer
@@ -102,7 +102,7 @@ class TinderClient
 	end
 	Thread.start() {
 		trap("INT") {
-			shutDown
+			disconnect
 		}
 		loop do
 			break if !@tcpSocket
@@ -116,7 +116,7 @@ class TinderClient
 	}
 	Thread.start() {
 		trap("INT") {
-			shutDown
+			disconnect
 		}
 		loop do
 			break if !@tcpSocket

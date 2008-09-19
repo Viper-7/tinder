@@ -1,4 +1,4 @@
-load 'tinderserver.rb'
+load 'tinderServerBase.rb'
 
 @tinderClient = TinderClient.new
 
@@ -7,7 +7,7 @@ while true
 		DRb.start_service("druby://:7777", @tinderClient)
 		puts DRb.uri
 		DRb.thread.join
-		load 'tinderserver.rb'
+		load 'tinderServerBase.rb'
 	rescue Exception => ex
 		puts ex
 		break

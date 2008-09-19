@@ -17,7 +17,7 @@ class TinderClient
         @tinderBots = Array.new
         @buffer = Array.new
         @open = false
-        @debug = false
+        @debug = true
     end
 
     def memUsage
@@ -97,9 +97,7 @@ class TinderClient
 			break if !@tcpSocket
 			sleep(0.3)
 			next if @buffer.length == 0
-			if @debug == true
-				puts @buffer[0]
-			end
+			puts @buffer[0] if @debug == true
 			@tcpSocket.send @buffer.shift.to_s, 0
 		end
 		shutDown

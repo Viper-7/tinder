@@ -115,7 +115,7 @@ class TinderChannel < TinderChannelBase
 end
 
 tinderClient, tinderBot, tinderChannels = addServer("irc.gamesurge.net","6667","Tinder",["codeworkshop","v7test","ausquake","nesreca", "premiumgamer"])
-addDirectoryWatcher('/mnt/dalec/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/', tinderChannels)
-addDirectoryWatcher('/mnt/dalec/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/Spaz', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/spaz/', tinderChannels)
-addDirectoryWatcher('/mnt/dalec/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/msn drawings', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/msn%20drawings/', tinderChannels)
+addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/', tinderChannels)
+addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/Spaz', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/spaz/', tinderChannels)
+addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/msn drawings', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/msn%20drawings/', tinderChannels)
 connect tinderBot, tinderChannels

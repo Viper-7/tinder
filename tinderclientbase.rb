@@ -199,7 +199,7 @@ class TinderChannelBase
 	    	when /^KICK/
 	    		puts nick + ":" + event + ":" + msg
 	    		if nick == @nick
-		    		@tinderBot.TinderClient.joinChannel channel
+		    		@tinderBot.rejoinChannel channel
 		    		sendChannel 'Screw you!'
 		    	end
     	end

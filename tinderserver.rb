@@ -286,6 +286,10 @@ class TinderBot
     	@tinderClient.send msg
     end
 
+    def rejoinChannel(channel)
+    	@tinderClient.joinChannel channel
+    end
+
     def sendChannel(msg, channel)
     	@tinderClient.sendChannel(msg, channel)
     end

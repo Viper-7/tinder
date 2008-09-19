@@ -48,6 +48,8 @@ class TinderClient
         @nick = nick
         @port = port
 
+	@connected = true
+
 	if !@tcpSocket
 		@open = true
 		serverListenLoop()
@@ -87,7 +89,6 @@ class TinderClient
 			@open = true
 			@tcpSocket.send "NICK #{@nick}\n", 0
 			@tcpSocket.send "USER #{@nick} localhost irc.freenode.net :#{@nick}\n", 0
-			@connected = true
 		end
 	end
 	Thread.start() {

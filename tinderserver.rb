@@ -100,6 +100,7 @@ class TinderClient
 			puts @buffer[0] if @debug == true
 			@tcpSocket.send @buffer.shift.to_s, 0
 		end
+		@open = false
 		shutDown
 	}
 	Thread.start() {
@@ -113,6 +114,7 @@ class TinderClient
 			next if msg == nil
 			serverEvent(msg)
 		end
+		@open = false
 		shutDown
 	}
     end
@@ -144,7 +146,6 @@ class TinderClient
     end
 
     def shutDown
-    	@open = false
 #    	@tcpSocket.close if @tcpSocket != nil
 #    	@tcpSocket = nil
     	@tinderBots.each {|x|

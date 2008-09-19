@@ -366,13 +366,3 @@ class TinderBot
 	@channels.first.statusMsg msg.to_s
     end
 end
-
-begin
-	@tinderClient = TinderClient.new if !@tinderClient
-rescue
-	@tinderClient = TinderClient.new
-end
-DRb.start_service("druby://:7777", @tinderClient)
-puts DRb.uri
-DRb.thread.join
-load 'tinderserver.rb'

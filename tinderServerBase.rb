@@ -1,7 +1,8 @@
 class TinderClient
+    require 'drb'
+
     include DRbUndumped
 
-    require 'drb'
     require 'socket'
     require 'timeout'
 

@@ -287,7 +287,7 @@ class TinderBot
     end
 
     def rejoinChannel(channel)
-    	@tinderClient.joinChannel channel
+    	@tinderClient.joinChannel channel.to_s
     end
 
     def sendChannel(msg, channel)

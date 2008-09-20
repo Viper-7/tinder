@@ -180,7 +180,7 @@ class TinderChannelBase
 			response = response + usage
 		when /^help$/
 			response = help(commandtypes)
-		when /^random$/
+		when /^dropbox$/
 			aOut = Array.new
 			@dirWatchers.each do |x|
 				resp = x.random

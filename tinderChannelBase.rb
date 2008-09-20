@@ -162,10 +162,10 @@ class TinderChannelBase
 
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 						begin
-							timeout(10) {
+							timeout(10) do
 		    						response = %x[#{cmdline}]
 			    					response = "No Output." if response.length == 0
-	    						}
+	    						end
 	    					rescue Exception => ex
 	    						response = "Command timed out"
 		    				end
@@ -180,6 +180,15 @@ class TinderChannelBase
 			response = response + usage
 		when /^help$/
 			response = help(commandtypes)
+		when /^random$/
+			aOut = Array.new
+			@dirWatchers.each do |x|
+				resp = x.random
+				aOut.push resp if resp != ""
+			end
+			if aOut.length > 0
+				response = aOut.sort_by{rand}.first.to_s
+			end
 	end
 	return response
     end
@@ -343,7 +352,17 @@ class DirWatcher
 	end
 
 	def search(args)
+		@watcher.known_files.each {|x|
+			if x.match /#{args}/
+				return x
+				break
+			end
+		}
+	end
 
+	def random
+		return @watcher.known_files.sort_by{rand}.first.to_s
+	end
 end
 
 def startDirWatcher(dirWatch)

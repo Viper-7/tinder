@@ -7,7 +7,6 @@ require 'rss/2.0'
 require 'open-uri'
 
 STDOUT.sync = true
-@dirWatchers = Array.new
 tinderChannels = Array.new
 
 DRb.start_service
@@ -15,9 +14,10 @@ DRb.start_service
 class TinderChannelBase
     include DRbUndumped
 
-    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks
+    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :dirWatchers
 
     def initialize(channel, tinderBot)
+	@dirWatchers = Array.new
         @channel = channel
         @graceful = false
         @tinderBot = tinderBot
@@ -33,7 +33,6 @@ class TinderChannelBase
 
     def memUsage
 	response = %x[ps -eo 'cputime,%cpu,%mem,vsz,sz,command']
-	response = @dirWatchers.last.path.to_s
 	output = ""
 	response.each_line {|x|
 		z = ""
@@ -304,14 +303,14 @@ def addServer(server,port,nick,channels)
 	return tinderClient1, tinderBot1, tinderChannels
 end
 
-def connect(tinderBot, tinderChannels)
+def connect(tinderClient, tinderBot, tinderChannels)
 	trap("INT") {
 		tinderChannels.first.graceful = false
 		tinderBot.close
 		tinderBot = nil
 	}
 
-	@dirWatchers.each {|x| startDirWatcher(x)}
+	tinderClient.dirWatchers.each {|x| startDirWatcher(x)}
 
 	puts "Status  : Running..."
 	while tinderBot
@@ -326,19 +325,20 @@ def connect(tinderBot, tinderChannels)
 	exit 0
 end
 
-def addDirectoryWatcher(path, name, channel, url, channels)
-	@dirWatchers.push DirWatcher.new(path, name, channel, url, channels)
+def addDirectoryWatcher(path, name, channel, url, channels, client)
+	client.dirWatchers.push DirWatcher.new(path, name, channel, url, channels, client)
 end
 
 class DirWatcher
-	attr_accessor :watcher, :path, :name, :channel, :url, :channels
-	def initialize(path, name, channel, url, channels)
+	attr_accessor :watcher, :path, :name, :channel, :url, :channels, :client
+	def initialize(path, name, channel, url, channels, client)
 		@path = path
 		@name = name
 		@channel = channel
 		@channels = channels
 		@url = url
 		@watcher = Dir::DirectoryWatcher.new( path, 15 )
+		@client = client
 	end
 end
 

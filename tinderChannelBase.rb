@@ -310,7 +310,7 @@ def connect(tinderClient, tinderBot, tinderChannels)
 		tinderBot = nil
 	}
 
-	tinderClient.dirWatchers.each {|x| startDirWatcher(x)}
+	tinderChannels.each{|y| y.dirWatchers.each {|x| startDirWatcher(x)}}
 
 	puts "Status  : Running..."
 	while tinderBot
@@ -325,21 +325,25 @@ def connect(tinderClient, tinderBot, tinderChannels)
 	exit 0
 end
 
-def addDirectoryWatcher(path, name, channel, url, channels, client)
-	client.dirWatchers.push DirWatcher.new(path, name, channel, url, channels, client)
+def addDirectoryWatcher(path, name, channel, url, channels)
+	y = nil
+	channels.each {|x| y = x if x.channel.to_s == channel.to_s}
+	y.dirWatchers.push DirWatcher.new(path, name, channel, url, channels) if y != nil
 end
 
 class DirWatcher
-	attr_accessor :watcher, :path, :name, :channel, :url, :channels, :client
-	def initialize(path, name, channel, url, channels, client)
+	attr_accessor :watcher, :path, :name, :channel, :url, :channels
+	def initialize(path, name, channel, url, channels)
 		@path = path
 		@name = name
 		@channel = channel
 		@channels = channels
 		@url = url
-		@watcher = Dir::DirectoryWatcher.new( path, 15 )
-		@client = client
+		@watcher = Dir::DirectoryWatcher.new( url, path, 15 )
 	end
+
+	def search(args)
+
 end
 
 def startDirWatcher(dirWatch)
@@ -373,6 +377,8 @@ class Dir
 	      @directory = dir.is_a?(Dir) ? dir : Dir.new( dir )
 	   end
 
+	   attr_accessor :url
+
 	   # Proc to call when files are added to the watched directory.
 	   attr_accessor :on_add
 
@@ -403,16 +409,19 @@ class Dir
 	   # will be passed to the +on_add+/+on_modify+/+on_remove+ callbacks.
 	   # Defaults to <tt>/^[^.].*$/</tt> (files which do not begin with a period).
 	   attr_accessor :name_regexp
+	   attr_accessor :known_files
 
 	   # Creates a new directory watcher.
 	   #
 	   # _dir_::    The path (relative to the current working directory) of the
 	   #            directory to watch, or a Dir instance.
 	   # _delay_::  The +autoscan_delay+ value to use; defaults to 10 seconds.
-	   def initialize( dir, delay = 10 )
+	   def initialize( url, dir, delay = 10 )
 	      self.directory = dir
+	      @url = url
 	      @autoscan_delay = delay
 	      @known_file_stats = {}
+	      @known_files = Array.new
 	      @onmodify_checks = [ :date ]
 	      @onmodify_requiresall = false
 	      @onadd_for_existing = true
@@ -478,6 +487,9 @@ class Dir
 	         checks.each_pair{ |check_name,check|
 	            new_stats[check_name] = check[:proc].call( the_file, file_stats )
 	         }
+
+		 furl = url.to_s + fname.to_s
+		 @known_files.push furl if !@known_files.include? furl
 
 	         if saved_stats
 	            if @on_modify.respond_to?( :call )

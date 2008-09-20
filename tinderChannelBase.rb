@@ -33,6 +33,7 @@ class TinderChannelBase
 
     def memUsage
 	response = %x[ps -eo 'cputime,%cpu,%mem,vsz,sz,command']
+	response = @dirWatchers.last.path.to_s
 	output = ""
 	response.each_line {|x|
 		z = ""

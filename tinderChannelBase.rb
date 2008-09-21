@@ -157,9 +157,7 @@ class TinderChannelBase
 	    					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
 
 	    					if args.length > 0
-	    						args = args.gsub(/\"/,'\"')
-	    						args = args.split(/ /).join('" "')
-	    						args = '"' + args + '"'
+	    						args = '"' + %w{#{args}} * '" "' + '"'
 	    						cmdline = "#{lang} #{filename}.#{ext} #{args}"
 	    					else
 	    						cmdline = "#{lang} #{filename}.#{ext}"
@@ -340,7 +338,9 @@ end
 def addDirectoryWatcher(path, name, channel, url, channels)
 	y = nil
 	channels.each {|x| y = x if x.channel.to_s == channel.to_s}
+
 	dirWatcher = TinderDir.new(path, name, channel, url, channels) if y != nil
+
 	dirWatcher.watcher.on_add = Proc.new{ |the_file, stats_hash|
 		channels.each{|x|
 			if x.channel.to_s == channel and x.uptime > 5
@@ -408,7 +408,7 @@ class TinderRSS
 		rss = RSS::Parser.parse(content, false)
 		count = 0
 		rss.items.each{|x| @buffer.push(x.title + ' - ' + x.link); count = 0}
-		puts 'Added #{count} entries to RSS Log'
+		puts "Added #{count} entries to RSS Log"
 	end
 
 	def tinyURL(url)

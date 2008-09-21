@@ -182,7 +182,8 @@ class TinderChannelBase
 		when /^php$/
 			begin
 				timeout(10) do
-					args = "<?php\n" + args + "\n?>"
+					args = "<?php\n" + args.to_s + "\n?>"
+					puts args
 					File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
 					IO.popen("php /tmp/tinderScript") do |out|

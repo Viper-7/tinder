@@ -1,6 +1,6 @@
-echo 'I met a butterfly the other day.'
-echo 'I was just hanging out in the backyard, about to mow the lawn, when a monarch butterfly flew over and landed on my finger.'
-echo 'I asked him what he wanted.'
-echo 'And he said:'
-echo '"Bring back 80\'s speed metal."'
-echo 'I truely feel like I was visited by an angel that day.'
+echo "I met a butterfly the other day."
+echo "I was just hanging out in the backyard, about to mow the lawn, when a monarch butterfly flew over and landed on my finger."
+echo "I asked him what he wanted."
+echo "And he said:"
+echo "\"Bring back 80's speed metal.\""
+echo "I truely feel like I was visited by an angel that day."

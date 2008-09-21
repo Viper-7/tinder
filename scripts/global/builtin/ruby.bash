@@ -7,7 +7,7 @@ if [ "$cmparg" == "" ]; then
 	echo "Usage: @ruby puts 'hi' -::- Run a single line of Ruby code"
 
 else
-	response=$(echo "$*" | ruby 2>&1)
+	response=$(echo \""$args"\" | ruby 2>&1)
 	echo "$response"
 fi;
 

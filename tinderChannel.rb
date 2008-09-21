@@ -30,5 +30,5 @@ addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My D
 addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/msn drawings', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/msn%20drawings/', tinderChannels)
 addRSSWatcher("http://www.tvnzb.com/tvnzb_new.rss", 'nesreca', tinderChannels, 'nzb', true)
 addRSSWatcher("http://www.nzbsrus.com/rssfeed.php", 'nesreca', tinderChannels, 'nzb', false)
-addAdminHost('Viper-7!~druss@viper-7.com', tinderChannels)
+addAdminHost('Viper-7!druss@viper-7.com', tinderChannels)
 connect tinderClient, tinderBot, tinderChannels

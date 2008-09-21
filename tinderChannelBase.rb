@@ -407,7 +407,7 @@ class TinderRSS
 		content = open(@url).read
 		rss = RSS::Parser.parse(content, false)
 		count = 0
-		rss.items.each{|x| @buffer.push(x.title + ' - ' + x.link); count++}
+		rss.items.each{|x| @buffer.push(x.title + ' - ' + x.link); count += 1}
 		puts "Added #{count} entries to RSS Log"
 	end
 

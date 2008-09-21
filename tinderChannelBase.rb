@@ -179,6 +179,32 @@ class TinderChannelBase
 	    	end
 	}
 	case command.chomp
+		when /^php$/
+			begin
+				timeout(10) do
+					File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+
+					IO.popen("php /tmp/tinderScript") do |out|
+						response += out.read.to_s
+					end
+    					response = "No Output." if response == ""
+				end
+			rescue Exception => ex
+				response = "Command timed out - " + ex.to_s
+			end
+		when /^ruby$/
+			begin
+				timeout(10) do
+					File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+
+					IO.popen("ruby /tmp/tinderScript") do |out|
+						response += out.read.to_s
+					end
+    					response = "No Output." if response == ""
+				end
+			rescue Exception => ex
+				response = "Command timed out - " + ex.to_s
+			end
 		when /^mem$/
 			usage = memUsage
 			response = response + usage

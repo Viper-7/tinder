@@ -130,7 +130,6 @@ class TinderChannelBase
     	else
     		@tinderBot.status "Status  : Running command '" + command
 	end
-	hit = false
     	commandtypes.each{|z|
     		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
 	    	for folder in folders
@@ -228,23 +227,26 @@ class TinderChannelBase
 	end
 
 	aOut = Array.new
+	hit = false
 	@dirWatchers.each do |x|
 		if x.name.match(/#{command.chomp}/i)
 			resp = x.random
-			aOut.push resp if resp.length > 1
+			if resp.length > 1
+				aOut.push resp
+				hit = true
+			end
 		end
 	end
-	if aOut.length > 0
+	if hit == true
 		response = aOut.sort_by{rand}.first.to_s
 	end
 
 	@rssWatchers.each do |x|
-		if x.type == command.chomp
+		if x.type.match(/#{command.chomp}/i)
 			resp = x.search args
 			response = resp if resp.length > 1
 		end
 	end
-	puts '"' + response + '"'
 	return response
     end
 
@@ -442,9 +444,7 @@ class TinderDir
 	end
 
 	def random
-		arr = @watcher.known_files
-		response = arr.sort_by{rand}.first.to_s
-		return response
+		return @watcher.known_files.sort_by{rand}.first.to_s
 	end
 end
 

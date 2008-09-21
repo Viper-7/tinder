@@ -228,7 +228,6 @@ class TinderChannelBase
 	end
 
 	begin
-		# dirWatcher Random
 		aOut = Array.new
 		@dirWatchers.each do |x|
 			if x.name == command.chomp
@@ -240,7 +239,6 @@ class TinderChannelBase
 			response = aOut.sort_by{rand}.first.to_s
 		end
 
-		# rssWatcher Search
 		@rssWatchers.each do |x|
 			if x.type == command.chomp
 				resp = x.search args
@@ -448,13 +446,8 @@ class TinderDir
 	end
 
 	def random
-		response = ""
-		begin
-			response = @watcher.known_files.sort_by{rand}.first.to_s
-		rescue Exception => ex
-			response = ex
-		end
-
+		arr = @watcher.known_files
+		response = arr.sort_by{rand}.first.to_s
 		return response
 	end
 end

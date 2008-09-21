@@ -176,6 +176,7 @@ class TinderChannelBase
 	    		end
 	    	end
 	}
+	puts response
 	response = "Command not found" if response == ""
 	case command.chomp
 		when /^php$/
@@ -247,6 +248,7 @@ class TinderChannelBase
 			response = resp if resp.length > 1
 		end
 	end
+
 	return response
     end
 

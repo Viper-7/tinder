@@ -462,7 +462,7 @@ class TinderRSS
 		rss = RSS::Parser.parse(content, false)
 		count = 0
 		rss.items.each{|x| @buffer.push(x.title + ' - ' + x.link); count += 1}
-		puts "Added #{count} entries to RSS Watcher"
+		puts "Added #{count} entries to RSS Watcher - #{@url}"
 	end
 
 	def tinyURL(url)
@@ -619,7 +619,7 @@ class DirectoryWatcher
          end
          the_file.close
       }
-      puts "Added #{count} entries to Dir Watcher" if @scanned_once != true
+      puts "Added #{count} entries to Dir Watcher - #{@url}" if @scanned_once != true
 
       # Check for removed files
       if @on_remove.respond_to?( :call )

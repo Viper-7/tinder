@@ -207,6 +207,19 @@ class TinderChannelBase
 			rescue Exception => ex
 				response = "Command timed out - " + ex.to_s
 			end
+		when /^tcl$/
+			begin
+				timeout(10) do
+					File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+
+					IO.popen("tclsh /tmp/tinderScript") do |out|
+						response += out.read.to_s
+					end
+    					response = "No Output." if response == ""
+				end
+			rescue Exception => ex
+				response = "Command timed out - " + ex.to_s
+			end
 		when /^mem$/
 			usage = memUsage
 			response = response + usage

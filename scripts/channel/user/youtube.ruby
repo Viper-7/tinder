@@ -2,7 +2,7 @@ require 'open-uri'
 
 data = read("http://www.youtube.com/results?search_query=" + $*.join("+"))
 puts data
-data.scan(/<div class="vldescbox".*?>(.*?)<div class="vlclearaltl">/) { |a|
+data.read.join('\n').scan(/<div class="vldescbox".*?>(.*?)<div class="vlclearaltl">/) { |a|
 	puts a
 	a[0].scan(/<h3 class=r>(.*?)<cite>/) { |b|
 		b=b.to_s

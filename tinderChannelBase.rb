@@ -166,7 +166,7 @@ class TinderChannelBase
 						begin
 							timeout(10) do
 								IO.popen cmdline do |out|
-									response += out
+									response += out.to_s
 								end
 			    					response = "No Output." if response == ""
 	    						end

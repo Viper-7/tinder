@@ -225,16 +225,28 @@ class TinderChannelBase
 			response = response + usage
 		when /^help$/
 			response = help(commandtypes)
-		when /^dropbox$/
-			aOut = Array.new
-			@dirWatchers.each do |x|
-				resp = x.random
-				aOut.push resp if resp != ""
-			end
-			if aOut.length > 0
-				response = aOut.sort_by{rand}.first.to_s
-			end
 	end
+
+	# dirWatcher Random
+	aOut = Array.new
+	@dirWatchers.each do |x|
+		if x.name == command.chomp
+			resp = x.random
+			aOut.push resp if resp != ""
+		end
+	end
+	if aOut.length > 0
+		response = aOut.sort_by{rand}.first.to_s
+	end
+
+	# rssWatcher Search
+	@rssWatchers.each do |x|
+		if x.type == command.chomp
+			resp = x.search args
+			response = resp if resp != ""
+		end
+	end
+
 	return response
     end
 
@@ -450,7 +462,7 @@ class TinderRSS
 		rss = RSS::Parser.parse(content, false)
 		count = 0
 		rss.items.each{|x| @buffer.push(x.title + ' - ' + x.link); count += 1}
-		puts "Added #{count} entries to RSS Log"
+		puts "Added #{count} entries to RSS Watcher"
 	end
 
 	def tinyURL(url)
@@ -473,7 +485,6 @@ class TinderRSS
 	    	args = args.gsub(/ /,'.+')
 	    	output = ""
 		@buffer.each {|x| output = x if x.match(/#{args}/i) }
-		output = 'No Hits.' if output == ""
 		return output
 	end
 
@@ -570,6 +581,7 @@ class DirectoryWatcher
 
       #Check for add/modify
       @directory.rewind
+      count = 0
       @directory.each{ |fname|
          file_path = "#{@directory.path}/#{fname}"
          next if (@name_regexp.respond_to?( :match ) && !@name_regexp.match( fname )) || !File.file?( file_path )
@@ -603,8 +615,9 @@ class DirectoryWatcher
          elsif @on_add.respond_to?( :call ) && (@scanned_once || @onadd_for_existing)
             @known_file_stats[file_path] = new_stats
             @on_add.call( the_file, new_stats )
+            count += 1
          end
-
+	 puts 'Added #{count} entries to Dir Watcher'
          the_file.close
       }
 

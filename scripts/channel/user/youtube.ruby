@@ -9,7 +9,7 @@ data.scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/im) { |b|
 	puts b
 	b=b.to_s
 	b =~ /<a href="(.+?)"  title="(.+?)">/im
-	name, link = $1, $2
+	name, link = $2, $1
 	
 	puts "" + name + " - http://www.youtube.com" + link
 }

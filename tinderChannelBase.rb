@@ -227,28 +227,24 @@ class TinderChannelBase
 			response = help(commandtypes)
 	end
 
-	begin
-		aOut = Array.new
-		@dirWatchers.each do |x|
-			if x.name == command.chomp
-				resp = x.random
-				aOut.push resp if resp.length > 1
-			end
+	aOut = Array.new
+	@dirWatchers.each do |x|
+		if x.name.match(/#{command.chomp}/i)
+			resp = x.random
+			aOut.push resp if resp.length > 1
 		end
-		if aOut.length > 0
-			response = aOut.sort_by{rand}.first.to_s
-		end
-
-		@rssWatchers.each do |x|
-			if x.type == command.chomp
-				resp = x.search args
-				response = resp if resp.length > 1
-			end
-		end
-	rescue Exception => ex
-		response = "Viper-7 fucked up because: " + ex.to_s
+	end
+	if aOut.length > 0
+		response = aOut.sort_by{rand}.first.to_s
 	end
 
+	@rssWatchers.each do |x|
+		if x.type == command.chomp
+			resp = x.search args
+			response = resp if resp.length > 1
+		end
+	end
+	puts '"' + response + '"'
 	return response
     end
 

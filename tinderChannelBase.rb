@@ -410,7 +410,7 @@ def connect(tinderClient, tinderBot, tinderChannels)
 end
 
 def addAdminHost(host, channels)
-	channels.each {|x| x.adminHosts.push host if host.match /.+\!.+@.+?\..+/ |
+	channels.each {|x| x.adminHosts.push host if host.match /.+\!.+@.+?\..+/ }
 end
 
 def addDirectoryWatcher(path, name, channel, url, channels)

@@ -125,6 +125,7 @@ class TinderChannelBase
     end
 
     def runCommand(command, args, nick, host, commandtypes)
+    	response = ""
     	if args.length > 0
     		@tinderBot.status "Status  : Running command '" + command + " " + args + "'"
     	else
@@ -176,7 +177,6 @@ class TinderChannelBase
 	    		end
 	    	end
 	}
-	puts response
 	response = "Command not found" if response == ""
 	case command.chomp
 		when /^php$/

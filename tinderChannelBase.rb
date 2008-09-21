@@ -129,13 +129,13 @@ class TinderChannelBase
 		    	@dirWatchers.each do |x|
 		    		dirNames.push x.name if !dirNames.include? x.name
 		    	end
-			dirNames.each{|x| response += '@' + x + ' '}
+			dirNames.each{|x| response += '@' + x.downcase + ' '}
 
 		    	rssTypes = Array.new
 		    	@rssWatchers.each do |x|
 		    		rssTypes.push x.type if !rssTypes.include? x.type
 		    	end
-			rssTypes.each{|x| response += '@' + x + ' '}
+			rssTypes.each{|x| response += '@' + x.downcase + ' '}
 		end
 
 	    	lines += response + "\n"

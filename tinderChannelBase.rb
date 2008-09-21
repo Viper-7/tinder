@@ -245,7 +245,7 @@ class TinderChannelBase
 	@rssWatchers.each do |x|
 		if x.type.match(/#{command.chomp}/i)
 			resp = x.search args
-			response = resp if resp.length > 1
+			response = resp if resp != ""
 		end
 	end
 

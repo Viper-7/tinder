@@ -19,6 +19,7 @@ class TinderChannelBase
     def initialize(channel, tinderBot)
 	@dirWatchers = Array.new
 	@rssWatchers = Array.new
+	@adminHosts = Array.new
         @channel = channel
         @graceful = false
         @tinderBot = tinderBot

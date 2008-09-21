@@ -617,9 +617,9 @@ class DirectoryWatcher
             @on_add.call( the_file, new_stats )
             count += 1
          end
-	 puts 'Added #{count} entries to Dir Watcher'
          the_file.close
       }
+      puts "Added #{count} entries to Dir Watcher" if @scanned_once != true
 
       # Check for removed files
       if @on_remove.respond_to?( :call )

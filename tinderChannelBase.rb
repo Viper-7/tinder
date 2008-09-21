@@ -157,7 +157,7 @@ class TinderChannelBase
 	    					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
 
 	    					if args.length > 0
-	    						cmdline = "#{lang} #{filename}.#{ext} \"#{args}\""
+	    						cmdline = "#{lang} #{filename}.#{ext} #{args}"
 	    					else
 	    						cmdline = "#{lang} #{filename}.#{ext}"
 	    					end
@@ -165,7 +165,9 @@ class TinderChannelBase
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 						begin
 							timeout(10) do
-		    						response = %x[#{cmdline}]
+								IO.popen "#{cmdline}" do |out|
+									response =+ out
+								end
 			    					response = "No Output." if response == ""
 	    						end
 	    					rescue Exception => ex

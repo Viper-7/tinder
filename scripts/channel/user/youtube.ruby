@@ -6,7 +6,6 @@ data = data.scan(/<div class="vldescbox".*?>(.*?)<div class="vlclearaltl">/im).s
 
 puts data
 data.scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/im) { |b|
-	puts b
 	b=b.to_s
 	b =~ /<a href="(.+?)"  title="(.+?)">/im
 	name, link = $2, $1

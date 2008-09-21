@@ -194,45 +194,60 @@ class TinderChannelBase
 	}
 	case command.chomp
 		when /^php$/
-			begin
-				timeout(10) do
-					args = "<?php\n" + args + "\n?>"
-					puts args
-					File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+			if args == ""
+				response = 'Usage: @php <code to run>' + "\n"
+				response += 'Eg: @php echo "hi";'
+			else
+				begin
+					timeout(10) do
+						args = "<?php\n" + args + "\n?>"
 
-					IO.popen('php /tmp/tinderScript 2>&1') do |out|
-						response += out.read.to_s
+						File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+
+						IO.popen('php /tmp/tinderScript 2>&1') do |out|
+							response += out.read.to_s
+						end
+	    					response = "No Output." if response == ""
 					end
-    					response = "No Output." if response == ""
+				rescue Exception => ex
+					response = "Command timed out - " + ex.to_s
 				end
-			rescue Exception => ex
-				response = "Command timed out - " + ex.to_s
 			end
 		when /^ruby$/
-			begin
-				timeout(10) do
-					File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+			if args == ""
+				response = 'Usage: @ruby <code to run>' + "\n"
+				response += 'Eg: @ruby puts "hi"'
+			else
+				begin
+					timeout(10) do
+						File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-					IO.popen('ruby /tmp/tinderScript 2>&1') do |out|
-						response += out.read.to_s
+						IO.popen('ruby /tmp/tinderScript 2>&1') do |out|
+							response += out.read.to_s
+						end
+	    					response = "No Output." if response == ""
 					end
-    					response = "No Output." if response == ""
+				rescue Exception => ex
+					response = "Command timed out - " + ex.to_s
 				end
-			rescue Exception => ex
-				response = "Command timed out - " + ex.to_s
 			end
 		when /^tcl$/
-			begin
-				timeout(10) do
-					File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+			if args == ""
+				response = 'Usage: @tcl <code to run>' + "\n"
+				response += 'Eg: @tcl puts hi'
+			else
+				begin
+					timeout(10) do
+						File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-					IO.popen('tclsh /tmp/tinderScript 2>&1') do |out|
-						response += out.read.to_s
+						IO.popen('tclsh /tmp/tinderScript 2>&1') do |out|
+							response += out.read.to_s
+						end
+	    					response = "No Output." if response == ""
 					end
-    					response = "No Output." if response == ""
+				rescue Exception => ex
+					response = "Command timed out - " + ex.to_s
 				end
-			rescue Exception => ex
-				response = "Command timed out - " + ex.to_s
 			end
 		when /^mem$/
 			usage = memUsage

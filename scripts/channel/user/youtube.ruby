@@ -2,9 +2,7 @@ require 'open-uri'
 
 data = open("http://www.youtube.com/results?search_query=" + $*.join("+"))
 data = data.readlines.map {|l| l.rstrip}
-puts data
-exit
-scan(/<div class="vldescbox".*?>(.*?)<div class="vlclearaltl">/) { |a|
+data.scan(/<div class="vldescbox".*?>(.*?)<div class="vlclearaltl">/im) { |a|
 	puts a
 	a[0].scan(/<h3 class=r>(.*?)<cite>/) { |b|
 		b=b.to_s

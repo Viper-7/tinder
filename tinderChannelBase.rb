@@ -232,7 +232,7 @@ class TinderChannelBase
 		@dirWatchers.each do |x|
 			if x.name == command.chomp
 				resp = x.random
-				aOut.push resp if resp != ""
+				aOut.push resp if resp.length > 1
 			end
 		end
 		if aOut.length > 0
@@ -242,7 +242,7 @@ class TinderChannelBase
 		@rssWatchers.each do |x|
 			if x.type == command.chomp
 				resp = x.search args
-				response = resp if resp != ""
+				response = resp if resp.length > 1
 			end
 		end
 	rescue Exception => ex

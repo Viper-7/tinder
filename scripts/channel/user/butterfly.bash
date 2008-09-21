@@ -9,7 +9,6 @@ if [ $lastbutterfly -eq $curtime ]; then
 else
         echo "$curtime" > /tmp/lastbutterfly
 fi
-
 echo "I met a butterfly the other day."
 echo "I was just hanging out in the backyard, about to mow the lawn, when a monarch butterfly flew over and landed on my finger."
 echo "I asked him what he wanted."

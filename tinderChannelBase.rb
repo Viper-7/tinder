@@ -448,7 +448,8 @@ class TinderDir
 	end
 
 	def random
-		return @watcher.known_files.sort_by{rand}.first.to_s
+		response = @watcher.known_files.sort_by{rand}.first.to_s
+		return response
 	end
 end
 

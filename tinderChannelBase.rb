@@ -167,7 +167,7 @@ class TinderChannelBase
 						begin
 							timeout(10) do
 		    						response = %x[#{cmdline}]
-			    					response = "No Output." if response.length == 0
+			    					response = "No Output." if response == ""
 	    						end
 	    					rescue Exception => ex
 	    						response = "Command timed out"

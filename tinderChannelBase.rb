@@ -14,7 +14,7 @@ DRb.start_service
 class TinderChannelBase
     include DRbUndumped
 
-    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :dirWatchers
+    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :dirWatchers, :rssWatchers
 
     def initialize(channel, tinderBot)
 	@dirWatchers = Array.new
@@ -28,7 +28,11 @@ class TinderChannelBase
 
     def poll
     	@uptime += 1
-    	@uptime = 5 if @uptime > 600
+    	@uptime = 5 if @uptime > 604
+    	if @uptime > 5
+    		@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
+    		@rssWatchers.each{|x| x.poll} if @uptime % 60 == 0
+    	end
     end
 
     def memUsage
@@ -337,10 +341,32 @@ end
 def addDirectoryWatcher(path, name, channel, url, channels)
 	y = nil
 	channels.each {|x| y = x if x.channel.to_s == channel.to_s}
-	y.dirWatchers.push DirWatcher.new(path, name, channel, url, channels) if y != nil
+	dirWatcher = TinderDir.new(path, name, channel, url, channels) if y != nil
+	dirWatcher.watcher.on_add = Proc.new{ |the_file, stats_hash|
+		channels.each{|x|
+			if x.channel.to_s == channel and x.uptime > 5
+				y = the_file.path.to_s.split(/\//).last.gsub(/ /,'%20')
+				x.sendChannel url + "#{y} Added to #{name}!"
+			end
+		}
+	}
+
+	dirWatcher.watcher.on_modify = Proc.new{ |the_file, stats_hash|
+	}
+
+	dirWatcher.watcher.on_remove = Proc.new{ |stats_hash|
+	}
+	dirWatcher.poll
+	y.dirWatchers.push dirWatcher
 end
 
-class DirWatcher
+def addRSSWatcher(url, channel, tinderChannels, type = 'link', announce = false)
+	y = nil
+	tinderChannels.each {|x| y = x if x.channel.to_s == channel.to_s}
+	y.rssWatchers.push TinderRSS.new(url, channel, type, announce)
+end
+
+class TinderDir
 	attr_accessor :watcher, :path, :name, :channel, :url, :channels
 	def initialize(path, name, channel, url, channels)
 		@path = path
@@ -360,29 +386,57 @@ class DirWatcher
 		}
 	end
 
+	def poll
+		@watcher.scan_now
+	end
+
 	def random
 		return @watcher.known_files.sort_by{rand}.first.to_s
 	end
 end
 
-def startDirWatcher(dirWatch)
-	dropboxWatcher = dirWatch.watcher
-	dropboxWatcher.on_add = Proc.new{ |the_file, stats_hash|
-		dirWatch.channels.each{|x|
-			if x.channel.to_s == dirWatch.channel and x.uptime > 5
-				y = the_file.path.to_s.split(/\//).last.gsub(/ /,'%20')
-				x.sendChannel dirWatch.url + "#{y} Added to #{dirWatch.name}!"
+class TinderRSS
+	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type
+
+	def initialize(url, channel, type = 'link', announce = false)
+		@channel = channel
+		@url = url
+		@announce = announce
+		@type = type
+		@buffer = Array.new
+
+		content = open(@url).read
+		rss = RSS::Parser.parse(content, false)
+		rss.items.each{|x| @buffer.push(x.title + ' - ' + x.link) }
+	end
+
+	def tinyURL(url)
+		return open('http://tinyurl.viper-7.com/?url=' + url).read
+	end
+
+	def poll
+		content = open(@url).read
+		rss = RSS::Parser.parse(content, false)
+
+		rss.items.each{|x|
+			if !@buffer.include?(x.title + ' - ' + x.link)
+				@buffer.push(x.title + ' - ' + x.link)
+				@channel.sendChannel "New #{@type}: #{x.title} - #{tinyURL(x.link)}" if @announce
 			end
 		}
-	}
+	end
 
-	dropboxWatcher.on_modify = Proc.new{ |the_file, stats_hash|
-	}
+	def search(args)
+	    	args = args.gsub(/ /,'.+')
+	    	output = ""
+		@buffer.each {|x| output = x if x.match(/#{args}/i) }
+		output = 'No Hits.' if output == ""
+		return output
+	end
 
-	dropboxWatcher.on_remove = Proc.new{ |stats_hash|
-	}
-
-	dropboxWatcher.start_watching
+	def latest
+		return @buffer.last
+	end
 end
 
 class Dir
@@ -446,27 +500,6 @@ class Dir
 	      @onadd_for_existing = true
 	      @scanned_once = false
 	      @name_regexp = /^[^.].*[^db]$/
-	   end
-
-	   # Starts the automatic scanning of the directory for changes,
-	   # repeatedly calling #scan_now and then waiting +autoscan_delay+
-	   # seconds before calling it again.
-	   #
-	   # Automatic scanning is *not* turned on when you create a new
-	   # DirectoryWatcher; you must invoke this method (after setting
-	   # the +on_add+/+on_modify+/+on_remove+ callbacks).
-	   def start_watching
-	      @thread = Thread.new{
-	         while true
-	            self.scan_now
-	            sleep @autoscan_delay
-	         end
-	      }
-	   end
-
-	   # Stops the automatic scanning of the directory for changes.
-	   def stop_watching
-	      @thread.kill
 	   end
 
 	   # Scans the directory for additions/modifications/removals,

@@ -13,10 +13,6 @@ class TinderChannel < TinderChannelBase
     	super(channel, tinderBot)
     end
 
-    def tinyURL(url)
-    	return open('http://tinyurl.viper-7.com/?url=' + url).read
-    end
-
     def startRSS(url, buffer)
 	content = "" # raw content of rss feed will be loaded here
 	count = 0
@@ -114,8 +110,11 @@ class TinderChannel < TinderChannelBase
     end
 end
 
+
 tinderClient, tinderBot, tinderChannels = addServer("irc.gamesurge.net","6667","Tinder",["codeworkshop","v7test","ausquake","nesreca", "premiumgamer"])
 addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/', tinderChannels)
 addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/Spaz', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/spaz/', tinderChannels)
 addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/msn drawings', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/msn%20drawings/', tinderChannels)
+addRSSWatcher("http://www.tvnzb.com/tvnzb_new.rss", 'nesreca', tinderChannels, 'nzb', true)
+addRSSWatcher("http://www.nzbsrus.com/rssfeed.php", 'nesreca', tinderChannels, 'nzb', false)
 connect tinderClient, tinderBot, tinderChannels

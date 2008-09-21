@@ -171,7 +171,7 @@ class TinderChannelBase
 			    					response = "No Output." if response == ""
 	    						end
 	    					rescue Exception => ex
-	    						response = "Command timed out"
+	    						response = "Command timed out - " + ex.to_s
 		    				end
 	    				end
 	    			end

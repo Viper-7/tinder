@@ -14,7 +14,7 @@ DRb.start_service
 class TinderChannelBase
     include DRbUndumped
 
-    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :dirWatchers, :rssWatchers
+    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :dirWatchers, :rssWatchers, :adminHosts
 
     def initialize(channel, tinderBot)
 	@dirWatchers = Array.new
@@ -112,12 +112,31 @@ class TinderChannelBase
 		    				path =~ /^.+\/(.+?)\.(.+)/
 		    				ext = $2
 		    				filename = $1
-		    				response = response + '@' + filename + ' '
+		    				response += '@' + filename + ' '
 	    				rescue
 	    				end
 	    			end
 	    		end
 	    	end
+
+		if z == "global"
+		    	response += '@php @ruby @tcl @mem '
+		end
+
+	    	if z == "channel"
+		    	dirNames = Array.new
+		    	@dirWatchers.each do |x|
+		    		dirNames.push x.name if !dirNames.include? x.name
+		    	end
+			dirNames.each{|x| response += '@' + x + ' '}
+
+		    	rssTypes = Array.new
+		    	@rssWatchers.each do |x|
+		    		rssTypes.push x.type if !rssTypes.include? x.type
+		    	end
+			rssTypes.each{|x| response += '@' + x + ' '}
+		end
+
 	    	lines += response + "\n"
 	}
 	lines += 'Type a command to see its usage'
@@ -126,11 +145,6 @@ class TinderChannelBase
 
     def runCommand(command, args, nick, host, commandtypes)
     	response = ""
-    	if args.length > 0
-    		@tinderBot.status "Status  : Running command '" + command + " " + args + "'"
-    	else
-    		@tinderBot.status "Status  : Running command '" + command
-	end
     	commandtypes.each{|z|
     		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
 	    	for folder in folders
@@ -302,9 +316,15 @@ class TinderChannelBase
     	end
     end
 
+    def addAdminHost(host)
+    	@adminHosts.push host if host.match /.+\!.+@.+?\..+/
+    end
+
     def privateText(nick, host, msg)
     	@tinderBot.status "Private\<: " + nick + " - '" + msg + "'"
-    	if nick + host == 'Viper-7~druss@viper-7.com'
+    	hostmask = nick + '!' + host
+
+	if @adminHosts.include? hostmask
     		case msg
     			when /^RELOAD$/
     				sendPrivate "Roger that, " + nick, nick

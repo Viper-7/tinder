@@ -324,8 +324,6 @@ def connect(tinderClient, tinderBot, tinderChannels)
 		tinderBot = nil
 	}
 
-	tinderChannels.each{|y| y.dirWatchers.each {|x| startDirWatcher(x)}}
-
 	puts "Status  : Running..."
 	while tinderBot
 		break if tinderBot.open != true

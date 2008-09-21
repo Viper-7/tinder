@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curtime=$(date | awk "{ string=\$4; split(string, a, \":\"); print a[1] a[2] int(a[3]/20)}")
+curtime=$(date | awk "{ string=\$4; split(string, a, \":\"); print a[1] a[2]}")
 if [ -a /tmp/lastbutterfly ]; then
         lastbutterfly=$(cat /tmp/lastbutterfly);
 fi

@@ -316,10 +316,6 @@ class TinderChannelBase
     	end
     end
 
-    def addAdminHost(host)
-    	@adminHosts.push host if host.match /.+\!.+@.+?\..+/
-    end
-
     def privateText(nick, host, msg)
     	@tinderBot.status "Private\<: " + nick + " - '" + msg + "'"
     	hostmask = nick + '!' + host
@@ -411,6 +407,10 @@ def connect(tinderClient, tinderBot, tinderChannels)
 	sleep 2
 	exit 1 if tinderChannels.first.graceful == true
 	exit 0
+end
+
+def addAdminHost(host, channels)
+	channels.each {|x| x.adminHosts.push host if host.match /.+\!.+@.+?\..+/ |
 end
 
 def addDirectoryWatcher(path, name, channel, url, channels)

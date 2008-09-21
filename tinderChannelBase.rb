@@ -242,12 +242,14 @@ class TinderChannelBase
 		response = aOut.sort_by{rand}.first.to_s
 	end
 
+	resp = ""
 	@rssWatchers.each do |x|
 		if x.type.match(/#{command.chomp}/i)
 			resp = x.search args
-			response = resp if resp != ""
+			resp = "No Hits :(" if resp == ""
 		end
 	end
+	response = resp if resp != ""
 
 	return response
     end

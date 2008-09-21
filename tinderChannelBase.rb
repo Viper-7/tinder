@@ -448,7 +448,13 @@ class TinderDir
 	end
 
 	def random
-		response = @watcher.known_files.sort_by{rand}.first.to_s
+		response = ""
+		begin
+			response = @watcher.known_files.sort_by{rand}.first.to_s
+		rescue Exception => ex
+			response = ex
+		end
+
 		return response
 	end
 end

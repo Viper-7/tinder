@@ -5,7 +5,7 @@ data = data.readlines.join
 data = data.scan(/<div class="vldescbox".*?>(.*?)<div class="vlclearaltl">/im).sort_by{rand}.first.join
 
 puts data
-data.scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/) { |b|
+data.scan(/<div class=\"vlshortTitle\">(.*?)<div class=\"vllongTitle\">/i) { |b|
 	puts b
 	b=b.to_s
 	b =~ /<a href="(.+?)"  title="(.+?)">/

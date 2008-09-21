@@ -200,7 +200,7 @@ class TinderChannelBase
 					puts args
 					File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-					IO.popen("php /tmp/tinderScript") do |out|
+					IO.popen('php /tmp/tinderScript 2>&1') do |out|
 						response += out.read.to_s
 					end
     					response = "No Output." if response == ""
@@ -213,7 +213,7 @@ class TinderChannelBase
 				timeout(10) do
 					File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-					IO.popen("ruby /tmp/tinderScript") do |out|
+					IO.popen('ruby /tmp/tinderScript 2>&1') do |out|
 						response += out.read.to_s
 					end
     					response = "No Output." if response == ""
@@ -226,7 +226,7 @@ class TinderChannelBase
 				timeout(10) do
 					File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-					IO.popen("tclsh /tmp/tinderScript") do |out|
+					IO.popen('tclsh /tmp/tinderScript 2>&1') do |out|
 						response += out.read.to_s
 					end
     					response = "No Output." if response == ""

@@ -1,7 +1,7 @@
 require 'open-uri'
 
 data = open("http://www.youtube.com/results?search_query=" + $*.join("+"))
-puts DATA
+puts data
 data.each_line { |line| 
 	line.scan(/<li class=g>(.*?)<\/div><\/div><br/) { |a|
 		a[0].scan(/<h3 class=r>(.*?)<cite>/) { |b|

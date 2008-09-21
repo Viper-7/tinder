@@ -131,7 +131,6 @@ class TinderChannelBase
     		@tinderBot.status "Status  : Running command '" + command
 	end
 	hit = false
-	response = ""
     	commandtypes.each{|z|
     		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
 	    	for folder in folders
@@ -178,6 +177,7 @@ class TinderChannelBase
 	    		end
 	    	end
 	}
+	response = "Command not found" if response = ""
 	case command.chomp
 		when /^php$/
 			begin

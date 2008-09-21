@@ -373,7 +373,7 @@ class TinderDir
 		@channel = channel
 		@channels = channels
 		@url = url
-		@watcher = Dir::DirectoryWatcher.new( url, path, 15 )
+		@watcher = DirectoryWatcher.new( url, path, 15 )
 	end
 
 	def search(args)
@@ -406,7 +406,9 @@ class TinderRSS
 
 		content = open(@url).read
 		rss = RSS::Parser.parse(content, false)
-		rss.items.each{|x| @buffer.push(x.title + ' - ' + x.link) }
+		count = 0
+		rss.items.each{|x| @buffer.push(x.title + ' - ' + x.link); count = 0}
+		puts 'Added #{count} entries to RSS Log'
 	end
 
 	def tinyURL(url)
@@ -438,145 +440,143 @@ class TinderRSS
 	end
 end
 
-class Dir
-	class DirectoryWatcher
-	   # How long (in seconds) to wait between checks of the directory for changes.
-	   attr_accessor :autoscan_delay
+class DirectoryWatcher
+   # How long (in seconds) to wait between checks of the directory for changes.
+   attr_accessor :autoscan_delay
 
-	   # The Dir instance or path to the directory to watch.
-	   attr_accessor :directory
-	   def directory=( dir ) #:nodoc:
-	      @directory = dir.is_a?(Dir) ? dir : Dir.new( dir )
-	   end
+   # The Dir instance or path to the directory to watch.
+   attr_accessor :directory
+   def directory=( dir ) #:nodoc:
+      @directory = dir.is_a?(Dir) ? dir : Dir.new( dir )
+   end
 
-	   attr_accessor :url
+   attr_accessor :url
 
-	   # Proc to call when files are added to the watched directory.
-	   attr_accessor :on_add
+   # Proc to call when files are added to the watched directory.
+   attr_accessor :on_add
 
-	   # Proc to call when files are modified in the watched directory
-	   # (see +onmodify_checks+).
-	   attr_accessor :on_modify
+   # Proc to call when files are modified in the watched directory
+   # (see +onmodify_checks+).
+   attr_accessor :on_modify
 
-	   # Proc to call when files are removed from the watched directory.
-	   attr_accessor :on_remove
+   # Proc to call when files are removed from the watched directory.
+   attr_accessor :on_remove
 
-	   # Array of symbols which specify which attribute(s) to check for changes.
-	   # Valid symbols are <tt>:date</tt> and <tt>:size</tt>.
-	   # Defaults to <tt>:date</tt> only.
-	   attr_accessor :onmodify_checks
+   # Array of symbols which specify which attribute(s) to check for changes.
+   # Valid symbols are <tt>:date</tt> and <tt>:size</tt>.
+   # Defaults to <tt>:date</tt> only.
+   attr_accessor :onmodify_checks
 
-	   # If more than one symbol is specified for +onmodify_checks+, should
-	   # +on_modify+ be called only when *all* specified values change
-	   # (value of +true+), or when any *one* value changes (value of +false+)?
-	   # Defaults to +false+.
-	   attr_accessor :onmodify_requiresall
+   # If more than one symbol is specified for +onmodify_checks+, should
+   # +on_modify+ be called only when *all* specified values change
+   # (value of +true+), or when any *one* value changes (value of +false+)?
+   # Defaults to +false+.
+   attr_accessor :onmodify_requiresall
 
-	   # Should files which exist in the directory fire the +on_add+ callback
-	   # the first time the directory is scanned? Defaults to +true+.
-	   attr_accessor :onadd_for_existing
+   # Should files which exist in the directory fire the +on_add+ callback
+   # the first time the directory is scanned? Defaults to +true+.
+   attr_accessor :onadd_for_existing
 
-	   # Regular expression to match against file names. If +nil+, all files
-	   # will be included, otherwise only those whose name match the regexp
-	   # will be passed to the +on_add+/+on_modify+/+on_remove+ callbacks.
-	   # Defaults to <tt>/^[^.].*$/</tt> (files which do not begin with a period).
-	   attr_accessor :name_regexp
-	   attr_accessor :known_files
+   # Regular expression to match against file names. If +nil+, all files
+   # will be included, otherwise only those whose name match the regexp
+   # will be passed to the +on_add+/+on_modify+/+on_remove+ callbacks.
+   # Defaults to <tt>/^[^.].*$/</tt> (files which do not begin with a period).
+   attr_accessor :name_regexp
+   attr_accessor :known_files
 
-	   # Creates a new directory watcher.
-	   #
-	   # _dir_::    The path (relative to the current working directory) of the
-	   #            directory to watch, or a Dir instance.
-	   # _delay_::  The +autoscan_delay+ value to use; defaults to 10 seconds.
-	   def initialize( url, dir, delay = 10 )
-	      self.directory = dir
-	      @url = url
-	      @autoscan_delay = delay
-	      @known_file_stats = {}
-	      @known_files = Array.new
-	      @onmodify_checks = [ :date ]
-	      @onmodify_requiresall = false
-	      @onadd_for_existing = true
-	      @scanned_once = false
-	      @name_regexp = /^[^.].*[^db]$/
-	   end
+   # Creates a new directory watcher.
+   #
+   # _dir_::    The path (relative to the current working directory) of the
+   #            directory to watch, or a Dir instance.
+   # _delay_::  The +autoscan_delay+ value to use; defaults to 10 seconds.
+   def initialize( url, dir, delay = 10 )
+      self.directory = dir
+      @url = url
+      @autoscan_delay = delay
+      @known_file_stats = {}
+      @known_files = Array.new
+      @onmodify_checks = [ :date ]
+      @onmodify_requiresall = false
+      @onadd_for_existing = true
+      @scanned_once = false
+      @name_regexp = /^[^.].*[^db]$/
+   end
 
-	   # Scans the directory for additions/modifications/removals,
-	   # calling the +on_add+/+on_modify+/+on_remove+ callbacks as
-	   # appropriate.
-	   def scan_now
-	      # Setup the checks
-	      # ToDo: CRC
-	      checks = {
-	         :date => {
-	            :use=>false,
-	            :proc=>Proc.new{ |file,stats| stats.mtime }
-	         },
-	         :size => {
-	            :use=>false,
-	            :proc=>Proc.new{ |file,stats| stats.size }
-	         },
-	         :crc => {
-	            :use=>false,
-	            :proc=>Proc.new{ |file,stats| 1 }
-	         }
-	      }
-	      checks.each_pair{ |check_name,check|
-	         check[:use] = (@onmodify_checks == check_name) || ( @onmodify_checks.respond_to?( :include? ) && @onmodify_checks.include?( check_name ) )
-	      }
+   # Scans the directory for additions/modifications/removals,
+   # calling the +on_add+/+on_modify+/+on_remove+ callbacks as
+   # appropriate.
+   def scan_now
+      # Setup the checks
+      # ToDo: CRC
+      checks = {
+         :date => {
+            :use=>false,
+            :proc=>Proc.new{ |file,stats| stats.mtime }
+         },
+         :size => {
+            :use=>false,
+            :proc=>Proc.new{ |file,stats| stats.size }
+         },
+         :crc => {
+            :use=>false,
+            :proc=>Proc.new{ |file,stats| 1 }
+         }
+      }
+      checks.each_pair{ |check_name,check|
+         check[:use] = (@onmodify_checks == check_name) || ( @onmodify_checks.respond_to?( :include? ) && @onmodify_checks.include?( check_name ) )
+      }
 
-	      #Check for add/modify
-	      @directory.rewind
-	      @directory.each{ |fname|
-	         file_path = "#{@directory.path}/#{fname}"
-	         next if (@name_regexp.respond_to?( :match ) && !@name_regexp.match( fname )) || !File.file?( file_path )
-	         the_file = File.new( file_path )
-	         file_stats = File.stat( file_path )
+      #Check for add/modify
+      @directory.rewind
+      @directory.each{ |fname|
+         file_path = "#{@directory.path}/#{fname}"
+         next if (@name_regexp.respond_to?( :match ) && !@name_regexp.match( fname )) || !File.file?( file_path )
+         the_file = File.new( file_path )
+         file_stats = File.stat( file_path )
 
-	         saved_stats = @known_file_stats[file_path]
-	         new_stats = {}
-	         checks.each_pair{ |check_name,check|
-	            new_stats[check_name] = check[:proc].call( the_file, file_stats )
-	         }
+         saved_stats = @known_file_stats[file_path]
+         new_stats = {}
+         checks.each_pair{ |check_name,check|
+            new_stats[check_name] = check[:proc].call( the_file, file_stats )
+         }
 
-		 furl = url.to_s + fname.to_s
-		 @known_files.push furl if !@known_files.include? furl
+	 furl = url.to_s + fname.to_s
+	 @known_files.push furl if !@known_files.include? furl
 
-	         if saved_stats
-	            if @on_modify.respond_to?( :call )
-	               sufficiently_modified = @onmodify_requiresall
-	               saved_stats = @known_file_stats[file_path]
-	               checks.each_pair{ |check_name,check|
-	                  stat_changed = check[:use] && ( saved_stats[check_name] != new_stats[check_name] )
-	                  if @onmodify_requiresall
-	                     sufficiently_modified &&= stat_changed
-	                  else
-	                     sufficiently_modified ||= stat_changed
-	                  end
-	                  saved_stats[check_name] = new_stats[check_name]
-	               }
-	               @on_modify.call( the_file, saved_stats ) if sufficiently_modified
-	            end
-	         elsif @on_add.respond_to?( :call ) && (@scanned_once || @onadd_for_existing)
-	            @known_file_stats[file_path] = new_stats
-	            @on_add.call( the_file, new_stats )
-	         end
+         if saved_stats
+            if @on_modify.respond_to?( :call )
+               sufficiently_modified = @onmodify_requiresall
+               saved_stats = @known_file_stats[file_path]
+               checks.each_pair{ |check_name,check|
+                  stat_changed = check[:use] && ( saved_stats[check_name] != new_stats[check_name] )
+                  if @onmodify_requiresall
+                     sufficiently_modified &&= stat_changed
+                  else
+                     sufficiently_modified ||= stat_changed
+                  end
+                  saved_stats[check_name] = new_stats[check_name]
+               }
+               @on_modify.call( the_file, saved_stats ) if sufficiently_modified
+            end
+         elsif @on_add.respond_to?( :call ) && (@scanned_once || @onadd_for_existing)
+            @known_file_stats[file_path] = new_stats
+            @on_add.call( the_file, new_stats )
+         end
 
-	         the_file.close
-	      }
+         the_file.close
+      }
 
-	      # Check for removed files
-	      if @on_remove.respond_to?( :call )
-	         @known_file_stats.each_pair{ |path,stats|
-	            next if File.file?( path )
-	            stats[:path] = path
-	            @on_remove.call( stats )
-	            @known_file_stats.delete(path)
-	         }
-	      end
+      # Check for removed files
+      if @on_remove.respond_to?( :call )
+         @known_file_stats.each_pair{ |path,stats|
+            next if File.file?( path )
+            stats[:path] = path
+            @on_remove.call( stats )
+            @known_file_stats.delete(path)
+         }
+      end
 
-	      @scanned_once = true
-	   end
+      @scanned_once = true
+   end
 
-	end
 end

@@ -1,7 +1,7 @@
 require 'open-uri'
 
 if $*.join("") == ""
-	puts "@youtube <search string>  -::- Searches YouTube and returns a random video
+	puts "@youtube <search string>  -::- Searches YouTube and returns a random video"
 	exit
 end
 

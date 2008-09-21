@@ -1,6 +1,6 @@
 require 'open-uri'
 
-data = read("http://www.youtube.com/results?search_query=" + $*.join("+"))
+data = open("http://www.youtube.com/results?search_query=" + $*.join("+"))
 puts data
 data.read.join('\n').scan(/<div class="vldescbox".*?>(.*?)<div class="vlclearaltl">/) { |a|
 	puts a

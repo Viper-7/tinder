@@ -177,7 +177,7 @@ class TinderChannelBase
 	    		end
 	    	end
 	}
-	response = "Command not found" if response = ""
+	response = "Command not found" if response == ""
 	case command.chomp
 		when /^php$/
 			begin

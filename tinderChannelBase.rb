@@ -192,7 +192,6 @@ class TinderChannelBase
 	    		end
 	    	end
 	}
-	response = "Command not found" if response == ""
 	case command.chomp
 		when /^php$/
 			begin
@@ -241,6 +240,8 @@ class TinderChannelBase
 		when /^help$/
 			response = help(commandtypes)
 	end
+
+	response = "Command not found" if response == ""
 
 	aOut = Array.new
 	hit = false

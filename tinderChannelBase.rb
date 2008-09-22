@@ -407,7 +407,7 @@ def addServer(server,port,nick)
 	return tinderClient1, tinderBot1
 end
 
-def addChannels(channels,type)
+def addChannels(channels,tinderBot1,type)
 	tinderChannels = Array.new
 
 	channels.each {|x|

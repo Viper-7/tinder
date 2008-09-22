@@ -261,11 +261,19 @@ class TinderChannelBase
 	aOut = Array.new
 	hit = false
 	@dirWatchers.each do |x|
-		if x.name.match(/#{command.chomp}/i)
-			resp = x.random
-			if resp.length > 1
-				aOut.push resp
-				hit = true
+		if x.name.match(/^#{command.chomp}$/i)
+			if args.match(/^random$/
+				resp = x.random
+				if resp.length > 1
+					aOut.push resp
+					hit = true
+				end
+			else
+				resp = x.latest
+				if resp.length > 1
+					aOut.push resp
+					hit = true
+				end
 			end
 		end
 	end
@@ -275,9 +283,13 @@ class TinderChannelBase
 
 	resp = ""
 	@rssWatchers.each do |x|
-		if x.type.match(/#{command.chomp}/i)
-			resp = x.search args
-			resp = 'No Hits :(' if resp == ""
+		if x.type.match(/^#{command.chomp}$/i)
+			if args.match(/^latest$/
+				resp = x.latest
+			else
+				resp = x.search args
+				resp = 'No Hits :(' if resp == ""
+			end
 		end
 	end
 	response = resp if resp != ""
@@ -482,6 +494,10 @@ class TinderDir
 
 	def poll
 		@watcher.scan_now
+	end
+
+	def latest
+		return @watcher.known_files.last.to_s
 	end
 
 	def random

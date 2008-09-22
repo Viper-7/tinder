@@ -119,7 +119,7 @@ class TinderChannelBase
 	    	end
 
 		if z == "global"
-		    	response += '@php @ruby @tcl @mem '
+		    	response += '@php @ruby @tcl '
 		end
 
 	    	if z == "channel"

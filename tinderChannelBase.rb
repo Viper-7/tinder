@@ -284,7 +284,7 @@ class TinderChannelBase
 	resp = ""
 	@rssWatchers.each do |x|
 		if x.type.match(/^#{command.chomp}$/i)
-			if args.match(/^latest$/
+			if args.match(/^latest$/)
 				resp = x.latest
 			else
 				resp = x.search args

@@ -168,6 +168,9 @@ class TinderChannelBase
 	    					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'
 	    					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
 
+						if command.chomp == "bf"
+							args = '"' + args + '"'
+						end
 	    					if args.length > 0
 	    						cmdline = "#{lang} #{filename}.#{ext} #{args}"
 	    					else

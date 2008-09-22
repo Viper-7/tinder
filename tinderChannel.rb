@@ -26,7 +26,7 @@ end
 
 tinderClient, tinderBot = addServer("irc.gamesurge.net","6667","Tinder")
 tinderChannels = addChannels(["codeworkshop","v7test","ausquake","premiumgamer"],tinderBot,'TinderChannelBase')
-tinderChannels.merge(addChannels(["nesreca"],tinderBot,'TinderChannel'))
+tinderChannels.join(addChannels(["nesreca"],tinderBot,'TinderChannel'))
 addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/', tinderChannels)
 addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/Spaz', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/spaz/', tinderChannels)
 addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/msn drawings', 'Dropbox', 'nesreca', 'http://dropbox.intertoobz.com/msn%20drawings/', tinderChannels)

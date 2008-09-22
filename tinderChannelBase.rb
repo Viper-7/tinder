@@ -176,15 +176,15 @@ class TinderChannelBase
 							args = '"' + args + '"'
 						end
 	    					if args.length > 0
-	    						cmdline = "#{lang} #{filename}.#{ext} #{args}"
+	    						cmdline = "#{lang} #{filename}.#{ext} #{args}" + '2>&1'
 	    					else
-	    						cmdline = "#{lang} #{filename}.#{ext}"
+	    						cmdline = "#{lang} #{filename}.#{ext}" + '2>&1'
 	    					end
 
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 						begin
 							timeout(10) do
-								IO.popen(cmdline + '2>&1') do |out|
+								IO.popen(cmdline) do |out|
 									response += out.read.to_s
 								end
 			    					response = "No Output." if response == ""

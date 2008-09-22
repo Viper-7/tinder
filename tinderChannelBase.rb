@@ -262,7 +262,7 @@ class TinderChannelBase
 	hit = false
 	@dirWatchers.each do |x|
 		if x.name.match(/^#{command.chomp}$/i)
-			if args.match(/^random$/)
+			if args.match(/^random$/i)
 				resp = x.random
 				if resp.length > 1
 					aOut.push resp
@@ -284,7 +284,7 @@ class TinderChannelBase
 	resp = ""
 	@rssWatchers.each do |x|
 		if x.type.match(/^#{command.chomp}$/i)
-			if args.match(/^latest$/)
+			if args.match(/^latest$/i)
 				resp = x.latest
 			else
 				resp = x.search args

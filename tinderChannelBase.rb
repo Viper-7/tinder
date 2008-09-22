@@ -170,7 +170,7 @@ class TinderChannelBase
 
 						if command.chomp == "bf"
 							args =~ /^(.+?) (.+)$/
-							args = $1 + '" "' + $2 if ($1.nil? rescue true)
+							args = ($1 + '" "' + $2) if ($2.nil? rescue true)
 							args = '"' + args + '"'
 						end
 	    					if args.length > 0

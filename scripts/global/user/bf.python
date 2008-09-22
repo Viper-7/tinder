@@ -35,7 +35,7 @@ def main(sysArgs):
 	if len(sysArgs)>1:
 		eval_(sysArgs)
 	else:
-		sys.stdout.write("Usage: @brainfuck +++++[>,.<-] teststring")
+		sys.stdout.write("Usage: @bf +++++[>,.<-] teststring")
 	print
 
 if __name__ == "__main__":

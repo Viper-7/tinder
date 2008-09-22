@@ -31,10 +31,8 @@ class TinderChannelBase
     def poll
     	@uptime += 1
     	@uptime = 5 if @uptime > 604
-    	if @uptime > 5
-    		@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
-    		@rssWatchers.each{|x| x.poll} if @uptime % 60 == 0
-    	end
+	@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
+	@rssWatchers.each{|x| x.poll} if @uptime % 120 == 0
     end
 
     def memUsage
@@ -395,7 +393,7 @@ class TinderChannelBase
     end
 end
 
-def addServer(server,port,nick,channels)
+def addServer(server,port,nick,channels,type)
 	puts "Status  : Connecting..."
 	begin
 		tinderClient1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
@@ -409,11 +407,7 @@ def addServer(server,port,nick,channels)
 	tinderChannels = Array.new
 
 	channels.each {|x|
-		if x == "nesreca"
-			tinderChannels.push TinderChannel.new(x.to_s, tinderBot1)
-		else
-			tinderChannels.push TinderChannelBase.new(x.to_s, tinderBot1)
-		end
+		tinderChannels.push type.new(x.to_s, tinderBot1)
 	}
 	return tinderClient1, tinderBot1, tinderChannels
 end

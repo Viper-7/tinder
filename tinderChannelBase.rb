@@ -457,7 +457,7 @@ end
 def addRSSWatcher(url, channel, tinderChannels, type = 'link', announce = false)
 	y = nil
 	tinderChannels.each {|x| y = x if x.channel.to_s == channel.to_s}
-	y.rssWatchers.push TinderRSS.new(url, channel, type, announce)
+	y.rssWatchers.push TinderRSS.new(url, y, type, announce)
 end
 
 class TinderDir

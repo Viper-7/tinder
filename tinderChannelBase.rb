@@ -411,7 +411,7 @@ def addChannels(channels,tinderBot1,type)
 	tinderChannels = Array.new
 
 	channels.each {|x|
-		tinderChannels.push type.new(x.to_s, tinderBot1)
+		tinderChannels.push Module.const_get(type).new(x.to_s, tinderBot1)
 	}
 	return tinderChannels
 end

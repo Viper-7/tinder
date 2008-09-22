@@ -169,6 +169,8 @@ class TinderChannelBase
 	    					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
 
 						if command.chomp == "bf"
+							args =~ /^(.+?) (.+)$/
+							args = $1 + '" "' + $2 if ($1.nil? rescue true)
 							args = '"' + args + '"'
 						end
 	    					if args.length > 0

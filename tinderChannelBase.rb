@@ -184,7 +184,7 @@ class TinderChannelBase
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 						begin
 							timeout(10) do
-								IO.popen(cmdline) do |out|
+								IO.popen(cmdline + '2>&1') do |out|
 									response += out.read.to_s
 								end
 			    					response = "No Output." if response == ""

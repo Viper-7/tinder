@@ -7,7 +7,7 @@ def eval_(sysArgs):
 	except IndexError:
 		x=sysArgs[1]
 		y=""
-	
+
 	i=0;w=[];p=[0]*30000;z=0;c=0
 	while i<len(x):
 		if x[i]=="<":z-=1
@@ -36,7 +36,6 @@ def main(sysArgs):
 		eval_(sysArgs)
 	else:
 		sys.stdout.write("Usage: @bf +++++[>,.<-] teststring")
-	print
 
 if __name__ == "__main__":
 	main(sys.argv)

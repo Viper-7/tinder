@@ -262,7 +262,7 @@ class TinderChannelBase
 	hit = false
 	@dirWatchers.each do |x|
 		if x.name.match(/^#{command.chomp}$/i)
-			if args.match(/^random$/
+			if args.match(/^random$/)
 				resp = x.random
 				if resp.length > 1
 					aOut.push resp

@@ -393,7 +393,7 @@ class TinderChannelBase
     end
 end
 
-def addServer(server,port,nick,channels,type)
+def addServer(server,port,nick)
 	puts "Status  : Connecting..."
 	begin
 		tinderClient1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
@@ -404,13 +404,18 @@ def addServer(server,port,nick,channels,type)
 
 	tinderClient1.connectServer(server, port, nick)
 	tinderBot1 = tinderClient1.addBot
+	return tinderClient1, tinderBot1
+end
+
+def addChannels(channels,type)
 	tinderChannels = Array.new
 
 	channels.each {|x|
 		tinderChannels.push type.new(x.to_s, tinderBot1)
 	}
-	return tinderClient1, tinderBot1, tinderChannels
+	return tinderChannels
 end
+
 
 def connect(tinderClient, tinderBot, tinderChannels)
 	trap("INT") {

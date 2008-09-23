@@ -205,7 +205,7 @@ class TinderChannelBase
 									response = stderr.readlines.join("\n").to_s if response == ""
 								end
 							rescue Exception => ex
-								Process.kill 'KILL', pipe.pid
+								Process.kill 'KILL', pipe
 								response = "Command timed out - " + ex.to_s
 							ensure
 								response = "No Output." if response == ""
@@ -234,7 +234,7 @@ class TinderChannelBase
 							response = stderr.readlines.join("\n").to_s if response == ""
 						end
 					rescue Exception => ex
-						Process.kill 'KILL', pipe.pid
+						Process.kill 'KILL', pipe
 						response = "Command timed out - " + ex.to_s
 					ensure
 						response = "No Output." if response == ""
@@ -256,7 +256,7 @@ class TinderChannelBase
 							response = stderr.readlines.join("\n").to_s if response == ""
 						end
 					rescue Exception => ex
-						Process.kill 'KILL', pipe.pid
+						Process.kill 'KILL', pipe
 						response = "Command timed out - " + ex.to_s
 					ensure
 						response = "No Output." if response == ""
@@ -278,11 +278,10 @@ class TinderChannelBase
 							response = stderr.readlines.join("\n").to_s if response == ""
 						end
 					rescue Exception => ex
-						Process.kill 'KILL', pipe.pid
+						Process.kill 'KILL', pipe
 						response = "Command timed out - " + ex.to_s
 					ensure
 						response = "No Output." if response == ""
-						pipe.close
 					end
 				}
 			end

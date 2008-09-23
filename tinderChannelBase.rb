@@ -198,7 +198,7 @@ class TinderChannelBase
 
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 
-						popen4(cmdline) {|stdout, stderr, stdin, pipe|
+						Open4.popen4(cmdline) {|stdout, stderr, stdin, pipe|
 							begin
 								timeout(5) do
 									response = stdout.readlines.join("\n").to_s
@@ -226,7 +226,7 @@ class TinderChannelBase
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				popen4('php /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
+				Open4.popen4('php /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
 						timeout(5) do
 							response = stdout.readlines.join("\n").to_s
@@ -247,7 +247,7 @@ class TinderChannelBase
 			else
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				popen4('ruby /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
+				Open4.popen4('ruby /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
 						timeout(5) do
 							response = stdout.readlines.join("\n").to_s
@@ -268,7 +268,7 @@ class TinderChannelBase
 			else
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				popen4('tclsh /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
+				Open4.popen4('tclsh /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
 						timeout(5) do
 							response = stdout.readlines.join("\n").to_s

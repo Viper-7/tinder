@@ -13,7 +13,7 @@ while count < 58
 	hits1 = 0
 	hits2 = 0
 	file = open('http://www.weed-forums.com/showthread.php?t=155&page=' + count.to_s).readlines.join
-	file.scan(/(?:<div id="post_message_.+">\t*([^<].+)<\/div>)/) {|x|
+	file.scan(/<div id="post_message_.+">\t*([^<].+)<\/div>/) {|x|
 		y = x.to_s.gsub(/<\/?[^>]*>/, "")
 		y = y.gsub(/&\/?[^;]{2,6};/,"")
 		y = y.gsub(/\"/,'\"')
@@ -22,7 +22,7 @@ while count < 58
 		hits1 += 1
 		mysql.query('INSERT INTO stonerjokes SET Line="' + y + '";')
 	}
-	file.scan(/(?:<div id="post_message_.+">.+?<\/table>\t*<\/div>(.+)<\/div>)/) {|x|
+	file.scan(/<div id="post_message_.+">.+?<\/table>\n<\/div>(.+?)<\/div>/im) {|x|
 		y = x.to_s.gsub(/<\/?[^>]*>/, "")
 		y = y.gsub(/&\/?[^;]{2,6};/,"")
 		y = y.gsub(/\"/,'\"')

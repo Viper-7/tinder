@@ -516,7 +516,7 @@ class TinderDir
 	end
 
 	def latest
-		p @watcher.known_file_stats.sort{|x, y| x[2] > y[2]}.first
+		p @watcher.known_file_stats.sort{|x, y| x[1][2] > y[1][2]}.first[0]
 		# return @watcher.url.to_s + File.basename(.sort_by{|x,y| y[1]}.first[0].to_s)
 	end
 

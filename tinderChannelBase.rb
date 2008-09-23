@@ -219,7 +219,7 @@ class TinderChannelBase
 				begin
 					timeout(5) do
 						response = stdout.readlines.join("\n").to_s
-						response = stderr.readlines.join("\n").to_s if response = ""
+						response = stderr.readlines.join("\n").to_s if response == ""
 					end
 				rescue Exception => ex
 					Process.kill 'KILL', pipe.pid
@@ -240,7 +240,7 @@ class TinderChannelBase
 				begin
 					timeout(5) do
 						response = stdout.readlines.join("\n").to_s
-						response = stderr.readlines.join("\n").to_s if response = ""
+						response = stderr.readlines.join("\n").to_s if response == ""
 					end
 				rescue Exception => ex
 					Process.kill 'KILL', pipe.pid
@@ -261,7 +261,7 @@ class TinderChannelBase
 				begin
 					timeout(5) do
 						response = stdout.readlines.join("\n").to_s
-						response = stderr.readlines.join("\n").to_s if response = ""
+						response = stderr.readlines.join("\n").to_s if response == ""
 					end
 				rescue Exception => ex
 					Process.kill 'KILL', pipe.pid

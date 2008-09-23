@@ -14,4 +14,5 @@ while count < 58
 		puts x.to_s
 		mysql.query('INSERT INTO stonerjokes SET Line="' + x.to_s + '";')
 	}
+	sleep 0.3
 end

@@ -271,7 +271,8 @@ class TinderChannelBase
 
 					Process.kill 'KILL', pipe.getpgrp()
 				}
-
+				p pipe.getpgrp()
+				p pipe.pid
 				response = pipe.readlines.join("\n").to_s
 				response = "No Output." if response == ""
 				pipe.close

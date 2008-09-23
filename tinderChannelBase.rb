@@ -206,18 +206,17 @@ class TinderChannelBase
 
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 
-						stdout, stderr, stdin, pipe = POpen4.popen4(cmdline)
+						stdout, stderr, stdin, pipe = popen4(cmdline)
 						begin
 							timeout(5) do
 								response = stdout.readlines.join("\n").to_s
 								response = stderr.readlines.join("\n").to_s if response == ""
 							end
 						rescue Exception => ex
-							Process.kill 'KILL', pipe.pid
+							Process.kill 'KILL', pipe
 							response = "Command timed out - " + ex.to_s
 						ensure
 							response = "No Output." if response == ""
-							pipe.close
 						end
 	    				end
 	    			end
@@ -234,18 +233,17 @@ class TinderChannelBase
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				stdout, stderr, stdin, pipe = POpen4.popen4('php /tmp/tinderScript')
+				stdout, stderr, stdin, pipe = popen4('php /tmp/tinderScript')
 				begin
 					timeout(5) do
 						response = stdout.readlines.join("\n").to_s
 						response = stderr.readlines.join("\n").to_s if response == ""
 					end
 				rescue Exception => ex
-					Process.kill 'KILL', pipe.pid
+					Process.kill 'KILL', pipe
 					response = "Command timed out - " + ex.to_s
 				ensure
 					response = "No Output." if response == ""
-					pipe.close
 				end
 			end
 		when /^ruby$/
@@ -255,18 +253,17 @@ class TinderChannelBase
 			else
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				stdout, stderr, stdin, pipe = POpen4.popen4('ruby /tmp/tinderScript')
+				stdout, stderr, stdin, pipe = popen4('ruby /tmp/tinderScript')
 				begin
 					timeout(5) do
 						response = stdout.readlines.join("\n").to_s
 						response = stderr.readlines.join("\n").to_s if response == ""
 					end
 				rescue Exception => ex
-					Process.kill 'KILL', pipe.pid
+					Process.kill 'KILL', pipe
 					response = "Command timed out - " + ex.to_s
 				ensure
 					response = "No Output." if response == ""
-					pipe.close
 				end
 			end
 		when /^tcl$/
@@ -276,18 +273,17 @@ class TinderChannelBase
 			else
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				stdout, stderr, stdin, pipe = POpen4.popen4('tclsh /tmp/tinderScript')
+				stdout, stderr, stdin, pipe = popen4('tclsh /tmp/tinderScript')
 				begin
 					timeout(5) do
 						response = stdout.readlines.join("\n").to_s
 						response = stderr.readlines.join("\n").to_s if response == ""
 					end
 				rescue Exception => ex
-					Process.kill 'KILL', pipe.pid
+					Process.kill 'KILL', pipe
 					response = "Command timed out - " + ex.to_s
 				ensure
 					response = "No Output." if response == ""
-					pipe.close
 				end
 			end
 		when /^mem$/

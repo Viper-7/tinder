@@ -280,10 +280,9 @@ class TinderChannelBase
 					hit = true
 				end
 			else
-				resp, fileDate = x.latest
+				resp = x.latest
 				if resp.length > 1
-
-					aOut.push "#{resp}|#{fileDate}"
+					aOut.push resp
 					hit = true
 				end
 			end
@@ -521,7 +520,7 @@ class TinderDir
 
 	def latest
 		latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.first
-		return @url + File.basename(latestFile), @watcher.known_file_stats[latestFile][:date]
+		return @url + File.basename(latestFile) + '|' + @watcher.known_file_stats[latestFile][:date]
 	end
 
 	def random

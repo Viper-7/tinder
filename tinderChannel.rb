@@ -3,9 +3,6 @@ require 'net/http'
 require 'open-uri'
 require 'mysql'
 
-mysql = Mysql.init()
-mysql.connect('kodiak','db','db')
-mysql.select_db('viper7')
 
 class TinderChannel < TinderChannelBase
     include DRbUndumped
@@ -18,8 +15,12 @@ class TinderChannel < TinderChannelBase
     end
 
     def stoned
+	mysql = Mysql.init()
+	mysql.connect('kodiak','db','db')
+	mysql.select_db('viper7')
     	result = mysql.query("SELECT * FROM `stonerjokes` ORDER BY RAND() LIMIT 1")
-    	return result.to_s
+    	return result.first.to_s
+    	mysql.close
     end
 
 

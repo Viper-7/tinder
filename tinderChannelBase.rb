@@ -36,11 +36,11 @@ class TinderChannelBase
 
 	def popen4(command, mode="t")
 		begin
-			Open4.popen4(command) do |pid,stdin,stdout,stderr|
+			Open4.popen4(command) {|pid,stdin,stdout,stderr|
 				yield stdout, stderr, stdin, pid
 				stdout.read unless stdout.eof?
 				stderr.read unless stderr.eof?
-			end
+			}
 		rescue Errno::ENOENT => e
 			# On windows executing a non existent command does not raise an error
 			# (as in unix) so on unix we return nil instead of a status object and

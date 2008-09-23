@@ -191,7 +191,7 @@ class TinderChannelBase
 			    					response = "No Output." if response == ""
 	    						end
 	    					rescue Exception => ex
-							Process.kill 'TERM' pipe.pid
+							Process.kill 'TERM', pipe.pid
 	    						response = "Command timed out - " + ex.to_s
 		    				ensure
 							pipe.close

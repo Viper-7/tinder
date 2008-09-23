@@ -7,12 +7,32 @@ require 'rss/2.0'
 require 'open-uri'
 
 require 'rubygems'
-require 'popen4'
+require 'open4'
 
 STDOUT.sync = true
 tinderChannels = Array.new
 
 DRb.start_service
+
+class POpen4
+	def popen4(command, mode="t")
+		begin
+			return status = Open4.popen4(command) do |pid,stdin,stdout,STDERR|
+				yield stdout, stderr, stdin, pid
+				stdout.read unless stdout.eof?
+				stderr.read unless stderr.eof?
+			end
+		rescue Errno::ENOENT => e
+			# On windows executing a non existent command does not raise an error
+			# (as in unix) so on unix we return nil instead of a status object and
+			# on windows we try to determine if we couldn't start the command and
+			# return nil instead of the Process::Status object.
+			return nil
+		end
+	end
+end
+
+
 
 class TinderChannelBase
     include DRbUndumped

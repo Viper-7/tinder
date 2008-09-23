@@ -516,7 +516,7 @@ class TinderDir
 	end
 
 	def latest
-		return @watcher.known_files.sort_by{|x| x.mtime}.last.to_s
+		return @watcher.known_file_stats.sort_by{|x| x.mtime}.last.to_s
 	end
 
 	def random
@@ -612,6 +612,7 @@ class DirectoryWatcher
    # Defaults to <tt>/^[^.].*$/</tt> (files which do not begin with a period).
    attr_accessor :name_regexp
    attr_accessor :known_files
+   attr_accessor :known_file_stats
 
    # Creates a new directory watcher.
    #

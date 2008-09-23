@@ -496,15 +496,16 @@ class TinderDir
 		@channel = channel
 		@channels = channels
 		@url = url
-		@watcher = DirectoryWatcher.new( url, path, 15 )
+		@watcher = DirectoryWatcher.new( path, 15 )
 	end
 
 	def search(args)
 		response = ""
 		@watcher.known_files.each {|x|
 			args = args.gsub(/ /,'.+')
-			if x.match /#{args}/
-				response = x
+			y = File.basename(x)
+			if y.match /#{args}/
+				response = @url + y
 				break
 			end
 		}
@@ -516,12 +517,11 @@ class TinderDir
 	end
 
 	def latest
-		p @watcher.known_file_stats.first[1]
-		# return @watcher.url.to_s + File.basename(.sort_by{|x,y| y[1]}.first[0].to_s)
+		return @url + File.basename(@watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.first)
 	end
 
 	def random
-		return @watcher.known_files.sort_by{rand}.first.to_s
+		return @url + File.basename(@watcher.known_files.sort_by{rand}.first)
 	end
 end
 
@@ -580,8 +580,6 @@ class DirectoryWatcher
       @directory = dir.is_a?(Dir) ? dir : Dir.new( dir )
    end
 
-   attr_accessor :url
-
    # Proc to call when files are added to the watched directory.
    attr_accessor :on_add
 
@@ -620,9 +618,8 @@ class DirectoryWatcher
    # _dir_::    The path (relative to the current working directory) of the
    #            directory to watch, or a Dir instance.
    # _delay_::  The +autoscan_delay+ value to use; defaults to 10 seconds.
-   def initialize( url, dir, delay = 10 )
+   def initialize( dir, delay = 10 )
       self.directory = dir
-      @url = url
       @autoscan_delay = delay
       @known_file_stats = {}
       @known_files = Array.new
@@ -672,8 +669,7 @@ class DirectoryWatcher
             new_stats[check_name] = check[:proc].call( the_file, file_stats )
          }
 
-	 furl = url.to_s + fname.to_s
-	 @known_files.push furl if !@known_files.include? furl
+	 @known_files.push file_path if !@known_files.include? file_path
 
          if saved_stats
             if @on_modify.respond_to?( :call )
@@ -697,7 +693,7 @@ class DirectoryWatcher
          end
          the_file.close
       }
-      puts "Added #{count} entries to Dir Watcher - #{@url}" if @scanned_once != true
+      puts "Added #{count} entries to Dir Watcher - #{@directory.path}" if @scanned_once != true
 
       # Check for removed files
       if @on_remove.respond_to?( :call )

@@ -191,7 +191,9 @@ class TinderChannelBase
 								count += 1
 								sleep 1
 							end
-							Process.kill 9, pipe.pid
+							p pipe.pid
+							Process.kill 'TERM', pipe.pid
+							Process.kill 'KILL', pipe.pid
 						}
 						response = pipe.readlines.join("\n").to_s
 	    					response = "No Output." if response == ""

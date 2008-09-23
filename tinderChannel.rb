@@ -1,6 +1,11 @@
 require 'tinderChannelBase.rb'
 require 'net/http'
 require 'open-uri'
+require 'mysql'
+
+mysql = Mysql.init()
+mysql.connect('kodiak','db','db')
+mysql.select_db('viper7')
 
 class TinderChannel < TinderChannelBase
     include DRbUndumped
@@ -12,6 +17,12 @@ class TinderChannel < TinderChannelBase
 	sendChannel "Fuck my #{vagoo.downcase} #{nick.downcase} you #{dirty} #{whore}."
     end
 
+    def stoned
+    	result = mysql.query("SELECT * FROM `stonerjokes` ORDER BY RAND() LIMIT 1")
+    	return result.to_s
+    end
+
+
     def channelText(nick, host, msg)
     	super(nick,host,msg)
     	case msg
@@ -19,6 +30,8 @@ class TinderChannel < TinderChannelBase
 			sendChannel "FIGHT THE POWAH!"
 		when /fuck you/i
 			fuckYou nick
+		when /stoned/
+			sendChannel stoned
 	end
     end
 end

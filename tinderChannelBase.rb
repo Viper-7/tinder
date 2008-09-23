@@ -144,6 +144,7 @@ class TinderChannelBase
 
     def runCommand(command, args, nick, host, commandtypes)
     	response = ""
+    	hit = false
     	commandtypes.each{|z|
     		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
 	    	for folder in folders
@@ -183,19 +184,22 @@ class TinderChannelBase
 
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 
-						pipe = nil
-						begin
-							timeout(10) do
-								pipe = IO.popen(cmdline)
-								response = pipe.readlines.join("\n").to_s
-			    					response = "No Output." if response == ""
-	    						end
-	    					rescue Exception => ex
-							Process.kill 'TERM', pipe.pid
-	    						response = "Command timed out - " + ex.to_s
-		    				ensure
-							pipe.close
-		    				end
+						Thread.start() {
+							pipe = nil
+							begin
+								timeout(10) do
+									pipe = IO.popen(cmdline)
+									response = pipe.readlines.join("\n").to_s
+				    					response = "No Output." if response == ""
+		    						end
+		    					rescue Exception => ex
+								Process.kill 'TERM', pipe.pid
+		    						response = "Command timed out - " + ex.to_s
+			    				ensure
+								pipe.close
+			    				end
+			    				sendChannel response
+			    			}
 	    				end
 	    			end
 	    		end
@@ -265,7 +269,7 @@ class TinderChannelBase
 			response = help(commandtypes)
 	end
 
-	response = "Command not found" if response == ""
+	response = "Command not found" if response == "" and hit == false
 
 	aOut = Array.new
 	hit = false

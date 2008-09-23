@@ -18,18 +18,22 @@ while count < 58
 		y = y.gsub(/&\/?[^;]{2,6};/,"")
 		y = y.gsub(/\"/,'\"')
 		y = y.gsub(/^(?:(?:you|u)[^\w]{0,2}){0,1}(?:(?:know|kno|now) you.{0,4}(?:stoned|high)[^\w]{0,2}){0,1}(?:[\.]*(?:when ){0,1}){0,1}/i, "")
-		puts y
-		hits1 += 1
-		mysql.query('INSERT INTO stonerjokes SET Line="' + y + '";')
+		if y.chomp.length > 1
+			puts y
+			hits1 += 1
+			mysql.query('INSERT INTO stonerjokes SET Line="' + y + '";')
+		end
 	}
 	file.scan(/<div id="post_message_.{1,6}?"><.+?<\/table>[^\w]*?<\/div>(.+?)<\/div>/im) {|x|
 		y = x.to_s.gsub(/<\/?[^>]*>/, "")
 		y = y.gsub(/&\/?[^;]{2,6};/,"")
 		y = y.gsub(/\"/,'\"')
 		y = y.gsub(/^(?:(?:you|u)[^\w]{0,2}){0,1}(?:(?:know|kno|now) you.{0,4}(?:stoned|high)[^\w]{0,2}){0,1}(?:[\.]*(?:when ){0,1}){0,1}/i, "")
-		puts y
-		hits2 += 1
-		mysql.query('INSERT INTO stonerjokes SET Line="' + y + '";')
+		if y.chomp.length > 1
+			puts y
+			hits2 += 1
+			mysql.query('INSERT INTO stonerjokes SET Line="' + y + '";')
+		end
 	}
 	puts "#{hits1},#{hits2} hits this poll \##{count}"
 	sleep 0.3

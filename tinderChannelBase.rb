@@ -192,8 +192,7 @@ class TinderChannelBase
 								count += 1
 								sleep 1
 							end
-							p pipe.pid
-							Process.kill 'TERM', pipe.pid
+
 							Process.kill 'KILL', pipe.pid
 						}
 
@@ -217,10 +216,21 @@ class TinderChannelBase
 
 						File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-						IO.popen('php /tmp/tinderScript 2>&1') do |out|
-							response += out.read.to_s
-						end
+						pipe = IO.popen('php /tmp/tinderScript 2>&1')
+						count = 0
+
+						Thread.start(pipe) {|pipe|
+							while count < 11
+								count += 1
+								sleep 1
+							end
+
+							Process.kill 'KILL', pipe.pid
+						}
+
+						response = pipe.readlines.join("\n").to_s
 	    					response = "No Output." if response == ""
+						pipe.close
 					end
 				rescue Exception => ex
 					response = "Command timed out - " + ex.to_s
@@ -235,10 +245,21 @@ class TinderChannelBase
 					timeout(10) do
 						File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-						IO.popen('ruby /tmp/tinderScript 2>&1') do |out|
-							response += out.read.to_s
-						end
+						pipe = IO.popen('ruby /tmp/tinderScript 2>&1')
+						count = 0
+
+						Thread.start(pipe) {|pipe|
+							while count < 11
+								count += 1
+								sleep 1
+							end
+
+							Process.kill 'KILL', pipe.pid
+						}
+
+						response = pipe.readlines.join("\n").to_s
 	    					response = "No Output." if response == ""
+						pipe.close
 					end
 				rescue Exception => ex
 					response = "Command timed out - " + ex.to_s
@@ -253,10 +274,22 @@ class TinderChannelBase
 					timeout(10) do
 						File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-						IO.popen('tclsh /tmp/tinderScript 2>&1') do |out|
-							response += out.read.to_s
-						end
+						pipe = IO.popen('tclsh /tmp/tinderScript 2>&1')
+						count = 0
+
+						Thread.start(pipe) {|pipe|
+							while count < 11
+								count += 1
+								sleep 1
+							end
+
+							Process.kill 'KILL', pipe.pid
+						}
+
+						response = pipe.readlines.join("\n").to_s
 	    					response = "No Output." if response == ""
+						pipe.close
+
 					end
 				rescue Exception => ex
 					response = "Command timed out - " + ex.to_s

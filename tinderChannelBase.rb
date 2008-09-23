@@ -641,20 +641,16 @@ class DirectoryWatcher
       checks = {
       	 :name => {
             :use=>false,
-            :proc=>Proc.new{ |file,stats| file.path }
+            :proc=>Proc.new{ |the_file,stats| the_file.path }
          },
          :date => {
             :use=>false,
-            :proc=>Proc.new{ |file,stats| stats.mtime }
+            :proc=>Proc.new{ |the_file,stats| stats.mtime }
          },
          :size => {
             :use=>true,
-            :proc=>Proc.new{ |file,stats| stats.size }
+            :proc=>Proc.new{ |the_file,stats| stats.size }
          },
-         :crc => {
-            :use=>false,
-            :proc=>Proc.new{ |file,stats| 1 }
-         }
       }
       checks.each_pair{ |check_name,check|
          check[:use] = (@onmodify_checks == check_name) || ( @onmodify_checks.respond_to?( :include? ) && @onmodify_checks.include?( check_name ) )

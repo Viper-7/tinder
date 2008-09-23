@@ -304,7 +304,7 @@ class TinderChannelBase
 		end
 	end
 	response = resp if resp != ""
-	status "Output  : " + response
+	puts "Output  : " + response
 	return response
     end
 

@@ -29,6 +29,7 @@ while count < 58
 		y = y.gsub(/&\/?[^;]{2,6};/,"")
 		y = y.gsub(/\"/,'\"')
 		y = y.gsub(/^(?:(?:you|u)[^\w]{0,2}){0,1}(?:(?:know|kno|now) you.{0,4}(?:stoned|high)[^\w]{0,2}){0,1}(?:[\.]*(?:when ){0,1}){0,1}/i, "")
+		y = y.gsub(/\n/,"")
 		if y.chomp.length > 1
 			puts y
 			hits2 += 1

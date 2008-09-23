@@ -5,6 +5,7 @@ require 'find'
 require 'rss/1.0'
 require 'rss/2.0'
 require 'open-uri'
+require 'popen4'
 
 STDOUT.sync = true
 tinderChannels = Array.new
@@ -184,10 +185,11 @@ class TinderChannelBase
 
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 
-						pipe = IO.popen(cmdline)
+						stdout, stderr, stdin, pipe = POpen4::popen4(cmdline)
 						begin
-							timeout(12) do
-								response = pipe.readlines.join("\n").to_s
+							timeout(5) do
+								response = stdout.readlines.join("\n").to_s
+								response = stderr.readlines.join("\n").to_s if response = ""
 							end
 						rescue Exception => ex
 							Process.kill 'KILL', pipe.pid
@@ -211,10 +213,11 @@ class TinderChannelBase
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				pipe = IO.popen('php /tmp/tinderScript')
+				stdout, stderr, stdin, pipe = POpen4::popen4('php /tmp/tinderScript')
 				begin
 					timeout(5) do
-						response = pipe.readlines.join("\n").to_s
+						response = stdout.readlines.join("\n").to_s
+						response = stderr.readlines.join("\n").to_s if response = ""
 					end
 				rescue Exception => ex
 					Process.kill 'KILL', pipe.pid
@@ -231,10 +234,11 @@ class TinderChannelBase
 			else
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				pipe = IO.popen('ruby /tmp/tinderScript')
+				stdout, stderr, stdin, pipe = POpen4::popen4('ruby /tmp/tinderScript')
 				begin
 					timeout(5) do
-						response = pipe.readlines.join("\n").to_s
+						response = stdout.readlines.join("\n").to_s
+						response = stderr.readlines.join("\n").to_s if response = ""
 					end
 				rescue Exception => ex
 					Process.kill 'KILL', pipe.pid
@@ -251,10 +255,11 @@ class TinderChannelBase
 			else
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				pipe = IO.popen('tclsh /tmp/tinderScript')
+				stdout, stderr, stdin, pipe = POpen4::popen4('tclsh /tmp/tinderScript')
 				begin
 					timeout(5) do
-						response = pipe.readlines.join("\n").to_s
+						response = stdout.readlines.join("\n").to_s
+						response = stderr.readlines.join("\n").to_s if response = ""
 					end
 				rescue Exception => ex
 					Process.kill 'KILL', pipe.pid

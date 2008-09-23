@@ -2,7 +2,7 @@ require 'open-uri'
 require 'mysql'
 
 mysql = Mysql.init()
-mysql.connect('kodiak','root','iamsus')
+mysql.connect('kodiak','db','db')
 mysql.select_db('viper7')
 
 count=0

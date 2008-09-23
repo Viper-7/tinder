@@ -187,9 +187,9 @@ class TinderChannelBase
 						pipe = IO.popen(cmdline)
 						begin
 							response = pipe.readlines.join("\n").to_s
-						rescue Timeout::error
+						rescue Exception => ex
 							Process.kill 'KILL', pipe.pid
-							response = "Command timed out"
+							response = "Command timed out - " + ex.to_s
 						ensure
 							response = "No Output." if response == ""
 							pipe.close
@@ -212,9 +212,9 @@ class TinderChannelBase
 				pipe = IO.popen('php /tmp/tinderScript')
 				begin
 					response = pipe.readlines.join("\n").to_s
-				rescue Timeout::error
+				rescue Exception => ex
 					Process.kill 'KILL', pipe.pid
-					response = "Command timed out"
+					response = "Command timed out - " + ex.to_s
 				ensure
 					response = "No Output." if response == ""
 					pipe.close
@@ -230,9 +230,9 @@ class TinderChannelBase
 				pipe = IO.popen('ruby /tmp/tinderScript')
 				begin
 					response = pipe.readlines.join("\n").to_s
-				rescue Timeout::error
+				rescue Exception => ex
 					Process.kill 'KILL', pipe.pid
-					response = "Command timed out"
+					response = "Command timed out - " + ex.to_s
 				ensure
 					response = "No Output." if response == ""
 					pipe.close
@@ -248,9 +248,9 @@ class TinderChannelBase
 				pipe = IO.popen('tclsh /tmp/tinderScript')
 				begin
 					response = pipe.readlines.join("\n").to_s
-				rescue Timeout::error
+				rescue Exception => ex
 					Process.kill 'KILL', pipe.pid
-					response = "Command timed out"
+					response = "Command timed out - " + ex.to_s
 				ensure
 					response = "No Output." if response == ""
 					pipe.close

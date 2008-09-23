@@ -21,7 +21,7 @@ while count < 58
 		y = y.gsub(/\n/,"")
 		y = y.gsub(/^r /, "you're")
 		y = "you" + y if y.match(/^put|know|lay/)
-		y = "you're" + y if y.match(/^driving|/)
+		y = "you're" + y if y.match(/^driving/)
 		if y.chomp.length > 1
 			puts y
 			hits1 += 1

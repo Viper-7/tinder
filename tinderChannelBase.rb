@@ -273,7 +273,7 @@ class TinderChannelBase
 					aOut.push resp
 					hit = true
 				end
-			elsif args.length > 1
+			elsif args.length > 1 and !args.match(/^latest$/)
 				resp = x.search args
 				if resp.length > 1
 					aOut.push resp

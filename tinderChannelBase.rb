@@ -5,6 +5,7 @@ require 'find'
 require 'rss/1.0'
 require 'rss/2.0'
 require 'open-uri'
+require 'rubygems'
 require 'popen4'
 
 STDOUT.sync = true
@@ -189,7 +190,7 @@ class TinderChannelBase
 						begin
 							timeout(5) do
 								response = stdout.readlines.join("\n").to_s
-								response = stderr.readlines.join("\n").to_s if response = ""
+								response = stderr.readlines.join("\n").to_s if response == ""
 							end
 						rescue Exception => ex
 							Process.kill 'KILL', pipe.pid

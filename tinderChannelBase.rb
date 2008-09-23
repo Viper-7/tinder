@@ -17,7 +17,7 @@ DRb.start_service
 class POpen4
 	def popen4(command, mode="t")
 		begin
-			return status = Open4.popen4(command) do |pid,stdin,stdout,STDERR|
+			return status = Open4.popen4(command) do |pid,stdin,stdout,stderr|
 				yield stdout, stderr, stdin, pid
 				stdout.read unless stdout.eof?
 				stderr.read unless stderr.eof?

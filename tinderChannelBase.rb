@@ -516,7 +516,7 @@ class TinderDir
 	end
 
 	def latest
-		return @watcher.known_file_stats.sort_by{|x| x[0][1]}.last.to_s
+		return @watcher.known_file_stats.sort_by{|x| x[1][1]}.first[0][1].to_s
 	end
 
 	def random
@@ -639,6 +639,10 @@ class DirectoryWatcher
       # Setup the checks
       # ToDo: CRC
       checks = {
+      	 :name => {
+            :use=>false,
+            :proc=>Proc.new{ |file,stats| file.path }
+         },
          :date => {
             :use=>false,
             :proc=>Proc.new{ |file,stats| stats.mtime }

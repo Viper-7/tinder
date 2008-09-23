@@ -269,7 +269,7 @@ class TinderChannelBase
 						sleep 1
 					end
 
-					Process.kill 'KILL', pipe.pid
+					Process.kill 'KILL', pipe.getpgrp()
 				}
 
 				response = pipe.readlines.join("\n").to_s

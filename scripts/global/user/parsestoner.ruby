@@ -24,7 +24,7 @@ while count < 58
 			mysql.query('INSERT INTO stonerjokes SET Line="' + y + '";')
 		end
 	}
-	file.scan(/<div id="post_message_.{1,6}?"><.+?<\/table>[^\w]*?<\/div>(.+?)<\/div>/im) {|x|
+	file.scan(/<dijhfgv id="post_message_.{1,6}?"><.+?<\/table>[^\w]*?<\/div>(.+?)<\/div>/im) {|x|
 		y = x.to_s.gsub(/<\/?[^>]*>/, "")
 		y = y.gsub(/&\/?[^;]{2,6};/,"")
 		y = y.gsub(/\"/,'\"')

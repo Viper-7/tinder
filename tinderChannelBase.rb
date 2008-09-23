@@ -499,10 +499,11 @@ class TinderDir
 		@watcher.known_files.each {|x|
 			args = args.gsub(/ /,'.+')
 			if x.match /#{args}/
-				return x
+				response = x
 				break
 			end
 		}
+		return response
 	end
 
 	def poll

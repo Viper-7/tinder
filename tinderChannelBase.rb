@@ -1,3 +1,5 @@
+require 'rubygems'
+require 'popen4'
 require 'drb'
 require 'socket'
 require 'timeout'
@@ -5,8 +7,6 @@ require 'find'
 require 'rss/1.0'
 require 'rss/2.0'
 require 'open-uri'
-require 'rubygems'
-require 'popen4'
 
 STDOUT.sync = true
 tinderChannels = Array.new

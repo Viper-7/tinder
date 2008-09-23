@@ -185,18 +185,19 @@ class TinderChannelBase
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 
 						pipe = IO.popen(cmdline)
-						begin
-							timeout(10) {
-								contents = pipe.readlines
-								response = contents.join("\n").to_s if contents.length > 0
-			    					response = "No Output." if response == ""
-	    						}
-	    					rescue Timeout::Error
-							Process.kill 9, pipe.pid
-	    						response = "Command timed out - " + ex.to_s
-		    				ensure
-							pipe.close
-		    				end
+						count = 0
+						Thread.start() {
+							if count == 10
+								Process.kill 9, pipe.pid
+		    						response = "Command timed out - " + ex.to_s
+							end
+
+							count += 1
+							sleep 1
+						}
+						response = pipe.readlines.join("\n").to_s
+	    					response = "No Output." if response == ""
+						pipe.close
 	    				end
 	    			end
 	    		end

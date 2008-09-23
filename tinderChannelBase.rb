@@ -186,6 +186,7 @@ class TinderChannelBase
 
 						pipe = IO.popen(cmdline)
 						count = 0
+
 						Thread.start(pipe) {|pipe|
 							while count < 11
 								count += 1
@@ -195,6 +196,7 @@ class TinderChannelBase
 							Process.kill 'TERM', pipe.pid
 							Process.kill 'KILL', pipe.pid
 						}
+
 						response = pipe.readlines.join("\n").to_s
 	    					response = "No Output." if response == ""
 						pipe.close

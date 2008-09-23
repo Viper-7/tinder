@@ -209,7 +209,6 @@ class TinderChannelBase
 								response = "Command timed out - " + ex.to_s
 							ensure
 								response = "No Output." if response == ""
-								pipe.close
 							end
 						}
 	    				end
@@ -238,7 +237,6 @@ class TinderChannelBase
 						response = "Command timed out - " + ex.to_s
 					ensure
 						response = "No Output." if response == ""
-						pipe.close
 					end
 				}
 			end
@@ -260,7 +258,6 @@ class TinderChannelBase
 						response = "Command timed out - " + ex.to_s
 					ensure
 						response = "No Output." if response == ""
-						pipe.close
 					end
 				}
 			end

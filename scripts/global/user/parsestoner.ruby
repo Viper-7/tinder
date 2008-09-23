@@ -15,7 +15,8 @@ while count < 58
 		y = x.to_s.gsub(/<\/?[^>]*>/, "")
 		y = y.gsub(/&\/?[^;]{2,6};/,"")
 		y = y.gsub(/\"/,'\"')
-		y = y.gsub(/^(?:you|u ){0,1}(?:know your stoned when ){0,1}your{0,1}you{0,1}(?:.{0,1}re){0,1}/i, "")
+		y = y.gsub(/^(?:you|u ){0,1}(?:know your stoned /i, "")
+		y = y.gsub(/^[\.]*(?:when ){0,1}/i, "")
 		puts y
 		mysql.query('INSERT INTO stonerjokes SET Line="' + y + '";')
 	}

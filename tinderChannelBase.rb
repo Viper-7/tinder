@@ -36,7 +36,7 @@ class TinderChannelBase
 
 	def popen4(command, mode="t")
 		begin
-			return status = Open4.popen4(command) do |pid,stdin,stdout,stderr|
+			Open4.popen4(command) do |pid,stdin,stdout,stderr|
 				yield stdout, stderr, stdin, pid
 				stdout.read unless stdout.eof?
 				stderr.read unless stderr.eof?

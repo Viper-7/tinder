@@ -497,6 +497,7 @@ class TinderDir
 
 	def search(args)
 		@watcher.known_files.each {|x|
+			args = args.gsub(/ /,'.+')
 			if x.match /#{args}/
 				return x
 				break

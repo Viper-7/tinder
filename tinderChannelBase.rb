@@ -214,7 +214,7 @@ class TinderChannelBase
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				pipe = IO.popen('php /tmp/tinderScript 2>&1')
+				pipe = IO.popen('php /tmp/tinderScript')
 				count = 0
 
 				Thread.start(pipe) {|pipe|
@@ -223,8 +223,7 @@ class TinderChannelBase
 						sleep 1
 					end
 
-					Process.kill 'KILL', pipe.getpgrp()
-					p pipe.getpgrp()
+					Process.kill 'KILL', pipe.pid
 				}
 
 				response = pipe.readlines.join("\n").to_s

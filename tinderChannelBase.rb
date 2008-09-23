@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'popen4'
 require 'drb'
 require 'socket'

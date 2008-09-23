@@ -186,14 +186,14 @@ class TinderChannelBase
 
 						Thread.start() {
 							pipe = nil
+							pipe = IO.popen(cmdline)
+							response = pipe.readlines.join("\n").to_s
+		    					response = "No Output." if response == ""
 							begin
 								timeout(10) do
-									pipe = IO.popen(cmdline)
-									response = pipe.readlines.join("\n").to_s
-				    					response = "No Output." if response == ""
 		    						end
 		    					rescue Exception => ex
-								Process.kill 'TERM', pipe.pid
+								Process.kill 'KILL', pipe.pid
 		    						response = "Command timed out - " + ex.to_s
 			    				ensure
 								pipe.close

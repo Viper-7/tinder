@@ -516,7 +516,7 @@ class TinderDir
 	end
 
 	def latest
-		return @watcher.known_file_stats.sort_by{|x| x.mtime}.last.to_s
+		return @watcher.known_file_stats.sort_by{|x| x[:date]}.last.to_s
 	end
 
 	def random
@@ -644,7 +644,7 @@ class DirectoryWatcher
             :proc=>Proc.new{ |file,stats| stats.mtime }
          },
          :size => {
-            :use=>false,
+            :use=>true,
             :proc=>Proc.new{ |file,stats| stats.size }
          },
          :crc => {

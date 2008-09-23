@@ -289,7 +289,11 @@ class TinderChannelBase
 		end
 	end
 	if hit == true
-		response = aOut.sort_by{rand}.first.to_s
+		if args.length == 0 or args.match(/^latest$/)
+			response = aOut.join("\n").to_s
+		else
+			response = aOut.sort_by{rand}.first.to_s
+		end
 	end
 
 	resp = ""
@@ -512,7 +516,7 @@ class TinderDir
 	end
 
 	def latest
-		return @watcher.known_files.last.to_s
+		return @watcher.known_files.sort_by{|x| x.mtime}.last.to_s
 	end
 
 	def random

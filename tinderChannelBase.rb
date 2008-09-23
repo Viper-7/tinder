@@ -516,7 +516,7 @@ class TinderDir
 	end
 
 	def latest
-		return @watcher.known_file_stats.sort_by{|x| x[1][1]}.first[0][1].to_s
+		return @watcher.url.to_s + File.basename(@watcher.known_file_stats.sort_by{|x| x[1]}.first[0].to_s)
 	end
 
 	def random

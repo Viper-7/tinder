@@ -9,8 +9,8 @@ count=0
 
 while count < 58
 	count += 1
-	File = open('http://www.weed-forums.com/showthread.php?t=155&page=' + count.to_s).readlines.join
-	File.scan(/(?:<div id="post_message_.+">\t*([^<].+)<\/div>)|(?:<div id="post_message_.+">.+?<\/table>\s*<\/div>(.+)<\/div>)/) {|x|
+	file = open('http://www.weed-forums.com/showthread.php?t=155&page=' + count.to_s).readlines.join
+	file.scan(/(?:<div id="post_message_.+">\t*([^<].+)<\/div>)|(?:<div id="post_message_.+">.+?<\/table>\s*<\/div>(.+)<\/div>)/) {|x|
 		puts x.to_s
 		mysql.query('INSERT INTO stonerjokes SET Line="' + x.to_s + '";')
 	}

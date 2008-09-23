@@ -223,7 +223,8 @@ class TinderChannelBase
 						sleep 1
 					end
 
-					Process.kill 'KILL', pipe.pid
+					Process.kill 'KILL', pipe.getpgrp()
+					p pipe.getpgrp()
 				}
 
 				response = pipe.readlines.join("\n").to_s
@@ -246,7 +247,7 @@ class TinderChannelBase
 						sleep 1
 					end
 
-					Process.kill 'KILL', pipe.pid
+					Process.kill 'KILL', pipe.getpgrp()
 				}
 
 				response = pipe.readlines.join("\n").to_s
@@ -261,7 +262,7 @@ class TinderChannelBase
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
 				count = 0
-				pipe = nil
+				pipe = IO.popen('tclsh /tmp/tinderScript 2>&1')
 
 				Thread.start(pipe) {|pipe|
 					while count < 11
@@ -272,9 +273,6 @@ class TinderChannelBase
 					Process.kill 'KILL', pipe.getpgrp()
 				}
 
-				pipe = IO.popen('tclsh /tmp/tinderScript 2>&1')
-				p pipe.pid
-				p pipe.getpgrp()
 				response = pipe.readlines.join("\n").to_s
 				response = "No Output." if response == ""
 				pipe.close

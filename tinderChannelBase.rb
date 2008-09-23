@@ -290,8 +290,8 @@ class TinderChannelBase
 	end
 	if hit == true
 		if args.length == 0 or args.match(/^latest$/)
-			aOut.sort_by{|x| x =~ /.+?|(.+)/; $1}
-			aOut.first =~ /(.+?)|.+/
+			aOut.sort_by{|x| x =~ /.+?\|(.+)/; $1}
+			aOut.first =~ /(.+?)\|.+/
 			response = $1
 		else
 			response = aOut.sort_by{rand}.first.to_s
@@ -520,8 +520,6 @@ class TinderDir
 
 	def latest
 		latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.last
-		p latestFile
-		p @watcher.known_file_stats[latestFile][:date]
 		return @url + File.basename(latestFile) + '|' + @watcher.known_file_stats[latestFile][:date].to_s
 	end
 

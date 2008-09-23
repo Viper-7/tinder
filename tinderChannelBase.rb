@@ -186,11 +186,11 @@ class TinderChannelBase
 
 						pipe = IO.popen(cmdline)
 						begin
-							timeout(10) do
+							timeout(10) {
 								contents = pipe.readlines
 								response = contents.join("\n").to_s if contents.length > 0
 			    					response = "No Output." if response == ""
-	    						end
+	    						}
 	    					rescue Timeout::Error
 							Process.kill 9, pipe.pid
 	    						response = "Command timed out - " + ex.to_s

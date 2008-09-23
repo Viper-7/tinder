@@ -32,7 +32,7 @@ class TinderChannel < TinderChannelBase
 		when /fuck you/i
 			fuckYou nick
 		when /stoned/
-			sendChannel stoned
+			sendChannel "You know you're stoned when " + stoned
 	end
     end
 end

@@ -34,14 +34,6 @@ class TinderChannelBase
     	@uptime = 0
     end
 
-	def popen4(command, mode="t")
-		Open4.popen4(command) {|pid,stdin,stdout,stderr|
-			yield stdout, stderr, stdin, pid
-			stdout.read unless stdout.eof?
-			stderr.read unless stderr.eof?
-		}
-	end
-
     def poll
     	@uptime += 1
     	@uptime = 5 if @uptime > 604
@@ -205,11 +197,12 @@ class TinderChannelBase
 									response = stderr.readlines.join("\n").to_s if response == ""
 								end
 							rescue Exception => ex
-								Process.kill 'KILL', pipe
+								Process.kill 'KILL', pipe.pid
 								response = "Command timed out - " + ex.to_s
 							ensure
 								response = "No Output." if response == ""
 							end
+							pipe.close
 						}
 	    				end
 	    			end
@@ -233,11 +226,12 @@ class TinderChannelBase
 							response = stderr.readlines.join("\n").to_s if response == ""
 						end
 					rescue Exception => ex
-						Process.kill 'KILL', pipe
+						Process.kill 'KILL', pipe.pid
 						response = "Command timed out - " + ex.to_s
 					ensure
 						response = "No Output." if response == ""
 					end
+					pipe.close
 				}
 			end
 		when /^ruby$/
@@ -254,11 +248,12 @@ class TinderChannelBase
 							response = stderr.readlines.join("\n").to_s if response == ""
 						end
 					rescue Exception => ex
-						Process.kill 'KILL', pipe
+						Process.kill 'KILL', pipe.pid
 						response = "Command timed out - " + ex.to_s
 					ensure
 						response = "No Output." if response == ""
 					end
+					pipe.close
 				}
 			end
 		when /^tcl$/
@@ -275,11 +270,12 @@ class TinderChannelBase
 							response = stderr.readlines.join("\n").to_s if response == ""
 						end
 					rescue Exception => ex
-						Process.kill 'KILL', pipe
+						Process.kill 'KILL', pipe.pid
 						response = "Command timed out - " + ex.to_s
 					ensure
 						response = "No Output." if response == ""
 					end
+					pipe.close
 				}
 			end
 		when /^mem$/

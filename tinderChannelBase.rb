@@ -185,20 +185,14 @@ class TinderChannelBase
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 
 						pipe = IO.popen(cmdline)
-						count = 0
-
-						Thread.start(pipe) {|pipe|
-							while count < 11
-								count += 1
-								sleep 1
-							end
-
+						begin
+							response = pipe.readlines.join("\n").to_s
+						rescue Timeout::error
 							Process.kill 'KILL', pipe.pid
-						}
-
-						response = pipe.readlines.join("\n").to_s
-	    					response = "No Output." if response == ""
-						pipe.close
+						ensure
+							response = "No Output." if response == ""
+							pipe.close
+						end
 	    				end
 	    			end
 	    		end
@@ -215,20 +209,14 @@ class TinderChannelBase
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
 				pipe = IO.popen('php /tmp/tinderScript')
-				count = 0
-
-				Thread.start(pipe) {|pipe|
-					while count < 11
-						count += 1
-						sleep 1
-					end
-
+				begin
+					response = pipe.readlines.join("\n").to_s
+				rescue Timeout::error
 					Process.kill 'KILL', pipe.pid
-				}
-
-				response = pipe.readlines.join("\n").to_s
-				response = "No Output." if response == ""
-				pipe.close
+				ensure
+					response = "No Output." if response == ""
+					pipe.close
+				end
 			end
 		when /^ruby$/
 			if args == ""
@@ -237,21 +225,15 @@ class TinderChannelBase
 			else
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				pipe = IO.popen('ruby /tmp/tinderScript 2>&1')
-				count = 0
-
-				Thread.start(pipe) {|pipe|
-					while count < 11
-						count += 1
-						sleep 1
-					end
-
-					Process.kill 'KILL', pipe.getpgrp()
-				}
-
-				response = pipe.readlines.join("\n").to_s
-				response = "No Output." if response == ""
-				pipe.close
+				pipe = IO.popen('ruby /tmp/tinderScript')
+				begin
+					response = pipe.readlines.join("\n").to_s
+				rescue Timeout::error
+					Process.kill 'KILL', pipe.pid
+				ensure
+					response = "No Output." if response == ""
+					pipe.close
+				end
 			end
 		when /^tcl$/
 			if args == ""
@@ -260,21 +242,15 @@ class TinderChannelBase
 			else
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				count = 0
-				pipe = IO.popen('tclsh /tmp/tinderScript 2>&1')
-
-				Thread.start(pipe) {|pipe|
-					while count < 11
-						count += 1
-						sleep 1
-					end
-
-					Process.kill 'KILL', pipe.getpgrp()
-				}
-
-				response = pipe.readlines.join("\n").to_s
-				response = "No Output." if response == ""
-				pipe.close
+				pipe = IO.popen('tclsh /tmp/tinderScript')
+				begin
+					response = pipe.readlines.join("\n").to_s
+				rescue Timeout::error
+					Process.kill 'KILL', pipe.pid
+				ensure
+					response = "No Output." if response == ""
+					pipe.close
+				end
 			end
 		when /^mem$/
 			usage = memUsage

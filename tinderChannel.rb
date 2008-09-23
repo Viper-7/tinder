@@ -18,8 +18,8 @@ class TinderChannel < TinderChannelBase
 	mysql = Mysql.init()
 	mysql.connect('kodiak','db','db')
 	mysql.select_db('viper7')
-    	result = mysql.query("SELECT * FROM `stonerjokes` ORDER BY RAND() LIMIT 1")
-    	return result.first.to_s
+    	result = mysql.query("SELECT Line FROM `stonerjokes` ORDER BY RAND() LIMIT 1")
+    	return result[0]
     	mysql.close
     end
 

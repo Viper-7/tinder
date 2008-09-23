@@ -210,90 +210,71 @@ class TinderChannelBase
 				response = 'Usage: @php <code to run>' + "\n"
 				response += 'Eg: @php echo "hi";'
 			else
-				begin
-					timeout(10) do
-						args = "<?php\n" + args + "\n?>"
+				args = "<?php\n" + args + "\n?>"
 
-						File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-						pipe = IO.popen('php /tmp/tinderScript 2>&1')
-						count = 0
+				pipe = IO.popen('php /tmp/tinderScript 2>&1')
+				count = 0
 
-						Thread.start(pipe) {|pipe|
-							while count < 11
-								count += 1
-								sleep 1
-							end
-
-							Process.kill 'KILL', pipe.pid
-						}
-
-						response = pipe.readlines.join("\n").to_s
-	    					response = "No Output." if response == ""
-						pipe.close
+				Thread.start(pipe) {|pipe|
+					while count < 11
+						count += 1
+						sleep 1
 					end
-				rescue Exception => ex
-					response = "Command timed out - " + ex.to_s
-				end
+
+					Process.kill 'KILL', pipe.pid
+				}
+
+				response = pipe.readlines.join("\n").to_s
+				response = "No Output." if response == ""
+				pipe.close
 			end
 		when /^ruby$/
 			if args == ""
 				response = 'Usage: @ruby <code to run>' + "\n"
 				response += 'Eg: @ruby puts "hi"'
 			else
-				begin
-					timeout(10) do
-						File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-						pipe = IO.popen('ruby /tmp/tinderScript 2>&1')
-						count = 0
+				pipe = IO.popen('ruby /tmp/tinderScript 2>&1')
+				count = 0
 
-						Thread.start(pipe) {|pipe|
-							while count < 11
-								count += 1
-								sleep 1
-							end
-
-							Process.kill 'KILL', pipe.pid
-						}
-
-						response = pipe.readlines.join("\n").to_s
-	    					response = "No Output." if response == ""
-						pipe.close
+				Thread.start(pipe) {|pipe|
+					while count < 11
+						count += 1
+						sleep 1
 					end
-				rescue Exception => ex
-					response = "Command timed out - " + ex.to_s
-				end
+
+					Process.kill 'KILL', pipe.pid
+				}
+
+				response = pipe.readlines.join("\n").to_s
+				response = "No Output." if response == ""
+				pipe.close
 			end
 		when /^tcl$/
 			if args == ""
 				response = 'Usage: @tcl <code to run>' + "\n"
 				response += 'Eg: @tcl puts hi'
 			else
-				begin
-					timeout(10) do
-						File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-						pipe = IO.popen('tclsh /tmp/tinderScript 2>&1')
-						count = 0
+				pipe = IO.popen('tclsh /tmp/tinderScript 2>&1')
+				count = 0
 
-						Thread.start(pipe) {|pipe|
-							while count < 11
-								count += 1
-								sleep 1
-							end
-
-							Process.kill 'KILL', pipe.pid
-						}
-
-						response = pipe.readlines.join("\n").to_s
-	    					response = "No Output." if response == ""
-						pipe.close
-
+				Thread.start(pipe) {|pipe|
+					while count < 11
+						count += 1
+						sleep 1
 					end
-				rescue Exception => ex
-					response = "Command timed out - " + ex.to_s
-				end
+
+					Process.kill 'KILL', pipe.pid
+				}
+
+				response = pipe.readlines.join("\n").to_s
+				response = "No Output." if response == ""
+				pipe.close
 			end
 		when /^mem$/
 			usage = memUsage

@@ -43,14 +43,15 @@ class TinderChannel < TinderChannelBase
 			fuckYou nick
 		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:stoned|high|baked) (?:when|if) (.+)/i
 			line = $1.chomp
-			line.gsub(/"/,'\"')
+			line.gsub(/\"/,'\"')
 			if line.length > 1
 				mysql = Mysql.init()
 				mysql.connect('kodiak','db','db')
 				mysql.select_db('viper7')
-				result = mysql.query("SELECT COUNT(*) FROM stonerjokes WHERE Line LIKE \"" + line + "\"")
-				count = result.fetch_row[0]
-				if count == 0
+				result = mysql.query("SELECT COUNT(*) FROM stonerjokes WHERE Line LIKE \"#{line}\"")
+				count = result.fetch_row
+				p count[0]
+				if count[0] == 0
 					mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
 					sendChannel 'Added joke'
 				else
@@ -59,14 +60,15 @@ class TinderChannel < TinderChannelBase
 			end
 		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:drunk|smashed|hammered) (?:when|if) (.+)/i
 			line = $1.chomp
-			line.gsub(/"/,'\"')
+			line.gsub(/\"/,'\"')
 			if line.length > 1
 				mysql = Mysql.init()
 				mysql.connect('kodiak','db','db')
 				mysql.select_db('viper7')
-				result = mysql.query("SELECT COUNT(*) FROM drunkjokes WHERE Line LIKE \"" + line + "\"")
-				count = result.fetch_row[0]
-				if count == 0
+				result = mysql.query("SELECT COUNT(*) FROM drunkjokes WHERE Line LIKE \"#{line}\"")
+				count = result.fetch_row
+				p count[0]
+				if count[0] == 0
 					mysql.query("INSERT INTO drunkjokes SET Line=\"#{line}\"")
 					sendChannel 'Added joke'
 				else

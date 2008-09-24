@@ -24,6 +24,15 @@ class TinderChannel < TinderChannelBase
     	mysql.close
     end
 
+    def drunk
+	mysql = Mysql.init()
+	mysql.connect('kodiak','db','db')
+	mysql.select_db('viper7')
+    	result = mysql.query("SELECT Line FROM `drunkjokes` ORDER BY RAND() LIMIT 1")
+    	row = result.fetch_row
+    	return row[0]
+    	mysql.close
+    end
 
     def channelText(nick, host, msg)
     	super(nick,host,msg)
@@ -34,6 +43,8 @@ class TinderChannel < TinderChannelBase
 			fuckYou nick
 		when /stoned|high|baked/
 			sendChannel "You know you're stoned when " + stoned
+		when /drunk|smashed/
+			sendChannel "You know you're drunk when " + drunk
 	end
     end
 end

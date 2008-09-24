@@ -73,7 +73,7 @@ class TinderChannel < TinderChannelBase
 			end
 		when /stoned|high|baked/
 			sendChannel "You know you're stoned when " + stoned
-		when /drunk|smashed/
+		when /drunk|smashed|hammered/
 			sendChannel "You know you're drunk when " + drunk
 	end
     end

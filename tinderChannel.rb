@@ -54,8 +54,6 @@ class TinderChannel < TinderChannelBase
 				if count[0] == "0"
 					mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
 					sendChannel 'Added joke'
-				else
-					sendChannel 'Joke already exists'
 				end
 			end
 		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:drunk|smashed|hammered) (?:when|if) (.+)/i
@@ -71,8 +69,6 @@ class TinderChannel < TinderChannelBase
 				if count[0] == "0"
 					mysql.query("INSERT INTO drunkjokes SET Line=\"#{line}\"")
 					sendChannel 'Added joke'
-				else
-					sendChannel 'Joke already exists'
 				end
 			end
 		when /stoned|high|baked/

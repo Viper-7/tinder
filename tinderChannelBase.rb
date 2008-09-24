@@ -53,8 +53,12 @@ class TinderChannelBase
     def poll
     	@uptime += 1
     	@uptime = 5 if @uptime > 604
-	@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
-	@rssWatchers.each{|x| x.poll} if @uptime % 120 == 0
+    	begin
+		@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
+		@rssWatchers.each{|x| x.poll} if @uptime % 120 == 0
+	rescue Exception => ex
+		@tinderBot.status ex
+	end
     end
 
     def memUsage

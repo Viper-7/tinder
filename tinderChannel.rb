@@ -45,6 +45,22 @@ class TinderChannel < TinderChannelBase
 			sendChannel "You know you're stoned when " + stoned
 		when /drunk|smashed/
 			sendChannel "You know you're drunk when " + drunk
+		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:stoned|high|baked) (?:when|if) (.+)/
+			line = $1.chomp
+			if line.length > 1
+				mysql = Mysql.init()
+				mysql.connect('kodiak','db','db')
+				mysql.select_db('viper7')
+				puts mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
+			end
+		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:drunk|smashed|hammered) (?:when|if) (.+)/
+			line = $1.chomp
+			if line.length > 1
+				mysql = Mysql.init()
+				mysql.connect('kodiak','db','db')
+				mysql.select_db('viper7')
+				puts mysql.query("INSERT INTO drunkjokes SET Line=\"#{line}\"")
+			end
 	end
     end
 end

@@ -49,9 +49,12 @@ class TinderChannel < TinderChannelBase
 				mysql.connect('kodiak','db','db')
 				mysql.select_db('viper7')
 				result = mysql.query("SELECT COUNT(*) FROM stonerjokes WHERE Line LIKE \"" + line + "\"")
-				count = result.first[0]
+				count = result.fetch_row[0]
 				if count == 0
-					sendChannel mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
+					result = mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
+					result.each {|row|
+						sendChannel row[0]
+					}
 				end
 			end
 		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:drunk|smashed|hammered) (?:when|if) (.+)/i
@@ -61,10 +64,13 @@ class TinderChannel < TinderChannelBase
 				mysql = Mysql.init()
 				mysql.connect('kodiak','db','db')
 				mysql.select_db('viper7')
-				result = mysql.query("SELECT COUNT(*) FROM drunkjokes WHERE Line LIKE '" + line + "'")
-				count = result.first[0]
+				result = mysql.query("SELECT COUNT(*) FROM drunkjokes WHERE Line LIKE \"" + line + "\"")
+				count = result.fetch_row[0]
 				if count == 0
-					sendChannel mysql.query("INSERT INTO drunkjokes SET Line=\"#{line}\"")
+					result = mysql.query("INSERT INTO drunkjokes SET Line=\"#{line}\"")
+					result.each {|row|
+						sendChannel row[0]
+					}
 				end
 			end
 		when /stoned|high|baked/

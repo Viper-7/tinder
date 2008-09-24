@@ -51,7 +51,7 @@ class TinderChannel < TinderChannelBase
 				result = mysql.query("SELECT COUNT(*) FROM stonerjokes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
 				p count[0]
-				if count[0] == 0
+				if count[0] == "0"
 					mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
 					sendChannel 'Added joke'
 				else
@@ -68,7 +68,7 @@ class TinderChannel < TinderChannelBase
 				result = mysql.query("SELECT COUNT(*) FROM drunkjokes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
 				p count[0]
-				if count[0] == 0
+				if count[0] == "0"
 					mysql.query("INSERT INTO drunkjokes SET Line=\"#{line}\"")
 					sendChannel 'Added joke'
 				else

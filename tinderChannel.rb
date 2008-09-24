@@ -41,10 +41,6 @@ class TinderChannel < TinderChannelBase
 			sendChannel "FIGHT THE POWAH!"
 		when /fuck (?:you|u|me)/i
 			fuckYou nick
-		when /stoned|high|baked/
-			sendChannel "You know you're stoned when " + stoned
-		when /drunk|smashed/
-			sendChannel "You know you're drunk when " + drunk
 		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:stoned|high|baked) (?:when|if) (.+)/i
 			line = $1.chomp
 			line.gsub(/"/,'\"')
@@ -55,7 +51,7 @@ class TinderChannel < TinderChannelBase
 				result = mysql.query("SELECT COUNT(*) FROM stonerjokes WHERE Line LIKE \"" + line + "\"")
 				count = result.first[0]
 				if count == 0
-					puts mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
+					sendChannel mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
 				end
 			end
 		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:drunk|smashed|hammered) (?:when|if) (.+)/i
@@ -68,9 +64,13 @@ class TinderChannel < TinderChannelBase
 				result = mysql.query("SELECT COUNT(*) FROM drunkjokes WHERE Line LIKE '" + line + "'")
 				count = result.first[0]
 				if count == 0
-					puts mysql.query("INSERT INTO drunkjokes SET Line=\"#{line}\"")
+					sendChannel mysql.query("INSERT INTO drunkjokes SET Line=\"#{line}\"")
 				end
 			end
+		when /stoned|high|baked/
+			sendChannel "You know you're stoned when " + stoned
+		when /drunk|smashed/
+			sendChannel "You know you're drunk when " + drunk
 	end
     end
 end

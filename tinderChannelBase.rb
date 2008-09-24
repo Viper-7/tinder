@@ -204,7 +204,6 @@ class TinderChannelBase
 	    					else
 	    						cmdline = "#{lang} #{filename}.#{ext}" + ' 2>&1'
 	    					end
-
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
 
 						popen4(cmdline) {|stdout, stderr, stdin, pipe|

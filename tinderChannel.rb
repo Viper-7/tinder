@@ -30,7 +30,7 @@ class TinderChannel < TinderChannelBase
     	case msg
 		when /^ROW ROW$/
 			sendChannel "FIGHT THE POWAH!"
-		when /fuck you|u|me/i
+		when /fuck (?:you|u|me)/i
 			fuckYou nick
 		when /stoned|high|baked/
 			sendChannel "You know you're stoned when " + stoned

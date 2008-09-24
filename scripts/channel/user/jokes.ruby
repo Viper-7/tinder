@@ -1,3 +1,5 @@
+require 'mysql'
+
 mysql = Mysql.init()
 mysql.connect('kodiak','db','db')
 mysql.select_db('viper7')

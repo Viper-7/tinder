@@ -200,7 +200,6 @@ class TinderChannelBase
 						end
 	    					if args.length > 0
 						    	args = args.gsub(/\|/,':')
-
 	    						cmdline = "#{lang} #{filename}.#{ext} #{args}" + ' 2>&1'
 	    					else
 	    						cmdline = "#{lang} #{filename}.#{ext}" + ' 2>&1'

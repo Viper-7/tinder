@@ -8,5 +8,6 @@ mysql.query("TRUNCATE TABLE drunkjokes")
 
 file = open('http://www.viper-7.com/drunk.txt').readlines
 file.each {|x|
+	x = x.gsub(/"/,'\"')
 	mysql.query('INSERT INTO drunkjokes SET Line="' + x + '";')
 }

@@ -166,7 +166,6 @@ class TinderChannelBase
 
     def runCommand(command, args, nick, host, commandtypes)
     	response = ""
-    	args = args.gsub(/\|/,':')
     	hit = false
     	commandtypes.each{|z|
     		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
@@ -200,6 +199,7 @@ class TinderChannelBase
 							args = '"' + args + '"'
 						end
 	    					if args.length > 0
+						    	args = args.gsub(/\|/,':')
 	    						cmdline = "#{lang} #{filename}.#{ext} #{args}" + ' 2>&1'
 	    					else
 	    						cmdline = "#{lang} #{filename}.#{ext}" + ' 2>&1'

@@ -47,11 +47,12 @@ class TinderChannel < TinderChannelBase
 			sendChannel "You know you're drunk when " + drunk
 		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:stoned|high|baked) (?:when|if) (.+)/i
 			line = $1.chomp
+			line.gsub(/"/,'\"')
 			if line.length > 1
 				mysql = Mysql.init()
 				mysql.connect('kodiak','db','db')
 				mysql.select_db('viper7')
-				result = mysql.query("SELECT COUNT(*) FROM stonerjokes WHERE Line LIKE '" + line + "'")
+				result = mysql.query("SELECT COUNT(*) FROM stonerjokes WHERE Line LIKE \"" + line + "\"")
 				count = result.first[0]
 				if count == 0
 					puts mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
@@ -59,6 +60,7 @@ class TinderChannel < TinderChannelBase
 			end
 		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:drunk|smashed|hammered) (?:when|if) (.+)/i
 			line = $1.chomp
+			line.gsub(/"/,'\"')
 			if line.length > 1
 				mysql = Mysql.init()
 				mysql.connect('kodiak','db','db')

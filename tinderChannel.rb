@@ -94,7 +94,7 @@ class TinderChannel < TinderChannelBase
 				p count[0]
 				if count[0] == "0"
 					mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Author=\"#{author}\"")
-					sendChannel 'Added joke'
+					sendChannel 'Added quote'
 				end
 			end
 		when /stoned|high|baked/

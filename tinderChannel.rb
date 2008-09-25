@@ -14,6 +14,16 @@ class TinderChannel < TinderChannelBase
 	sendChannel "Fuck my #{vagoo.downcase} #{nick.downcase} you #{dirty} #{whore}."
     end
 
+    def quote
+	mysql = Mysql.init()
+	mysql.connect('kodiak','db','db')
+	mysql.select_db('viper7')
+    	result = mysql.query("SELECT Line, Author FROM `quote` ORDER BY RAND() LIMIT 1")
+    	row = result.fetch_row
+    	return '"' + row[0].to_s + '" - ' + row[1].to_s
+    	mysql.close
+    end
+
     def stoned
 	mysql = Mysql.init()
 	mysql.connect('kodiak','db','db')
@@ -71,10 +81,28 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added joke'
 				end
 			end
+		when /^"(.+?)" - (.+)$/
+			line = $1.chomp
+			author = $2.chomp
+			line.gsub(/\"/,'\"')
+			if line.length > 1
+				mysql = Mysql.init()
+				mysql.connect('kodiak','db','db')
+				mysql.select_db('viper7')
+				result = mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"#{line}\"")
+				count = result.fetch_row
+				p count[0]
+				if count[0] == "0"
+					mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Author=\"#{author}\"")
+					sendChannel 'Added joke'
+				end
+			end
 		when /stoned|high|baked/
 			sendChannel "You know you're stoned when " + stoned
 		when /drunk|smashed|hammered/
 			sendChannel "You know you're drunk when " + drunk
+		when /^@quote$/
+			sendChannel quote
 	end
     end
 end

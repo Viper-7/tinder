@@ -645,7 +645,7 @@ class TinderRSS
 
 	def ignore(args)
 		args = args.gsub(/ /,'.+')
-		if !@ignore.include? /#{args}/
+		if !@ignore.include? "/#{args}/"
 			@ignore.push /#{args}/
 		end
 	end

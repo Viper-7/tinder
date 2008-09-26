@@ -650,6 +650,7 @@ class TinderRSS
 
 	def listignore
 		response = ""
+		@ignore.clear
 		count = 0
 		result = @channel.mysql.query("SELECT Line FROM nzbignore")
 		result.each_hash {|x|

@@ -631,7 +631,7 @@ class TinderRSS
 			@buffer.push(x.title + ' - ' + x.link)
 			count += 1
 		}
-		puts "Added #{count} entries to RSS Watcher - #{@url}"
+		puts "Status  : Added #{count} entries to RSS Watcher - #{@url}"
 
 		result = @channel.mysql.query("SELECT Line FROM nzbignore")
 		result.each_hash {|x| @ignore.push x["Line"] }
@@ -824,7 +824,7 @@ class DirectoryWatcher
          end
          the_file.close
       }
-      puts "Added #{count} entries to Dir Watcher - #{@directory.path}" if @scanned_once != true
+      puts "Status  : Added #{count} entries to Dir Watcher - #{@directory.path}" if @scanned_once != true
 
       # Check for removed files
       if @on_remove.respond_to?( :call )

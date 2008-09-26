@@ -308,7 +308,7 @@ class TinderChannelBase
 	end
 
 	response = "Command not found" if response == "" and hit == false
-	response = "" if command.chomp == 'addquote'
+	response = "" if command.chomp == 'addquote' or command.chomp == 'quote'
 	aOut = Array.new
 
 	hit = false

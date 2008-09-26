@@ -350,7 +350,7 @@ class TinderChannelBase
 			case args
 				when /^latest$/i
 					resp = x.latest
-				when /(.+) is (?:shit|bad|poo|terrible|crap)/i
+				when /(.+?) is (?:shit|bad|poo|terrible|crap)/i
 					x.ignore $1
 					args = $1.gsub(/ /,'.+')
 					result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line LIKE \"#{args}\"")
@@ -358,7 +358,7 @@ class TinderChannelBase
 					resp = "Ignoring #{args}"
 				when /listignore/
 					resp = x.listignore
-				when /(.+) is (?:good|fine|ok|sick)/i
+				when /(.+?) is (?:good|fine|ok|sick)/i
 					x.allow $1
 					args = $1.gsub(/ /,'.+')
 					result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line LIKE \"#{args}\"")

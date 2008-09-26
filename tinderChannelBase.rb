@@ -150,7 +150,7 @@ class TinderChannelBase
 	    	end
 
 		if z == "global"
-		    	response += '@php @ruby @tcl @quote @addquote '
+		    	response += '@php @ruby @tcl '
 		end
 
 	    	if z == "channel"
@@ -165,6 +165,7 @@ class TinderChannelBase
 		    		rssTypes.push x.type if !rssTypes.include? x.type
 		    	end
 			rssTypes.each{|x| response += '@' + x.downcase + ' '}
+			response += '@quote @addquote '
 		end
 
 	    	lines += response + "\n"

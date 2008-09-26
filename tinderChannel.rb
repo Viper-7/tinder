@@ -17,7 +17,7 @@ class TinderChannel < TinderChannelBase
     def randomquote
     	result = @mysql.query("SELECT Line, Source FROM quotes ORDER BY RAND() LIMIT 1")
     	row = result.fetch_row
-    	return '"' + row[0] + '" - ' + row[1]
+    	return '`' + row[0] + '` - ' + row[1]
     end
 
     def stoned

@@ -61,7 +61,7 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added joke'
 				end
 			end
-		when /^"(.+)" - (.+?)$/
+		when /^"(.+)" - (.+?)$/i
 			line = $1.chomp
 			author = $2.chomp
 			line.gsub(/\"/,'\"')
@@ -69,6 +69,7 @@ class TinderChannel < TinderChannelBase
 				result = @mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
 				if count[0] == "0"
+					puts "INSERT INTO quotes SET Line=\"#{line}\", Author=\"#{author}\""
 					@mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Author=\"#{author}\"")
 					sendChannel 'Added quote'
 				end

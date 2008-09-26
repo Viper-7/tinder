@@ -347,25 +347,26 @@ class TinderChannelBase
 	resp = ""
 	@rssWatchers.each do |x|
 		if x.type.match(/^#{command.chomp}$/i)
-			if args.match(/^latest$/i)
-				resp = x.latest
-			elsif args.match(/(.+) is shit|bad|poo|terrible|crap/i)
-				x.ignore $1
-				args = $1.gsub(/ /,'.+')
-				result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line=\"#{args}\"")
-				@mysql.query("INSERT INTO nzbignore SET Line=\"#{args}\"") if result.fetch_row[0] == "0"
-				resp = "Ignoring #{args}"
-			elsif args.match(/listignore/)
-				resp = x.listignore
-			elsif args.match(/(.+) is good|fine|ok|sick/i)
-				x.allow $1
-				args = $1.gsub(/ /,'.+')
-				result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line=\"#{args}\"")
-				@mysql.query("DELETE FROM nzbignore WHERE Line=\"#{args}\"") if result.fetch_row[0] != "0"
-				resp = "Allowing #{args}"
-			else
-				resp = x.search args
-				resp = 'No Hits :(' if resp == ""
+			case args
+				when /^latest$/i
+					resp = x.latest
+				when /(.+) is shit|bad|poo|terrible|crap/i
+					x.ignore $1
+					args = $1.gsub(/ /,'.+')
+					result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line LIKE \"#{args}\"")
+					@mysql.query("INSERT INTO nzbignore SET Line=\"#{args}\"") if result.fetch_row[0] == "0"
+					resp = "Ignoring #{args}"
+				when /listignore/
+					resp = x.listignore
+				when /(.+) is good|fine|ok|sick/i
+					x.allow $1
+					args = $1.gsub(/ /,'.+')
+					result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line LIKE \"#{args}\"")
+					@mysql.query("DELETE FROM nzbignore WHERE Line LIKE \"#{args}\"") if result.fetch_row[0] != "0"
+					resp = "Allowing #{args}"
+				else
+					resp = x.search args
+					resp = 'No Hits :(' if resp == ""
 			end
 		end
 	end

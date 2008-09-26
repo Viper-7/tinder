@@ -5,6 +5,7 @@ require 'find'
 require 'rss/1.0'
 require 'rss/2.0'
 require 'open-uri'
+require 'mysql'
 
 require 'rubygems'
 require 'open4'
@@ -20,7 +21,7 @@ DRb.start_service
 class TinderChannelBase
     include DRbUndumped
 
-    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :dirWatchers, :rssWatchers, :adminHosts
+    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :dirWatchers, :rssWatchers, :adminHosts, :mysql
 
     def initialize(channel, tinderBot)
 	@dirWatchers = Array.new
@@ -32,6 +33,10 @@ class TinderChannelBase
     	@tinderBot.addChannel(self)
     	@dumpnicks = Array.new
     	@uptime = 0
+
+	@mysql = Mysql.init()
+	@mysql.connect('kodiak','db','db')
+	@mysql.select_db('viper7')
     end
 
 	def popen4(command, mode="t")
@@ -344,6 +349,8 @@ class TinderChannelBase
 		if x.type.match(/^#{command.chomp}$/i)
 			if args.match(/^latest$/i)
 				resp = x.latest
+			elsif args.match(/(.+) is shit/)
+				resp = x.ignore $1
 			else
 				resp = x.search args
 				resp = 'No Hits :(' if resp == ""
@@ -570,7 +577,7 @@ class TinderDir
 end
 
 class TinderRSS
-	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type
+	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type, @ignore
 
 	def initialize(url, channel, type = 'link', announce = false)
 		@channel = channel
@@ -578,12 +585,24 @@ class TinderRSS
 		@announce = announce
 		@type = type
 		@buffer = Array.new
+		@ignore = Array.new
 
 		content = open(@url).read
 		rss = RSS::Parser.parse(content, false)
 		count = 0
-		rss.items.each{|x| @buffer.push(x.title + ' - ' + x.link); count += 1}
+		rss.items.each{|x|
+			@buffer.push(x.title + ' - ' + x.link)
+			count += 1
+		}
 		puts "Added #{count} entries to RSS Watcher - #{@url}"
+
+		count = 0
+		result = @channel.mysql.query("SELECT Line FROM nzbignore")
+		result.each_hash {|x|
+			@ignore.push x["Line"]
+			count += 1
+		}
+		puts "Added #{count} entries to RSS Ignore List - #{@url}"
 	end
 
 	def tinyURL(url)
@@ -596,10 +615,22 @@ class TinderRSS
 
 		rss.items.each{|x|
 			if !@buffer.include?(x.title + ' - ' + x.link)
+				hit = true
+				@ignore.each{|y|
+					hit = false if y.match(x.title)
+				}
 				@buffer.push(x.title + ' - ' + x.link)
-				@channel.sendChannel "New #{@type}: #{x.title} - #{tinyURL(x.link)}" if @announce
+				@channel.sendChannel "New #{@type}: #{x.title} - #{tinyURL(x.link)}" if @announce and hit
 			end
 		}
+	end
+
+	def ignore(args)
+		args = args.gsub(/ /,'.+')
+		@ignore.push /#{args}/
+
+		@channel.mysql.query("INSERT INTO nzbignore SET Line=\"#{args}\"")
+		return "Ignoring /#{args}/"
 	end
 
 	def search(args)

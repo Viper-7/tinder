@@ -361,7 +361,7 @@ class TinderChannelBase
 			response = aOut.sort_by{rand}.first.to_s
 		end
 	end
-
+	resp = ""
 	@rssWatchers.each do |x|
 		if x.type.match(/^#{command.chomp}$/i)
 			case args

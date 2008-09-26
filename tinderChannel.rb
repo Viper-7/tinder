@@ -66,7 +66,7 @@ class TinderChannel < TinderChannelBase
 			author = $2.chomp
 			line.gsub(/\"/,'\"')
 			if line.length > 1
-				result = @mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"#{line}\"")
+				result = @mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"%#{line}%\"")
 				count = result.fetch_row
 				if count[0] == "0"
 					@mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Source=\"#{author}\"")

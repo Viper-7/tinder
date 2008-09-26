@@ -390,7 +390,7 @@ class TinderChannelBase
 				else
 					resp2 = x.search args
 					resp = resp2 if resp2.length > 1
-					resp = 'No Hits :(' if resp = ""
+					resp = 'No Hits :(' if resp == ""
 			end
 		end
 	end
@@ -652,7 +652,6 @@ class TinderRSS
 					hit = true
 					@ignore.each{|y|
 						hit = false if /#{y}/i.match(x.title)
-						puts 'checking ' + x.title + ' against /' + y + '/ ' + hit.to_s
 					}
 					@channel.sendChannel "New #{@type}: #{x.title} - #{tinyURL(x.link)}" if hit
 				end

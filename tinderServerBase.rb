@@ -213,13 +213,13 @@ class TinderClient
             	shutDown
             when /^PING :(.+)$/i
                 send "PONG :#{$1}"
-            when /^:(.+?)!(.+?)@(.+?) PRIVMSG #{@nick} :\x01PING (.+)\x01$/i
+            when /^:(.+?)![~]?(.+?)@(.+?) PRIVMSG #{@nick} :\x01PING (.+)\x01$/i
                 send "NOTICE #{$1} :\x01PING #{$4}\x01"
-            when /^:(.+?)!(.+?)@(.+?) PRIVMSG #{@nick} :\x01VERSION\x01$/i
+            when /^:(.+?)![~]?(.+?)@(.+?) PRIVMSG #{@nick} :\x01VERSION\x01$/i
                 send "NOTICE #{$1} :\x01VERSION TinderBot v0.001\x01"
-            when /^:(.+?)!(.+?) PRIVMSG #{@nick} :(.+)$/
+            when /^:(.+?)![~]?(.+?) PRIVMSG #{@nick} :(.+)$/
                 privateText $1, $2, $3
-            when /^:(.+?)!(.+?) PRIVMSG \#(.+?) :(.+)$/
+            when /^:(.+?)![~]?(.+?) PRIVMSG \#(.+?) :(.+)$/
                 channelText $3, $2, $1, $4
             when /001 #{@nick}/i
 		if !@connected

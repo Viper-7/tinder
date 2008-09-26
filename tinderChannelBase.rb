@@ -240,6 +240,10 @@ class TinderChannelBase
 				response = 'Usage: @php <code to run>' + "\n"
 				response += 'Eg: @php echo "hi";'
 			else
+				args.gsub(/rm/, 'rn')
+				args.gsub(/exec/, 'pcntl_exec')
+				args.gsub(/mail/, 'm@il')
+
 				args = "<?php\n" + args + "\n?>"
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
@@ -263,6 +267,9 @@ class TinderChannelBase
 				response = 'Usage: @ruby <code to run>' + "\n"
 				response += 'Eg: @ruby puts "hi"'
 			else
+				args.gsub(/rm/, 'rn')
+				args.gsub(/mail/, 'm@il')
+
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
 				popen4('ruby /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
@@ -284,6 +291,9 @@ class TinderChannelBase
 				response = 'Usage: @tcl <code to run>' + "\n"
 				response += 'Eg: @tcl puts hi'
 			else
+				args.gsub(/rm/, 'rn')
+				args.gsub(/mail/, 'm@il')
+
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
 				popen4('tclsh /tmp/tinderScript') {|stdout, stderr, stdin, pipe|

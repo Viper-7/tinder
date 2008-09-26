@@ -15,33 +15,21 @@ class TinderChannel < TinderChannelBase
     end
 
     def quote
-	mysql = Mysql.init()
-	mysql.connect('kodiak','db','db')
-	mysql.select_db('viper7')
-    	result = mysql.query("SELECT Line, Author FROM `quote` ORDER BY RAND() LIMIT 1")
+    	result = @mysql.query("SELECT Line, Author FROM `quote` ORDER BY RAND() LIMIT 1")
     	row = result.fetch_row
     	return '"' + row[0].to_s + '" - ' + row[1].to_s
-    	mysql.close
     end
 
     def stoned
-	mysql = Mysql.init()
-	mysql.connect('kodiak','db','db')
-	mysql.select_db('viper7')
-    	result = mysql.query("SELECT Line FROM `stonerjokes` ORDER BY RAND() LIMIT 1")
+    	result = @mysql.query("SELECT Line FROM `stonerjokes` ORDER BY RAND() LIMIT 1")
     	row = result.fetch_row
     	return row[0]
-    	mysql.close
     end
 
     def drunk
-	mysql = Mysql.init()
-	mysql.connect('kodiak','db','db')
-	mysql.select_db('viper7')
-    	result = mysql.query("SELECT Line FROM `drunkjokes` ORDER BY RAND() LIMIT 1")
+    	result = @mysql.query("SELECT Line FROM `drunkjokes` ORDER BY RAND() LIMIT 1")
     	row = result.fetch_row
     	return row[0]
-    	mysql.close
     end
 
     def channelText(nick, host, msg)
@@ -55,13 +43,10 @@ class TinderChannel < TinderChannelBase
 			line = $1.chomp
 			line.gsub(/\"/,'\"')
 			if line.length > 1
-				mysql = Mysql.init()
-				mysql.connect('kodiak','db','db')
-				mysql.select_db('viper7')
-				result = mysql.query("SELECT COUNT(*) FROM stonerjokes WHERE Line LIKE \"#{line}\"")
+				result = @mysql.query("SELECT COUNT(*) FROM stonerjokes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
 				if count[0] == "0"
-					mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
+					@mysql.query("INSERT INTO stonerjokes SET Line=\"#{line}\"")
 					sendChannel 'Added joke'
 				end
 			end
@@ -69,13 +54,10 @@ class TinderChannel < TinderChannelBase
 			line = $1.chomp
 			line.gsub(/\"/,'\"')
 			if line.length > 1
-				mysql = Mysql.init()
-				mysql.connect('kodiak','db','db')
-				mysql.select_db('viper7')
-				result = mysql.query("SELECT COUNT(*) FROM drunkjokes WHERE Line LIKE \"#{line}\"")
+				result = @mysql.query("SELECT COUNT(*) FROM drunkjokes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
 				if count[0] == "0"
-					mysql.query("INSERT INTO drunkjokes SET Line=\"#{line}\"")
+					@mysql.query("INSERT INTO drunkjokes SET Line=\"#{line}\"")
 					sendChannel 'Added joke'
 				end
 			end
@@ -84,13 +66,10 @@ class TinderChannel < TinderChannelBase
 			author = $2.chomp
 			line.gsub(/\"/,'\"')
 			if line.length > 1
-				mysql = Mysql.init()
-				mysql.connect('kodiak','db','db')
-				mysql.select_db('viper7')
-				result = mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"#{line}\"")
+				result = @mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
 				if count[0] == "0"
-					mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Author=\"#{author}\"")
+					@mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Author=\"#{author}\"")
 					sendChannel 'Added quote'
 				end
 			end

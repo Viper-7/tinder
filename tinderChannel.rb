@@ -41,7 +41,7 @@ class TinderChannel < TinderChannelBase
 			fuckMe nick
 		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:stoned|high|baked) (?:when|if) (.+)/i
 			line = $1.chomp
-			line.gsub(/"/,'\\"')
+			line = line.gsub(/"/,'\"')
 			if line.length > 1
 				result = @mysql.query("SELECT COUNT(*) FROM stonerjokes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
@@ -52,7 +52,7 @@ class TinderChannel < TinderChannelBase
 			end
 		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:drunk|smashed|hammered) (?:when|if) (.+)/i
 			line = $1.chomp
-			line.gsub(/"/,'\\"')
+			line = line.gsub(/"/,'\"')
 			if line.length > 1
 				result = @mysql.query("SELECT COUNT(*) FROM drunkjokes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
@@ -64,42 +64,36 @@ class TinderChannel < TinderChannelBase
 		when /^"(.+)" - (.+?)$/i
 			line = $1.chomp
 			author = $2.chomp
-			line.gsub(/"/,'\\"')
+			line = line.gsub(/"/,'\"')
 			if line.length > 1
-				puts 'SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"'
-				result = @mysql.query('SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"')
+				result = @mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
 				if count[0] == "0"
-					puts 'INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"'
-					@mysql.query('INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"')
+					@mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Source=\"#{author}\"")
 					sendChannel 'Added quote'
 				end
 			end
 		when /^[@\+]{0,1}(.+?): (.+)$/i
 			line = $2.chomp
 			author = $1.chomp
-			line.gsub(/"/,'\\"')
+			line = line.gsub(/"/,'\"')
 			if line.length > 1
-				puts 'SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"'
-				result = @mysql.query('SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"')
+				result = @mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
 				if count[0] == "0"
-					puts 'INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"'
-					@mysql.query('INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"')
+					@mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Source=\"#{author}\"")
 					sendChannel 'Added quote'
 				end
 			end
 		when /^(?:\[.+\] ){0,1}<[@\+]{0,1}(.+?)> (.+)$/
 			line = $2.chomp
 			author = $1.chomp
-			line.gsub(/"/,'\\"')
+			line = line.gsub(/"/,'\"')
 			if line.length > 1
-				puts 'SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"'
-				result = @mysql.query('SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"')
+				result = @mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
 				if count[0] == "0"
-					puts 'INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"'
-					@mysql.query('INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"')
+					@mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Source=\"#{author}\"")
 					sendChannel 'Added quote'
 				end
 			end

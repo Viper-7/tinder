@@ -635,7 +635,7 @@ class TinderRSS
 			if !@buffer.include?(x.title + ' - ' + x.link)
 				hit = true
 				@ignore.each{|y|
-					hit = false if y.match(x.title)
+					hit = false if /#{y}/i.match(x.title)
 				}
 				@buffer.push(x.title + ' - ' + x.link)
 				@channel.sendChannel "New #{@type}: #{x.title} - #{tinyURL(x.link)}" if @announce and hit
@@ -645,7 +645,7 @@ class TinderRSS
 
 	def ignore(args)
 		args = args.gsub(/ /,'.+')
-		@ignore.push /#{args}/
+		@ignore.push args
 	end
 
 	def listignore
@@ -668,8 +668,8 @@ class TinderRSS
 
 	def allow(args)
 		args = args.gsub(/ /,'.+')
-		if !@ignore.include? /#{args}/
-			@ignore.delete /#{args}/
+		if !@ignore.include? args
+			@ignore.delete args
 		end
 	end
 

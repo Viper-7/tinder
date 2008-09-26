@@ -107,10 +107,11 @@ class TinderClient
 		loop do
 			break if !@tcpSocket
 			sleep(0.1)
+			puts 'Dumped Buffer' if @buffer.length > 9
 			next if @buffer.length == 0
 			puts @buffer[0] if @debug == true
 			@tcpSocket.send @buffer.shift.to_s, 0
-			sleep(0.3)
+			sleep(0.5)
 		end
 		@open = false
 		shutDown

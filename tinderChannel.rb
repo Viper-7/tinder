@@ -15,19 +15,19 @@ class TinderChannel < TinderChannelBase
     end
 
     def randomquote
-    	result = @mysql.query("SELECT Line, Source FROM `quote` ORDER BY RAND() LIMIT 1")
+    	result = @mysql.query("SELECT Line, Source FROM quotes ORDER BY RAND() LIMIT 1")
     	row = result.fetch_row
     	return '"' + row[0] + '" - ' + row[1]
     end
 
     def stoned
-    	result = @mysql.query("SELECT Line FROM `stonerjokes` ORDER BY RAND() LIMIT 1")
+    	result = @mysql.query("SELECT Line FROM stonerjokes ORDER BY RAND() LIMIT 1")
     	row = result.fetch_row
     	return row[0]
     end
 
     def drunk
-    	result = @mysql.query("SELECT Line FROM `drunkjokes` ORDER BY RAND() LIMIT 1")
+    	result = @mysql.query("SELECT Line FROM drunkjokes ORDER BY RAND() LIMIT 1")
     	row = result.fetch_row
     	return row[0]
     end

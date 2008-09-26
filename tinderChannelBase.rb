@@ -308,8 +308,9 @@ class TinderChannelBase
 	end
 
 	response = "Command not found" if response == "" and hit == false
-
+	response = "" if cmd == 'addquote'
 	aOut = Array.new
+
 	hit = false
 	@dirWatchers.each do |x|
 		if x.name.match(/^#{command.chomp}$/i)

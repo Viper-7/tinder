@@ -193,6 +193,7 @@ class TinderChannelBase
 	    					hit = true
 
 	    					args.gsub(/rm/, 'rn')
+	    					args.gsub(/wget/, 'wgot')
 	    					args.gsub(/mail/, 'm@il')
 	    					lang = ext
 
@@ -242,6 +243,7 @@ class TinderChannelBase
 			else
 				args.gsub(/rm/, 'rn')
 				args.gsub(/exec/, 'pcntl_exec')
+				args.gsub(/fork/, 'fark')
 				args.gsub(/mail/, 'm@il')
 
 				args = "<?php\n" + args + "\n?>"
@@ -268,6 +270,8 @@ class TinderChannelBase
 				response += 'Eg: @ruby puts "hi"'
 			else
 				args.gsub(/rm/, 'rn')
+				args.gsub(/exec/, 'exac')
+				args.gsub(/fork/, 'fark')
 				args.gsub(/mail/, 'm@il')
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
@@ -292,6 +296,8 @@ class TinderChannelBase
 				response += 'Eg: @tcl puts hi'
 			else
 				args.gsub(/rm/, 'rn')
+				args.gsub(/exec/, 'exac')
+				args.gsub(/fork/, 'fark')
 				args.gsub(/mail/, 'm@il')
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }

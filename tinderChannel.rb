@@ -73,7 +73,19 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added quote'
 				end
 			end
-		when /^(?:\[.+\] ){0,1}<[@]{0,1}(.+?)> (.+)$/
+		when /^[+@]{0,1}(.+?): (.+)$/i
+			line = $2.chomp
+			author = $1.chomp
+			line.gsub(/\"/,'\"')
+			if line.length > 1
+				result = @mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"%#{line}%\"")
+				count = result.fetch_row
+				if count[0] == "0"
+					@mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Source=\"#{author}\"")
+					sendChannel 'Added quote'
+				end
+			end
+		when /^(?:\[.+\] ){0,1}<[+@]{0,1}(.+?)> (.+)$/
 			line = $2.chomp
 			author = $1.chomp
 			line.gsub(/\"/,'\"')

@@ -61,7 +61,7 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added joke'
 				end
 			end
-		when /^"(.+)" - (.+?)$/i
+		when /^@addquote "(.+)" - (.+?)$/i
 			line = $1.chomp
 			author = $2.chomp
 			line = line.gsub(/\"/,'\"')
@@ -73,7 +73,7 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added quote'
 				end
 			end
-		when /^[@\+]{0,1}(.+?): (.+)$/i
+		when /^@addquote [@\+]{0,1}(.+?): (.+)$/i
 			line = $2.chomp
 			author = $1.chomp
 			line = line.gsub(/\"/,'\"')
@@ -85,7 +85,7 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added quote'
 				end
 			end
-		when /^(?:\[.+\] ){0,1}<[@\+]{0,1}(.+?)> (.+)$/
+		when /^@addquote (?:\[.+\] ){0,1}<[@\+]{0,1}(.+?)> (.+)$/
 			line = $2.chomp
 			author = $1.chomp
 			line = line.gsub(/\"/,'\"')
@@ -101,7 +101,7 @@ class TinderChannel < TinderChannelBase
 			sendChannel "You know you're stoned when " + stoned
 		when /drunk|smashed|hammered|crunk/
 			sendChannel "You know you're drunk when " + drunk
-		when /quote/
+		when /@quote/
 			sendChannel randomquote
 	end
     end

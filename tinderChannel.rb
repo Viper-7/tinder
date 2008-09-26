@@ -15,7 +15,7 @@ class TinderChannel < TinderChannelBase
     end
 
     def quote
-    	result = @mysql.query("SELECT Line, Author FROM `quote` ORDER BY RAND() LIMIT 1")
+    	result = @mysql.query("SELECT Line, Source FROM `quote` ORDER BY RAND() LIMIT 1")
     	row = result.fetch_row
     	return '"' + row[0].to_s + '" - ' + row[1].to_s
     end
@@ -69,8 +69,7 @@ class TinderChannel < TinderChannelBase
 				result = @mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"#{line}\"")
 				count = result.fetch_row
 				if count[0] == "0"
-					puts "INSERT INTO quotes SET Line=\"#{line}\", Author=\"#{author}\""
-					@mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Author=\"#{author}\"")
+					@mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Source=\"#{author}\"")
 					sendChannel 'Added quote'
 				end
 			end

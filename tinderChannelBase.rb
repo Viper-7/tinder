@@ -389,7 +389,7 @@ class TinderChannelBase
 					resp += '@' + command.chomp + ' listignore - lists the currently ignored ' + command.chomp + "'s"
 				else
 					response = x.search args
-					response = 'No Hits :(' if resp == ""
+					response = 'No Hits :(' if response == ""
 			end
 		end
 	end

@@ -351,6 +351,8 @@ class TinderChannelBase
 				resp = x.latest
 			elsif args.match(/(.+) is shit/)
 				resp = x.ignore $1
+				args = $1.gsub(/ /,'.+')
+				@mysql.query("INSERT INTO nzbignore SET Line=\"#{args}\"")
 			else
 				resp = x.search args
 				resp = 'No Hits :(' if resp == ""
@@ -628,8 +630,6 @@ class TinderRSS
 	def ignore(args)
 		args = args.gsub(/ /,'.+')
 		@ignore.push /#{args}/
-
-		@channel.mysql.query("INSERT INTO nzbignore SET Line=\"#{args}\"")
 		return "Ignoring /#{args}/"
 	end
 

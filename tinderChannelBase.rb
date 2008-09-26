@@ -673,7 +673,7 @@ class TinderRSS
 	end
 
 	def search(args)
-	    	args = args.gsub(/ /,'.+')
+	    	args = args.gsub(/ /,'.')
 	    	output = ""
 		@buffer.each {|x| output = x if x.match(/#{args}/i) }
 		return output

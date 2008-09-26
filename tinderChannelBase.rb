@@ -655,7 +655,7 @@ class TinderRSS
 		count = 0
 		@ignore.each {|x|
 			count += 1
-			response += "/#{args}/ "
+			response += "/#{x}/ "
 			response += "\n" if count % 5 == 0
 		}
 		return response

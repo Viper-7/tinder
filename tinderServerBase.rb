@@ -114,7 +114,7 @@ class TinderClient
 			next if @buffer.length == 0
 			puts @buffer[0] if @debug == true
 			@tcpSocket.send @buffer.shift.to_s, 0
-			sleep(0.5)
+			sleep(0.2)
 		end
 		@open = false
 		shutDown
@@ -125,7 +125,7 @@ class TinderClient
 		}
 		loop do
 			break if !@tcpSocket
-			sleep(0.02)
+			sleep(0.01)
 			msg = @tcpSocket.gets
 			next if msg == nil
 			serverEvent(msg)

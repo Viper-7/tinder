@@ -577,7 +577,7 @@ class TinderDir
 end
 
 class TinderRSS
-	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type, @ignore
+	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type, :ignore
 
 	def initialize(url, channel, type = 'link', announce = false)
 		@channel = channel

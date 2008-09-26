@@ -39,7 +39,7 @@ class TinderChannel < TinderChannelBase
 			sendChannel "FIGHT THE POWAH!"
 		when /fuck (?:you|u|me)/i
 			fuckMe nick
-		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:stoned|high|baked) (?:when|if) (.+)/i
+		when /^you (?:know|might) (?:you[^\s]{0,3} )?(?:are|be )?(?:stoned|high|baked) (?:when|if) (.+)/i
 			line = $1.chomp
 			line = line.gsub(/\"/,'\"')
 			if line.length > 1
@@ -50,7 +50,7 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added joke'
 				end
 			end
-		when /^you (?:know|might) (?:you[^\s]{0,3} ){0,1}(?:are|be ){0,1}(?:drunk|smashed|hammered) (?:when|if) (.+)/i
+		when /^you (?:know|might) (?:you[^\s]{0,3} )?(?:are|be )?(?:drunk|smashed|hammered) (?:when|if) (.+)/i
 			line = $1.chomp
 			line = line.gsub(/\"/,'\"')
 			if line.length > 1
@@ -73,7 +73,7 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added quote'
 				end
 			end
-		when /^@addquote [@\+]{0,1}(.+?): (.+)$/i
+		when /^@addquote [@\+]?(.+?): (.+)$/i
 			line = $2.chomp
 			author = $1.chomp
 			line = line.gsub(/\"/,'\"')
@@ -85,7 +85,7 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added quote'
 				end
 			end
-		when /^@addquote (?:[\[-][\d:\.]+[\]-] ){0,1}[\(<\[][@\+]{0,1}(.+?)[>\]\)] (.+)$/
+		when /^@addquote (?:[\[-][\d:\.]+[\]-] )?[\(<\[][@\+]?(.+?)[>\]\)] (.+)$/
 			line = $2.chomp
 			author = $1.chomp
 			line = line.gsub(/\"/,'\"')

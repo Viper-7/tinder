@@ -6,6 +6,7 @@ mysql.select_db('viper7')
 
 result = mysql.query('SHOW TABLES')
 count = 0
+resp = ""
 result.each do |row|
         count += 1
         result = mysql.query('SELECT COUNT(*) FROM ' + row[0])

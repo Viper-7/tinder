@@ -321,11 +321,11 @@ class TinderBot
 
     def serverText(msg)
         case msg.strip
-            when /^:(.+)!(.+?) MODE #(.+?) (.+?) :(.+)$/	#User!~ident@host MODE  Channel Mode Message
+            when /^:(.+)!(.+?) MODE #(.+?) (.+?) :(.+)$/	#User!~ident@host MODE  Channel Mode :Message
             	channelEvent $3, $2, $1, $4, $5
-            when /^:(.+)!(.+?) TOPIC #(.+?) :(.+)$/		#User!~ident@host TOPIC Channel Message
+            when /^:(.+)!(.+?) TOPIC #(.+?) :(.+)$/		#User!~ident@host TOPIC Channel :Message
             	channelEvent $3, $2, $1, "TOPIC", $4
-            when /^:(.+)!(.+?) (.+?) #(.+?) (.+?) :(.+)$/ 	#User!~ident@host Event Channel Target Message
+            when /^:(.+)!(.+?) (.+?) #(.+?) (.+?) :(.+)$/ 	#User!~ident@host Event Channel Target :Message
             	channelEvent $4, $2, $5, $3, $6
             when /^:(.+)!(.+?) (.+?) #(.+?) (.+?) (.+)$/ 	#User!~ident@host Event Channel Target Mode
             	channelEvent $4, $2, $5, $3, $6
@@ -333,6 +333,12 @@ class TinderBot
             	channelEvent $4, $2, $1, $3, $5
             when /^:(.+)!(.+?) (.+?) #(.+)$/ 			#User!~ident@host Event Channel
             	channelEvent $4, $2, $1, $3, $1
+            when /^:(.+)!(.+?) QUIT(?: :?#(.+))?$/ 		#User!~ident@host QUIT( :Message)
+	    	if $3 != nil
+	    		@channels.each {|x| channelEvent x.channel, $2, $1, 'QUIT', $3}
+	    	else
+	    		@channels.each {|x| channelEvent x.channel, $2, $1, 'QUIT', ''}
+		end
             else
 	    	@channels.each {|x| x.serverText msg }
         end
@@ -342,7 +348,7 @@ class TinderBot
     	@channels.find{|x| x.channel==channel}.channelText(nick, host, msg)
     end
 
-    def channelEvent(channel, host, nick, event, msg)
+    def channelEvent(channel, host, nick, event, msg = "")
     	@channels.find{|x| x.channel==channel}.channelEvent(channel, host, nick, event, msg)
     end
 

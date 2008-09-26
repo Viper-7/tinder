@@ -14,10 +14,10 @@ class TinderChannel < TinderChannelBase
 	sendChannel "Fuck my #{vagoo.downcase} #{nick.downcase} you #{dirty} #{whore}."
     end
 
-    def quote
+    def randomquote
     	result = @mysql.query("SELECT Line, Source FROM `quote` ORDER BY RAND() LIMIT 1")
     	row = result.fetch_row
-    	return '"' + row[0].to_s + '" - ' + row[1].to_s
+    	return '"' + row[0] + '" - ' + row[1]
     end
 
     def stoned
@@ -78,7 +78,7 @@ class TinderChannel < TinderChannelBase
 		when /drunk|smashed|hammered|crunk/
 			sendChannel "You know you're drunk when " + drunk
 		when /quote/
-			sendChannel quote
+			sendChannel randomquote
 	end
     end
 end

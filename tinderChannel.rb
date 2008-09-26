@@ -66,9 +66,11 @@ class TinderChannel < TinderChannelBase
 			author = $2.chomp
 			line.gsub(/\"/,'\"')
 			if line.length > 1
+				puts 'SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"'
 				result = @mysql.query('SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"')
 				count = result.fetch_row
 				if count[0] == "0"
+					puts 'INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"'
 					@mysql.query('INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"')
 					sendChannel 'Added quote'
 				end
@@ -78,9 +80,11 @@ class TinderChannel < TinderChannelBase
 			author = $1.chomp
 			line.gsub(/\"/,'\"')
 			if line.length > 1
+				puts 'SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"'
 				result = @mysql.query('SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"')
 				count = result.fetch_row
 				if count[0] == "0"
+					puts 'INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"'
 					@mysql.query('INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"')
 					sendChannel 'Added quote'
 				end
@@ -90,9 +94,11 @@ class TinderChannel < TinderChannelBase
 			author = $1.chomp
 			line.gsub(/\"/,'\"')
 			if line.length > 1
+				puts 'SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"'
 				result = @mysql.query('SELECT COUNT(*) FROM quotes WHERE Line LIKE "' + line + '"')
 				count = result.fetch_row
 				if count[0] == "0"
+					puts 'INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"'
 					@mysql.query('INSERT INTO quotes SET Line="' + line + '", Source="' + author + '"')
 					sendChannel 'Added quote'
 				end

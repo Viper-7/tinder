@@ -362,12 +362,12 @@ class TinderChannelBase
 		end
 	end
 
-	resp = ""
 	@rssWatchers.each do |x|
 		if x.type.match(/^#{command.chomp}$/i)
 			case args
 				when /^latest$/i
-					resp = x.latest
+					resp2 = x.latest
+					resp = resp2 if resp2 != ""
 				when /(.+?) is (?:shit|bad|poo|terrible|crap)/i
 					x.ignore $1
 					args = $1.gsub(/ /,'.+')
@@ -388,8 +388,9 @@ class TinderChannelBase
 					resp += 'Adding "is bad" or "is good" to the end of a search will ignore or announce new ' + command.chomp + "'s with that name on release" + "\n"
 					resp += '@' + command.chomp + ' listignore - lists the currently ignored ' + command.chomp + "'s"
 				else
-					resp = x.search args
-					resp = 'No Hits :(' if resp == ""
+					resp2 = x.search args
+					resp = resp2 if resp2 != ""
+					resp = 'No Hits :(' if resp = ""
 			end
 		end
 	end

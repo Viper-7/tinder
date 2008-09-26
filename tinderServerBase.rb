@@ -333,7 +333,7 @@ class TinderBot
             	channelEvent $4, $2, $1, $3, $5
             when /^:(.+)!(.+?) (.+?) #(.+)$/ 			#User!~ident@host Event Channel
             	channelEvent $4, $2, $1, $3, $1
-            when /^:(.+)!(.+?) QUIT Quit(?::?(.+))?$/ 		#User!~ident@host QUIT( :Message)
+            when /^:(.+)!(.+?) QUIT Quit(?::(.+))?$/ 		#User!~ident@host QUIT( :Message)
 	    	if $3 != nil
 	    		@channels.each {|x| channelEvent x.channel, $2, $1, 'QUIT', $3}
 	    	else

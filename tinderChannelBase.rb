@@ -358,7 +358,7 @@ class TinderChannelBase
 					resp = "Ignoring #{args}"
 				when /listignore/
 					resp = x.listignore
-				when /(.+?) is (?:good|fine|ok|sick)/i
+				when /(.+?) is (?:good|fine|ok|sick|cool)/i
 					x.allow $1
 					args = $1.gsub(/ /,'.+')
 					result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line LIKE \"#{args}\"")

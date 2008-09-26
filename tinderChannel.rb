@@ -73,6 +73,18 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added quote'
 				end
 			end
+		when /^(?:\[.+\]){0,1}<[@]{0,1}(.+?)> (.+)$/
+			line = $2.chomp
+			author = $1.chomp
+			line.gsub(/\"/,'\"')
+			if line.length > 1
+				result = @mysql.query("SELECT COUNT(*) FROM quotes WHERE Line LIKE \"%#{line}%\"")
+				count = result.fetch_row
+				if count[0] == "0"
+					@mysql.query("INSERT INTO quotes SET Line=\"#{line}\", Source=\"#{author}\"")
+					sendChannel 'Added quote'
+				end
+			end
 		when /stoned|high|baked|munted/
 			sendChannel "You know you're stoned when " + stoned
 		when /drunk|smashed|hammered|crunk/

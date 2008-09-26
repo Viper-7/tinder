@@ -615,13 +615,10 @@ class TinderRSS
 		}
 		puts "Added #{count} entries to RSS Watcher - #{@url}"
 
-		count = 0
 		result = @channel.mysql.query("SELECT Line FROM nzbignore")
 		result.each_hash {|x|
 			@ignore.push x["Line"]
-			count += 1
 		}
-		puts "Added #{count} entries to RSS Ignore List - #{@url}"
 	end
 
 	def tinyURL(url)

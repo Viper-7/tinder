@@ -107,7 +107,7 @@ class TinderClient
 		loop do
 			break if !@tcpSocket
 			sleep(0.1)
-			if @buffer.length > 9
+			if @buffer.length > 5
 				puts 'Dumped Buffer'
 				@buffer.clear
 			end
@@ -143,21 +143,21 @@ class TinderClient
     def sendCTCP(msg, destination)
 	lines=0; if msg.length > 2048; lines = 999; end
 	msg.each_line{|line| if line.length > 400; lines = 999; break; end; lines += 1 }
-	if lines > 8; msg = "Response too long"; end
+	if lines > 5; msg = "Response too long"; end
 	msg.each_line{|line| send "PRIVMSG #{destination} :\x01#{line}\x01"}
     end
 
     def sendChannel(msg, channel)
 	lines=0; if msg.length > 2048; lines = 999; end
 	msg.each_line{|line| if line.length > 400; lines = 999; break; end; lines += 1 }
-	if lines > 8; msg = "Response too long"; end
+	if lines > 5; msg = "Response too long"; end
 	msg.each_line{|line| send "PRIVMSG ##{channel} :#{line}"}
     end
 
     def sendPrivate(msg, nick)
 	lines=0; if msg.length > 2048; lines = 999; end
 	msg.each_line{|line| if line.length > 400; lines = 999; break; end; lines += 1 }
-	if lines > 8; msg = "Response too long"; end
+	if lines > 5; msg = "Response too long"; end
 	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}"}
     end
 

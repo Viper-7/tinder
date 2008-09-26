@@ -79,7 +79,7 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added joke'
 				end
 			end
-		when /^"(.+?)" - (.+)$/
+		when /^"(.+)" - (.+?)$/
 			line = $1.chomp
 			author = $2.chomp
 			line.gsub(/\"/,'\"')
@@ -98,7 +98,7 @@ class TinderChannel < TinderChannelBase
 			sendChannel "You know you're stoned when " + stoned
 		when /drunk|smashed|hammered|crunk/
 			sendChannel "You know you're drunk when " + drunk
-		when /^@quote$/
+		when /quote/
 			sendChannel quote
 	end
     end

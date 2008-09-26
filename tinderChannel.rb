@@ -85,7 +85,7 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added quote'
 				end
 			end
-		when /^@addquote (?:[\[-][\d:\.]+[\]-] ){0,1}[<\[][@\+]{0,1}(.+?)[>\]] (.+)$/
+		when /^@addquote (?:[\[-][\d:\.]+[\]-] ){0,1}[\(<\[][@\+]{0,1}(.+?)[>\]\)] (.+)$/
 			line = $2.chomp
 			author = $1.chomp
 			line = line.gsub(/\"/,'\"')

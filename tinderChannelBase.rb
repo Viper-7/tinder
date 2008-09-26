@@ -655,6 +655,7 @@ class TinderRSS
 		@ignore.each {|x|
 			response += "/#{args}/\n"
 		}
+		return response
 	end
 
 	def allow(args)

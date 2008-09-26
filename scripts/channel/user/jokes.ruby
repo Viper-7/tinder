@@ -12,7 +12,7 @@ result.each do |row|
         result = mysql.query('SELECT COUNT(*) FROM ' + row[0])
         count2 = result.fetch_row[0]
         name = row[0]
-        resp += name.capitalize + ' - ' + count2 + ' entries'
-        resp += "\n" if count % 5 == 0
+        resp += '| ' + name.capitalize + ' - ' + count2 + ' entries '
+        resp += "|\n" if count % 5 == 0
 end
 puts resp

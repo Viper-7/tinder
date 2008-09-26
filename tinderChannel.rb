@@ -97,6 +97,8 @@ class TinderChannel < TinderChannelBase
 					sendChannel 'Added quote'
 				end
 			end
+		when /^@addquote$/
+			sendChannel 'Usage: @addquote "quote" - author or @addquote [17:56:01] <Author> Quote'
 		when /stoned|high|baked|munted/
 			sendChannel "You know you're stoned when " + stoned
 		when /drunk|smashed|hammered|crunk/

@@ -388,8 +388,8 @@ class TinderChannelBase
 					resp += 'Adding "is bad" or "is good" to the end of a search will ignore or announce new ' + command.chomp + "'s with that name on release" + "\n"
 					resp += '@' + command.chomp + ' listignore - lists the currently ignored ' + command.chomp + "'s"
 				else
-					response = x.search args
-					response = 'No Hits :(' if response == ""
+					resp = x.search args
+					resp = 'No Hits :(' if resp == ""
 			end
 		end
 	end

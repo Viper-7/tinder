@@ -698,7 +698,7 @@ class TinderRSS
 					begin
 						category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
 						x.description =~ /size:<\/b> (.+?)<br>/i
-						filesize = $1
+						filesize = '[' + $1 + ']'
 					rescue
 						# no rescue for you
 					end
@@ -706,7 +706,7 @@ class TinderRSS
 					if hit
 						@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
 					else
-						puts 'Ignored : ' + "New #{category}: #{x.title} - #{x.link} #{filesize}"
+						puts 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
 					end
 				end
 			end

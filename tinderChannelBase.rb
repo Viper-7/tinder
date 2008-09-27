@@ -408,7 +408,7 @@ class TinderChannel
     end
 
     def channelEvent(channel, host, nick, event, msg)
-    	@tinderBot.status "#{event.capitalize.ljust(8)}: " + event + ": \##{channel} <#{nick}> '" + msg + "'"
+    	@tinderBot.status "#{event.capitalize.ljust(8)}: \##{channel} <#{nick}> '" + msg + "'"
     	case event
     		when /^MODE/
     			if nick == @nick

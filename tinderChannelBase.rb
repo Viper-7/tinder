@@ -528,8 +528,8 @@ def addChannels(tinderBot,channels,type)
 	return tinderChannels
 end
 
-def addChannel(channel,tinderBot1,type)
-	return Module.const_get(type).new(channel.to_s, tinderBot1)
+def addChannel(tinderBot,channel,type)
+	return Module.const_get(type).new(channel.to_s, tinderBot)
 end
 
 def connect(tinderClient, tinderBot, tinderChannels)

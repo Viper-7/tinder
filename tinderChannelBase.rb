@@ -411,7 +411,7 @@ class TinderChannel
 	end
 	resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
 	response = resp if resp != ""
-	puts "Output  : " + response
+	puts "Output  : " + response[0,response.length - 2]
 	return response
     end
 

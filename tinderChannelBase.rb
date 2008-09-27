@@ -523,6 +523,9 @@ def addChannels(channels,tinderBot1,type)
 	return tinderChannels
 end
 
+def addChannel(channel,tinderBot1,type)
+	return Module.const_get(type).new(channel.to_s, tinderBot1)
+end
 
 def connect(tinderClient, tinderBot, tinderChannels)
 	trap("INT") {
@@ -548,8 +551,19 @@ def addAdminHost(host, channels)
 	channels.each {|x| x.adminHosts.push host if host.match /.+\!.+@.+?\..+/ }
 end
 
-def addDirectoryWatcher(path, name, channel, url, channels)
+def addRecursiveDirectoryWatcher(path, name, url, channels, channel)
+	myDir = Dir.new(path)
+	myDir.rewind
+	myDir.each {|x|
+		dirName = "#{path}/#{x.to_s}"
+		next if File.file? dirName
+		addDirectoryWatcher path, name, url, channels, channel
+	}
+end
+
+def addDirectoryWatcher(path, name, url, channels, channel)
 	y = nil
+
 	channels.each {|x| y = x if x.channel.to_s == channel.to_s}
 
 	dirWatcher = TinderDir.new(path, name, channel, url, channels) if y != nil

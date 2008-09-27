@@ -250,7 +250,8 @@ class TinderChannel
 				response += 'Eg: @php echo "hi";'
 			else
 				args = args.gsub(/rm/, 'rn')
-				args = args.gsub(/exec/, 'pcntl_exec')
+				args = args.gsub(/eval/, 'evel')
+				args = args.gsub(/exec/, 'exac')
 				args = args.gsub(/fork/, 'fark')
 				args = args.gsub(/mail/, 'm@il')
 

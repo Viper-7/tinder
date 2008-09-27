@@ -712,6 +712,9 @@ class TinderRSS
 
 		result = @channel.mysql.query("SELECT Line FROM nzballow")
 		result.each_hash {|x| @allow.push x["Line"] }
+
+		result = @channel.mysql.query("SELECT Line FROM nzbignore")
+		result.each_hash {|x| @ignore.push x["Line"] }
 	end
 
 	def tinyURL(url)
@@ -740,11 +743,7 @@ class TinderRSS
 
 					@allow.each do |y|
 						if /#{y}/i.match(x.title)
-							@ignore.each do |z|
-								if !/#{z}/i.match(x.title)
-									hit = true
-								end
-							end
+							@ignore.each {|z| hit = true if !/#{z}/i.match(x.title)}
 						end
 					end
 

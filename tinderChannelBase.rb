@@ -615,8 +615,16 @@ end
 
 def addRSSWatcher(url, channel, tinderChannels, type = 'link', announce = false)
 	y = nil
+	count = 0
 	tinderChannels.each {|x| y = x if x.channel.to_s == channel.to_s}
-	y.rssWatchers.push TinderRSS.new(url, y, type, announce)
+	url.each{|x|
+		newWatcher = TinderRSS.new(x, y, type, announce)
+		y.rssWatchers.push newWatcher
+		count += newWatcher.count
+	}
+
+	y.tinderBot.status "Status  : Indexed #{count} #{type}'s"
+	return newWatcher.count
 end
 
 class TinderDir
@@ -674,7 +682,6 @@ class TinderRSS
 			@buffer.push(x.title + ' - ' + x.link)
 			count += 1
 		}
-		puts "Status  : Added #{count} entries to RSS Watcher - #{@url}"
 
 		result = @channel.mysql.query("SELECT Line FROM nzballow")
 		result.each_hash {|x| @allow.push x["Line"] }

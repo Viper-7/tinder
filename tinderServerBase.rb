@@ -336,10 +336,10 @@ class TinderBot
             when /^:(.+)![~]?(.+?) (.+?) #(.+)$/ 		# User!~ident@host Event Channel
             	channelEvent $4, $2, $1, $3, $1
             when /^:(.+)![~]?(.+?) QUIT :(?:Quit )?(?::?(.+))?$/ # User!~ident@host QUIT( :Message)
-	    	if $3 != nil
-	    		@channels.each {|x| channelEvent x.channel, $2, $1, 'QUIT', $3}
+	    	if $3 != nil # Ignore Quits
+	    		# @channels.each {|x| channelEvent x.channel, $2, $1, 'QUIT', $3}
 	    	else
-	    		@channels.each {|x| channelEvent x.channel, $2, $1, 'QUIT', ''}
+	    		# @channels.each {|x| channelEvent x.channel, $2, $1, 'QUIT', ''}
 		end
             else
 	    	@channels.each {|x| x.serverText msg }

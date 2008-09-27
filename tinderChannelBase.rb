@@ -323,7 +323,7 @@ class TinderChannelBase
 			response = response + usage
 		when /^help$/
 			response = help(commandtypes)
-		when /^#{customcommands}$/
+		when /^#{customCommands}$/
 			hit = true
 	end
 

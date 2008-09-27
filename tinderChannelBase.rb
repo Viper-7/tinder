@@ -287,8 +287,8 @@ class TinderChannel
 				popen4('ruby /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
 						timeout(5) do
-							response = stdout.readlines.join().to_s
-							response = stderr.readlines.join().to_s if response == ""
+							response = stdout.readlines.join('').to_s
+							response = stderr.readlines.join('').to_s if response == ""
 						end
 					rescue Exception => ex
 						Process.kill 'KILL', pipe
@@ -411,7 +411,7 @@ class TinderChannel
 	end
 	resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
 	response = resp if resp != ""
-	puts "Output  : " + response[0,response.length - 2]
+	puts "Output  : " + response
 	return response
     end
 

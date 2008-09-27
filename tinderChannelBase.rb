@@ -551,17 +551,23 @@ def addAdminHost(host, channels)
 	channels.each {|x| x.adminHosts.push host if host.match /.+\!.+@.+?\..+/ }
 end
 
-def addDirWatcher(path, name, url, channels, channel, recursive)
+def addDirWatcher(path, name, url, channels, channel = "", recursive = false)
 	y = nil
 	count = 0
 
-	channels.each {|x| y = x if x.channel.to_s == channel.to_s}
-
-	if recursive
-		count = addRecursiveDirectoryWatcher(path, name, url, y)
+	if channel == ""
+		channels.each {|x|
+			count = addDirectoryWatcher(path, name, url, x)
+		}
 	else
-		count = addDirectoryWatcher(path, name, url, y)
+		channels.each {|x| y = x if x.channel.to_s == channel.to_s}
+		if recursive
+			count = addRecursiveDirectoryWatcher(path, name, url, y)
+		else
+			count = addDirectoryWatcher(path, name, url, y)
+		end
 	end
+
 	y.tinderBot.status "Status  : Added #{count} to Dir Watcher - #{name}\\#{File.basename(path)}"
 end
 
@@ -580,7 +586,7 @@ def addRecursiveDirectoryWatcher(path, name, url, channel)
 end
 
 def addDirectoryWatcher(path, name, url, channel)
-	dirWatcher = TinderDir.new(path, name, url, channel) if y != nil
+	dirWatcher = TinderDir.new(path, name, url, channel) if channel != nil
 
 	dirWatcher.watcher.on_add = Proc.new{ |the_file, stats_hash|
 		if channel.uptime > 5

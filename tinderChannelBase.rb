@@ -568,7 +568,7 @@ def addDirWatcher(path, name, url, channels, channel = "", recursive = false)
 		end
 	end
 
-	y.tinderBot.status "Status  : Added #{count} to Dir Watcher - #{name}\\#{File.basename(path)}"
+	y.tinderBot.status "Status  : Indexed #{count} files in #{name.downcase}\\#{File.basename(path).downcase}"
 end
 
 def addRecursiveDirectoryWatcher(path, name, url, channel)

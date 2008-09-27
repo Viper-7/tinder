@@ -15,7 +15,7 @@ tinderChannels = Array.new
 
 DRb.start_service
 
-class TinderChannelBase
+class TinderChannel
     include DRbUndumped
 
     attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :dirWatchers, :rssWatchers, :adminHosts, :mysql
@@ -613,15 +613,25 @@ def addDirectoryWatcher(path, name, url, channel)
 	return count
 end
 
-def addRSSWatcher(url, channel, tinderChannels, type = 'link', announce = false)
+def addRSSWatcher(url, type = 'link', tinderChannels, channel = '', announce = false)
 	y = nil
 	count = 0
-	tinderChannels.each {|x| y = x if x.channel.to_s == channel.to_s}
-	url.each{|x|
-		newWatcher = TinderRSS.new(x, y, type, announce)
-		y.rssWatchers.push newWatcher
-		count += newWatcher.count
-	}
+	if channel.length > 1
+		tinderChannels.each {|x| y = x if x.channel.to_s == channel.to_s}
+		url.each{|x|
+			newWatcher = TinderRSS.new(x, y, type, announce)
+			y.rssWatchers.push newWatcher
+			count += newWatcher.count
+		}
+	else
+		tinderChannels.each {|y|
+			url.each{|x|
+				newWatcher = TinderRSS.new(x, y, type, announce)
+				y.rssWatchers.push newWatcher
+				count += newWatcher.count
+			}
+		}
+	end
 
 	y.tinderBot.status "Status  : Indexed #{count} #{type}'s"
 end

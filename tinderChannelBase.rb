@@ -650,10 +650,16 @@ class TinderRSS
 				@buffer.push(x.title + ' - ' + x.link)
 				if @announce
 					hit = false
+
 					@allow.each{|y|
 						hit = true if /#{y}/i.match(x.title)
 					}
-					@channel.sendChannel "New #{@type}: #{x.title} - #{tinyURL(x.link)}" if hit
+
+					if hit
+						@channel.sendChannel "New #{@type}: #{x.title} - #{tinyURL(x.link)}"
+					else
+						puts 'Ignored : ' + x.title + ' - ' + x.link
+					end
 				end
 			end
 		}

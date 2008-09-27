@@ -658,10 +658,18 @@ class TinderRSS
 						hit = true if /#{y}/i.match(x.title)
 					}
 
+					filesize = ""
+					begin
+						x.description =~ /Size:&lt;\/b&gt; (.+?)&lt;br&gt;/
+						filesize = $1
+					rescue
+						# no rescue for you
+					end
+
 					if hit
-						@channel.sendChannel "New #{x.category}: #{x.title} - #{tinyURL(x.link)} - #{x.size}"
+						@channel.sendChannel "New #{x.category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
 					else
-						puts 'Ignored : ' + "New #{x.category}: #{x.title} - #{tinyURL(x.link)} - #{x.size}"
+						puts 'Ignored : ' + "New #{x.category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
 					end
 				end
 			end

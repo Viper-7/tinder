@@ -57,7 +57,7 @@ class TinderChannelBase
     	@uptime = 5 if @uptime > 604
     	begin
 		@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
-		@rssWatchers.each{|x| x.poll} if @uptime % 120 == 0
+		@rssWatchers.each{|x| x.poll} if @uptime % 60 == 0
 	rescue Exception => ex
 		@tinderBot.status ex
 	end

@@ -378,20 +378,22 @@ class TinderChannel
 				when /^latest$/i
 					resp2 = x.latest
 					resp = resp2 if resp2 != ""
-				when /(.+?) is (?:shit|bad|poo|terrible|crap|gay)/i
-					x.ignore $1
-					args = $1.gsub(/ /,'.+')
-					result = @mysql.query("SELECT COUNT(*) FROM nzballow WHERE Line LIKE \"#{args}\"")
-					@mysql.query("DELETE FROM nzballow WHERE Line LIKE \"#{args}\"") if result.fetch_row[0] != "0"
-					resp = "Ignoring #{args}"
 				when /listallow/
 					resp = x.listallow
-				when /(.+?) is (?:good|fine|ok|sick|cool|mad|grouse)/i
-					x.allow $1
+				when /listignore/
+					resp = x.listignore
+				when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay)/i
 					args = $1.gsub(/ /,'.+')
 					result = @mysql.query("SELECT COUNT(*) FROM nzballow WHERE Line LIKE \"#{args}\"")
-					@mysql.query("INSERT INTO nzballow SET Line=\"#{args}\"") if result.fetch_row[0] == "0"
-					resp = "Allowing #{args}"
+					@mysql.query("DELETE FROM #{x.type}allow WHERE Line LIKE \"#{args}\""); resp = "Stopped Allowing #{args}" if result.fetch_row[0] != "0" or args[-1,1] == '!'
+					@mysql.query("INSERT INTO #{x.type}ignore SET Line=\"#{args}\""); resp = "Started Ignoring #{args}" if result.fetch_row[0] == "0" or args[-1,1] == '!'
+					@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
+				when /^(.+?) is (?:good|fine|ok|sick|cool|mad|grouse)/i
+					args = $1.gsub(/ /,'.+')
+					result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line LIKE \"#{args}\"")
+					@mysql.query("DELETE FROM #{x.type}ignore WHERE Line LIKE \"#{args}\""); resp = "Stopped Ignoring #{args}" if result.fetch_row[0] != "0" or args[-1,1] == '!'
+					@mysql.query("INSERT INTO #{x.type}allow SET Line=\"#{args}\""); resp = "Started Allowing #{args}" if result.fetch_row[0] == "0" or args[-1,1] == '!'
+					@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
 				when /help/
 					resp = '@' + command.chomp + ' latest - Lists the latest ' + command.chomp + "\n"
 					resp += '@' + command.chomp + ' <search> - Searches the cache for an ' + command.chomp + "\n"
@@ -679,7 +681,7 @@ class TinderDir
 end
 
 class TinderRSS
-	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type, :allow
+	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type, :allow, :ignore
 
 	def initialize(url, channel, type = 'link', announce = false)
 		@channel = channel
@@ -688,6 +690,7 @@ class TinderRSS
 		@type = type
 		@buffer = Array.new
 		@allow = Array.new
+		@ignore = Array.new
 
 		content = open(@url).read
 		rss = RSS::Parser.parse(content, false)
@@ -735,9 +738,15 @@ class TinderRSS
 				if @announce
 					hit = false
 
-					@allow.each{|y|
-						hit = true if /#{y}/i.match(x.title)
-					}
+					@allow.each do |y|
+						if /#{y}/i.match(x.title)
+							@ignore.each do |z|
+								if !/#{z}/i.match(x.title)
+									hit = true
+								end
+							end
+						end
+					end
 
 					if hit
 						@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
@@ -749,24 +758,29 @@ class TinderRSS
 		}
 	end
 
-	def allow(args)
-		args = args.gsub(/ /,'.+')
-		@allow.push args
-	end
-
 	def count
 		return @buffer.length
 	end
 
-	def listallow
-		response = ""
+	def refresh
 		@allow.clear
+		@ignore.clear
 		count = 0
 		result = @channel.mysql.query("SELECT Line FROM nzballow")
 		result.each_hash {|x|
 			@allow.push x["Line"]
 			count += 1
 		}
+		result = @channel.mysql.query("SELECT Line FROM nzbignore")
+		result.each_hash {|x|
+			@ignore.push x["Line"]
+			count += 1
+		}
+		return count.to_s
+	end
+
+	def listallow
+		response = ""
 		count = 0
 		@allow.each {|x|
 			count += 1
@@ -776,11 +790,15 @@ class TinderRSS
 		return response
 	end
 
-	def ignore(args)
-		args = args.gsub(/ /,'.+')
-		if !@allow.include? args
-			@allow.delete args
-		end
+	def listignore
+		response = ""
+		count = 0
+		@ignore.each {|x|
+			count += 1
+			response += "/#{x}/ "
+			response += "\n" if count % 5 == 0
+		}
+		return response
 	end
 
 	def search(args)

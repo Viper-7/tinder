@@ -401,7 +401,7 @@ class TinderChannelBase
 			end
 		end
 	end
-	if resp == "count" then resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help"
+	resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
 	response = resp if resp != ""
 	puts "Output  : " + response
 	return response

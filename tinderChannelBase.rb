@@ -368,25 +368,25 @@ class TinderChannelBase
 				when /^latest$/i
 					resp2 = x.latest
 					resp = resp2 if resp2 != ""
-				when /(.+?) is (?:shit|bad|poo|terrible|crap)/i
+				when /(.+?) is (?:shit|bad|poo|terrible|crap|gay)/i
 					x.ignore $1
 					args = $1.gsub(/ /,'.+')
-					result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line LIKE \"#{args}\"")
-					@mysql.query("INSERT INTO nzbignore SET Line=\"#{args}\"") if result.fetch_row[0] == "0"
+					result = @mysql.query("SELECT COUNT(*) FROM nzballow WHERE Line LIKE \"#{args}\"")
+					@mysql.query("INSERT INTO nzballow SET Line=\"#{args}\"") if result.fetch_row[0] == "0"
 					resp = "Ignoring #{args}"
-				when /listignore/
-					resp = x.listignore
-				when /(.+?) is (?:good|fine|ok|sick|cool)/i
+				when /listallow/
+					resp = x.listallow
+				when /(.+?) is (?:good|fine|ok|sick|cool|mad|grouse)/i
 					x.allow $1
 					args = $1.gsub(/ /,'.+')
-					result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line LIKE \"#{args}\"")
-					@mysql.query("DELETE FROM nzbignore WHERE Line LIKE \"#{args}\"") if result.fetch_row[0] != "0"
+					result = @mysql.query("SELECT COUNT(*) FROM nzballow WHERE Line LIKE \"#{args}\"")
+					@mysql.query("DELETE FROM nzballow WHERE Line LIKE \"#{args}\"") if result.fetch_row[0] != "0"
 					resp = "Allowing #{args}"
 				when /help/
 					resp = '@' + command.chomp + ' latest - Lists the latest ' + command.chomp + "\n"
 					resp += '@' + command.chomp + ' <search> - Searches the cache for an ' + command.chomp + "\n"
 					resp += 'Adding "is bad" or "is good" to the end of a search will ignore or announce new ' + command.chomp + "'s with that name on release" + "\n"
-					resp += '@' + command.chomp + ' listignore - lists the currently ignored ' + command.chomp + "'s"
+					resp += '@' + command.chomp + ' listallow - lists the currently ignored ' + command.chomp + "'s"
 				else
 					resp2 = x.search args
 					resp = resp2 if resp2.length > 1
@@ -633,7 +633,7 @@ class TinderRSS
 		}
 		puts "Status  : Added #{count} entries to RSS Watcher - #{@url}"
 
-		result = @channel.mysql.query("SELECT Line FROM nzbignore")
+		result = @channel.mysql.query("SELECT Line FROM nzballow")
 		result.each_hash {|x| @ignore.push x["Line"] }
 	end
 
@@ -649,9 +649,9 @@ class TinderRSS
 			if !@buffer.include?(x.title + ' - ' + x.link)
 				@buffer.push(x.title + ' - ' + x.link)
 				if @announce
-					hit = true
+					hit = false
 					@ignore.each{|y|
-						hit = false if /#{y}/i.match(x.title)
+						hit = true if /#{y}/i.match(x.title)
 					}
 					@channel.sendChannel "New #{@type}: #{x.title} - #{tinyURL(x.link)}" if hit
 				end
@@ -659,16 +659,16 @@ class TinderRSS
 		}
 	end
 
-	def ignore(args)
+	def allow(args)
 		args = args.gsub(/ /,'.+')
 		@ignore.push args
 	end
 
-	def listignore
+	def listallow
 		response = ""
 		@ignore.clear
 		count = 0
-		result = @channel.mysql.query("SELECT Line FROM nzbignore")
+		result = @channel.mysql.query("SELECT Line FROM nzballow")
 		result.each_hash {|x|
 			@ignore.push x["Line"]
 			count += 1
@@ -682,7 +682,7 @@ class TinderRSS
 		return response
 	end
 
-	def allow(args)
+	def ignore(args)
 		args = args.gsub(/ /,'.+')
 		if !@ignore.include? args
 			@ignore.delete args

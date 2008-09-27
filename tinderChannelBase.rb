@@ -551,32 +551,42 @@ def addAdminHost(host, channels)
 	channels.each {|x| x.adminHosts.push host if host.match /.+\!.+@.+?\..+/ }
 end
 
-def addRecursiveDirectoryWatcher(path, name, url, channels, channel)
+def addDirWatcher(path, name, url, channels, channel, recursive)
+	y = nil
+	count = 0
+
+	channels.each {|x| y = x if x.channel.to_s == channel.to_s}
+
+	if recursive
+		count = addRecursiveDirectoryWatcher(path, name, url, y)
+	else
+		count = addDirectoryWatcher(path, name, url, y)
+	end
+	y.tinderBot.status "Status  : Added #{count} to Dir Watcher - #{name}\\#{File.basename(path)}"
+end
+
+def addRecursiveDirectoryWatcher(path, name, url, channel)
 	myDir = Dir.new(path)
 	myDir.rewind
-	addDirectoryWatcher path, name, url, channels, channel
+	count = 0
+	count += addDirectoryWatcher(path, name, url, channel)
 	myDir.each {|x|
 		dirName = "#{path}/#{x.to_s}"
 		next if File.file? dirName
 		next if /^[\.].*$/.match(x)
-		addRecursiveDirectoryWatcher dirName, name, url, channels, channel
+		count += addRecursiveDirectoryWatcher(dirName, name, url, channel)
 	}
+	return count
 end
 
-def addDirectoryWatcher(path, name, url, channels, channel)
-	y = nil
-
-	channels.each {|x| y = x if x.channel.to_s == channel.to_s}
-
-	dirWatcher = TinderDir.new(path, name, channel, url, channels) if y != nil
+def addDirectoryWatcher(path, name, url, channel)
+	dirWatcher = TinderDir.new(path, name, url, channel) if y != nil
 
 	dirWatcher.watcher.on_add = Proc.new{ |the_file, stats_hash|
-		channels.each{|x|
-			if x.channel.to_s == channel and x.uptime > 5
-				y = the_file.path.to_s.split(/\//).last.gsub(/ /,'%20')
-				x.sendChannel url + "#{y} Added to #{name}!"
-			end
-		}
+		if channel.uptime > 5
+			y = the_file.path.to_s.split(/\//).last.gsub(/ /,'%20')
+			channel.sendChannel url + "#{y} Added to #{name}!"
+		end
 	}
 
 	dirWatcher.watcher.on_modify = Proc.new{ |the_file, stats_hash|
@@ -584,8 +594,10 @@ def addDirectoryWatcher(path, name, url, channels, channel)
 
 	dirWatcher.watcher.on_remove = Proc.new{ |stats_hash|
 	}
-	dirWatcher.poll
-	y.dirWatchers.push dirWatcher
+
+	count = dirWatcher.poll()
+	channel.dirWatchers.push dirWatcher
+	return count
 end
 
 def addRSSWatcher(url, channel, tinderChannels, type = 'link', announce = false)
@@ -595,12 +607,11 @@ def addRSSWatcher(url, channel, tinderChannels, type = 'link', announce = false)
 end
 
 class TinderDir
-	attr_accessor :watcher, :path, :name, :channel, :url, :channels
-	def initialize(path, name, channel, url, channels)
+	attr_accessor :watcher, :path, :name, :channel, :url
+	def initialize(path, name, url, channel)
 		@path = path
 		@name = name
 		@channel = channel
-		@channels = channels
 		@url = url
 		@watcher = DirectoryWatcher.new( path, 15 )
 	end
@@ -619,7 +630,7 @@ class TinderDir
 	end
 
 	def poll
-		@watcher.scan_now
+		return @watcher.scan_now
 	end
 
 	def latest
@@ -861,7 +872,6 @@ class DirectoryWatcher
          end
          the_file.close
       }
-      puts "Status  : Added #{count} entries to Dir Watcher - #{@directory.path}" if @scanned_once != true
 
       # Check for removed files
       if @on_remove.respond_to?( :call )
@@ -874,6 +884,7 @@ class DirectoryWatcher
       end
 
       @scanned_once = true
+      return count
    end
 
 end

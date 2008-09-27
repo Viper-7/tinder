@@ -442,7 +442,7 @@ class TinderChannel
     end
 
     def channelText(nick, host, msg)
-    	@tinderBot.status "Channel<: \##{@channel <#{nick}> #{msg}"
+    	@tinderBot.status "Channel<: \##{@channel} <#{nick}> #{msg}"
     	case msg
     		when /^(hi|hey|sup|yo) #{@nick}/i
 			sendChannel $1 + " " + nick + "!"

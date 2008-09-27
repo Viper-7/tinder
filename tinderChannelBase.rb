@@ -94,25 +94,25 @@ class TinderChannel
 
     def sendChannel(msg)
 	lines=0
-	msg.each_line{|line| lines += 1; @tinderBot.status "Output  : \##{@channel} - #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "Output  : \##{@channel} <#{@nick}> #{line}"}
     	@tinderBot.sendChannel msg, @channel
     end
 
     def sendPrivate(msg, nick)
 	lines=0
-	msg.each_line{|line| lines += 1; @tinderBot.status "Private\>: #{nick} - #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "Private\>: <#{nick}> #{line}"}
     	@tinderBot.sendPrivate msg, nick
     end
 
     def sendAction(msg)
 	lines=0
-	msg.each_line{|line| lines += 1; @tinderBot.status "Action \>: \##{@channel} - #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "Action \>: \##{@channel} <#{@nick}> #{line}"}
     	@tinderBot.sendCTCP "ACTION #{msg}", "\##{@channel}"
     end
 
     def sendCTCP(msg, nick)
 	lines=0
-	msg.each_line{|line| lines += 1; @tinderBot.status "CTCP   \>: #{nick} - #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "CTCP   \>: <#{@nick}> #{nick}: #{line}"}
     	@tinderBot.sendCTCP msg, nick
     end
 
@@ -408,7 +408,7 @@ class TinderChannel
     end
 
     def channelEvent(channel, host, nick, event, msg)
-    	@tinderBot.status "Event   : " + event + ": " + nick + " #" + channel + " - '" + msg + "'"
+    	@tinderBot.status "#{event.capitalize.ljust(8)}: " + event + ": \##{channel} <#{nick}> '" + msg + "'"
     	case event
     		when /^MODE/
     			if nick == @nick
@@ -436,7 +436,7 @@ class TinderChannel
     end
 
     def channelText(nick, host, msg)
-    	@tinderBot.status "Text    : #" + @channel + " <" + nick + "> - '" + msg + "'"
+    	@tinderBot.status "Text    : #" + @channel + " <" + nick + "> '" + msg + "'"
     	case msg
     		when /^(hi|hey|sup|yo) #{@nick}/i
 			sendChannel $1 + " " + nick + "!"
@@ -456,7 +456,7 @@ class TinderChannel
     end
 
     def privateText(nick, host, msg)
-    	@tinderBot.status "Private\<: " + nick + " - '" + msg + "'"
+    	@tinderBot.status "Private\<: <" + nick + "> " + msg
     	hostmask = nick + '!' + host
 
 	if @adminHosts.include? hostmask

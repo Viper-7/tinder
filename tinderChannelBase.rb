@@ -659,7 +659,9 @@ class TinderRSS
 					}
 
 					filesize = ""
+					category = ""
 					begin
+						category = x.category.to_s
 						x.description =~ /Size:&lt;\/b&gt; (.+?)&lt;br&gt;/i
 						filesize = $1
 					rescue
@@ -667,9 +669,9 @@ class TinderRSS
 					end
 
 					if hit
-						@channel.sendChannel "New #{x.category.category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
+						@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
 					else
-						puts 'Ignored : ' + "New #{x.category.category}: #{x.title} - #{x.link} #{filesize}"
+						puts 'Ignored : ' + "New #{category}: #{x.title} - #{x.link} #{filesize}"
 					end
 				end
 			end

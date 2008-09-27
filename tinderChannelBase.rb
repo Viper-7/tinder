@@ -624,7 +624,6 @@ def addRSSWatcher(url, channel, tinderChannels, type = 'link', announce = false)
 	}
 
 	y.tinderBot.status "Status  : Indexed #{count} #{type}'s"
-	return newWatcher.count
 end
 
 class TinderDir

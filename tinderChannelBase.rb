@@ -365,6 +365,7 @@ class TinderChannelBase
 		end
 	end
 	resp = ""
+	count = 0
 	@rssWatchers.each do |x|
 		if x.type.match(/^#{command.chomp}$/i)
 			case args
@@ -390,6 +391,9 @@ class TinderChannelBase
 					resp += '@' + command.chomp + ' <search> - Searches the cache for an ' + command.chomp + "\n"
 					resp += 'Adding "is bad" or "is good" to the end of a search will ignore or announce new ' + command.chomp + "'s with that name on release" + "\n"
 					resp += '@' + command.chomp + ' listallow - lists the currently ignored ' + command.chomp + "'s"
+				when /^$/
+					resp = 'count'
+					count += x.count
 				else
 					resp2 = x.search args
 					resp = resp2 if resp2.length > 1
@@ -397,6 +401,7 @@ class TinderChannelBase
 			end
 		end
 	end
+	if resp == "count" then resp = "#{count.to_s} #{command.chomp}'s indexed"
 	response = resp if resp != ""
 	puts "Output  : " + response
 	return response
@@ -716,6 +721,10 @@ class TinderRSS
 	def allow(args)
 		args = args.gsub(/ /,'.+')
 		@allow.push args
+	end
+
+	def count
+		return @buffer.length
 	end
 
 	def listallow

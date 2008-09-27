@@ -669,7 +669,7 @@ class TinderRSS
 					if hit
 						@channel.sendChannel "New #{x.category.category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
 					else
-						puts 'Ignored : ' + "New #{x.category.category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
+						puts 'Ignored : ' + "New #{x.category.category}: #{x.title} - #{x.link} #{filesize}"
 					end
 				end
 			end

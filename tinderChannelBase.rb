@@ -613,7 +613,7 @@ def addDirectoryWatcher(path, name, url, channel)
 	return count
 end
 
-def addRSSWatcher(url, type = 'link', tinderChannels, channel = '', announce = false)
+def addRSSWatcher(url, tinderChannels, type = "link", channel = "", announce = false)
 	y = nil
 	count = 0
 	if channel.length > 1

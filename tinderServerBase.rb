@@ -330,7 +330,7 @@ class TinderBot
             when /^:(.+)![~]?(.+?) (.+?) #(.+?) (.+?) :(.+)$/ 	# User!~ident@host Event Channel Target :Message
             	channelEvent $4, $2, $5, $3, $6
             when /^:(.+)![~]?(.+?) (.+?) #(.+?) (.+?) (.+)$/ 	# User!~ident@host Event Channel Mode Target
-            	channelEvent $4, $2, $5, $3, $6
+            	channelEvent $4, $2, $1, $3, $5
             when /^:(.+)![~]?(.+?) (.+?) #(.+?) (.+)$/		# User!~ident@host Event Channel Mode
             	channelEvent $4, $2, $1, $3, $5
             when /^:(.+)![~]?(.+?) (.+?) #(.+)$/ 		# User!~ident@host Event Channel

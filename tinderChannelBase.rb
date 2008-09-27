@@ -15,9 +15,6 @@ tinderChannels = Array.new
 
 DRb.start_service
 
-
-
-
 class TinderChannelBase
     include DRbUndumped
 
@@ -322,13 +319,17 @@ class TinderChannelBase
 			response = response + usage
 		when /^help$/
 			response = help(commandtypes)
+		when /^quote$/
+			hit = true
+		when /^addquote$/
+			hit = true
 	end
 
 	response = "Command not found" if response == "" and hit == false
-	response = "" if command.chomp == 'addquote' or command.chomp == 'quote'
-	aOut = Array.new
 
+	aOut = Array.new
 	hit = false
+
 	@dirWatchers.each do |x|
 		if x.name.match(/^#{command.chomp}$/i)
 			if args.match(/^random$/i)

@@ -100,7 +100,7 @@ class TinderChannel
 
     def sendPrivate(msg, nick)
 	lines=0
-	msg.each_line{|line| lines += 1; @tinderBot.status "Private>: <#{@nick}> -> <#{nick} #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "Private>: <#{@nick}> -> <#{nick}> #{line}"}
     	@tinderBot.sendPrivate msg, nick
     end
 
@@ -461,7 +461,7 @@ class TinderChannel
     end
 
     def privateText(nick, host, msg)
-    	@tinderBot.status "Private<: <#{nick}> #{msg}"
+    	@tinderBot.status "Private<: <#{@nick}> <- <#{nick}> #{msg}"
     	hostmask = nick + '!' + host
 
 	if @adminHosts.include? hostmask

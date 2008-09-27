@@ -43,7 +43,7 @@ class TinderChannel < TinderChannelBase
 			sendChannel "FIGHT THE POWAH!"
 		when /fuck (?:you|u|me)/i
 			fuckMe nick
-		when /^you (?:know|might) (?:you[^\s]{0,3} )?(?:are|be )?(?:stoned|high|baked) (?:when|if) (.+)/i
+		when /^you (?:know|might) (?:you[^\s]{0,3} )?(?:are|be )?(?:stoned|high|baked|blitzkrieged) (?:when|if) (.+)/i
 			line = $1.chomp
 			line = line.gsub(/\"/,'\"')
 			if line.length > 1

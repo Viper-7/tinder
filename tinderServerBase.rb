@@ -144,7 +144,10 @@ class TinderClient
 	lines = 0
 	lines = 999 if msg.length > 2048
 	msg.each_line{|line|
-		lines = 999; break if line.length > 400
+		if line.length > 400
+			lines = 999
+			break
+		end
 		lines += 1 if line.length > 0
 	}
 	msg = "Response too long" if lines > 5
@@ -155,7 +158,10 @@ class TinderClient
 	lines = 0
 	lines = 999 if msg.length > 2048
 	msg.each_line{|line|
-		lines = 999; break if line.length > 400
+		if line.length > 400
+			lines = 999
+			break
+		end
 		lines += 1 if line.length > 0
 	}
 	msg = "Response too long" if lines > 5
@@ -166,7 +172,10 @@ class TinderClient
 	lines = 0
 	lines = 999 if msg.length > 2048
 	msg.each_line{|line|
-		lines = 999; break if line.length > 400
+		if line.length > 400
+			lines = 999
+			break
+		end
 		lines += 1 if line.length > 0
 	}
 	msg = "Response too long" if lines > 5

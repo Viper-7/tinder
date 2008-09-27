@@ -582,7 +582,7 @@ def addRecursiveDirectoryWatcher(path, name, url, channel)
 		childURL = "#{url}/#{x.to_s}"
 		next if File.file? dirName
 		next if /^[\.].*$/.match(x)
-		count += addRecursiveDirectoryWatcher(dirName, name, childUrl, channel)
+		count += addRecursiveDirectoryWatcher(dirName, name, childURL, channel)
 	}
 	return count
 end

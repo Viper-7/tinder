@@ -559,6 +559,7 @@ def addDirWatcher(path, name, channels, url = "", channel = "", recursive = fals
 		channels.each {|x|
 			count = addDirectoryWatcher(path, name, url, x)
 		}
+		y = channels.first
 	else
 		channels.each {|x| y = x if x.channel.to_s == channel.to_s}
 		if recursive

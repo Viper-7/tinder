@@ -710,24 +710,24 @@ class TinderRSS
 		rss = RSS::Parser.parse(content, false)
 
 		rss.items.each{|x|
-			if !@buffer.include?(x.title + ' - ' + x.link)
-				@buffer.push(x.title + ' - ' + x.link)
+			filesize = ""
+			category = ""
+			begin
+				category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
+				x.description =~ /size:<\/b> (.+?)<br>/i
+				filesize = '[' + $1 + ']'
+			rescue
+				# no rescue for you
+			end
+
+			if !@buffer.include?("#{category}: #{x.title} - #{x.link} #{filesize}")
+				@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 				if @announce
 					hit = false
 
 					@allow.each{|y|
 						hit = true if /#{y}/i.match(x.title)
 					}
-
-					filesize = ""
-					category = ""
-					begin
-						category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
-						x.description =~ /size:<\/b> (.+?)<br>/i
-						filesize = '[' + $1 + ']'
-					rescue
-						# no rescue for you
-					end
 
 					if hit
 						@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
@@ -776,7 +776,15 @@ class TinderRSS
 	def search(args)
 	    	args = args.gsub(/ /,'.+')
 	    	output = ""
-		@buffer.each {|x| output = x if x.match(/#{args}/i) }
+		@buffer.each {|x|
+			if x.match(/#{args}/i)
+				begin
+					x =~ /^(.+?): (.+) - (.+?) (.+?)$/
+					output = "#{$1}: #{$2} - #{tinyURL($3)} #{$4}"
+				rescue
+				end
+			end
+		}
 		return output
 	end
 

@@ -559,7 +559,7 @@ def addRecursiveDirectoryWatcher(path, name, url, channels, channel)
 		dirName = "#{path}/#{x.to_s}"
 		next if File.file? dirName
 		next if /^[\.].*$/.match(x)
-		addDirectoryWatcher dirName, name, url, channels, channel
+		addRecursiveDirectoryWatcher dirName, name, url, channels, channel
 	}
 end
 

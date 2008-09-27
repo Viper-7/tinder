@@ -661,6 +661,8 @@ class TinderRSS
 					filesize = ""
 					category = ""
 					begin
+						puts x.category
+						puts x.description
 						category = x.category.to_s
 						x.description =~ /Size:&lt;\/b&gt; (.+?)&lt;br&gt;/i
 						filesize = $1

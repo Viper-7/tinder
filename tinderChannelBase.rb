@@ -660,16 +660,16 @@ class TinderRSS
 
 					filesize = ""
 					begin
-						x.description =~ /Size:&lt;\/b&gt; (.+?)&lt;br&gt;/
+						x.description =~ /Size:&lt;\/b&gt; (.+?)&lt;br&gt;/i
 						filesize = $1
 					rescue
 						# no rescue for you
 					end
 
 					if hit
-						@channel.sendChannel "New #{x.category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
+						@channel.sendChannel "New #{x.category.category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
 					else
-						puts 'Ignored : ' + "New #{x.category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
+						puts 'Ignored : ' + "New #{x.category.category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
 					end
 				end
 			end

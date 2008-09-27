@@ -141,25 +141,37 @@ class TinderClient
     end
 
     def sendCTCP(msg, destination)
-	lines=0
+	lines = 0
 	lines = 999 if msg.length > 2048
-	msg.each_line{|line| break if line.length > 400; lines = 999; lines += 1 if line.length > 0 }
+	msg.each_line{|line|
+		break if line.length > 400
+		lines = 999
+		lines += 1 if line.length > 0
+	}
 	msg = "Response too long" if lines > 5
 	msg.each_line{|line| send "PRIVMSG #{destination} :\x01#{line}\x01" if line.length > 0}
     end
 
     def sendChannel(msg, channel)
-	lines=0
+	lines = 0
 	lines = 999 if msg.length > 2048
-	msg.each_line{|line| break if line.length > 400; lines = 999; lines += 1 if line.length > 0 }
+	msg.each_line{|line|
+		break if line.length > 400
+		lines = 999
+		lines += 1 if line.length > 0
+	}
 	msg = "Response too long" if lines > 5
 	msg.each_line{|line| send "PRIVMSG ##{channel} :#{line}" if line.length > 0}
     end
 
     def sendPrivate(msg, nick)
-	lines=0
+	lines = 0
 	lines = 999 if msg.length > 2048
-	msg.each_line{|line| break if line.length > 400; lines = 999; lines += 1 if line.length > 0 }
+	msg.each_line{|line|
+		break if line.length > 400
+		lines = 999
+		lines += 1 if line.length > 0
+	}
 	msg = "Response too long" if lines > 5
 	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}" if line.length > 0}
     end

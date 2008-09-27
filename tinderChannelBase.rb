@@ -258,7 +258,7 @@ class TinderChannel
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				popen4('sudo -u nobody php /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
+				popen4('php /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
 						timeout(5) do
 							response = stdout.readlines.join("\n").to_s

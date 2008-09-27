@@ -372,7 +372,7 @@ class TinderChannelBase
 					x.ignore $1
 					args = $1.gsub(/ /,'.+')
 					result = @mysql.query("SELECT COUNT(*) FROM nzballow WHERE Line LIKE \"#{args}\"")
-					@mysql.query("INSERT INTO nzballow SET Line=\"#{args}\"") if result.fetch_row[0] == "0"
+					@mysql.query("DELETE FROM nzballow WHERE Line LIKE \"#{args}\"") if result.fetch_row[0] != "0"
 					resp = "Ignoring #{args}"
 				when /listallow/
 					resp = x.listallow
@@ -380,7 +380,7 @@ class TinderChannelBase
 					x.allow $1
 					args = $1.gsub(/ /,'.+')
 					result = @mysql.query("SELECT COUNT(*) FROM nzballow WHERE Line LIKE \"#{args}\"")
-					@mysql.query("DELETE FROM nzballow WHERE Line LIKE \"#{args}\"") if result.fetch_row[0] != "0"
+					@mysql.query("INSERT INTO nzballow SET Line=\"#{args}\"") if result.fetch_row[0] == "0"
 					resp = "Allowing #{args}"
 				when /help/
 					resp = '@' + command.chomp + ' latest - Lists the latest ' + command.chomp + "\n"
@@ -614,7 +614,7 @@ class TinderDir
 end
 
 class TinderRSS
-	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type, :ignore
+	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type, :allow
 
 	def initialize(url, channel, type = 'link', announce = false)
 		@channel = channel
@@ -622,7 +622,7 @@ class TinderRSS
 		@announce = announce
 		@type = type
 		@buffer = Array.new
-		@ignore = Array.new
+		@allow = Array.new
 
 		content = open(@url).read
 		rss = RSS::Parser.parse(content, false)
@@ -634,7 +634,7 @@ class TinderRSS
 		puts "Status  : Added #{count} entries to RSS Watcher - #{@url}"
 
 		result = @channel.mysql.query("SELECT Line FROM nzballow")
-		result.each_hash {|x| @ignore.push x["Line"] }
+		result.each_hash {|x| @allow.push x["Line"] }
 	end
 
 	def tinyURL(url)
@@ -650,7 +650,7 @@ class TinderRSS
 				@buffer.push(x.title + ' - ' + x.link)
 				if @announce
 					hit = false
-					@ignore.each{|y|
+					@allow.each{|y|
 						hit = true if /#{y}/i.match(x.title)
 					}
 					@channel.sendChannel "New #{@type}: #{x.title} - #{tinyURL(x.link)}" if hit
@@ -661,20 +661,20 @@ class TinderRSS
 
 	def allow(args)
 		args = args.gsub(/ /,'.+')
-		@ignore.push args
+		@allow.push args
 	end
 
 	def listallow
 		response = ""
-		@ignore.clear
+		@allow.clear
 		count = 0
 		result = @channel.mysql.query("SELECT Line FROM nzballow")
 		result.each_hash {|x|
-			@ignore.push x["Line"]
+			@allow.push x["Line"]
 			count += 1
 		}
 		count = 0
-		@ignore.each {|x|
+		@allow.each {|x|
 			count += 1
 			response += "/#{x}/ "
 			response += "\n" if count % 5 == 0
@@ -684,8 +684,8 @@ class TinderRSS
 
 	def ignore(args)
 		args = args.gsub(/ /,'.+')
-		if !@ignore.include? args
-			@ignore.delete args
+		if !@allow.include? args
+			@allow.delete args
 		end
 	end
 

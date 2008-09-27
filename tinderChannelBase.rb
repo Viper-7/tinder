@@ -554,11 +554,12 @@ end
 def addRecursiveDirectoryWatcher(path, name, url, channels, channel)
 	myDir = Dir.new(path)
 	myDir.rewind
+	addDirectoryWatcher path, name, url, channels, channel
 	myDir.each {|x|
 		dirName = "#{path}/#{x.to_s}"
 		next if File.file? dirName
 		next if /^[\.].+$/.match(x)
-		addDirectoryWatcher path, name, url, channels, channel
+		addDirectoryWatcher dirName, name, url, channels, channel
 	}
 end
 

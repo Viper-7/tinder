@@ -14,6 +14,10 @@ class TinderChannel < TinderChannelBase
 	sendChannel "Fuck my #{vagoo.downcase} #{nick.downcase} you #{dirty} #{whore}."
     end
 
+    def customCommands
+	return 'quote|addquote'
+    end
+
     def randomquote
     	result = @mysql.query("SELECT Line, Source FROM quotes ORDER BY RAND() LIMIT 1")
     	row = result.fetch_row

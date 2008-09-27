@@ -120,6 +120,7 @@ tinderChannels = tinderChannels.concat(addChannels(["nesreca"],tinderBot,'Tinder
 addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', 'Dropbox', 'nesreca', 'http://dropbox.viper-7.com/', tinderChannels)
 addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/Spaz', 'Dropbox', 'nesreca', 'http://dropbox.viper-7.com/spaz/', tinderChannels)
 addDirectoryWatcher('/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca/msn drawings', 'Dropbox', 'nesreca', 'http://dropbox.viper-7.com/msn%20drawings/', tinderChannels)
-addRSSWatcher("http://www.nzbsrus.com/rssfeed.php", 'nesreca', tinderChannels, 'nzb', true)
+addRSSWatcher("http://www.nzbsrus.com/rssfeed.php?cat=75?i=104223&h=ed1303786609789&c=2", 'nesreca', tinderChannels, 'nzb', true)
+addRSSWatcher("http://www.nzbsrus.com/rssfeed.php?cat=91?i=104223&h=ed1303786609789&c=2", 'nesreca', tinderChannels, 'nzb', true)
 addAdminHost('Viper-7!druss@viper-7.com', tinderChannels)
 connect tinderClient, tinderBot, tinderChannels

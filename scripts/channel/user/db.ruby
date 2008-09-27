@@ -15,4 +15,5 @@ result.each do |row|
         resp += '| ' + name.capitalize + ' - ' + count2 + ' entries '
         resp += "|\n" if count % 5 == 0
 end
+resp += "|\n" if count % 5 != 0
 puts resp

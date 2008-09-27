@@ -414,7 +414,7 @@ class TinderChannel
     end
 
     def channelEvent(channel, host, nick, event, msg)
-    	@tinderBot.status "#{event.capitalize.ljust(8)}: \##{channel} <#{nick}> '" + msg + "'"
+    	@tinderBot.status "#{event.capitalize.ljust(7)}<: \##{channel} <#{nick}> #{msg}"
     	case event
     		when /^MODE/
     			if nick == @nick
@@ -442,7 +442,7 @@ class TinderChannel
     end
 
     def channelText(nick, host, msg)
-    	@tinderBot.status "Channel<: \#" + @channel + " <" + nick + "> '" + msg + "'"
+    	@tinderBot.status "Channel<: \##{@channel <#{nick}> #{msg}"
     	case msg
     		when /^(hi|hey|sup|yo) #{@nick}/i
 			sendChannel $1 + " " + nick + "!"
@@ -462,7 +462,7 @@ class TinderChannel
     end
 
     def privateText(nick, host, msg)
-    	@tinderBot.status "Private\<: <" + nick + "> " + msg
+    	@tinderBot.status "Private<: <#{nick}> #{msg}"
     	hostmask = nick + '!' + host
 
 	if @adminHosts.include? hostmask

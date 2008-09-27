@@ -693,7 +693,17 @@ class TinderRSS
 		rss = RSS::Parser.parse(content, false)
 		count = 0
 		rss.items.each{|x|
-			@buffer.push(x.title + ' - ' + x.link)
+			filesize = ""
+			category = ""
+			begin
+				category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
+				x.description =~ /size:<\/b> (.+?)<br>/i
+				filesize = '[' + $1 + ']'
+			rescue
+				# no rescue for you
+			end
+
+			@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 			count += 1
 		}
 

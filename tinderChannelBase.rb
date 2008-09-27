@@ -551,7 +551,7 @@ def addAdminHost(host, channels)
 	channels.each {|x| x.adminHosts.push host if host.match /.+\!.+@.+?\..+/ }
 end
 
-def addDirWatcher(path, name, url, channels, channel = "", recursive = false)
+def addDirWatcher(path, name, channels, url = "", channel = "", recursive = false)
 	y = nil
 	count = 0
 

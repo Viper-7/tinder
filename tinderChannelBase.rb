@@ -426,7 +426,6 @@ class TinderChannel
 	    			end
 	    		end
 	    	when /^KICK/
-	    		puts nick + ":" + event + ":" + msg
 	    		if nick == @nick
 		    		@tinderBot.rejoinChannel channel.to_s
 		    		sendChannel 'Screw you!'

@@ -149,9 +149,9 @@ class TinderClient
 
     def sendChannel(msg, channel)
 	lines=0; if msg.length > 2048; lines = 999; end
-	msg.each_line{|line| if line.length > 400; lines = 999; break; end; lines += 1 }
+	msg.each_line{|line| break if line.length > 400; lines = 999; lines += 1 if line.length > 0 }
 	if lines > 5; msg = "Response too long"; end
-	msg.each_line{|line| send "PRIVMSG ##{channel} :#{line}"}
+	msg.each_line{|line| send "PRIVMSG ##{channel} :#{line}" if line.length > 0}
     end
 
     def sendPrivate(msg, nick)

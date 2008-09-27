@@ -200,9 +200,9 @@ class TinderChannel
 	    				if command.chomp == File.basename(filename.downcase)
 	    					hit = true
 
-	    					args.gsub(/rm/, 'rn')
-	    					args.gsub(/wget/, 'wgot')
-	    					args.gsub(/mail/, 'm@il')
+	    					args = args.gsub(/rm/, 'rn')
+	    					args = args.gsub(/wget/, 'wgot')
+	    					args = args.gsub(/mail/, 'm@il')
 	    					lang = ext
 
 	    					ENV['IIBOT_DIR'] = filename.split('/')[0..2].join('/')
@@ -249,10 +249,10 @@ class TinderChannel
 				response = 'Usage: @php <code to run>' + "\n"
 				response += 'Eg: @php echo "hi";'
 			else
-				args.gsub(/rm/, 'rn')
-				args.gsub(/exec/, 'pcntl_exec')
-				args.gsub(/fork/, 'fark')
-				args.gsub(/mail/, 'm@il')
+				args = args.gsub(/rm/, 'rn')
+				args = args.gsub(/exec/, 'pcntl_exec')
+				args = args.gsub(/fork/, 'fark')
+				args = args.gsub(/mail/, 'm@il')
 
 				args = "<?php\n" + args + "\n?>"
 
@@ -277,10 +277,10 @@ class TinderChannel
 				response = 'Usage: @ruby <code to run>' + "\n"
 				response += 'Eg: @ruby puts "hi"'
 			else
-				args.gsub(/rm/, 'rn')
-				args.gsub(/exec/, 'exac')
-				args.gsub(/fork/, 'fark')
-				args.gsub(/mail/, 'm@il')
+				args = args.gsub(/rm/, 'rn')
+				args = args.gsub(/exec/, 'exac')
+				args = args.gsub(/fork/, 'fark')
+				args = args.gsub(/mail/, 'm@il')
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
@@ -303,10 +303,10 @@ class TinderChannel
 				response = 'Usage: @tcl <code to run>' + "\n"
 				response += 'Eg: @tcl puts hi'
 			else
-				args.gsub(/rm/, 'rn')
-				args.gsub(/exec/, 'exac')
-				args.gsub(/fork/, 'fark')
-				args.gsub(/mail/, 'm@il')
+				args = args.gsub(/rm/, 'rn')
+				args = args.gsub(/exec/, 'exac')
+				args = args.gsub(/fork/, 'fark')
+				args = args.gsub(/mail/, 'm@il')
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 

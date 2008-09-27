@@ -321,22 +321,22 @@ class TinderBot
 
     def serverText(msg)
         case msg.strip
-            when /^:(.+)![~]?(.+?) MODE #(.+?) (.+?) :(.+)$/	#User!~ident@host MODE  Channel Mode :Message
+            when /^:(.+)![~]?(.+?) MODE #(.+?) (.+?) :(.+)$/	# User!~ident@host MODE  Channel Mode :Message
             	channelEvent $3, $2, $1, $4, $5
-            when /^:(.+)![~]?(.+?) TOPIC #(.+?) :(.+)$/		#User!~ident@host TOPIC Channel :Message
+            when /^:(.+)![~]?(.+?) TOPIC #(.+?) :(.+)$/		# User!~ident@host TOPIC Channel :Message
             	channelEvent $3, $2, $1, "TOPIC", $4
-            when /^:(.+)![~]?(.+?) PART #(.+?) :(.+)$/
+            when /^:(.+)![~]?(.+?) PART #(.+?) :(.+)$/		# User!~ident@host PART	Channel :Message
             	channelEvent $3, $2, $1, "PART", $4
 
-            when /^:(.+)![~]?(.+?) (.+?) #(.+?) (.+?) :(.+)$/ 	#User!~ident@host Event Channel Target :Message
+            when /^:(.+)![~]?(.+?) (.+?) #(.+?) (.+?) :(.+)$/ 	# User!~ident@host Event Channel Target :Message
             	channelEvent $4, $2, $5, $3, $6
-            when /^:(.+)![~]?(.+?) (.+?) #(.+?) (.+?) (.+)$/ 	#User!~ident@host Event Channel Target Mode
+            when /^:(.+)![~]?(.+?) (.+?) #(.+?) (.+?) (.+)$/ 	# User!~ident@host Event Channel Target Mode
             	channelEvent $4, $2, $5, $3, $6
-            when /^:(.+)![~]?(.+?) (.+?) #(.+?) (.+)$/		#User!~ident@host Event Channel Mode
+            when /^:(.+)![~]?(.+?) (.+?) #(.+?) (.+)$/		# User!~ident@host Event Channel Mode
             	channelEvent $4, $2, $1, $3, $5
-            when /^:(.+)![~]?(.+?) (.+?) #(.+)$/ 			#User!~ident@host Event Channel
+            when /^:(.+)![~]?(.+?) (.+?) #(.+)$/ 		# User!~ident@host Event Channel
             	channelEvent $4, $2, $1, $3, $1
-            when /^:(.+)![~]?(.+?) QUIT :(?:Quit)?(?::?(.+))?$/ 		#User!~ident@host QUIT( :Message)
+            when /^:(.+)![~]?(.+?) QUIT :(?:Quit)?(?::?(.+))?$/ # User!~ident@host QUIT( :Message)
 	    	if $3 != nil
 	    		@channels.each {|x| channelEvent x.channel, $2, $1, 'QUIT', $3}
 	    	else

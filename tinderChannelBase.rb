@@ -171,6 +171,10 @@ class TinderChannelBase
 	return lines
     end
 
+    def customCommands
+	return ''
+    end
+
     def runCommand(command, args, nick, host, commandtypes)
     	response = ""
     	hit = false

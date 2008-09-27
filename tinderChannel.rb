@@ -114,9 +114,9 @@ class TinderNesreca < TinderChannel
 end
 
 tinderClient, tinderBot = addServer("irc.gamesurge.net", "6667", "Tinder")
-tinderChannels = addChannels(["codeworkshop", "v7test", "ausquake", "premiumgamer"], tinderBot, 'TinderChannel')
-tinderChannels.push addChannel("nesreca", tinderBot, 'TinderNesreca')
-addDirWatcher '/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', "Dropbox", tinderChannels, 'http://dropbox.viper-7.com/', "nesreca", true
-addRSSWatcher ["http://www.nzbsrus.com/rssfeed.php?cat=75?i=104223&h=ed1303786609789&c=2", "http://www.nzbsrus.com/rssfeed.php?cat=91?i=104223&h=ed1303786609789&c=2"], tinderChannels, "nzb", "nesreca", true
-addAdminHost 'Viper-7!druss@viper-7.com', tinderChannels
+tinderChannels = addChannels(tinderBot, ["codeworkshop", "v7test", "ausquake", "premiumgamer"], 'TinderChannel')
+tinderChannels.push addChannel(tinderBot, "nesreca", 'TinderNesreca')
+addDirWatcher tinderChannels, '/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', "Dropbox", 'http://dropbox.viper-7.com/', "nesreca", true
+addRSSWatcher tinderChannels, ["http://www.nzbsrus.com/rssfeed.php?cat=75?i=104223&h=ed1303786609789&c=2", "http://www.nzbsrus.com/rssfeed.php?cat=91?i=104223&h=ed1303786609789&c=2"], "nzb", "nesreca", true
+addAdminHost tinderChannels, 'Viper-7!druss@viper-7.com'
 connect tinderClient, tinderBot, tinderChannels

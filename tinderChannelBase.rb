@@ -519,11 +519,11 @@ def addServer(server,port,nick)
 	return tinderClient1, tinderBot1
 end
 
-def addChannels(channels,tinderBot1,type)
+def addChannels(tinderBot,channels,type)
 	tinderChannels = Array.new
 
 	channels.each {|x|
-		tinderChannels.push Module.const_get(type).new(x.to_s, tinderBot1)
+		tinderChannels.push Module.const_get(type).new(x.to_s, tinderBot)
 	}
 	return tinderChannels
 end
@@ -552,11 +552,11 @@ def connect(tinderClient, tinderBot, tinderChannels)
 	exit 0
 end
 
-def addAdminHost(host, channels)
+def addAdminHost(channels, host)
 	channels.each {|x| x.adminHosts.push host if host.match /.+\!.+@.+?\..+/ }
 end
 
-def addDirWatcher(path, name, channels, url = "", channel = "", recursive = false)
+def addDirWatcher(channels, path, name, url = "", channel = "", recursive = false)
 	y = nil
 	count = 0
 
@@ -613,7 +613,7 @@ def addDirectoryWatcher(path, name, url, channel)
 	return count
 end
 
-def addRSSWatcher(url, tinderChannels, type = "link", channel = "", announce = false)
+def addRSSWatcher(tinderChannels, url, type = "link", channel = "", announce = false)
 	y = nil
 	count = 0
 	if channel.length > 1

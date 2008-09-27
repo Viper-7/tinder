@@ -284,7 +284,7 @@ class TinderChannel
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				popen4('sudo -u nobody ruby /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
+				popen4('ruby /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
 						timeout(5) do
 							response = stdout.readlines.join("\n").to_s
@@ -310,7 +310,7 @@ class TinderChannel
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
-				popen4('sudo -u nobody tclsh /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
+				popen4('tclsh /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
 						timeout(5) do
 							response = stdout.readlines.join("\n").to_s

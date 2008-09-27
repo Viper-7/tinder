@@ -94,25 +94,25 @@ class TinderChannel
 
     def sendChannel(msg)
 	lines=0
-	msg.each_line{|line| lines += 1; @tinderBot.status "Output  : \##{@channel} <#{@nick}> #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "Channel>: \##{@channel} <#{@nick}> #{line}"}
     	@tinderBot.sendChannel msg, @channel
     end
 
     def sendPrivate(msg, nick)
 	lines=0
-	msg.each_line{|line| lines += 1; @tinderBot.status "Private\>: <#{@nick}> #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "Private>: <#{@nick}> #{line}"}
     	@tinderBot.sendPrivate msg, nick
     end
 
     def sendAction(msg)
 	lines=0
-	msg.each_line{|line| lines += 1; @tinderBot.status "Action \>: \##{@channel} <#{@nick}> #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "Action >: \##{@channel} <#{@nick}> #{line}"}
     	@tinderBot.sendCTCP "ACTION #{msg}", "\##{@channel}"
     end
 
     def sendCTCP(msg, nick)
 	lines=0
-	msg.each_line{|line| lines += 1; @tinderBot.status "CTCP   \>: <#{@nick}> #{nick}: #{line}"}
+	msg.each_line{|line| lines += 1; @tinderBot.status "CTCP   >: <#{@nick}> #{nick}: #{line}"}
     	@tinderBot.sendCTCP msg, nick
     end
 
@@ -436,7 +436,7 @@ class TinderChannel
     end
 
     def channelText(nick, host, msg)
-    	@tinderBot.status "Text    : #" + @channel + " <" + nick + "> '" + msg + "'"
+    	@tinderBot.status "Channel<: #" + @channel + " <" + nick + "> '" + msg + "'"
     	case msg
     		when /^(hi|hey|sup|yo) #{@nick}/i
 			sendChannel $1 + " " + nick + "!"

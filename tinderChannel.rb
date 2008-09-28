@@ -43,7 +43,7 @@ class TinderNesreca < TinderChannel
 			sendChannel "FIGHT THE POWAH!"
 		when /fuck (?:you|u|me)/i
 			fuckMe nick
-		when /^you (?:know|might) (?:you[^\s]{0,3} )?(?:are|be)?\s?(?:stoned|high|baked|blitzkrieged) (?:when|if) (.+)/i
+		when /^(?:you|u) (?:know|might) (?:you[^\s]{0,3} )?(?:are|be)?\s?(?:stoned|high|baked|blitzkrieged) (?:when|if) (.+)/i
 			line = $1.chomp
 			line = line.gsub(/\"/,'\"')
 			if line.length > 1
@@ -54,7 +54,7 @@ class TinderNesreca < TinderChannel
 					sendChannel 'Added joke'
 				end
 			end
-		when /^you (?:know|might) (?:you[^\s]{0,3} )?(?:are|be)?\s?(?:drunk|smashed|hammered) (?:when|if) (.+)/i
+		when /^(?:you|u) (?:know|might) (?:you[^\s]{0,3} )?(?:are|be)?\s?(?:drunk|smashed|hammered) (?:when|if) (.+)/i
 			line = $1.chomp
 			line = line.gsub(/\"/,'\"')
 			if line.length > 1

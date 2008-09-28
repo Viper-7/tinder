@@ -107,7 +107,7 @@ class TinderClient
 		loop do
 			break if !@tcpSocket
 			sleep(0.1)
-			if @buffer.length > 5
+			if @buffer.length > 9
 				puts 'Dumped Buffer'
 				@buffer.clear
 			end
@@ -150,7 +150,7 @@ class TinderClient
 		end
 		lines += 1 if line.length > 1
 	}
-	msg = "Response too long" if lines > 5
+	msg = "Response too long" if lines > 9
 	msg.each_line{|line| send "PRIVMSG #{destination} :\x01#{line}\x01" if line.length > 1}
     end
 
@@ -164,7 +164,7 @@ class TinderClient
 		end
 		lines += 1 if line.length > 1
 	}
-	msg = "Response too long" if lines > 5
+	msg = "Response too long" if lines > 9
 	msg.each_line{|line| send "PRIVMSG ##{channel} :#{line}" if line.length > 1}
     end
 
@@ -178,7 +178,7 @@ class TinderClient
 		end
 		lines += 1 if line.length > 1
 	}
-	msg = "Response too long" if lines > 5
+	msg = "Response too long" if lines > 9
 	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}" if line.length > 1}
     end
 

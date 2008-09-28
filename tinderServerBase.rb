@@ -151,7 +151,7 @@ class TinderClient
 		lines += 1 if line.length > 2
 	}
 	msg = "Response too long" if lines > 9
-	msg.each_line{|line| send "PRIVMSG #{destination} :\x01#{line}\x01" if line.length > 1}
+	msg.each_line{|line| send "PRIVMSG #{destination} :\x01#{line}\x01" if line.length > 2}
     end
 
     def sendChannel(msg, channel)
@@ -165,7 +165,7 @@ class TinderClient
 		lines += 1 if line.length > 2
 	}
 	msg = "Response too long" if lines > 9
-	msg.each_line{|line| send "PRIVMSG ##{channel} :#{line}" if line.length > 1}
+	msg.each_line{|line| send "PRIVMSG ##{channel} :#{line}" if line.length > 2}
     end
 
     def sendPrivate(msg, nick)
@@ -179,7 +179,7 @@ class TinderClient
 		lines += 1 if line.length > 2
 	}
 	msg = "Response too long" if lines > 9
-	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}" if line.length > 1}
+	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}" if line.length > 2}
     end
 
     def shutDown

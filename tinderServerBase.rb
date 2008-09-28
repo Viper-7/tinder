@@ -125,7 +125,7 @@ class TinderClient
 		}
 		loop do
 			break if !@tcpSocket
-			sleep(0.05)
+			sleep(0.1)
 			msg = @tcpSocket.gets
 			next if msg == nil
 			serverEvent(msg)

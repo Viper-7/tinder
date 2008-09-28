@@ -148,7 +148,7 @@ class TinderClient
 			lines = 999
 			break
 		end
-		lines += 1 if line.length > 1
+		lines += 1 if line.length > 2
 	}
 	msg = "Response too long" if lines > 9
 	msg.each_line{|line| send "PRIVMSG #{destination} :\x01#{line}\x01" if line.length > 1}
@@ -162,7 +162,7 @@ class TinderClient
 			lines = 999
 			break
 		end
-		lines += 1 if line.length > 1
+		lines += 1 if line.length > 2
 	}
 	msg = "Response too long" if lines > 9
 	msg.each_line{|line| send "PRIVMSG ##{channel} :#{line}" if line.length > 1}
@@ -176,7 +176,7 @@ class TinderClient
 			lines = 999
 			break
 		end
-		lines += 1 if line.length > 1
+		lines += 1 if line.length > 2
 	}
 	msg = "Response too long" if lines > 9
 	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}" if line.length > 1}

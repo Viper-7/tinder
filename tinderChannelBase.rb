@@ -254,7 +254,7 @@ class TinderChannel
 				args = args.gsub(/exec/, 'exac')
 				args = args.gsub(/fork/, 'fark')
 				args = args.gsub(/mail/, 'm@il')
-				args = args.gsub(/\%\%n/, "\n")
+				args = args.gsub(/\[\@newline\]/, "\n")
 				args = "<?php\n" + args + "\n?>"
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
@@ -282,7 +282,7 @@ class TinderChannel
 				args = args.gsub(/exec/, 'exac')
 				args = args.gsub(/fork/, 'fark')
 				args = args.gsub(/mail/, 'm@il')
-				args = args.gsub(/\%\%n/, "\n")
+				args = args.gsub(/\[\@newline\]/, "\n")
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
@@ -309,7 +309,7 @@ class TinderChannel
 				args = args.gsub(/exec/, 'exac')
 				args = args.gsub(/fork/, 'fark')
 				args = args.gsub(/mail/, 'm@il')
-				args = args.gsub(/\%\%n/, "\n")
+				args = args.gsub(/\[\@newline\]/, "\n")
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 

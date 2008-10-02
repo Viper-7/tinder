@@ -122,4 +122,3 @@ addRSSWatcher tinderChannels, ["http://www.nzbsrus.com/rssfeed.php?cat=75?i=1042
 addAdminHost tinderChannels, 'Viper-7!druss@viper-7.com'
 connect tinderClient, tinderBot, tinderChannels
 
-

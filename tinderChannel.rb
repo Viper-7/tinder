@@ -121,4 +121,3 @@ addRSSWatcher tinderChannels, ["http://hackaday.com/feed/"], "Hack", "codeworksh
 addRSSWatcher tinderChannels, ["http://www.nzbsrus.com/rssfeed.php?cat=75?i=104223&h=ed1303786609789&c=2", "http://www.nzbsrus.com/rssfeed.php?cat=91?i=104223&h=ed1303786609789&c=2"], "nzb", "nesreca", true
 addAdminHost tinderChannels, 'Viper-7!druss@viper-7.com'
 connect tinderClient, tinderBot, tinderChannels
-

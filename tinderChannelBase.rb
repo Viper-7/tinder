@@ -725,39 +725,43 @@ class TinderRSS
 	end
 
 	def poll
-		content = open(@url).read
-		rss = RSS::Parser.parse(content, false)
+		begin
+			content = open(@url).read
+			rss = RSS::Parser.parse(content, false)
 
-		rss.items.each{|x|
-			filesize = ""
-			category = ""
-			begin
-				category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
-				x.description =~ /size:<\/b> (.+?)<br>/i
-				filesize = '[' + $1 + ']'
-			rescue
-				# no rescue for you
-			end
+			rss.items.each{|x|
+				filesize = ""
+				category = ""
+				begin
+					category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
+					x.description =~ /size:<\/b> (.+?)<br>/i
+					filesize = '[' + $1 + ']'
+				rescue
+					# no rescue for you
+				end
 
-			if !@buffer.include?("#{category}: #{x.title} - #{x.link} #{filesize}")
-				@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
-				if @announce
-					hit = false
+				if !@buffer.include?("#{category}: #{x.title} - #{x.link} #{filesize}")
+					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
+					if @announce
+						hit = false
 
-					@allow.each do |y|
-						if /#{y}/i.match(x.title)
-							@ignore.each {|z| hit = true if !/#{z}/i.match(x.title)}
+						@allow.each do |y|
+							if /#{y}/i.match(x.title)
+								@ignore.each {|z| hit = true if !/#{z}/i.match(x.title)}
+							end
+						end
+
+						if hit
+							@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
+						else
+							puts 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
 						end
 					end
-
-					if hit
-						@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
-					else
-						puts 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
-					end
 				end
-			end
-		}
+			}
+		rescue Exception => ex
+			puts 'Fatal   : ' + ex
+		end
 	end
 
 	def count

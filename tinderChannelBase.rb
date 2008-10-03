@@ -388,14 +388,26 @@ class TinderChannel
 				when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay)/i
 					args = $1.gsub(/ /,'.+')
 					result = @mysql.query("SELECT COUNT(*) FROM nzballow WHERE Line LIKE \"#{args}\"")
-					@mysql.query("DELETE FROM #{x.type}allow WHERE Line LIKE \"#{args}\""); resp = "Stopped Allowing #{args}" if result.fetch_row[0] != "0" or args[-1,1] == '!'
-					@mysql.query("INSERT INTO #{x.type}ignore SET Line=\"#{args}\""); resp = "Started Ignoring #{args}" if result.fetch_row[0] == "0" or args[-1,1] == '!'
+					if result.fetch_row[0] != "0" or args[-1,1] == '!'
+						@mysql.query("DELETE FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
+						resp = "Stopped Allowing #{args}"
+					end
+					if result.fetch_row[0] == "0" or args[-1,1] == '!'
+						@mysql.query("INSERT INTO #{x.type}ignore SET Line=\"#{args}\"")
+						resp = "Started Ignoring #{args}"
+					end
 					@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
 				when /^(.+?) is (?:good|fine|ok|sick|cool|mad|grouse)/i
 					args = $1.gsub(/ /,'.+')
 					result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line LIKE \"#{args}\"")
-					@mysql.query("DELETE FROM #{x.type}ignore WHERE Line LIKE \"#{args}\""); resp = "Stopped Ignoring #{args}" if result.fetch_row[0] != "0" or args[-1,1] == '!'
-					@mysql.query("INSERT INTO #{x.type}allow SET Line=\"#{args}\""); resp = "Started Allowing #{args}" if result.fetch_row[0] == "0" or args[-1,1] == '!'
+					if result.fetch_row[0] != "0" or args[-1,1] == '!'
+						@mysql.query("DELETE FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
+						resp = "Stopped Ignoring #{args}"
+					end
+					if result.fetch_row[0] == "0" or args[-1,1] == '!'
+						@mysql.query("INSERT INTO #{x.type}allow SET Line=\"#{args}\"")
+						resp = "Started Allowing #{args}"
+					end
 					@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
 				when /help/
 					resp = '@' + command.chomp + ' latest - Lists the latest ' + command.chomp + "\n"

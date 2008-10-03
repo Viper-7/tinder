@@ -785,15 +785,11 @@ class TinderRSS
 		@ignore.clear
 		count = 0
 		result = @channel.mysql.query("SELECT Line FROM nzballow")
-		result.each_hash {|x|
-			@allow.push x["Line"]
-			count += 1
-		}
+		result.each_hash {|x| @allow.push x["Line"]; count += 1 }
+
 		result = @channel.mysql.query("SELECT Line FROM nzbignore")
-		result.each_hash {|x|
-			@ignore.push x["Line"]
-			count += 1
-		}
+		result.each_hash {|x| @ignore.push x["Line"]; count += 1 }
+
 		return count.to_s
 	end
 

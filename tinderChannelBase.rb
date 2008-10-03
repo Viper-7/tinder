@@ -388,11 +388,12 @@ class TinderChannel
 				when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay)/i
 					args = $1.gsub(/ /,'.+')
 					result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
-					if result.fetch_row[0] != "0" or args[-1,1] == '!'
+					z = result.fetch_row[0]
+					if z != "0" or args[-1,1] == '!'
 						@mysql.query("DELETE FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
 						resp = "Stopped Allowing #{args}"
 					end
-					if result.fetch_row[0] == "0" or args[-1,1] == '!'
+					if z == "0" or args[-1,1] == '!'
 						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
 						if result.fetch_row[0] == "0" or args[-1,1] == '!'
 							@mysql.query("INSERT INTO #{x.type}ignore SET Line=\"#{args}\"")
@@ -405,11 +406,12 @@ class TinderChannel
 				when /^(.+?) is (?:good|fine|ok|sick|cool|mad|grouse)/i
 					args = $1.gsub(/ /,'.+')
 					result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
-					if result.fetch_row[0] != "0" or args[-1,1] == '!'
+					z = result.fetch_row[0]
+					if z != "0" or args[-1,1] == '!'
 						@mysql.query("DELETE FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
 						resp = "Stopped Ignoring #{args}"
 					end
-					if result.fetch_row[0] == "0" or args[-1,1] == '!'
+					if z == "0" or args[-1,1] == '!'
 						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
 						if result.fetch_row[0] == "0" or args[-1,1] == '!'
 							@mysql.query("INSERT INTO #{x.type}allow SET Line=\"#{args}\"")

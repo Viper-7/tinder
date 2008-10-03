@@ -735,10 +735,10 @@ class TinderRSS
 			count += 1
 		}
 
-		result = @channel.mysql.query("SELECT Line FROM nzballow")
+		result = @channel.mysql.query("SELECT Line FROM #{@type}allow")
 		result.each_hash {|x| @allow.push x["Line"] }
 
-		result = @channel.mysql.query("SELECT Line FROM nzbignore")
+		result = @channel.mysql.query("SELECT Line FROM #{@type}ignore")
 		result.each_hash {|x| @ignore.push x["Line"] }
 	end
 
@@ -794,10 +794,10 @@ class TinderRSS
 		@allow.clear
 		@ignore.clear
 		count = 0
-		result = @channel.mysql.query("SELECT Line FROM nzballow")
+		result = @channel.mysql.query("SELECT Line FROM #{@type}allow")
 		result.each_hash {|x| @allow.push x["Line"]; count += 1 }
 
-		result = @channel.mysql.query("SELECT Line FROM nzbignore")
+		result = @channel.mysql.query("SELECT Line FROM #{@type}ignore")
 		result.each_hash {|x| @ignore.push x["Line"]; count += 1 }
 
 		return count.to_s

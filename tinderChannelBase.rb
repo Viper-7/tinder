@@ -387,26 +387,36 @@ class TinderChannel
 					resp = x.listignore
 				when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay)/i
 					args = $1.gsub(/ /,'.+')
-					result = @mysql.query("SELECT COUNT(*) FROM nzballow WHERE Line LIKE \"#{args}\"")
+					result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
 					if result.fetch_row[0] != "0" or args[-1,1] == '!'
 						@mysql.query("DELETE FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
 						resp = "Stopped Allowing #{args}"
 					end
 					if result.fetch_row[0] == "0" or args[-1,1] == '!'
-						@mysql.query("INSERT INTO #{x.type}ignore SET Line=\"#{args}\"")
-						resp = "Started Ignoring #{args}"
+						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
+						if result.fetch_row[0] == "0" or args[-1,1] == '!'
+							@mysql.query("INSERT INTO #{x.type}ignore SET Line=\"#{args}\"")
+							resp = "Started Ignoring #{args}"
+						else
+							resp = "Already Ignoring #{args}"
+						end
 					end
 					@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
 				when /^(.+?) is (?:good|fine|ok|sick|cool|mad|grouse)/i
 					args = $1.gsub(/ /,'.+')
-					result = @mysql.query("SELECT COUNT(*) FROM nzbignore WHERE Line LIKE \"#{args}\"")
+					result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
 					if result.fetch_row[0] != "0" or args[-1,1] == '!'
 						@mysql.query("DELETE FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
 						resp = "Stopped Ignoring #{args}"
 					end
 					if result.fetch_row[0] == "0" or args[-1,1] == '!'
-						@mysql.query("INSERT INTO #{x.type}allow SET Line=\"#{args}\"")
-						resp = "Started Allowing #{args}"
+						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
+						if result.fetch_row[0] == "0" or args[-1,1] == '!'
+							@mysql.query("INSERT INTO #{x.type}allow SET Line=\"#{args}\"")
+							resp = "Started Allowing #{args}"
+						else
+							resp = "Already Allowing #{args}"
+						end
 					end
 					@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
 				when /help/

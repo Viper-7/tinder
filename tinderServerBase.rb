@@ -82,6 +82,7 @@ class TinderClient
     		@tinderBots.delete(bot) if @tinderBots.include?(bot)
     	rescue Exception => ex
     		puts ex
+		p ex.backtrace
     		@tinderBots.clear
     	end
     	puts "tinderBot - Removed Bot" if @debug == true
@@ -188,6 +189,7 @@ class TinderClient
 	    		x.shutDown
 	    	rescue Exception => ex
 			puts ex
+			p ex.backtrace
 			removeBot(x)
 	    	end
     	}
@@ -249,6 +251,7 @@ class TinderClient
 		    	rescue Exception => ex
 				removeBot(x)
 				puts ex
+				p ex.backtrace
 		    	end
 			@connected = true
 		end
@@ -264,6 +267,7 @@ class TinderClient
 	    	rescue Exception => ex
 			removeBot(x)
 			puts ex
+			p ex.backtrace
 	    	end
 	}
     end
@@ -275,6 +279,7 @@ class TinderClient
 	    	rescue Exception => ex
 			removeBot(x)
 			puts ex
+			p ex.backtrace
 	    	end
 	}
     	if msg == '@mem'
@@ -290,6 +295,7 @@ class TinderClient
 	    	rescue Exception => ex
 			removeBot(x)
 			puts ex
+			p ex.backtrace
 	    	end
 	}
     end

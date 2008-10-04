@@ -18,7 +18,8 @@ DRb.start_service
 class TinderChannel
     include DRbUndumped
 
-    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :dumpnicks, :dirWatchers, :rssWatchers, :adminHosts, :mysql
+    attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :adminHosts
+    attr_accessor :dirWatchers, :rssWatchers, :dumpnicks, :dumpchans, :mysql
 
     def initialize(channel, tinderBot)
 	@dirWatchers = Array.new
@@ -446,16 +447,17 @@ class TinderChannel
     	@tinderBot.status "#{event.capitalize.ljust(7)}<: \##{channel} <#{nick}> #{msg}"
     	case event
     		when /^MODE/
-    			if nick == @nick
+    			if nick == @nick # if i'm affected
 	    			case msg
-	    				when /\-o/ # On De-Op
-	    				when /\+o/ # On Op
-	    				when /\-v/ # On De-Voice
-	    				when /\+v/ # On Voice
+	    				when /\-\w{0,5}o/ # On De-Op
+	    				when /\+\w{0,5}o/ # On Op
+	    					sendChannel "ty #{event}"
+	    				when /\-\w{0,5}v/ # On De-Voice
+	    				when /\+\w{0,5}v/ # On Voice
 	    			end
 	    		end
 	    	when /^KICK/
-	    		if nick == @nick
+	    		if nick == @nick # if it was me that got kicked
 		    		@tinderBot.rejoinChannel channel.to_s
 		    		sendChannel 'Screw you!'
 		    	end
@@ -467,6 +469,9 @@ class TinderChannel
 	@dumpnicks.each{|x|
 		@tinderBot.sendPrivate msg, x.to_s
 	} if @dumpnicks.length > 0
+	@dumpchans.each{|x|
+		@tinderBot.sendChannel msg, x[0].to_s if msg.match(/\##{x[1]}/i)
+	} if @dumpchans.length > 0
     end
 
     def channelText(nick, host, msg)

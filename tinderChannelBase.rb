@@ -487,10 +487,8 @@ class TinderChannel
 			@tinderBot.shutDown
 			@tinderBot = nil
 		when /^@dump \#(.+)$/
-			response = "Dumping \##{$1}"
 			@dumpchans.push @channel, $1
-			sendChannel response
-			break
+			sendChannel "Dumping \##{$1} to \##{@channel}"
 		when /^@(.+?) (.+)$/
 			response = runCommand($1, $2, nick, host, ["global", "channel"])
 			sendChannel response

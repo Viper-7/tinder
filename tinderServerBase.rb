@@ -384,7 +384,7 @@ class TinderBot
 
     def channelText(channel, host, nick, msg)
     	@channels.find{|x| x.channel==channel}.channelText(nick, host, msg)
-	@dumpchans.each{|x| sendChannel "#{channel} \<#{nick}\> #{msg}", x[0] if channel==x[1]}
+	@dumpchans.each{|x| sendChannel "\##{channel} \<#{nick}\> #{msg}", x[0] if channel==x[1]}
     end
 
     def channelEvent(channel, host, nick, event, msg = "")

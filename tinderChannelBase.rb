@@ -203,7 +203,7 @@ class TinderChannel
 	    				if command.chomp == File.basename(filename.downcase)
 	    					hit = true
 
-	    					args = args.gsub(/|/, ':')
+	    					args = args.gsub(/\|/, ':')
 	    					args = args.gsub(/wget/, 'wgot')
 	    					lang = ext
 

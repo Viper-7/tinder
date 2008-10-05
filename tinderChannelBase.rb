@@ -181,7 +181,7 @@ class TinderChannel
     end
 
     def customCommands
-	return ''
+	return 'dump'
     end
 
     def runCommand(command, args, nick, host, commandtypes)
@@ -334,7 +334,7 @@ class TinderChannel
 			response = response + usage
 		when /^help$/
 			response = help(commandtypes)
-		when /^#{customCommands}$/
+		when /^#{customCommands}/
 			hit = true
 	end
 
@@ -486,6 +486,9 @@ class TinderChannel
 			@tinderBot.channels.first.graceful = true
 			@tinderBot.shutDown
 			@tinderBot = nil
+		when /^@dump \#(.+)$/
+			response = "Dumping \##{$1}"
+			@dumpchans.push @channel, $1
 		when /^@(.+?) (.+)$/
 			response = runCommand($1, $2, nick, host, ["global", "channel"])
 			sendChannel response

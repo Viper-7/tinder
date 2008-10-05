@@ -304,11 +304,12 @@ end
 class TinderBot
     include DRbUndumped
 
-    attr_accessor :spamTime, :tinderClient, :channels, :open
+    attr_accessor :spamTime, :tinderClient, :channels, :open, :dumpchans
 
     def initialize(client)
     	@tinderClient = client
         @channels = Array.new
+    	@dumpchans = Array.new
 	@open = true
     end
 
@@ -375,6 +376,7 @@ class TinderBot
 
     def channelText(channel, host, nick, msg)
     	@channels.find{|x| x.channel==channel}.channelText(nick, host, msg)
+	@dumpchans.each{|x| sendChannel "#{channel} \<#{nick}\> #{msg}", x[0].to_s if channel==x[1].to_s}
     end
 
     def channelEvent(channel, host, nick, event, msg = "")

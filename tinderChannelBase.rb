@@ -20,7 +20,7 @@ class TinderChannel
     include DRbUndumped
 
     attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :adminHosts
-    attr_accessor :dirWatchers, :rssWatchers, :dumpnicks, :dumpchans, :mysql
+    attr_accessor :dirWatchers, :rssWatchers, :dumpnicks, :mysql
 
     def initialize(channel, tinderBot)
 	@dirWatchers = Array.new
@@ -31,7 +31,6 @@ class TinderChannel
         @tinderBot = tinderBot
     	@tinderBot.addChannel(self)
     	@dumpnicks = Array.new
-    	@dumpchans = Array.new
     	@uptime = 0
 
 	@mysql = Mysql.init()
@@ -470,9 +469,6 @@ class TinderChannel
 	@dumpnicks.each{|x|
 		@tinderBot.sendPrivate msg, x.to_s
 	} if @dumpnicks.length > 0
-	@dumpchans.each{|x|
-		@tinderBot.sendChannel msg, x[0].to_s if msg.match(/\##{x[1]}/i)
-	} if @dumpchans.length > 0
     end
 
     def channelText(nick, host, msg)
@@ -487,8 +483,8 @@ class TinderChannel
 			@tinderBot.shutDown
 			@tinderBot = nil
 		when /^@dump \#(.+)$/
-			@dumpchans.push [@channel, $1]
-			sendChannel "Dumping \##{$1} to \##{@channel}"
+			@tinderBot.dumpchans.push [@channel, $1]
+			@tinderbot.status "Dumping \##{$1} to \##{@channel} - #{@dumpchans.length}"
 		when /^@(.+?) (.+)$/
 			response = runCommand($1, $2, nick, host, ["global", "channel"])
 			sendChannel response

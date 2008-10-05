@@ -335,6 +335,8 @@ class TinderChannel
 			response = help(commandtypes)
 		when /^#{customCommands}/
 			hit = true
+		when /^ev/
+			hit = true
 	end
 
 	response = "Command not found" if response == "" and hit == false
@@ -726,29 +728,34 @@ class TinderRSS
 		@allow = Array.new
 		@ignore = Array.new
 
-		content = open(@url).read
-		rss = RSS::Parser.parse(content, false)
-		count = 0
-		rss.items.each{|x|
-			filesize = ""
-			category = ""
-			begin
-				category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
-				x.description =~ /size:<\/b> (.+?)<br>/i
-				filesize = '[' + $1 + ']'
-			rescue
-				# no rescue for you
+		begin
+			timeout(15) do
+				content = open(@url).read
+				rss = RSS::Parser.parse(content, false)
+				count = 0
+				rss.items.each{|x|
+					filesize = ""
+					category = ""
+					begin
+						category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
+						x.description =~ /size:<\/b> (.+?)<br>/i
+						filesize = '[' + $1 + ']'
+					rescue
+						# no rescue for you
+					end
+
+					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
+					count += 1
+				}
+
+				result = @channel.mysql.query("SELECT Line FROM #{@type}allow")
+				result.each_hash {|x| @allow.push x["Line"] }
+
+				result = @channel.mysql.query("SELECT Line FROM #{@type}ignore")
+				result.each_hash {|x| @ignore.push x["Line"] }
 			end
-
-			@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
-			count += 1
-		}
-
-		result = @channel.mysql.query("SELECT Line FROM #{@type}allow")
-		result.each_hash {|x| @allow.push x["Line"] }
-
-		result = @channel.mysql.query("SELECT Line FROM #{@type}ignore")
-		result.each_hash {|x| @ignore.push x["Line"] }
+		rescue
+		end
 	end
 
 	def tinyURL(url)
@@ -757,39 +764,41 @@ class TinderRSS
 
 	def poll
 		begin
-			content = open(@url).read
-			rss = RSS::Parser.parse(content, false)
+			timeout(15) do
+				content = open(@url).read
+				rss = RSS::Parser.parse(content, false)
 
-			rss.items.each{|x|
-				filesize = ""
-				category = ""
-				begin
-					category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
-					x.description =~ /size:<\/b> (.+?)<br>/i
-					filesize = '[' + $1 + ']'
-				rescue
-					# no rescue for you
-				end
+				rss.items.each{|x|
+					filesize = ""
+					category = ""
+					begin
+						category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
+						x.description =~ /size:<\/b> (.+?)<br>/i
+						filesize = '[' + $1 + ']'
+					rescue
+						# no rescue for you
+					end
 
-				if !@buffer.include?("#{category}: #{x.title} - #{x.link} #{filesize}")
-					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
-					if @announce
-						hit = false
+					if !@buffer.include?("#{category}: #{x.title} - #{x.link} #{filesize}")
+						@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
+						if @announce
+							hit = false
 
-						@allow.each do |y|
-							if /#{y}/i.match(x.title)
-								@ignore.each {|z| hit = true if !/#{z}/i.match(x.title)}
+							@allow.each do |y|
+								if /#{y}/i.match(x.title)
+									@ignore.each {|z| hit = true if !/#{z}/i.match(x.title)}
+								end
+							end
+
+							if hit
+								@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
+							else
+								puts 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
 							end
 						end
-
-						if hit
-							@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
-						else
-							puts 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
-						end
 					end
-				end
-			}
+				}
+			end
 		rescue Exception => ex
 			puts 'Fatal   : ' + ex
 		end

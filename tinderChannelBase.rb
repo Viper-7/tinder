@@ -484,7 +484,7 @@ class TinderChannel
 			@tinderBot = nil
 		when /^@dump \#(.+)$/
 			@tinderBot.adddumpchan @channel, $1
-			@tinderBot.channelText "\##{$1}", "#{host}", "#{@nick}", "Started capturing"
+			@tinderBot.channelText "#{$1}", "#{host}", "#{@nick}", "Started capturing"
 		when /^@stopdump$/
 			@tinderBot.stopdump
 		when /^@(.+?) (.+)$/

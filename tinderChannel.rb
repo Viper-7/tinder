@@ -114,7 +114,7 @@ class TinderNesreca < TinderChannel
 end
 
 tinderClient, tinderBot = addServer("irc.gamesurge.net", "6667", "Tinder")
-tinderChannels = addChannels(tinderBot, ["codeworkshop", "v7test", "ausquake", "premiumgamer"], 'TinderChannel')
+tinderChannels = addChannels(tinderBot, ["codeworkshop", "v7test", "ausquake", "premiumgamer", "slashquit", "linux", "coders"], 'TinderChannel')
 tinderChannels.push addChannel(tinderBot, "nesreca", 'TinderNesreca')
 addDirWatcher tinderChannels, '/mnt/thorc/Documents and Settings/Viper-7/My Documents/My Dropbox/nesreca', "Dropbox", 'http://dropbox.viper-7.com/', "nesreca", true
 addRSSWatcher tinderChannels, ["http://hackaday.com/feed/"], "hack", "codeworkshop", true

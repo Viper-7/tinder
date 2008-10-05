@@ -754,7 +754,8 @@ class TinderRSS
 				result = @channel.mysql.query("SELECT Line FROM #{@type}ignore")
 				result.each_hash {|x| @ignore.push x["Line"] }
 			end
-		rescue
+		rescue Exception => ex
+			puts 'Fatal   : ' + ex
 		end
 	end
 

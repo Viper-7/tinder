@@ -202,9 +202,8 @@ class TinderChannel
 	    				if command.chomp == File.basename(filename.downcase)
 	    					hit = true
 
-	    					args = args.gsub(/rm/, 'rn')
+	    					args = args.gsub(/|/, ':')
 	    					args = args.gsub(/wget/, 'wgot')
-	    					args = args.gsub(/mail/, 'm@il')
 	    					lang = ext
 
 	    					ENV['IIBOT_DIR'] = filename.split('/')[0..2].join('/')

@@ -489,6 +489,8 @@ class TinderChannel
 		when /^@dump \#(.+)$/
 			response = "Dumping \##{$1}"
 			@dumpchans.push @channel, $1
+			sendChannel response
+			break
 		when /^@(.+?) (.+)$/
 			response = runCommand($1, $2, nick, host, ["global", "channel"])
 			sendChannel response

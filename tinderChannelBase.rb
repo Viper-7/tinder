@@ -484,7 +484,7 @@ class TinderChannel
 			@tinderBot = nil
 		when /^@dump \#(.+)$/
 			@tinderBot.dumpchans.push [@channel, $1]
-			@tinderbot.status "Dumping \##{$1} to \##{@channel} - #{@dumpchans.length}"
+			@tinderbot.status "Dumping \##{$1} to \##{@channel} - #{@tinderBot.dumpchans.length}"
 		when /^@(.+?) (.+)$/
 			response = runCommand($1, $2, nick, host, ["global", "channel"])
 			sendChannel response

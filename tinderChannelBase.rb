@@ -31,6 +31,7 @@ class TinderChannel
         @tinderBot = tinderBot
     	@tinderBot.addChannel(self)
     	@dumpnicks = Array.new
+    	@dumpchans = Array.new
     	@uptime = 0
 
 	@mysql = Mysql.init()

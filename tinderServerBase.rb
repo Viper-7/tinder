@@ -323,6 +323,14 @@ class TinderBot
 	end
     end
 
+    def adddumpchan(tochannel, fromchannel)
+    	@dumpchans.push [tochannel, fromchannel]
+    end
+
+    def stopdump
+	@dumpchans.clear
+    end
+
     def nick
     	return @tinderClient.nick
     end
@@ -376,7 +384,7 @@ class TinderBot
 
     def channelText(channel, host, nick, msg)
     	@channels.find{|x| x.channel==channel}.channelText(nick, host, msg)
-	@dumpchans.each{|x| sendChannel "#{channel} \<#{nick}\> #{msg}", x[0].to_s if channel==x[1].to_s}
+	@dumpchans.each{|x| sendChannel "#{channel} \<#{nick}\> #{msg}", x[0] if channel==x[1]}
     end
 
     def channelEvent(channel, host, nick, event, msg = "")

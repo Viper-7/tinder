@@ -525,10 +525,10 @@ class TinderChannel
 				break
 			when /^@dump$/
 				@dumpnicks.push nick
-				@tinderBot.status "Now dumping to #{nick}@#{host}"
+				@tinderBot.status "Now dumping to #{nick}!#{host}"
 			when /^@stopdump$/
 				@dumpnicks.delete nick
-				@tinderBot.status "Stopped dumping to #{nick}@#{host}"
+				@tinderBot.status "Stopped dumping to #{nick}!#{host}"
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1
 				break

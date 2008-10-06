@@ -526,7 +526,7 @@ class TinderChannel
 				DRb.stop_service
 				break
 			when /^@dump$/
-				@dumpnicks.push nick
+				@dumpnicks.push nick if !@dumpnicks.include? nick
 				@tinderBot.status "Now dumping to #{nick}!#{host}"
 			when /^@stopdump$/
 				@dumpnicks.delete nick

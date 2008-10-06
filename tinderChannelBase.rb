@@ -488,8 +488,8 @@ class TinderChannel
 			@tinderBot.adddumpchan @channel, $1
 			@tinderBot.channelText "#{$1}", "#{host}", "#{@nick}", "Started capturing with filter /.+/"
 		when /^@dump \#(.+?) (.+)$/
-			@tinderBot.adddumpchan @channel, $1, /#{$2}/
-			@tinderBot.channelText "#{$1}", "#{host}", "#{@nick}", "Started capturing with filter /#{$2}/"
+			@tinderBot.adddumpchan @channel, $1, /#{$2}/i
+			@tinderBot.channelText "#{$1}", "#{host}", "#{@nick}", "Started capturing with filter /#{$2}/i"
 		when /^@stopdump$/
 			@tinderBot.stopdump
 		when /^@(.+?) (.+)$/

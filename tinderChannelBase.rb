@@ -501,6 +501,7 @@ class TinderChannel
     	end
     end
 
+
     def privateText(nick, host, msg)
     	@tinderBot.status "Private<: <#{nick}> -> <#{@nick}> #{msg}"
     	hostmask = nick + '!' + host

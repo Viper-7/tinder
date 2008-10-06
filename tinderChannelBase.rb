@@ -335,7 +335,9 @@ class TinderChannel
 			response = help(commandtypes)
 		when /^#{customCommands}/
 			hit = true
-		when /^ev/
+		when /^dump/
+			hit = true
+		when /^stopdump$/
 			hit = true
 	end
 

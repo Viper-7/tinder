@@ -323,8 +323,8 @@ class TinderBot
 	end
     end
 
-    def adddumpchan(tochannel, fromchannel)
-    	@dumpchans.push [tochannel, fromchannel]
+    def adddumpchan(tochannel, fromchannel, regexp = /.+/)
+    	@dumpchans.push [tochannel, fromchannel, regexp]
     end
 
     def stopdump
@@ -384,7 +384,7 @@ class TinderBot
 
     def channelText(channel, host, nick, msg)
     	@channels.find{|x| x.channel==channel}.channelText(nick, host, msg)
-	@dumpchans.each{|x| sendChannel "\##{channel} \<#{nick}\> #{msg}", x[0] if channel==x[1]}
+	@dumpchans.each{|x| sendChannel "\##{channel} \<#{nick}\> #{msg}", x[0] if channel==x[1] and x[2].match(msg)}
     end
 
     def channelEvent(channel, host, nick, event, msg = "")

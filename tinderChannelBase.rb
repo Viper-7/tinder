@@ -484,9 +484,12 @@ class TinderChannel
 			@tinderBot.channels.first.graceful = true
 			@tinderBot.shutDown
 			@tinderBot = nil
-		when /^@dump \#(.+)$/
+		when /^@dump \#(.+?)$/
 			@tinderBot.adddumpchan @channel, $1
-			@tinderBot.channelText "#{$1}", "#{host}", "#{@nick}", "Started capturing"
+			@tinderBot.channelText "#{$1}", "#{host}", "#{@nick}", "Started capturing with filter /.+/"
+		when /^@dump \#(.+?) (.+)$/
+			@tinderBot.adddumpchan @channel, $1, $2
+			@tinderBot.channelText "#{$1}", "#{host}", "#{@nick}", "Started capturing with filter $2"
 		when /^@stopdump$/
 			@tinderBot.stopdump
 		when /^@(.+?) (.+)$/

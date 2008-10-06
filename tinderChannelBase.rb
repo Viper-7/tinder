@@ -523,10 +523,10 @@ class TinderChannel
 				@tinderBot = nil
 				DRb.stop_service
 				break
-			when /^startdump$/
+			when /^@dump$/
 				@dumpnicks.push nick
 				@tinderBot.status "Now dumping to #{nick}@#{host}"
-			when /^stopdump$/
+			when /^@stopdump$/
 				@dumpnicks.delete nick
 				@tinderBot.status "Stopped dumping to #{nick}@#{host}"
 			when /^SAY \##{@channel} (.+)$/i

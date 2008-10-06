@@ -731,35 +731,37 @@ class TinderRSS
 		@allow = Array.new
 		@ignore = Array.new
 
-		begin
-			timeout(15) do
-				content = open(@url).read
-				rss = RSS::Parser.parse(content, false)
-				count = 0
-				rss.items.each{|x|
-					filesize = ""
-					category = ""
-					begin
-						category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
-						x.description =~ /size:<\/b> (.+?)<br>/i
-						filesize = '[' + $1 + ']'
-					rescue
-						# no rescue for you
-					end
+		Thread.start() {
+			begin
+				timeout(15) do
+					content = open(@url).read
+					rss = RSS::Parser.parse(content, false)
+					count = 0
+					rss.items.each{|x|
+						filesize = ""
+						category = ""
+						begin
+							category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
+							x.description =~ /size:<\/b> (.+?)<br>/i
+							filesize = '[' + $1 + ']'
+						rescue
+							# no rescue for you
+						end
 
-					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
-					count += 1
-				}
+						@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
+						count += 1
+					}
 
-				result = @channel.mysql.query("SELECT Line FROM #{@type}allow")
-				result.each_hash {|x| @allow.push x["Line"] }
+					result = @channel.mysql.query("SELECT Line FROM #{@type}allow")
+					result.each_hash {|x| @allow.push x["Line"] }
 
-				result = @channel.mysql.query("SELECT Line FROM #{@type}ignore")
-				result.each_hash {|x| @ignore.push x["Line"] }
+					result = @channel.mysql.query("SELECT Line FROM #{@type}ignore")
+					result.each_hash {|x| @ignore.push x["Line"] }
+				end
+			rescue Exception => ex
+				puts 'Fatal   : ' + ex
 			end
-		rescue Exception => ex
-			puts 'Fatal   : ' + ex
-		end
+		}
 	end
 
 	def tinyURL(url)

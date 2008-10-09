@@ -113,6 +113,7 @@ class TinderNesreca < TinderChannel
     end
 end
 
+
 tinderClient, tinderBot = addServer("irc.gamesurge.net", "6667", "Tinder")
 tinderChannels = addChannels(tinderBot, ["codeworkshop", "v7test", "ausquake", "premiumgamer", "slashquit", "linux", "coders"], 'TinderChannel')
 tinderChannels.push addChannel(tinderBot, "nesreca", 'TinderNesreca')

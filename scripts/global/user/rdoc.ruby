@@ -11,7 +11,6 @@ if ARGV[0].match(/^(.+)\.(.+?)$/)
 		mdesc = mdesc.gsub(/<br[ \/]*>/, "")
 		mdesc = mdesc.gsub(/<\/?[^>]*>/, "")
 		mdesc = mdesc.gsub(/&[^;]*;/, "")
-		puts mdesc
 	}
 else
 	x = ""

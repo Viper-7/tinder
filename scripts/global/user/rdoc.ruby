@@ -31,8 +31,8 @@ def getRDocMethod(baseurl,classname,methodname="")
 	}
 	
 	data.scan(/<div id="includes-list">(.+?)<\/div>/im) {|includes|
-		includes.join.scan(/<a href="(.+?)".*?>/im) {|minclude|
-			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + minclude.join
+		includes.join.scan(/<a href="(.+?)".*?>/im) {|include|
+			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + include.join
 		}
 	}
 

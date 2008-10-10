@@ -9,13 +9,13 @@ def getRDocMethod(classname,methodname)
 	
 	data = open("http://www.viper-7.com/rdoc/#{classes.first}").read; hitcount += 1
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|parents|
-		parents.each.scan(/<a href="(.+?)".*?>/im) {|parent|
+		parents.join.scan(/<a href="(.+?)".*?>/im) {|parent|
 			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + parent.join
 		}
 	}
 	
 	data.scan(/<div id="class-list">(.+?)<\/div>/im) {|children|
-		children.each.scan(/<a href="(.+?)".*?>/im) {|child|
+		children.join.scan(/<a href="(.+?)".*?>/im) {|child|
 			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + child.join
 		}
 	}

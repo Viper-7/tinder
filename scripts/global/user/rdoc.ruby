@@ -37,7 +37,7 @@ def getRDocMethod(classname,methodname)
 							exit if count > 4
 							count += 1
 							line = line.chomp
-							puts line if line.gsub(/ /,'').length > 1
+							puts line[0,399] if line.gsub(/ /,'').length > 1
 						}
 						exit
 					end
@@ -54,7 +54,7 @@ def getRDocMethod(classname,methodname)
 						exit if count > 4
 						count += 1
 						line = line.chomp
-						puts line if line.gsub(/ /,'').length > 1
+						puts line[0,399] if line.gsub(/ /,'').length > 1
 					}
 					exit
 				end

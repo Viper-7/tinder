@@ -5,9 +5,9 @@ def getRDocMethod(classname,methodname)
 	url = open("http://www.ruby-doc.org/core/fr_class_index.html").read.scan(/<a href="(.+?)">#{classname}<\/a>/)
 	url.each {|x| classes.push x.join }
 	data = open("http://www.ruby-doc.org/core/#{url}").read
-	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|x|
-		x.join.scan(/<a href="(.+?)">/im) {|y|
-			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + y.join
+	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|parents|
+		parents.join.scan(/<a href="(.+?)">/im) {|parent|
+			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + parent.join
 		}
 	}
 	classes.each {|classurl|
@@ -16,11 +16,11 @@ def getRDocMethod(classname,methodname)
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
 			mnames.scan(/(.+?)<br[ \/]>/im) {|mname|
 				if mname.match(/#{methodname}\(/i)
-					puts "http://www.ruby-doc.org/core/#{url}\##{anchor} - #{mname}".chomp
+					puts "http://www.ruby-doc.org/core/#{url}\##{anchor.chomp} - #{mname.chomp}"
 					mdesc = mdesc.gsub(/<br[ \/]*>/, "").chomp
 					mdesc = mdesc.gsub(/<\/?[^>]*>/, "")
 					mdesc = mdesc.gsub(/&[^;]*;/, "")
-					mdesc.each_line {|x| puts x if x.length > 2 }
+					mdesc.each_line {|line| puts line if line.length > 2 }
 					exit
 				end
 			}

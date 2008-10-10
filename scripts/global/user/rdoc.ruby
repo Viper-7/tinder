@@ -14,7 +14,7 @@ def getMethod(classname,methodname)
 	}
 	p parents
 	data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<br[ \/]*>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mname,mdesc|
-		if /#{methodname}(/i.match(mname)
+		if /#{methodname}\(/i.match(mname)
 			puts "http://www.ruby-doc.org/core/#{url}\##{anchor} - #{mname}"
 			mdesc = mdesc.gsub(/<br[ \/]*>/, "")
 			mdesc = mdesc.gsub(/<\/?[^>]*>/, "")

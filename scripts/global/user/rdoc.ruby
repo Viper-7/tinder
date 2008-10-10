@@ -10,10 +10,12 @@ def getRDocMethod(baseurl,classname,methodname="")
 	hit = false
 
 	baseurl += '/' if baseurl[-1,1] != '/'
+	
 	begin
 		open("#{baseurl}fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
 	rescue
 	end
+	
 	if classes.length == 0
 		begin
 			classname = eval("#{classname}.class")
@@ -113,6 +115,7 @@ def getRDocMethod(baseurl,classname,methodname="")
 			end
 		}
 	}
+	
 	if methodname == ""
 		outarr.push outstr
 		outarr.each {|x|

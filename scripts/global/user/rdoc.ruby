@@ -6,7 +6,7 @@ def getRDocMethod(classname,methodname="")
 	hitcount = 1
 	methodcount = 0
 	hit = false
-	
+
 	open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
 	if classes.length == 0
 		begin

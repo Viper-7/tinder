@@ -7,7 +7,10 @@ def getRDocMethod(classname,methodname="")
 	methodcount = 0
 	hit = false
 
-	open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
+	begin
+		open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
+	rescue
+	end
 	if classes.length == 0
 		begin
 			classname = eval("#{classname}.class")
@@ -99,7 +102,7 @@ def getRDocMethod(classname,methodname="")
 	end
 end
 
-if ARGV[0].match(/^(.+)\.(.+?)$/)
+if ARGV[0].match(/^(.+)\.(\w+?)$/)
 	getRDocMethod($1, $2)
 else
 	getRDocMethod(ARGV[0])

@@ -12,7 +12,7 @@ def getRDocMethod(classname,methodname="")
 		begin
 			classname = eval("#{classname}.class")
 		rescue
-			puts "No definition for '#{classname}'!"
+			puts "No definition for '#{classname}'"
 		end
 		open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
 	end

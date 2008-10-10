@@ -1,14 +1,17 @@
-def getRDocMethod(classname,methodname="")
+def getRDocMethod(baseurl,classname,methodname="")
 	require 'open-uri'
+
 	outarr = Array.new
-	outstr = ''
 	classes = Array.new
+
+	outstr = ''
 	hitcount = 1
 	methodcount = 0
 	hit = false
 
+	baseurl += '/' if baseurl[-1,1] != '/'
 	begin
-		open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
+		open("#{baseurl}fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
 	rescue
 	end
 	if classes.length == 0
@@ -17,10 +20,10 @@ def getRDocMethod(classname,methodname="")
 		rescue
 			puts "No definition for '#{classname}'"
 		end
-		open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
+		open("#{baseurl}fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
 	end
 	
-	data = open("http://www.viper-7.com/rdoc/#{classes.first}").read; hitcount += 1
+	data = open("#{baseurl}#{classes.first}").read; hitcount += 1
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|parents|
 		parents.join.scan(/<a href="(.+?)".*?>/im) {|parent|
 			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + parent.join
@@ -40,7 +43,7 @@ def getRDocMethod(classname,methodname="")
 	}
 
 	classes.each {|classurl|
-		data = open("http://www.viper-7.com/rdoc/#{classurl}").read if classurl != classes.first
+		data = open("#{baseurl}#{classurl}").read if classurl != classes.first
 		hitcount += 1 if classurl != classes.first
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>|<pre>)/im) { |anchor,mnames,mdesc|
 			if mnames.include?('<br')
@@ -77,7 +80,7 @@ def getRDocMethod(classname,methodname="")
 					if mnames.match(/#{methodname}/im)
 						mname = mnames.gsub(/\n/,'')
 						anchor = anchor.gsub(/\n/,'')
-						puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"
+						puts "#{baseurl}#{classurl}\##{anchor} - #{mname}"
 						mdesc = mdesc.gsub(/\n/,' ').gsub(/<br[ \/]*>/, "\n").gsub(/<p>/,' ').gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
 						count = 0
 						mdesc.each_line {|line| 
@@ -103,7 +106,7 @@ def getRDocMethod(classname,methodname="")
 end
 
 if ARGV[0].match(/^(.+)\.(\w+?)$/)
-	getRDocMethod($1, $2)
+	getRDocMethod('http://www.viper-7.com/rdoc/', $1, $2)
 else
-	getRDocMethod(ARGV[0])
+	getRDocMethod('http://www.viper-7.com/rdoc/', ARGV[0])
 end

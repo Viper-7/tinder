@@ -17,12 +17,28 @@ def getRDocMethod(classname,methodname)
 	}
 	
 	classes.each {|classurl|
-		puts "Scanning #{classurl}"
 		data = open("http://www.viper-7.com/rdoc/#{classurl}").read if classurl != classes.first
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
-			mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
-				if mname.join.match(/\.#{methodname}/im)
-					mname = mname.join.gsub(/\n/,'')
+			if mnames.match(/<br[ \/]*>/i)
+				mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
+					if mname.join.match(/\.#{methodname}/im)
+						mname = mname.join.gsub(/\n/,'')
+						anchor = anchor.gsub(/\n/,'')
+						puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"
+						mdesc = mdesc.gsub(/<br[ \/]*>/, "").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
+						count = 0
+						mdesc.each_line {|line| 
+							exit if count > 9
+							count += 1
+							line = line.chomp
+							puts line if line.gsub(/ /,'').length > 1
+						}
+						exit
+					end
+				}
+			else
+				if mnames.match(/\.#{methodname}/im)
+					mname = mnames.gsub(/\n/,'')
 					anchor = anchor.gsub(/\n/,'')
 					puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"
 					mdesc = mdesc.gsub(/<br[ \/]*>/, "").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
@@ -35,7 +51,7 @@ def getRDocMethod(classname,methodname)
 					}
 					exit
 				end
-			}
+			end
 		}
 	}
 end

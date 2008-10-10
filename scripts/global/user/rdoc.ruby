@@ -9,6 +9,7 @@ def getMethod(classname,methodname)
 	parents = Array.new
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|x|
 		x.join.scan(/<a href="(.+?)">/im) {|y|
+			p y
 			parents.push url[0,url.length - url.reverse.index('/')] + '/' + y
 		}
 	}

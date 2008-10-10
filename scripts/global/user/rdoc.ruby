@@ -15,10 +15,9 @@ def getRDocMethod(classname,methodname)
 		data = open("http://www.ruby-doc.org/core/#{classurl}").read if classurl != classes.first
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
 			mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
-				p mname
 				if mname.join.match(/#{methodname}\(/i)
 					puts "http://www.ruby-doc.org/core/#{url}\##{anchor.chomp} - #{mname.chomp}"
-					mdesc = mdesc.gsub(/<br[ \/]*>/, "").chomp
+					mdesc = mdesc.join.gsub(/<br[ \/]*>/, "").chomp
 					mdesc = mdesc.gsub(/<\/?[^>]*>/, "")
 					mdesc = mdesc.gsub(/&[^;]*;/, "")
 					mdesc.each_line {|line| puts line if line.length > 2 }

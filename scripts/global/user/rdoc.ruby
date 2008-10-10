@@ -1,10 +1,13 @@
 def getRDocMethod(classname,methodname)
 	require 'open-uri'
 	classes = Array.new
-
-	url = open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">#{classname}<\/a>/)
+	hitcount = 0
+	methodcount = 0
+	hit = false
+	
+	url = open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">#{classname}<\/a>/); hitcount += 1
 	url.each {|x| classes.push x.join }
-	data = open("http://www.viper-7.com/rdoc/#{url.first}").read
+	data = open("http://www.viper-7.com/rdoc/#{url.first}").read; hitcount += 1
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|parents|
 		parents.join.scan(/<a href="(.+?)".*?>/im) {|parent|
 			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + parent.join
@@ -15,12 +18,14 @@ def getRDocMethod(classname,methodname)
 			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + child.join
 		}
 	}
-	
+
 	classes.each {|classurl|
 		data = open("http://www.viper-7.com/rdoc/#{classurl}").read if classurl != classes.first
+		hitcount += 1 if classurl != classes.first
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
 			if mnames.match(/<br[ \/]*>/i)
 				mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
+					methodcount += 1
 					if mname.join.match(/#{methodname}/im)
 						mname = mname.join.gsub(/\n/,'')
 						anchor = anchor.gsub(/\n/,'')
@@ -37,6 +42,7 @@ def getRDocMethod(classname,methodname)
 					end
 				}
 			else
+				methodcount += 1
 				if mnames.match(/#{methodname}/im)
 					mname = mnames.gsub(/\n/,'')
 					anchor = anchor.gsub(/\n/,'')
@@ -54,6 +60,7 @@ def getRDocMethod(classname,methodname)
 			end
 		}
 	}
+	puts "No matches from #{hitcount} pages with #{methodcount} methods"
 end
 
 if ARGV[0].match(/^(.+)\.(.+?)$/)

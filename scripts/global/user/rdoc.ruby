@@ -69,6 +69,7 @@ if ARGV[0].match(/^(.+)\.(.+?)$/)
 else
 	x = ""
 	out = eval("#{ARGV[0]}.methods")
+	out = eval("#{ARGV[0].capitalize}.methods") if out.length == 0
 	out.each{|y|
 		if x.length < 110
 			x += ', ' + y

@@ -17,6 +17,7 @@ def getRDocMethod(classname,methodname)
 	}
 	
 	classes.each {|classurl|
+		puts "Scanning #{classurl}"
 		data = open("http://www.viper-7.com/rdoc/#{classurl}").read if classurl != classes.first
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
 			mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|

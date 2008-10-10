@@ -22,7 +22,9 @@ def getMethod(classname,methodname)
 				mdesc = mdesc.gsub(/<br[ \/]*>/, "")
 				mdesc = mdesc.gsub(/<\/?[^>]*>/, "")
 				mdesc = mdesc.gsub(/&[^;]*;/, "")
-				puts mdesc.chomp
+				mdesc.chomp.each_line {|x|
+					puts x if x.length > 2
+				}
 				exit
 			end
 		}

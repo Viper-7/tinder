@@ -21,7 +21,9 @@ def getRDocMethod(classname,methodname)
 					mdesc = mdesc.gsub(/<br[ \/]*>/, "").chomp
 					mdesc = mdesc.gsub(/<\/?[^>]*>/, "")
 					mdesc = mdesc.gsub(/&[^;]*;/, "")
-					mdesc.each_line {|line| puts line if line.length > 3 }
+					mdesc.each_line {|line| 
+						puts line if line.chomp.length > 2 
+					}
 					exit
 				end
 			}

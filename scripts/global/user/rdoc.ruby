@@ -33,10 +33,10 @@ def getRDocMethod(classname,methodname="")
 		hitcount += 1 if classurl != classes.first
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
 			if mnames.include?('<br')
-				mnames.scan(/(.+?)<br/im) {|mname|
+				mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
 					methodcount += 1
 					if methodname == ""
-						outstr += mname.join.gsub(/\n/,'').scan(/(.+?) /).first.to_s + ' '
+						outstr += mname.join.gsub(/\n/,'').split(' ').first.to_s + ' '
 						if outstr.length > 110; outarr.push outstr; outstr = ''; end
 					else
 						if mname.join.match(/#{methodname}/im)
@@ -58,7 +58,7 @@ def getRDocMethod(classname,methodname="")
 			else
 				methodcount += 1
 				if methodname == ""
-					outstr += mnames.gsub(/\n/,'').scan(/(.+?) /).first.to_s + ' ' 
+					outstr += mnames.gsub(/\n/,'').split(' ').first.to_s + ' ' 
 					if outstr.length > 110; outarr.push outstr; outstr = ''; end
 				else
 					if mnames.match(/#{methodname}/im)
@@ -84,8 +84,9 @@ def getRDocMethod(classname,methodname="")
 		outarr.each {|x|
 			puts x.chomp
 		}
+	else
+		puts "No matches from #{hitcount} pages with #{methodcount} methods"
 	end
-	puts "No matches from #{hitcount} pages with #{methodcount} methods"
 end
 
 if ARGV[0].match(/^(.+)\.(.+?)$/)

@@ -35,8 +35,34 @@ def getRDocMethod(classname,methodname="")
 			if mnames.include?('<br')
 				mnames.scan(/(.+?)<br/im) {|mname|
 					methodcount += 1
-					if mname.join.match(/#{methodname}/im)
-						mname = mname.join.gsub(/\n/,'')
+					if methodname == ""
+						outstr += mname.join.gsub(/\n/,'') + ' ' 
+						if outstr.length > 110; outarr.push outstr; outstr = ''; end
+					else
+						if mname.join.match(/#{methodname}/im)
+							mname = mname.join.gsub(/\n/,'')
+							anchor = anchor.gsub(/\n/,'')
+							puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"
+							mdesc = mdesc.gsub(/\n/,' ').gsub(/<br[ \/]*>/, "\n").gsub(/<p>/,' ').gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
+							count = 0
+							mdesc.each_line {|line| 
+								exit if count > 4
+								count += 1
+								line = line.chomp
+								puts line[0,399] if line.gsub(/ /,'').length > 1
+							}
+							exit
+						end
+					end
+				}
+			else
+				methodcount += 1
+				if methodname == ""
+					outstr += mnames.join.gsub(/\n/,'') + ' ' 
+					if outstr.length > 110; outarr.push outstr; outstr = ''; end
+				else
+					if mnames.match(/#{methodname}/im)
+						mname = mnames.gsub(/\n/,'')
 						anchor = anchor.gsub(/\n/,'')
 						puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"
 						mdesc = mdesc.gsub(/\n/,' ').gsub(/<br[ \/]*>/, "\n").gsub(/<p>/,' ').gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
@@ -49,27 +75,7 @@ def getRDocMethod(classname,methodname="")
 						}
 						exit
 					end
-					outstr += mname.join.gsub(/\n/,'') + ' ' if methodname == ""
-					if outstr.length > 110; outarr.push outstr; outstr = ''; end
-				}
-			else
-				methodcount += 1
-				if mnames.match(/#{methodname}/im)
-					mname = mnames.gsub(/\n/,'')
-					anchor = anchor.gsub(/\n/,'')
-					puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"
-					mdesc = mdesc.gsub(/\n/,' ').gsub(/<br[ \/]*>/, "\n").gsub(/<p>/,' ').gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
-					count = 0
-					mdesc.each_line {|line| 
-						exit if count > 4
-						count += 1
-						line = line.chomp
-						puts line[0,399] if line.gsub(/ /,'').length > 1
-					}
-					exit
 				end
-				outstr += mnames.gsub(/\n/,'') + ' ' if methodname == ""
-				if outstr.length > 110; outarr.push outstr; outstr = ''; end
 			end
 		}
 	}

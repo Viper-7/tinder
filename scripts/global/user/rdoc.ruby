@@ -17,13 +17,13 @@ def getRDocMethod(classname,methodname)
 				if mname.join.match(/#{methodname}\(/i)
 					mname = mname.join.gsub(/\n/,'')
 					anchor = anchor.gsub(/\n/,'')
-					puts "http://cerberus.viper-7.com/rdoc/core/#{url}\##{anchor} - #{mname}"
+					puts "http://cerberus.viper-7.com/rdoc/#{url}\##{anchor} - #{mname}"
 					mdesc = mdesc.gsub(/<br[ \/]*>/, "").chomp
 					mdesc = mdesc.gsub(/<\/?[^>]*>/, "")
 					mdesc = mdesc.gsub(/&[^;]*;/, "")
 					mdesc.each_line {|line| 
 						line = line.chomp
-						puts ':' + line + ':' if line.length > 2 
+						puts ':' + line + ':' + line.length if line.length > 2 
 					}
 					exit
 				end

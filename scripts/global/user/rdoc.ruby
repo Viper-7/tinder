@@ -86,15 +86,4 @@ if ARGV[0].match(/^(.+)\.(.+?)$/)
 	getRDocMethod($1, $2)
 else
 	getRDocMethod(ARGV[0])
-	x = ""
-	out = eval("#{ARGV[0]}.methods")
-	out = eval("#{ARGV[0].capitalize}.methods") if out.length == 0
-	out.each{|y|
-		if x.length < 110
-			x += ', ' + y
-		else
-			puts x
-			x=""
-		end
-	}
 end

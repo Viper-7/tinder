@@ -8,6 +8,10 @@ def getRDocMethod(classname,methodname="")
 	hit = false
 	
 	open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
+	if classes.length == 0
+		classname = eval("#{classname}.class")		
+		open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
+	end
 	
 	data = open("http://www.viper-7.com/rdoc/#{classes.first}").read; hitcount += 1
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|parents|

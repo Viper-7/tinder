@@ -81,7 +81,7 @@ def getRDocMethod(classname,methodname="")
 			end
 		}
 	}
-	if outarr.length == 0 and outstr.length == 0
+	if methodname == ""
 		outarr.push outstr
 		outarr.each {|x|
 			puts x.chomp

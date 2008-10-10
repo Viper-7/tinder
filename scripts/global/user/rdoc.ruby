@@ -1,3 +1,5 @@
+require 'open-uri'
+
 if ARGV[0].match(/(.+)\.(.+)/)
 	data = open("http://www.ruby-doc.org/core/fr_class_index.html").readlines
 	data = data.scan(/<a href="(.+?\/#{$1}.+)">/)

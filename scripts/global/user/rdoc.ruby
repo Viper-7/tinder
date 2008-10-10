@@ -17,8 +17,8 @@ def getMethod(classname,methodname)
 		puts "Scanning http://www.ruby-doc.org/core/#{classurl}"
 		data = open("http://www.ruby-doc.org/core/#{classurl}").readlines.join if classurl != url
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
-			mnames.scan(/(.+?)<br[ \/]>\n/im) {|mname|
-				if /#{methodname}\(/i.match(mname)
+			mnames.scan(/(.+?)<br[ \/]>/im) {|mname|
+				if mname.match(/#{methodname}\(/i)
 					puts "http://www.ruby-doc.org/core/#{url}\##{anchor} - #{mname}".chomp
 					mdesc = mdesc.gsub(/<br[ \/]*>/, "")
 					mdesc = mdesc.gsub(/<\/?[^>]*>/, "")

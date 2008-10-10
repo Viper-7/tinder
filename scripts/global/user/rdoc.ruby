@@ -2,7 +2,7 @@ require 'open-uri'
 
 if ARGV[0].match(/(.+)\.(.+)/)
 	data = open("http://www.ruby-doc.org/core/fr_class_index.html").readlines.join
-	url = data.scan(/<a href="(.+?\/#{$1}.+)">/)
+	url = data.scan(/<a href="(.+?\/#{$1}.+?)">/)
 	url = url.first if url.length > 1
 	data = open("http://www.ruby-doc.org/core/#{url}").readlines.join
 	data.scan(/<a name="(.+?)"><\/a>.+?<span class="method-name">(.+?#{$2}.+?)<br \/>.+?<div class="m-description">(.+?)<h3>|<\/div>/im) { |anchor,mname,mdesc|

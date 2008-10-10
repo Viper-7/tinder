@@ -23,7 +23,7 @@ def getRDocMethod(classname,methodname)
 		data = open("http://www.viper-7.com/rdoc/#{classurl}").read if classurl != classes.first
 		hitcount += 1 if classurl != classes.first
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
-			if mnames.match(/<br[ \/]*>/i)
+			if mnames.include?('<br')
 				mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
 					methodcount += 1
 					if mname.join.match(/#{methodname}/im)

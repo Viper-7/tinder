@@ -3,7 +3,7 @@ def getMethod(classname,methodname)
 	require 'open-uri'
 	classes = Array.new
 
-	data = open("http://www.ruby-doc.org/core/fr_class_index.html").readlines.join
+	data = open("http://www.ruby-doc.org/core/fr_class_index.html").read
 	url = data.scan(/<a href="(.+?)">#{classname}<\/a>/)
 	url.each {|x|
 		classes.push x.join
@@ -18,7 +18,7 @@ def getMethod(classname,methodname)
 	}
 	classes.each {|classurl|
 		puts "Scanning http://www.ruby-doc.org/core/#{classurl}"
-		data = open("http://www.ruby-doc.org/core/#{classurl}").readlines.join if classurl != url
+		data = open("http://www.ruby-doc.org/core/#{classurl}").read if classurl != url
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
 			mnames.scan(/(.+?)<br[ \/]>/im) {|mname|
 				if mname.match(/#{methodname}\(/i)

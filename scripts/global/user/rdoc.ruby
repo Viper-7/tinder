@@ -5,8 +5,7 @@ def getMethod(classname,methodname)
 
 	data = open("http://www.ruby-doc.org/core/fr_class_index.html").readlines.join
 	url = data.scan(/<a href="(.+?\/#{classname}.+?)">/)
-	url = url.first.join
-	classes.push url
+	classes.concat url
 	data = open("http://www.ruby-doc.org/core/#{url}").readlines.join
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|x|
 		x.join.scan(/<a href="(.+?)">/im) {|y|

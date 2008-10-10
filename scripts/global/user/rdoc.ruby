@@ -21,7 +21,7 @@ def getRDocMethod(classname,methodname)
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
 			if mnames.match(/<br[ \/]*>/i)
 				mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
-					if mname.join.match(/\.#{methodname}/im)
+					if mname.join.match(/#{methodname}/im)
 						mname = mname.join.gsub(/\n/,'')
 						anchor = anchor.gsub(/\n/,'')
 						puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"
@@ -37,7 +37,7 @@ def getRDocMethod(classname,methodname)
 					end
 				}
 			else
-				if mnames.match(/\.#{methodname}/im)
+				if mnames.match(/#{methodname}/im)
 					mname = mnames.gsub(/\n/,'')
 					anchor = anchor.gsub(/\n/,'')
 					puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"

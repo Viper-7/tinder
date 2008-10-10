@@ -36,7 +36,8 @@ def getRDocMethod(classname,methodname="")
 				mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
 					methodcount += 1
 					if methodname == ""
-						outstr += mname.join.gsub(/\n/,'').split(' ').first.to_s + ' '
+						outs = mname.join.gsub(/\n/,'').split(' ').first.to_s + ' '
+						outstr += outs if !outstr.include?(outs) and !outarr.each.match(/#{outs})
 						if outstr.length > 110; outarr.push outstr; outstr = ''; end
 					else
 						if mname.join.match(/#{methodname}/im)

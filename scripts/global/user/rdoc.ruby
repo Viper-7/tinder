@@ -1,5 +1,7 @@
-def getRDocMethod(classname,methodname)
+def getRDocMethod(classname,methodname="")
 	require 'open-uri'
+	outarr = Array.new
+	outstr = ''
 	classes = Array.new
 	hitcount = 1
 	methodcount = 0
@@ -47,6 +49,8 @@ def getRDocMethod(classname,methodname)
 						}
 						exit
 					end
+					outstr += mname.join.gsub(/\n/,'') + ' ' if methodname == ""
+					if outstr.length > 110; outarr.push outstr; outstr = ''; end
 				}
 			else
 				methodcount += 1
@@ -64,15 +68,24 @@ def getRDocMethod(classname,methodname)
 					}
 					exit
 				end
+				outstr += mnames.gsub(/\n/,'') + ' ' if methodname == ""
+				if outstr.length > 110; outarr.push outstr; outstr = ''; end
 			end
 		}
 	}
+	if (outarr.first + outstr).length > 1
+		outarr.push outstr
+		outarr.each {|x|
+			puts x.chomp
+		}
+	end
 	puts "No matches from #{hitcount} pages with #{methodcount} methods"
 end
 
 if ARGV[0].match(/^(.+)\.(.+?)$/)
 	getRDocMethod($1, $2)
 else
+	getRDocMethod(ARGV[0])
 	x = ""
 	out = eval("#{ARGV[0]}.methods")
 	out = eval("#{ARGV[0].capitalize}.methods") if out.length == 0

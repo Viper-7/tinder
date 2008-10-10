@@ -36,7 +36,7 @@ def getRDocMethod(classname,methodname="")
 				mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
 					methodcount += 1
 					if methodname == ""
-						outs = mname.join.gsub(/\n/,'').gsub(/\(.+\)/,'').gsub(/\[.+\]/,'').gsub(/.+\#/,'').split(' ').first.to_s
+						outs = mname.join.gsub(/\n/,'').gsub(/\(.+\)/,'').gsub(/\[.+\]/,'').gsub(/.+\./,'').gsub(/.+\#/,'').split(' ').first.to_s
 						outstr += outs + ' ' if outs.length > 1 and !outstr.include?(outs) and !outarr.join.include?(outs)
 						if outstr.length > 125; outarr.push outstr; outstr = ''; end
 					else
@@ -59,7 +59,7 @@ def getRDocMethod(classname,methodname="")
 			else
 				methodcount += 1
 				if methodname == ""
-					outs = mnames.gsub(/\n/,'').gsub(/\(.+\)/,'').gsub(/\[.+\]/,'').gsub(/.+\#/,'').split(' ').first.to_s
+					outs = mnames.gsub(/\n/,'').gsub(/\(.+\)/,'').gsub(/\[.+\]/,'').gsub(/.+\./,'').gsub(/.+\#/,'').split(' ').first.to_s
 					outstr += outs + ' ' if outs.length > 1 and !outstr.include?(outs) and !outarr.join.include?(outs)
 					if outstr.length > 125; outarr.push outstr; outstr = ''; end
 				else

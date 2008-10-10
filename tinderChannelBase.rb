@@ -203,8 +203,6 @@ class TinderChannel
 	    					hit = true
 
 	    					args = args.gsub(/\|/, ':')
-	    					args = args.gsub(/\"/, '\"')
-	    					args = args.gsub(/\'/, "\\\'")
 	    					args = args.gsub(/wget/, 'wgot')
 	    					lang = ext
 

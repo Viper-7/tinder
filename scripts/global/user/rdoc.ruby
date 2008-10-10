@@ -6,16 +6,14 @@ if ARGV[0].match(/^(.+)\.(.+?)$/)
 	url = data.scan(/<a href="(.+?\/#{$1}.+?)">/)
 	url = url.first if url.length > 1
 	data = open("http://www.ruby-doc.org/core/#{url}").readlines.join
-	data.scan(/<a name="(.+?)"><\/a>.+?<span class="method-name">(.+?)<br \/>.+?<div class="m-description">(.+?)<h3>/im) { |anchor,mname,mdesc|
-		puts methodname
-		if /#{methodname}/i.match("#{mname}")
-			puts "http://www.ruby-doc.org/core/#{url}\##{anchor} - #{mname}"
-			mdesc = mdesc.gsub(/<br[ \/]*>/, "")
-			mdesc = mdesc.gsub(/<\/?[^>]*>/, "")
-			mdesc = mdesc.gsub(/&[^;]*;/, "")
-		end
+	data = data.scan(/<a name="(.+?)"><\/a>.+?<span class="method-name">(.+?#{methodname}.+?)<br \/>.+?<div class="m-description">(.+?)<h3>/im)
+	data.first { |anchor,mname,mdesc|
+		puts "http://www.ruby-doc.org/core/#{url}\##{anchor} - #{mname}"
+		mdesc = mdesc.gsub(/<br[ \/]*>/, "")
+		mdesc = mdesc.gsub(/<\/?[^>]*>/, "")
+		mdesc = mdesc.gsub(/&[^;]*;/, "")
+		puts mdesc
 	}
-		
 else
 	x = ""
 	out = eval("#{ARGV[0]}.methods")

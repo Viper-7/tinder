@@ -14,6 +14,12 @@ def getRDocMethod(classname,methodname)
 		}
 	}
 	
+	data.scan(/<div id="includes-list">(.+?)<\/div>/im) {|includes|
+		includes.join.scan(/<a href="(.+?)".*?>/im) {|minclude|
+			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + minclude.join
+		}
+	}
+
 	data.scan(/<div id="class-list">(.+?)<\/div>/im) {|children|
 		children.join.scan(/<a href="(.+?)".*?>/im) {|child|
 			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + child.join
@@ -25,13 +31,13 @@ def getRDocMethod(classname,methodname)
 		hitcount += 1 if classurl != classes.first
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
 			if mnames.include?('<br')
-				mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
+				mnames.scan(/(.+?)<br/im) {|mname|
 					methodcount += 1
 					if mname.join.match(/#{methodname}/im)
 						mname = mname.join.gsub(/\n/,'')
 						anchor = anchor.gsub(/\n/,'')
 						puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"
-						mdesc = mdesc.gsub(/\n/,' ').gsub(/<br[ \/]*>/, "\n").gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
+						mdesc = mdesc.gsub(/\n/,' ').gsub(/<br[ \/]*>/, "\n").gsub(/<p>/,' ').gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
 						count = 0
 						mdesc.each_line {|line| 
 							exit if count > 4
@@ -48,7 +54,7 @@ def getRDocMethod(classname,methodname)
 					mname = mnames.gsub(/\n/,'')
 					anchor = anchor.gsub(/\n/,'')
 					puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"
-					mdesc = mdesc.gsub(/\n/,' ').gsub(/<br[ \/]*>/, "\n").gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
+					mdesc = mdesc.gsub(/\n/,' ').gsub(/<br[ \/]*>/, "\n").gsub(/<p>/,' ').gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
 					count = 0
 					mdesc.each_line {|line| 
 						exit if count > 4

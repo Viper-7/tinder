@@ -1,20 +1,21 @@
 def getRDocMethod(classname,methodname)
 	require 'open-uri'
 	classes = Array.new
-	hitcount = 0
+	hitcount = 1
 	methodcount = 0
 	hit = false
 	
-	url = open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">#{classname}<\/a>/); hitcount += 1
-	url.each {|x| classes.push x.join }
-	data = open("http://www.viper-7.com/rdoc/#{url.first}").read; hitcount += 1
+	open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">#{classname}<\/a>/) {|x| classes.push x.join}
+	
+	data = open("http://www.viper-7.com/rdoc/#{classes.first}").read; hitcount += 1
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|parents|
-		parents.join.scan(/<a href="(.+?)".*?>/im) {|parent|
+		parents.each.scan(/<a href="(.+?)".*?>/im) {|parent|
 			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + parent.join
 		}
 	}
+	
 	data.scan(/<div id="class-list">(.+?)<\/div>/im) {|children|
-		children.join.scan(/<a href="(.+?)".*?>/im) {|child|
+		children.each.scan(/<a href="(.+?)".*?>/im) {|child|
 			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + child.join
 		}
 	}

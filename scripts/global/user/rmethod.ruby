@@ -1,5 +1,5 @@
 x = ""
-out = eval("#{ARGV[0]}.methods"
+out = eval("#{ARGV[0]}.methods")
 out.each{|y|
 	if x.length < 250
 		x += ' ' + y

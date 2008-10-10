@@ -4,7 +4,7 @@ def getRDocMethod(classname,methodname)
 
 	url = open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">#{classname}<\/a>/)
 	url.each {|x| classes.push x.join }
-	data = open("http://www.ruby-doc.org/core/#{url}").read
+	data = open("http://www.viper-7.com/rdoc/#{url}").read
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|parents|
 		parents.join.scan(/<a href="(.+?)">/im) {|parent|
 			classes.push classes.first.match(/(.+)\/.+?/)[0].chop + parent.join

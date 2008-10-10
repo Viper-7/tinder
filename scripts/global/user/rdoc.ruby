@@ -1,4 +1,4 @@
-if ARGV.match(/.+\..+/)
+if ARGV[0].match(/.+\..+/)
 	puts 'woo'
 else
 	x = ""

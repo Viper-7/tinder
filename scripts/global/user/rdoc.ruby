@@ -23,7 +23,7 @@ def getRDocMethod(classname,methodname)
 					mdesc = mdesc.gsub(/&[^;]*;/, "")
 					count = 0
 					mdesc.each_line {|line| 
-						exit if count > 6
+						exit if count > 9
 						count += 1
 						line = line.chomp
 						puts line if line.gsub(/ /,'').length > 1

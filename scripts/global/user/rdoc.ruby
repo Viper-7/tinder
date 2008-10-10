@@ -1,6 +1,6 @@
 if ARGV[0].match(/(.+)\.(.+)/)
 	data = open("http://www.ruby-doc.org/core/fr_class_index.html").readlines
-	data = data.scan(/<a href="(.+?/#{$1}.+)">/)
+	data = data.scan(/<a href="(.+?\/#{$1}.+)">/)
 	data = data.last if data.length > 1
 	data = open("http://www.ruby-doc.org/core/#{data}").readlines
 	data.scan(/<a name="(.+?)"></a>.+?<span class="method-name">(.+?#{$2}.+?)<br \/>.+?<div class="m-description">(.+?)<h3>|</div>/im) { |anchor,mname,mdesc|

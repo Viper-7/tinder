@@ -10,7 +10,7 @@ def getRDocMethod(classname,methodname)
 			classes.push classes.first.match(/(.+)\/.+?/).first.chop + parent.join
 		}
 	}
-	data.scan(/<div id="class-list">(.+?)</div>/im) {|children|
+	data.scan(/<div id="class-list">(.+?)<\/div>/im) {|children|
 		children.join.scan(/<a href="(.+?)".*?>/im) {|child|
 			classes.push classes.first.match(/(.+)\/.+?/).first.chop + child.join
 		}

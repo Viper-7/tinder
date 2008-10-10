@@ -6,8 +6,13 @@ def getRDocMethod(classname,methodname)
 	url.each {|x| classes.push x.join }
 	data = open("http://www.viper-7.com/rdoc/#{url.first}").read
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|parents|
-		parents.join.scan(/<a href="(.+?)">/im) {|parent|
+		parents.join.scan(/<a href="(.+?)".*?>/im) {|parent|
 			classes.push classes.first.match(/(.+)\/.+?/).first.chop + parent.join
+		}
+	}
+	data.scan(/<div id="class-list">(.+?)</div>/im) {|children|
+		children.join.scan(/<a href="(.+?)".*?>/im) {|child|
+			classes.push classes.first.match(/(.+)\/.+?/).first.chop + child.join
 		}
 	}
 	

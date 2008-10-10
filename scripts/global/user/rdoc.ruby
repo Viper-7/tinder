@@ -8,6 +8,7 @@ def getMethod(classname,methodname)
 	data = open("http://www.ruby-doc.org/core/#{url}").readlines.join
 	parents = Array.new
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/) {|x|
+		p x
 		x.scan(/<a href="(.+?)">/) {|y|
 			parents.push url[0,url.length - url.reverse.index('/')] + '/' + y
 		}

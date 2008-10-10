@@ -15,7 +15,7 @@ def getMethod(classname,methodname)
 	}
 	classes.each {|classurl|
 		puts "Scanning http://www.ruby-doc.org/core/#{classurl}"
-		data = open("http://www.ruby-doc.org/core/#{classurl}").readlines.join
+		data = open("http://www.ruby-doc.org/core/#{classurl}").readlines.join if classurl != url
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<br[ \/]*>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mname,mdesc|
 			if /#{methodname}\(/i.match(mname)
 				puts "http://www.ruby-doc.org/core/#{url}\##{anchor} - #{mname}".chomp

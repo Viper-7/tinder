@@ -2,7 +2,7 @@ def getRDocMethod(classname,methodname)
 	require 'open-uri'
 	classes = Array.new
 
-	url = open("http://cerberus.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">#{classname}<\/a>/)
+	url = open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">#{classname}<\/a>/)
 	url.each {|x| classes.push x.join }
 	data = open("http://www.ruby-doc.org/core/#{url}").read
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|parents|
@@ -11,19 +11,19 @@ def getRDocMethod(classname,methodname)
 		}
 	}
 	classes.each {|classurl|
-		data = open("http://cerberus.viper-7.com/rdoc/#{classurl}").read if classurl != classes.first
+		data = open("http://www.viper-7.com/rdoc/#{classurl}").read if classurl != classes.first
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mnames,mdesc|
 			mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
 				if mname.join.match(/#{methodname}\(/i)
 					mname = mname.join.gsub(/\n/,'')
 					anchor = anchor.gsub(/\n/,'')
-					puts "http://cerberus.viper-7.com/rdoc/#{url}\##{anchor} - #{mname}"
+					puts "http://www.viper-7.com/rdoc/#{url}\##{anchor} - #{mname}"
 					mdesc = mdesc.gsub(/<br[ \/]*>/, "").chomp
 					mdesc = mdesc.gsub(/<\/?[^>]*>/, "")
 					mdesc = mdesc.gsub(/&[^;]*;/, "")
 					mdesc.each_line {|line| 
 						line = line.chomp
-						puts ':' + line + ':' + line.length if line.length > 2 
+						puts ':' + line + ':' + line.length.to_s if line.length > 2 
 					}
 					exit
 				end

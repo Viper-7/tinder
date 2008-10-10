@@ -7,7 +7,7 @@ def getRDocMethod(classname,methodname="")
 	methodcount = 0
 	hit = false
 	
-	open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">#{classname}<\/a>/i) {|x| classes.push x.join}
+	open("http://www.viper-7.com/rdoc/fr_class_index.html").read.scan(/<a href="(.+?)">(?:.+?\:\:)?#{classname}<\/a>/i) {|x| classes.push x.join}
 	
 	data = open("http://www.viper-7.com/rdoc/#{classes.first}").read; hitcount += 1
 	data.scan(/<td><strong>Parent:<\/strong><\/td>(.+?)<\/td>/im) {|parents|

@@ -18,11 +18,11 @@ def getMethod(classname,methodname)
 		data = open("http://www.ruby-doc.org/core/#{classurl}").readlines.join if classurl != url
 		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<br[ \/]*>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>)/im) { |anchor,mname,mdesc|
 			if /#{methodname}\(/i.match(mname)
-				puts "http://www.ruby-doc.org/core/#{url}\##{anchor} - #{mname}"
+				puts "http://www.ruby-doc.org/core/#{url}\##{anchor} - #{mname}".chomp
 				mdesc = mdesc.gsub(/<br[ \/]*>/, "")
 				mdesc = mdesc.gsub(/<\/?[^>]*>/, "")
 				mdesc = mdesc.gsub(/&[^;]*;/, "")
-				puts mdesc
+				puts mdesc.chomp
 				exit
 			end
 		}

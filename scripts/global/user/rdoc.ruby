@@ -41,7 +41,7 @@ def getRDocMethod(classname,methodname)
 					mname = mnames.gsub(/\n/,'')
 					anchor = anchor.gsub(/\n/,'')
 					puts "http://www.viper-7.com/rdoc/#{classurl}\##{anchor} - #{mname}"
-					mdesc = mdesc.gsub(/\n/,'').gsub(/<br[ \/]*>/, "\n").gsub(/<p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
+					mdesc = mdesc.gsub(/\n/m,'').gsub(/<br[ \/]*>/, "\n").gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
 					count = 0
 					mdesc.each_line {|line| 
 						exit if count > 9

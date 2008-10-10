@@ -28,7 +28,7 @@ def getRDocMethod(classname,methodname)
 						mdesc = mdesc.gsub(/\n/,' ').gsub(/<br[ \/]*>/, "\n").gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
 						count = 0
 						mdesc.each_line {|line| 
-							exit if count > 9
+							exit if count > 4
 							count += 1
 							line = line.chomp
 							puts line if line.gsub(/ /,'').length > 1
@@ -44,7 +44,7 @@ def getRDocMethod(classname,methodname)
 					mdesc = mdesc.gsub(/\n/,' ').gsub(/<br[ \/]*>/, "\n").gsub(/<\/p>/, "\n").gsub(/<\/?[^>]*>/, "").gsub(/&[^;]*;/, "").chomp
 					count = 0
 					mdesc.each_line {|line| 
-						exit if count > 9
+						exit if count > 4
 						count += 1
 						line = line.chomp
 						puts line if line.gsub(/ /,'').length > 1

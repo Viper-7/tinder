@@ -23,7 +23,7 @@ def getRDocMethod(classname,methodname)
 					mdesc = mdesc.gsub(/&[^;]*;/, "")
 					mdesc.each_line {|line| 
 						line = line.chomp
-						puts line if line.gsub(/ /,'').length > 2 
+						puts line if line.gsub(/ /,'').length > 1
 					}
 					exit
 				end

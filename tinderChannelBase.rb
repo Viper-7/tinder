@@ -727,7 +727,9 @@ class TinderDir
 	end
 
 	def latest
+		puts '1'
 		latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.last.to_s
+		puts '2'
 		return @url + File.basename(latestFile)
 	end
 

@@ -464,7 +464,7 @@ class TinderChannel
 	    			case msg
 	    				when /\-\w{0,5}o/ # On De-Op
 	    				when /\+\w{0,5}o/ # On Op
-	    					sendChannel "ty #{event}"
+	    					sendChannel "ty #{msg}"
 	    				when /\-\w{0,5}v/ # On De-Voice
 	    				when /\+\w{0,5}v/ # On Voice
 	    			end
@@ -717,7 +717,11 @@ class TinderDir
 	end
 
 	def poll
-		return @watcher.scan_now
+		begin
+			return @watcher.scan_now
+		rescue Exception => ex
+			puts 'Fatal   : ' + ex
+		end
 	end
 
 	def latest

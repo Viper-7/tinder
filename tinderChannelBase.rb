@@ -392,7 +392,7 @@ class TinderChannel
 			end
 		end
 	rescue Exception => ex
-		puts ex.to_s
+		response = ex.to_s
 	end
 	resp = ""
 	count = 0
@@ -648,7 +648,6 @@ def addRecursiveDirectoryWatcher(path, name, url, channel)
 	myDir.rewind
 	count = 0
 	count += addDirectoryWatcher(path, name, url, channel)
-	puts path
 	myDir.each {|x|
 		dirName = "#{path}/#{x.to_s}"
 		childURL = "#{url}#{x.to_s}/"

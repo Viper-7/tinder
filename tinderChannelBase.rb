@@ -356,7 +356,7 @@ class TinderChannel
 
 	@dirWatchers.each do |x|
 		puts 'latest'
-		puts x.name
+		puts x.path
 		if x.name.match(/^#{command.chomp}$/i)
 			if args.match(/^random$/i)
 				resp = x.random

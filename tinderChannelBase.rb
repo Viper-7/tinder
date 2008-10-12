@@ -464,7 +464,6 @@ class TinderChannel
 	    			case msg
 	    				when /\-\w{0,5}o/ # On De-Op
 	    				when /\+\w{0,5}o/ # On Op
-	    					sendChannel "ty #{host}"
 	    				when /\-\w{0,5}v/ # On De-Voice
 	    				when /\+\w{0,5}v/ # On Voice
 	    			end

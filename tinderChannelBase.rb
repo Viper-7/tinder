@@ -457,9 +457,9 @@ class TinderChannel
     end
 
     def channelEvent(channel, host, nick, event, msg)
-    	@tinderBot.status "#{event.capitalize.ljust(7)}<: \##{channel} <#{nick}> #{msg}"
     	case event
     		when /^MODE/
+		    	@tinderBot.status "#{event.capitalize.ljust(7)}<: \##{channel} #{msg} #{nick}"
     			if nick == @nick # if i'm affected
 	    			case msg
 	    				when /\-\w{0,5}o/ # On De-Op
@@ -469,10 +469,14 @@ class TinderChannel
 	    			end
 	    		end
 	    	when /^KICK/
+		    	@tinderBot.status "KICK   <: \##{channel} #{nick} #{msg}"
 	    		if nick == @nick # if it was me that got kicked
 		    		@tinderBot.rejoinChannel channel.to_s
 		    		sendChannel 'Screw you!'
 		    	end
+		else
+		    	@tinderBot.status "#{event.capitalize.ljust(7)}<: \##{channel} <#{nick}> #{msg}"
+		end
     	end
     end
 

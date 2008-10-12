@@ -88,7 +88,6 @@ class TinderChannel
     end
 
     def shutDown()
-	exit
 	if tinderChannel1.graceful == true
 	else
 	end
@@ -364,20 +363,17 @@ class TinderChannel
 					hit = true
 				end
 			elsif args.length > 1 and !args.match(/^latest$/)
-				puts 'searching'
 				resp = x.search args
 				if resp.length > 1
 					aOut.push resp
 					hit = true
 				end
 			else
-				puts 'latest'
 				resp = x.latest
 				if resp.length > 1
 					aOut.push resp
 					hit = true
 				end
-				puts 'latestover'
 			end
 		end
 	end

@@ -469,7 +469,7 @@ class TinderChannel
 	    			end
 	    		end
 	    	when /^KICK/
-		    	@tinderBot.status "KICK   <: \##{channel} #{nick} #{msg}"
+		    	@tinderBot.status "#{event.capitalize.ljust(7)}<: \##{channel} #{nick} #{msg}"
 	    		if nick == @nick # if it was me that got kicked
 		    		@tinderBot.rejoinChannel channel.to_s
 		    		sendChannel 'Screw you!'

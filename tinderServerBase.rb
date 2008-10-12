@@ -196,7 +196,6 @@ class TinderClient
     	@tinderBots.clear
     	@joined.clear
 	load 'tinderServerBase.rb'
-	exit
     end
 
     def joinChannel(channel)

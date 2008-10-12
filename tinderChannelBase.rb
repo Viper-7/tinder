@@ -355,8 +355,6 @@ class TinderChannel
 	hit = false
 
 	@dirWatchers.each do |x|
-		puts 'latest'
-		puts x.path
 		if x.name.match(/^#{command.chomp}$/i)
 			if args.match(/^random$/i)
 				resp = x.random
@@ -371,9 +369,7 @@ class TinderChannel
 					hit = true
 				end
 			else
-				puts 'latest'
 				resp = x.latest
-				puts "#{resp}"
 				if resp.length > 1
 					aOut.push resp
 					hit = true
@@ -735,8 +731,12 @@ class TinderDir
 	end
 
 	def latest
-		latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.last
-		return @url + File.basename(latestFile) + '|' + @watcher.known_file_stats[latestFile][:date].to_s
+		begin
+			latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.last
+			return @url + File.basename(latestFile) + '|' + @watcher.known_file_stats[latestFile][:date].to_s
+		rescue
+			return @url + File.basename(latestFile) + '|1'
+		end
 	end
 
 	def random

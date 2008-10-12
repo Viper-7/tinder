@@ -383,9 +383,13 @@ class TinderChannel
 	end
 	if hit == true
 		if args.length == 0 or args.match(/^latest$/)
-			aOut.sort_by{|x| x =~ /.+?\|(.+)/; $1}
-			aOut.first =~ /(.+?)\|.+/
-			response = $1
+			begin
+				aOut.sort_by{|x| x =~ /.+?\|(.+)/; $1}
+				aOut.first =~ /(.+?)\|.+/
+				response = $1
+			rescue
+				response = aOut.first
+			end
 		else
 			response = aOut.sort_by{rand}.first.to_s
 		end

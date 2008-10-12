@@ -364,17 +364,20 @@ class TinderChannel
 					hit = true
 				end
 			elsif args.length > 1 and !args.match(/^latest$/)
+				puts 'searching'
 				resp = x.search args
 				if resp.length > 1
 					aOut.push resp
 					hit = true
 				end
 			else
+				puts 'latest'
 				resp = x.latest
 				if resp.length > 1
 					aOut.push resp
 					hit = true
 				end
+				puts 'latestover'
 			end
 		end
 	end
@@ -727,10 +730,8 @@ class TinderDir
 	end
 
 	def latest
-		puts '1'
-		latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.last.to_s
-		puts '2'
-		return @url + File.basename(latestFile)
+		latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.last
+		return @url + File.basename(latestFile) + '|' + @watcher.known_file_stats[latestFile][:date].to_s
 	end
 
 	def random

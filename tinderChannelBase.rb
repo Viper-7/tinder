@@ -474,9 +474,8 @@ class TinderChannel
 		    		@tinderBot.rejoinChannel channel.to_s
 		    		sendChannel 'Screw you!'
 		    	end
-		else
+
 		    	@tinderBot.status "#{event.capitalize.ljust(7)}<: \##{channel} <#{nick}> #{msg}"
-		end
     	end
     end
 

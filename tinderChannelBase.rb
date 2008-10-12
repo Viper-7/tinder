@@ -642,11 +642,12 @@ def addRecursiveDirectoryWatcher(path, name, url, channel)
 	myDir.rewind
 	count = 0
 	count += addDirectoryWatcher(path, name, url, channel)
+	puts path
 	myDir.each {|x|
 		dirName = "#{path}/#{x.to_s}"
 		childURL = "#{url}#{x.to_s}/"
 		next if File.file? dirName
-		next if /^[\.].*$/.match(x)
+		next if /^[\.].*$/.match(x.to_s)
 		count += addRecursiveDirectoryWatcher(dirName, name, childURL, channel)
 	}
 	return count

@@ -354,41 +354,45 @@ class TinderChannel
 	aOut = Array.new
 	hit = false
 
-	@dirWatchers.each do |x|
-		if /^#{command.chomp}$/i.match(x.name)
-			if args.match(/^random$/i)
-				resp = x.random
-				if resp.length > 1
-					aOut.push resp
-					hit = true
+	begin
+		@dirWatchers.each do |x|
+			if /^#{command.chomp}$/i.match(x.name)
+				if args.match(/^random$/i)
+					resp = x.random
+					if resp.length > 1
+						aOut.push resp
+						hit = true
+					end
+				elsif args.length > 1 and !args.match(/^latest$/)
+					resp = x.search args
+					if resp.length > 1
+						aOut.push resp
+						hit = true
+					end
+				else
+					resp = x.latest
+					if resp.length > 1
+						aOut.push resp
+						hit = true
+					end
 				end
-			elsif args.length > 1 and !args.match(/^latest$/)
-				resp = x.search args
-				if resp.length > 1
-					aOut.push resp
-					hit = true
+			end
+		end
+		if hit == true
+			if args.length == 0 or args.match(/^latest$/)
+				begin
+					aOut.sort_by{|x| x =~ /.+?\|(.+)/; $1}
+					aOut.first =~ /(.+?)\|.+/
+					response = $1
+				rescue
+					response = aOut.first
 				end
 			else
-				resp = x.latest
-				if resp.length > 1
-					aOut.push resp
-					hit = true
-				end
+				response = aOut.sort_by{rand}.first.to_s
 			end
 		end
-	end
-	if hit == true
-		if args.length == 0 or args.match(/^latest$/)
-			begin
-				aOut.sort_by{|x| x =~ /.+?\|(.+)/; $1}
-				aOut.first =~ /(.+?)\|.+/
-				response = $1
-			rescue
-				response = aOut.first
-			end
-		else
-			response = aOut.sort_by{rand}.first.to_s
-		end
+	rescue Exception => ex
+		puts ex.to_s
 	end
 	resp = ""
 	count = 0
@@ -731,12 +735,8 @@ class TinderDir
 	end
 
 	def latest
-		begin
-			latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.last
-			return @url + File.basename(latestFile) + '|' + @watcher.known_file_stats[latestFile][:date].to_s
-		rescue
-			return latestFile + '|1'
-		end
+		latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.last
+		return @url + File.basename(latestFile) + '|' + @watcher.known_file_stats[latestFile][:date].to_s
 	end
 
 	def random

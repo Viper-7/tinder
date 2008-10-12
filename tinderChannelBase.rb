@@ -355,7 +355,7 @@ class TinderChannel
 	hit = false
 
 	@dirWatchers.each do |x|
-		if x.name.match(/^#{command.chomp}$/i)
+		if /^#{command.chomp}$/i.match(x.name)
 			if args.match(/^random$/i)
 				resp = x.random
 				if resp.length > 1
@@ -735,7 +735,7 @@ class TinderDir
 			latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.last
 			return @url + File.basename(latestFile) + '|' + @watcher.known_file_stats[latestFile][:date].to_s
 		rescue
-			return @url + File.basename(latestFile) + '|1'
+			return latestFile + '|1'
 		end
 	end
 

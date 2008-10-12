@@ -373,7 +373,7 @@ class TinderChannel
 			else
 				puts 'latest'
 				resp = x.latest
-				puts '#{resp}'
+				puts "#{resp}"
 				if resp.length > 1
 					aOut.push resp
 					hit = true

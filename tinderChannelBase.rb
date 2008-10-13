@@ -396,66 +396,70 @@ class TinderChannel
 	end
 	resp = ""
 	count = 0
-	@rssWatchers.each do |x|
-		if x.type.match(/^#{command.chomp}$/i)
-			case args
-				when /^latest$/i
-					resp2 = x.latest
-					resp = resp2 if resp2 != ""
-				when /listallow/
-					resp = x.listallow
-				when /listignore/
-					resp = x.listignore
-				when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay)/i
-					args = $1.gsub(/ /,'.')
-					result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
-					z = result.fetch_row[0]
-					if z != "0" or args[-1,1] == '!'
-						@mysql.query("DELETE FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
-						resp = "Stopped Allowing #{args}"
-					end
-					if z == "0" or args[-1,1] == '!'
-						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
-						if result.fetch_row[0] == "0" or args[-1,1] == '!'
-							@mysql.query("INSERT INTO #{x.type}ignore SET Line=\"#{args}\"")
-							resp = "Started Ignoring #{args}"
-						else
-							resp = "Already Ignoring #{args}"
-						end
-					end
-					@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
-				when /^(.+?) is (?:good|fine|ok|sick|cool|mad|grouse)/i
-					args = $1.gsub(/ /,'.')
-					result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
-					z = result.fetch_row[0]
-					if z != "0" or args[-1,1] == '!'
-						@mysql.query("DELETE FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
-						resp = "Stopped Ignoring #{args}"
-					end
-					if z == "0" or args[-1,1] == '!'
+	begin
+		@rssWatchers.each do |x|
+			if x.type.match(/^#{command.chomp}$/i)
+				case args
+					when /^latest$/i
+						resp2 = x.latest
+						resp = resp2 if resp2 != ""
+					when /listallow/
+						resp = x.listallow
+					when /listignore/
+						resp = x.listignore
+					when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay)/i
+						args = $1.gsub(/ /,'.')
 						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
-						if result.fetch_row[0] == "0" or args[-1,1] == '!'
-							@mysql.query("INSERT INTO #{x.type}allow SET Line=\"#{args}\"")
-							resp = "Started Allowing #{args}"
-						else
-							resp = "Already Allowing #{args}"
+						z = result.fetch_row[0]
+						if z != "0" or args[-1,1] == '!'
+							@mysql.query("DELETE FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
+							resp = "Stopped Allowing #{args}"
 						end
-					end
-					@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
-				when /help/
-					resp = '@' + command.chomp + ' latest - Lists the latest ' + command.chomp + "\n"
-					resp += '@' + command.chomp + ' <search> - Searches the cache for an ' + command.chomp + "\n"
-					resp += 'Adding "is bad" or "is good" to the end of a search will ignore or announce new ' + command.chomp + "'s with that name on release" + "\n"
-					resp += '@' + command.chomp + ' listallow - lists the currently ignored ' + command.chomp + "'s"
-				when /^$/
-					resp = 'count'
-					count += x.count
-				else
-					resp2 = x.search args
-					resp = resp2 if resp2.length > 1
-					resp = 'No Hits :(' if resp == ""
+						if z == "0" or args[-1,1] == '!'
+							result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
+							if result.fetch_row[0] == "0" or args[-1,1] == '!'
+								@mysql.query("INSERT INTO #{x.type}ignore SET Line=\"#{args}\"")
+								resp = "Started Ignoring #{args}"
+							else
+								resp = "Already Ignoring #{args}"
+							end
+						end
+						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
+					when /^(.+?) is (?:good|fine|ok|sick|cool|mad|grouse)/i
+						args = $1.gsub(/ /,'.')
+						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
+						z = result.fetch_row[0]
+						if z != "0" or args[-1,1] == '!'
+							@mysql.query("DELETE FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
+							resp = "Stopped Ignoring #{args}"
+						end
+						if z == "0" or args[-1,1] == '!'
+							result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
+							if result.fetch_row[0] == "0" or args[-1,1] == '!'
+								@mysql.query("INSERT INTO #{x.type}allow SET Line=\"#{args}\"")
+								resp = "Started Allowing #{args}"
+							else
+								resp = "Already Allowing #{args}"
+							end
+						end
+						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
+					when /help/
+						resp = '@' + command.chomp + ' latest - Lists the latest ' + command.chomp + "\n"
+						resp += '@' + command.chomp + ' <search> - Searches the cache for an ' + command.chomp + "\n"
+						resp += 'Adding "is bad" or "is good" to the end of a search will ignore or announce new ' + command.chomp + "'s with that name on release" + "\n"
+						resp += '@' + command.chomp + ' listallow - lists the currently ignored ' + command.chomp + "'s"
+					when /^$/
+						resp = 'count'
+						count += x.count
+					else
+						resp2 = x.search args
+						resp = resp2 if resp2.length > 1
+						resp = 'No Hits :(' if resp == ""
+				end
 			end
 		end
+	rescue Exception => ex
+		resp = ex.to_s
 	end
 	resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
 	response = resp if resp != ""

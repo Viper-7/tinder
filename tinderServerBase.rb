@@ -183,6 +183,7 @@ class TinderClient
 	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}" if line.length > 2}
     end
 
+
     def shutDown
     	@tinderBots.each {|x|
 		begin

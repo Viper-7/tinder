@@ -103,7 +103,7 @@ class TinderClient
 	end
 	Thread.start() {
 		trap("INT") {
-			disconnect
+			halt
 		}
 		loop do
 			break if !@tcpSocket
@@ -118,11 +118,11 @@ class TinderClient
 			sleep(0.2)
 		end
 		@open = false
-		shutDown
+		halt
 	}
 	Thread.start() {
 		trap("INT") {
-			disconnect
+			halt
 		}
 		loop do
 			break if !@tcpSocket
@@ -132,7 +132,7 @@ class TinderClient
 			serverEvent(msg)
 		end
 		@open = false
-		shutDown
+		halt
 	}
     end
 
@@ -183,6 +183,20 @@ class TinderClient
 	msg.each_line{|line| send "PRIVMSG #{nick} :#{line}" if line.length > 2}
     end
 
+    def halt
+    	@tinderBots.each {|x|
+		begin
+	    		x.shutDown
+	    	rescue Exception => ex
+			puts ex
+		end
+	}
+	@tinderbots.clear
+	@joined.clear
+	@tcpSocket = nil
+    	DRb.stop_service
+    	exit
+    end
 
     def shutDown
     	@tinderBots.each {|x|
@@ -196,7 +210,6 @@ class TinderClient
     	}
     	@tinderBots.clear
     	@joined.clear
-    	@tcpSocket = nil
     	DRb.stop_service
 	load 'tinderServerBase.rb'
     end

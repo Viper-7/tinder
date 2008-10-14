@@ -70,6 +70,7 @@ class TinderClient
 	        newBot = TinderBot.new(self)
 	        @tinderBots.push newBot
 	        puts "tinderBot - Added Bot" if @debug == true
+	        p @tinderBots
 	    	return newBot
 	    	newBot = nil
 	else

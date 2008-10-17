@@ -426,7 +426,7 @@ class TinderChannel
 						end
 						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
 						break
-					when /^(.+?) is (?:good|fine|ok|sick|cool|mad|grouse)$/i
+					when /^(.+?) is (?:good|fine|ok|sick|cool|mad|grouse|grouce)$/i
 						args = $1.gsub(/ /,'.')
 						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
 						z = result.fetch_row[0]

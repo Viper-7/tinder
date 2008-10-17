@@ -103,9 +103,9 @@ class TinderNesreca < TinderChannel
 			end
 		when /^@addquote$/
 			sendChannel 'Usage: @addquote "Quote" - Author or @addquote [17:56:01] <Author> Quote'
-		when /stoned|high|baked|munted/
+		when /stoned/
 			sendChannel "You know you're stoned when " + stoned
-		when /drunk|smashed|hammered|crunk/
+		when /drunk/
 			sendChannel "You know you're drunk when " + drunk
 		when /@quote/
 			sendChannel randomquote

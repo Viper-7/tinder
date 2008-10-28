@@ -5,8 +5,8 @@ open("http://cerberus.viper-7.com/flv/").each_line { |line|
 	line.scan(/<TITLE>(.*?) \((.*) Quality FLV\)<\/TITLE>/) { |a|
 		out = a[0] + ' - ' + a[1] + ' Quality FLV - ';
 	}
-	line.scan(/<CENTER><A HREF="(.*?)">Direct Link<\/A>/) { |b|
-		out = out + b[0];
+	line.scan(/<CENTER><A HREF="?ticket(.*?)">Direct Link<\/A>/) { |b|
+		out = out + 'http://viper-7.com/flv?ticket' + b[0];
 	}
 }
 puts out;

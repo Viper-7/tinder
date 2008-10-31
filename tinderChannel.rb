@@ -3,7 +3,6 @@ require 'net/http'
 require 'open-uri'
 require 'mysql'
 
-
 class TinderNesreca < TinderChannel
     include DRbUndumped
 

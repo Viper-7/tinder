@@ -10,7 +10,6 @@ require 'mysql'
 require 'rubygems'
 require 'open4'
 
-
 STDOUT.sync = true
 tinderChannels = Array.new
 

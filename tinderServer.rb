@@ -1,5 +1,6 @@
 load 'tinderServerBase.rb'
 
+
 @tinderClient = TinderClient.new if !@tinderClient
 
 while true

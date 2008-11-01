@@ -1,4 +1,4 @@
-require 'drb'
+load 'tinderServerBase.rb'
 require 'socket'
 require 'timeout'
 require 'find'
@@ -13,11 +13,7 @@ require 'open4'
 STDOUT.sync = true
 tinderChannels = Array.new
 
-DRb.start_service
-
 class TinderChannel
-    include DRbUndumped
-
     attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :adminHosts
     attr_accessor :dirWatchers, :rssWatchers, :dumpnicks, :mysql
 
@@ -539,7 +535,7 @@ class TinderChannel
 				@graceful = true
 				@tinderBot.rehash
 				@tinderBot = nil
-				DRb.stop_service
+				exit 1
 				break
 			when /^REHASH$/
     				sendPrivate "Roger that, " + nick, nick
@@ -547,7 +543,7 @@ class TinderChannel
 				@graceful = true
 				@tinderBot.close
 				@tinderBot = nil
-				DRb.stop_service
+				exit 1
 				break
 			when /^@dump$/
 				@dumpnicks.push nick if !@dumpnicks.include? nick
@@ -580,7 +576,7 @@ end
 def addServer(server,port,nick)
 	puts "Status  : Connecting..."
 	begin
-		tinderClient1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
+		tinderClient1 = TinderClient.new
 	rescue
 		puts "Status  : Failed to connect to Tinder server"
 		exit 0

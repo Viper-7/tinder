@@ -1,8 +1,4 @@
 class TinderClient
-    require 'drb'
-
-    include DRbUndumped
-
     require 'socket'
     require 'timeout'
 
@@ -22,7 +18,7 @@ class TinderClient
         @tcpSocket.close if @tcpSocket
         @tcpSocket = nil
         shutDown
-        DRB.stop_service
+        exit
         raise Exception
     end
 
@@ -195,7 +191,6 @@ class TinderClient
 	@tinderbots.clear
 	@joined.clear
 	@tcpSocket = nil
-    	DRb.stop_service
     	exit
     end
 
@@ -317,8 +312,6 @@ class TinderClient
 end
 
 class TinderBot
-    include DRbUndumped
-
     attr_accessor :spamTime, :tinderClient, :channels, :open, :dumpchans
 
     def initialize(client)

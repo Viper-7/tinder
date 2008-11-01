@@ -1,5 +1,5 @@
-load 'tinderServerBase.rb'
 
+load 'tinderServerBase.rb'
 
 @tinderClient = TinderClient.new if !@tinderClient
 

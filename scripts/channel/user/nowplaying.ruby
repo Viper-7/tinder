@@ -1,7 +1,7 @@
 require 'mysql'
 
 mysql = Mysql.init()
-mysql.connect('cerberus','db','db')
+mysql.connect('cerberus.viper-7.com','db','db')
 mysql.select_db('viper7')
 
 mysql.query('SELECT Filename, Ticket, Quality FROM flvTickets ORDER BY ID DESC LIMIT 1').each do |row|

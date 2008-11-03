@@ -2,7 +2,7 @@
 	$monthlyusage = Array();
 	$log = Array();
 	
-	$fp = fopen('/var/www/usage.txt','r');
+	$fp = fopen('/var/www/usage.txt','r+');
 	while(!feof($fp)) {
 		$line = @fgets($fp);
 		array_push($log, $line);

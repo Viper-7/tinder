@@ -29,6 +29,5 @@
 	$meteredusage = round(substr($line,0,strpos($line,' '))/1024,2);
 	fclose($fp);
 
-	echo 'Last 7 days data usage: ' . $weeklyusage . 'gb, Monthly Metered Traffic: ' . $meteredusage . 'gb,  Monthly Total: ' . array_pop($monthlyusage) . 'gb';
+	echo 'Last 7 days data usage: ' . $weeklyusage . 'gb, Monthly Metered Traffic: ' . $meteredusage . 'gb,  Monthly Total: ' . array_pop($monthlyusage) . 'gb' . "\n";
 ?>
-	

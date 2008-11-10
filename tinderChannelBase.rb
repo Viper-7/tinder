@@ -831,9 +831,10 @@ class TinderRSS
 							if hit
 								outLink = x.link
 								
+								open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
 								open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(open(x.link).read)
 								outLink = 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
-								
+							
 								@channel.sendChannel "New #{category}: #{x.title} - #{outLink} #{filesize}"
 								#@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
 							else

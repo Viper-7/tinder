@@ -22,9 +22,7 @@ module Net
   class HTTP
     def HTTP.get_with_headers(uri, headers=nil)
       uri = URI.parse(uri) if uri.respond_to? :to_str
-      start(uri.host, uri.port) do |http|
-        return http.get(uri.path, headers)
-      end
+      return HTTP.get_response(uri.host, uri.port, uri.path, headers)
     end
   end
 end

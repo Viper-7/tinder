@@ -8,6 +8,7 @@ require 'rss/1.0'
 require 'rss/2.0'
 require 'open-uri'
 require 'mysql'
+require 'uri'
 
 require 'rubygems'
 require 'open4'
@@ -16,6 +17,17 @@ STDOUT.sync = true
 tinderChannels = Array.new
 
 DRb.start_service
+
+module Net
+  class HTTP
+    def HTTP.get_with_headers(uri, headers=nil)
+      uri = URI.parse(uri) if uri.respond_to? :to_str
+      start(uri.host, uri.port) do |http|
+        return http.get(uri.path, headers)
+      end
+    end
+  end
+end
 
 class TinderChannel
     include DRbUndumped
@@ -802,7 +814,10 @@ class TinderRSS
 				@count += 1
 				puts outLink
 				nzb = open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
-				nzb = open(outLink).read
+				
+				nzb = Net::HTTP.get_with_headers(outLink,
+	                                 {'User-Agent' => 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us) AppleWebKit/523.10.6 (KHTML, like Gecko) Version/3.0.4 Safari/523.10.6'})
+	                                 
 				open('/mnt/cerberusvar/www/nzb/' + @count.to_s + '.nzb', "w").write(nzb)
 				return 'http://www.viper-7.com/nzb/' + @count.to_s + '.nzb'
 			end

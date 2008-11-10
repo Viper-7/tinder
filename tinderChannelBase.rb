@@ -906,7 +906,7 @@ class TinderRSS
 	def latest
 		begin
 			@buffer.last =~ /^(.+?): (.+) - (.+?) (.+?)$/
-			return "#{$1}: #{$2} - #{tinyURL($3)} #{$4}"
+			return "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 		rescue
 		end
 	end

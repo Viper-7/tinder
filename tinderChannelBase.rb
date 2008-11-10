@@ -783,7 +783,7 @@ class TinderRSS
 
 					outLink = x.link
 					
-					open('/var/www/nzb/' + count.to_s + '.nzb', "w").write(outFile.write(open(x.link).read))
+					open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(outFile.write(open(x.link).read))
 					outLink = 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
 					
 

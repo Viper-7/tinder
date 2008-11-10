@@ -796,6 +796,12 @@ class TinderRSS
 		end
 	end
 
+	def cacheNZB(outLink)
+		open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
+		open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(open(x.link).read)
+		return 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
+	end
+
 	def tinyURL(url)
 		return open('http://tinyurl.viper-7.com/?url=' + url).read
 	end
@@ -829,14 +835,7 @@ class TinderRSS
 							end
 
 							if hit
-								outLink = x.link
-								
-								open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
-								open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(open(x.link).read)
-								outLink = 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
-							
-								@channel.sendChannel "New #{category}: #{x.title} - #{outLink} #{filesize}"
-								#@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
+								@channel.sendChannel "New #{category}: #{x.title} - #{cacheNZB(x.link)} #{filesize}"
 							else
 								puts 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
 							end

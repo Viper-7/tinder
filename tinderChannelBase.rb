@@ -769,7 +769,7 @@ class TinderRSS
 			timeout(20) do
 				content = open(@url).read
 				rss = RSS::Parser.parse(content, false)
-				count = 0
+
 				rss.items.each{|x|
 					filesize = ""
 					category = ""

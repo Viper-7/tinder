@@ -797,9 +797,15 @@ class TinderRSS
 	end
 
 	def cacheNZB(outLink)
-		open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
-		open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(open(x.link).read)
-		return 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
+		begin
+			timeout(30) do
+				open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
+				open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(open(x.link).read)
+				return 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
+			end
+		rescue Exception => ex
+			puts ex
+		end
 	end
 
 	def tinyURL(url)

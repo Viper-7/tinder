@@ -834,6 +834,7 @@ class TinderRSS
 								end
 							end
 
+
 							if hit
 								@channel.sendChannel "New #{category}: #{x.title} - #{cacheNZB(x.link)} #{filesize}"
 							else

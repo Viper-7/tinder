@@ -895,7 +895,7 @@ class TinderRSS
 			if x.match(/#{args}/i)
 				begin
 					x =~ /^(.+?): (.+) - (.+?) (.+?)$/
-					output = "#{$1}: #{$2} - #{tinyURL($3)} #{$4}"
+					output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 				rescue
 				end
 			end

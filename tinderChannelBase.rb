@@ -461,9 +461,10 @@ class TinderChannel
 						break
 					when /help/
 						resp = '@' + command.chomp + ' latest - Lists the latest ' + command.chomp + "\n"
+						resp += '@' + command.chomp + ' listallow - Lists the currently allowed ' + command.chomp + "'s"
+						resp += '@' + command.chomp + ' listignore - Lists the currently ignored ' + command.chomp + "'s"
 						resp += '@' + command.chomp + ' <search> - Searches the cache for an ' + command.chomp + "\n"
 						resp += 'Adding "is bad" or "is good" to the end of a search will ignore or announce new ' + command.chomp + "'s with that name on release" + "\n"
-						resp += '@' + command.chomp + ' listallow - lists the currently allowed ' + command.chomp + "'s"
 					when /^$/
 						resp = 'count'
 						count += x.count

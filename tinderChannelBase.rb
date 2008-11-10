@@ -766,7 +766,7 @@ class TinderRSS
 		@ignore = Array.new
 
 		begin
-			timeout(60) do
+			timeout(20) do
 				content = open(@url).read
 				rss = RSS::Parser.parse(content, false)
 				count = 0
@@ -780,12 +780,6 @@ class TinderRSS
 					rescue
 						# no rescue for you
 					end
-
-					outLink = x.link
-					
-					open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(open(x.link).read)
-					outLink = 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
-					
 
 					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 					count += 1
@@ -808,7 +802,7 @@ class TinderRSS
 
 	def poll
 		begin
-			timeout(60) do
+			timeout(20) do
 				content = open(@url).read
 				rss = RSS::Parser.parse(content, false)
 
@@ -835,7 +829,13 @@ class TinderRSS
 							end
 
 							if hit
-								@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
+								outLink = x.link
+								
+								open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(open(x.link).read)
+								outLink = 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
+								
+								@channel.sendChannel "New #{category}: #{x.title} - #{outLink} #{filesize}"
+								#@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
 							else
 								puts 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
 							end

@@ -814,8 +814,7 @@ class TinderRSS
 				@count += 1
 				puts outLink
 				nzb = open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
-				
-				nzb = Net::HTTP.get_with_headers(outLink, {'User-Agent' => 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us) AppleWebKit/523.10.6 (KHTML, like Gecko) Version/3.0.4 Safari/523.10.6'}).body
+				nzb = open(outLink, 'User-Agent' => 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us) AppleWebKit/523.10.6 (KHTML, like Gecko) Version/3.0.4 Safari/523.10.6').read
 	                        
 				open('/mnt/cerberusvar/www/nzb/' + @count.to_s + '.nzb', "w").write(nzb)
 				return 'http://www.viper-7.com/nzb/' + @count.to_s + '.nzb'

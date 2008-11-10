@@ -1,5 +1,6 @@
 
 require 'drb'
+require 'net/http'
 require 'socket'
 require 'timeout'
 require 'find'
@@ -59,7 +60,7 @@ class TinderChannel
     	@uptime = 5 if @uptime > 604
     	begin
 		@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
-		@rssWatchers.each{|x| x.poll} if @uptime % 120 == 0
+		@rssWatchers.each{|x| x.poll} if @uptime % 240 == 0
 	rescue Exception => ex
 		@tinderBot.status ex
 	end
@@ -408,7 +409,7 @@ class TinderChannel
 						resp = x.listallow
 					when /listignore/
 						resp = x.listignore
-					when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay)/i
+					when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay|ass|fail)/i
 						args = $1.gsub(/ /,'.')
 						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
 						z = result.fetch_row[0]
@@ -427,7 +428,7 @@ class TinderChannel
 						end
 						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
 						break
-					when /^(.+?) is (?:good|fine|ok|sick|cool|mad|grouse|grouce)$/i
+					when /^(.+?) is (?:good|fine|ok|sick|cool|mad|orsm|grouse|grouce)$/i
 						args = $1.gsub(/ /,'.')
 						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
 						z = result.fetch_row[0]
@@ -765,7 +766,7 @@ class TinderRSS
 		@ignore = Array.new
 
 		begin
-			timeout(15) do
+			timeout(60) do
 				content = open(@url).read
 				rss = RSS::Parser.parse(content, false)
 				count = 0
@@ -779,6 +780,14 @@ class TinderRSS
 					rescue
 						# no rescue for you
 					end
+
+					outLink = x.link
+					
+					open('/var/www/nzb/' + count.to_s + '.nzb', "wb") { |outFile|
+						outFile.write(open(x.link).read)
+						outLink = 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
+					}
+					
 
 					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 					count += 1
@@ -801,7 +810,7 @@ class TinderRSS
 
 	def poll
 		begin
-			timeout(15) do
+			timeout(60) do
 				content = open(@url).read
 				rss = RSS::Parser.parse(content, false)
 

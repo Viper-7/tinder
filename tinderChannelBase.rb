@@ -754,7 +754,7 @@ class TinderDir
 end
 
 class TinderRSS
-	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type, :allow, :ignore
+	attr_accessor :buffer, :channel, :url, :uptime, :announce, :type, :allow, :ignore, :count
 
 	def initialize(url, channel, type = 'link', announce = false)
 		@channel = channel
@@ -764,6 +764,7 @@ class TinderRSS
 		@buffer = Array.new
 		@allow = Array.new
 		@ignore = Array.new
+		@count = 0
 
 		begin
 			timeout(20) do
@@ -782,7 +783,6 @@ class TinderRSS
 					end
 
 					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
-					count += 1
 				}
 
 				result = @channel.mysql.query("SELECT Line FROM #{@type}allow")
@@ -799,9 +799,10 @@ class TinderRSS
 	def cacheNZB(outLink)
 		begin
 			timeout(30) do
+				@count += 1
 				open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
 				open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(open(x.link).read)
-				return 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
+				return 'http://www.viper-7.com/nzb/' + @count.to_s + '.nzb'
 			end
 		rescue Exception => ex
 			puts ex

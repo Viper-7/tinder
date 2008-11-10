@@ -783,10 +783,8 @@ class TinderRSS
 
 					outLink = x.link
 					
-					open('/var/www/nzb/' + count.to_s + '.nzb', "wb") { |outFile|
-						outFile.write(open(x.link).read)
-						outLink = 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
-					}
+					open('/var/www/nzb/' + count.to_s + '.nzb', "b").write(outFile.write(open(x.link).read))
+					outLink = 'http://www.viper-7.com/nzb/' + count.to_s + '.nzb'
 					
 
 					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")

@@ -801,7 +801,7 @@ class TinderRSS
 			timeout(30) do
 				@count += 1
 				open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
-				open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(open(x.link).read)
+				open('/mnt/cerberusvar/www/nzb/' + count.to_s + '.nzb', "w").write(open(outLink).read)
 				return 'http://www.viper-7.com/nzb/' + @count.to_s + '.nzb'
 			end
 		rescue Exception => ex

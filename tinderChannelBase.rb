@@ -22,7 +22,9 @@ module Net
   class HTTP
     def HTTP.get_with_headers(uri, headers=nil)
       uri = URI.parse(uri) if uri.respond_to? :to_str
-      return HTTP.get_response(uri.host, uri.port, uri.path, headers)
+      start(uri.host, uri.port) do |http|
+        return http.get(uri.path, headers)
+      end
     end
   end
 end
@@ -813,7 +815,7 @@ class TinderRSS
 				puts outLink
 				nzb = open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
 				
-				nzb = Net::HTTP.get_with_headers(outLink, {'User-Agent' => 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us) AppleWebKit/523.10.6 (KHTML, like Gecko) Version/3.0.4 Safari/523.10.6'}).get_response
+				nzb = Net::HTTP.get_with_headers(outLink, {'User-Agent' => 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us) AppleWebKit/523.10.6 (KHTML, like Gecko) Version/3.0.4 Safari/523.10.6'}).body
 	                        
 				open('/mnt/cerberusvar/www/nzb/' + @count.to_s + '.nzb', "w").write(nzb)
 				return 'http://www.viper-7.com/nzb/' + @count.to_s + '.nzb'

@@ -80,6 +80,7 @@ class TinderChannel
     def poll
     	@uptime += 1
     	@uptime = 5 if @uptime > 604
+    	puts @uptime
     	begin
 		@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
 		@rssWatchers.each{|x| x.poll} if @uptime % 240 == 0

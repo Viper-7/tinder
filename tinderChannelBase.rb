@@ -864,6 +864,7 @@ class TinderRSS
 							hit = false
 
 							@allow.each do |y|
+								puts y
 								if /#{y}/i.match(x.title)
 									@ignore.each {|z| hit = true if !/#{z}/i.match(x.title)}
 								end

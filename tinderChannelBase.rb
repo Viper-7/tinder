@@ -68,7 +68,7 @@ class TinderChannel
 
     def checkPing
 	@tinderBot.halt if !@ping
-    End
+    end
 
     def ping
 	@ping = true
@@ -1081,5 +1081,4 @@ class DirectoryWatcher
       @scanned_once = true
       return count
    end
-
 end

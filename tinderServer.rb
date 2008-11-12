@@ -1,11 +1,11 @@
 
 load 'tinderServerBase.rb'
 
-@tinderClient = TinderClient.new if !@tinderClient
+@tinderServer = TinderServer.new if !@tinderServer
 
 while true
 	begin
-		DRb.start_service("druby://:7777", @tinderClient)
+		DRb.start_service("druby://:7777", @tinderServer)
 		puts DRb.uri
 		DRb.thread.join
 	rescue Exception => ex

@@ -595,15 +595,15 @@ end
 def addServer(server,port,nick)
 	puts "Status  : Connecting..."
 	begin
-		tinderClient1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
+		tinderServer1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
 	rescue
 		puts "Status  : Failed to connect to Tinder server"
 		exit 0
 	end
 
-	tinderClient1.connectServer(server, port, nick)
-	tinderBot1 = tinderClient1.addBot
-	return tinderClient1, tinderBot1
+	tinderServer1.connectServer(server, port, nick)
+	tinderBot1 = tinderServer1.addBot
+	return tinderServer1, tinderBot1
 end
 
 def addChannels(tinderBot,channels,type)
@@ -619,7 +619,7 @@ def addChannel(tinderBot,channel,type)
 	return Module.const_get(type).new(channel.to_s, tinderBot)
 end
 
-def connect(tinderClient, tinderBot, tinderChannels)
+def connect(tinderServer, tinderBot, tinderChannels)
 	trap("INT") {
 		tinderChannels.first.graceful = false
 		tinderBot.close

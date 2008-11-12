@@ -41,5 +41,9 @@ Account Name=tinderBot
 VCS Module Path=tinderBot
 VCS Specific Settings=
 [Open Files]
-Open File0=
-Active File Display Mode=-1
+Open File0=\\cerberus\tmp\durationlist.txt
+Active File Display Mode=3
+Open File Pos0=102
+Open File Line0=0
+Open File Window Pos0=0,1,-1,-1,-4,-30,0,0,816,388
+Open File1=

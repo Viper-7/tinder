@@ -7,7 +7,7 @@ class TinderServer
     require 'socket'
     require 'timeout'
 
-    attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer, :ping
+    attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer
 
     def initialize
         @joined = Array.new
@@ -253,6 +253,15 @@ class TinderServer
             	restart
             when /^PING :(.+)$/i
                 send "PONG :#{$1}"
+                begin
+                	@tinderBots.each {|x|
+                		timeout(10) do
+                			x.ping
+                		end
+                	}
+                rescue Exception => ex
+                	# don't die
+                end
             when /^:(.+?)![~]?(.+?)@(.+?) PRIVMSG #{@nick} :\x01PING (.+)\x01$/i
                 send "NOTICE #{$1} :\x01PING #{$4}\x01"
             when /^:(.+?)![~]?(.+?)@(.+?) PRIVMSG #{@nick} :\x01VERSION\x01$/i
@@ -263,13 +272,15 @@ class TinderServer
                 channelText $3, $2, $1, $4
             when /001 #{@nick}/i
 		if !@connected
-		    	begin
-				@tinderBots.each {|x| x.connected()}
-		    	rescue Exception => ex
-				removeBot(x)
-				puts ex
-				p ex.backtrace
-		    	end
+		    	@tinderBots.each {|x|
+			    	begin
+					x.connected()
+			    	rescue Exception => ex
+					removeBot(x)
+					puts ex
+					p ex.backtrace
+			    	end
+			}
 			@connected = true
 		end
             else
@@ -321,10 +332,10 @@ end
 class TinderBot
     include DRbUndumped
 
-    attr_accessor :spamTime, :TinderServer, :channels, :open, :dumpchans
+    attr_accessor :spamTime, :tinderServer, :channels, :open, :dumpchans
 
     def initialize(client)
-    	@TinderServer = client
+    	@tinderServer = client
         @channels = Array.new
     	@dumpchans = Array.new
 	@open = true
@@ -333,9 +344,9 @@ class TinderBot
     def addChannel(channel)
         @channels.push channel
 
-        if @TinderServer.connected == true
+        if @tinderServer.connected == true
         	@open = true
-	    	@TinderServer.joinChannel channel.channel.to_s
+	    	@tinderServer.joinChannel channel.channel.to_s
 		channel.connected
 	end
     end
@@ -348,28 +359,44 @@ class TinderBot
 	@dumpchans.clear
     end
 
+    def halt
+	@tinderServer.halt
+    end
+
+    def ping
+	@channels.each {|x|
+		begin
+			timeout(5) do
+				x.ping
+			end
+		rescue Exception => ex
+			# Don't Die
+		end
+	}
+    end
+
     def nick
-    	return @TinderServer.nick
+    	return @tinderServer.nick
     end
 
     def send(msg)
-    	@TinderServer.send msg
+    	@tinderServer.send msg
     end
 
     def rejoinChannel(channel)
-    	@TinderServer.joinChannel channel.to_s
+    	@tinderServer.joinChannel channel.to_s
     end
 
     def sendChannel(msg, channel)
-    	@TinderServer.sendChannel(msg, channel)
+    	@tinderServer.sendChannel(msg, channel)
     end
 
     def sendPrivate(msg, nick)
-    	@TinderServer.sendPrivate(msg, nick)
+    	@tinderServer.sendPrivate(msg, nick)
     end
 
     def sendCTCP(msg, destination)
-    	@TinderServer.sendCTCP(msg, destination)
+    	@tinderServer.sendCTCP(msg, destination)
     end
 
     def serverText(msg)
@@ -414,23 +441,23 @@ class TinderBot
 
     def close
     	@open = false
-    	@TinderServer.shutDown
+    	@tinderServer.shutDown
     end
 
     def rehash
     	@open = false
-    	@TinderServer.removeBot(self)
+    	@tinderServer.removeBot(self)
     end
 
     def connected
 	@open = true
-    	@channels.each {|tinderChannel| @TinderServer.joinChannel tinderChannel.channel.to_s }
+    	@channels.each {|tinderChannel| @tinderServer.joinChannel tinderChannel.channel.to_s }
     	@channels.each {|tinderChannel| tinderChannel.connected }
     end
 
     def shutDown()
 	@open = false
-    	@TinderServer.removeBot(self)
+    	@tinderServer.removeBot(self)
     end
 
     def status(msg)

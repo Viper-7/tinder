@@ -33,7 +33,7 @@ class TinderChannel
     include DRbUndumped
 
     attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :adminHosts
-    attr_accessor :dirWatchers, :rssWatchers, :dumpnicks, :mysql
+    attr_accessor :dirWatchers, :rssWatchers, :dumpnicks, :mysql, :ping
 
     def initialize(channel, tinderBot)
 	@dirWatchers = Array.new
@@ -67,12 +67,22 @@ class TinderChannel
 	end
     end
 
+    def checkPing
+	@tinderBot.halt if !@ping
+    End
+
+    def ping
+	@ping = true
+    end
+
     def poll
     	@uptime += 1
     	@uptime = 5 if @uptime > 604
     	begin
 		@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
 		@rssWatchers.each{|x| x.poll} if @uptime % 240 == 0
+		@ping = false if (@uptime + 594) % 600 == 0
+		checkPing if @uptime % 600 == 0
 	rescue Exception => ex
 		@tinderBot.status ex
 	end

@@ -67,7 +67,10 @@ class TinderChannel
     end
 
     def checkPing
-	@tinderBot.halt if !@ping
+	if !@ping
+		@tinderBot.status 'Ping Timeout - Killing Server'
+		@tinderBot.halt
+	end
     end
 
     def ping

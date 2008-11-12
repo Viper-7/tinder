@@ -253,6 +253,7 @@ class TinderServer
             	restart
             when /^PING :(.+)$/i
                 send "PONG :#{$1}"
+                puts 'PONG ' + Time.now.to_s
                 begin
                 	@tinderBots.each {|x|
                 		timeout(10) do

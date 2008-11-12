@@ -7,7 +7,7 @@ class TinderServer
     require 'socket'
     require 'timeout'
 
-    attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer
+    attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer, :joined
 
     def initialize
         @joined = Array.new
@@ -50,7 +50,7 @@ class TinderServer
 		end
 	}
 	if output == ""
-		output = "Fail"
+		output = "Server Fail"
 	end
 	return output[3..-1]
     end
@@ -198,12 +198,8 @@ class TinderServer
 			puts ex
 		end
 	}
-	begin
-		@joined.clear
-		@tinderbots.clear
-	rescue Exception => ex
-		# Dont die
-	end
+	@joined.clear
+	@tinderBots.clear
     	DRb.stop_service
     	exit
     end

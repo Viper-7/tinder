@@ -79,13 +79,12 @@ class TinderChannel
 
     def poll
     	@uptime += 1
-    	@uptime = 5 if @uptime > 604
-    	puts @uptime
+    	@uptime = 5 if @uptime > 309
     	begin
 		@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
-		@rssWatchers.each{|x| x.poll} if @uptime % 240 == 0
-		@ping = false if (@uptime + 594) % 600 == 0
-		checkPing if @uptime % 600 == 0
+		@rssWatchers.each{|x| x.poll} if @uptime % 306 == 0
+		@ping = false if (@uptime + 299) % 305 == 0
+		checkPing if @uptime % 305 == 0
 	rescue Exception => ex
 		@tinderBot.status ex
 	end

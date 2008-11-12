@@ -1,4 +1,3 @@
-
 require 'drb'
 require 'net/http'
 require 'socket'

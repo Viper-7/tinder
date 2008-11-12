@@ -187,8 +187,6 @@ class TinderServer
     end
 
     def halt
-	@joined.clear
-	@tinderbots.clear
     	@open = false
     	@connected = false
     	@tcpSocket.close
@@ -200,6 +198,12 @@ class TinderServer
 			puts ex
 		end
 	}
+	begin
+		@joined.clear
+		@tinderbots.clear
+	rescue Exception => ex
+		# Dont die
+	end
     	DRb.stop_service
     	exit
     end

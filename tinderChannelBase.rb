@@ -114,8 +114,9 @@ class TinderChannel
     end
 
     def shutDown()
-	if tinderChannel1.graceful == true
+	if @graceful == true
 	else
+		exit
 	end
     end
 

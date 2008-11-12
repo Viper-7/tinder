@@ -187,8 +187,6 @@ class TinderServer
     end
 
     def halt
-    	DRb.stop_service
-    	exit
     	@tinderBots.each {|x|
 		begin
 	    		x.shutDown
@@ -196,9 +194,13 @@ class TinderServer
 			puts ex
 		end
 	}
-	@tinderbots.clear
 	@joined.clear
+	@tinderbots.clear
+    	@open = false
+    	@connected = false
 	@tcpSocket = nil
+    	DRb.stop_service
+    	exit
     end
 
     def restart
@@ -458,6 +460,7 @@ class TinderBot
 
     def shutDown()
 	@open = false
+	@channels.each {|tinderChannel| tinderChannel.shutDown }
     	@tinderServer.removeBot(self)
     end
 

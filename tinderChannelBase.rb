@@ -67,7 +67,9 @@ class TinderChannel
     end
 
     def checkPing
-	if !@ping
+	if @ping
+		@tinderBot.status 'Heartbeat.'
+	else
 		@tinderBot.status 'Ping Timeout - Killing Server'
 		@tinderBot.halt
 	end
@@ -435,7 +437,7 @@ class TinderChannel
 					when /listignore/
 						resp = x.listignore
 					when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay|ass|fail)/i
-						args = $1.gsub(/ /,'.').gsub(/\\/,'\\')
+						args = $1.gsub(/ /,'.')
 						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
 						z = result.fetch_row[0]
 						if z != "0" or args[-1,1] == '!'
@@ -454,7 +456,7 @@ class TinderChannel
 						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
 						break
 					when /^(.+?) is (?:good|fine|ok|sick|cool|mad|orsm|grouse|grouce)$/i
-						args = $1.gsub(/ /,'.').gsub(/\\/,'\\')
+						args = $1.gsub(/ /,'.')
 						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
 						z = result.fetch_row[0]
 						if z != "0" or args[-1,1] == '!'

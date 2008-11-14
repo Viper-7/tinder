@@ -495,7 +495,7 @@ class TinderChannel
 	end
 	resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
 	response = resp if resp != ""
-	puts "Output  : " + response
+	@tinderBot.status "Output  : " + response
 	return response
     end
 
@@ -523,7 +523,7 @@ class TinderChannel
     end
 
     def statusMsg(msg)
-	puts msg
+	@tinderBot.status msg
 	@dumpnicks.each{|x|
 		@tinderBot.sendPrivate msg, x.to_s
 	} if @dumpnicks.length > 0
@@ -536,7 +536,7 @@ class TinderChannel
 			sendChannel $1 + " " + nick + "!"
 		when /^@rehash/i
 			sendChannel "Reloaded by request from " + nick
-			puts "Status  : Reloaded by request from " + host
+			@tinderBot.status "Status  : Reloaded by request from " + host
 			@tinderBot.channels.first.graceful = true
 			@tinderBot.shutDown
 			@tinderBot = nil
@@ -565,7 +565,7 @@ class TinderChannel
     		case msg
     			when /^RELOAD$/
     				sendPrivate "Roger that, " + nick, nick
-				puts "Status  : Reloaded by request from " + host
+				@tinderBot.status "Status  : Reloaded by request from " + host
 				@graceful = true
 				@tinderBot.rehash
 				@tinderBot = nil
@@ -573,7 +573,7 @@ class TinderChannel
 				break
 			when /^REHASH$/
     				sendPrivate "Roger that, " + nick, nick
-				puts "Status  : Killed server by request from " + host
+				@tinderBot.status "Status  : Killed server by request from " + host
 				@graceful = true
 				@tinderBot.close
 				@tinderBot = nil
@@ -608,11 +608,10 @@ class TinderChannel
 end
 
 def addServer(server,port,nick)
-	puts "Status  : Connecting..."
 	begin
 		tinderServer1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
 	rescue
-		puts "Status  : Failed to connect to Tinder server"
+		puts "Failed to connect to Tinder server"
 		exit 0
 	end
 
@@ -641,7 +640,6 @@ def connect(tinderServer, tinderBot, tinderChannels)
 		tinderBot = nil
 	}
 
-	puts "Status  : Running..."
 	while tinderBot
 		break if tinderBot.open != true
 		tinderChannels.each {|x|
@@ -765,7 +763,7 @@ class TinderDir
 		begin
 			return @watcher.scan_now
 		rescue Exception => ex
-			puts 'DirScan : ' + ex
+			@tinderBot.status 'DirScan : ' + ex
 		end
 	end
 
@@ -820,7 +818,7 @@ class TinderRSS
 				result.each_hash {|x| @ignore.push x["Line"] }
 			end
 		rescue Exception => ex
-			puts 'RSS     : ' + ex
+			@tinderBot.status 'RSS     : ' + ex
 		end
 	end
 
@@ -828,7 +826,6 @@ class TinderRSS
 		begin
 			timeout(30) do
 				@count += 1
-				puts outLink
 				nzb = open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
 				nzb = open(outLink, {'User-Agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3', 'Cookie' => 'userZone=-660; uid=104223; pass=ed1303786609789d6cdd24430248d19e; phpbb2mysql_data=a%3A2%3A%7Bs%3A11%3A%22autologinid%22%3Bs%3A32%3A%22b8aa492b883332fd7984001340267ffc%22%3Bs%3A6%3A%22userid%22%3Bs%3A5%3A%2276579%22%3B%7D; phpbb2mysql_sid=1b152ae6c5bf4f3f67a805c7e1a48597;'}).read
 	                        
@@ -836,7 +833,7 @@ class TinderRSS
 				return 'http://www.viper-7.com/nzb/' + @count.to_s + '.nzb'
 			end
 		rescue Exception => ex
-			puts ex
+			@tinderBot.status ex
 		end
 	end
 
@@ -876,14 +873,14 @@ class TinderRSS
 							if hit
 								@channel.sendChannel "New #{category}: #{x.title} - #{cacheNZB(x.link)} #{filesize}"
 							else
-								puts 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
+								@tinderBot.status 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
 							end
 						end
 					end
 				}
 			end
 		rescue Exception => ex
-			puts 'RSS     : ' + ex
+			@tinderBot.status 'RSS     : ' + ex
 		end
 	end
 

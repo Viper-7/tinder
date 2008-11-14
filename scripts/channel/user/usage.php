@@ -2,8 +2,8 @@
 	$monthlyusage = Array();
 	$log = Array();
 	
-	exec("curl -k -d username='viper7' -d password='24pqsshth' -d history=1 -d iso=1 https://customer-webtools-api.internode.on.net/cgi-bin/padsl-usage > /tmp/usage.txt");
-	exec("curl -k -d username='viper7' -d password='24pqsshth' -d iso=1 https://customer-webtools-api.internode.on.net/cgi-bin/padsl-usage > /tmp/meteredusage.txt");
+	exec("curl -k -d username='viper7' -d password='24pqsshth' -d history=1 -d iso=1 https://customer-webtools-api.internode.on.net/cgi-bin/padsl-usage > /tmp/usage.txt 2>/dev/null");
+	exec("curl -k -d username='viper7' -d password='24pqsshth' -d iso=1 https://customer-webtools-api.internode.on.net/cgi-bin/padsl-usage > /tmp/meteredusage.txt 2>/dev/null");
 
 	$fp = fopen('/tmp/usage.txt','r');
 	if($fp) {

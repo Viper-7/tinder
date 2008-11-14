@@ -336,13 +336,14 @@ end
 class TinderBot
     include DRbUndumped
 
-    attr_accessor :spamTime, :tinderServer, :channels, :open, :dumpchans
+    attr_accessor :spamTime, :tinderServer, :channels, :open, :dumpchans, :lastStatus
 
     def initialize(client)
     	@tinderServer = client
         @channels = Array.new
     	@dumpchans = Array.new
 	@open = true
+	@lastStatus = ""
     end
 
     def addChannel(channel)
@@ -466,6 +467,7 @@ class TinderBot
     end
 
     def status(msg)
-	@channels.first.statusMsg msg.to_s
+	@channels.first.statusMsg msg.to_s if msg != @lastStatus
+	@lastStatus = msg
     end
 end

@@ -2,7 +2,10 @@
 	$monthlyusage = Array();
 	$log = Array();
 	
-	$fp = fopen('/var/www/usage.txt','r');
+	exec("curl -k -d username='viper7' -d password='24pqsshth' -d history=1 -d iso=1 https://customer-webtools-api.internode.on.net/cgi-bin/padsl-usage > /tmp/usage.txt")
+	exec("curl -k -d username='viper7' -d password='24pqsshth' -d iso=1 https://customer-webtools-api.internode.on.net/cgi-bin/padsl-usage > /tmp/meteredusage.txt")
+
+	$fp = fopen('/tmp/usage.txt','r');
 	if($fp) {
 		while(!feof($fp)) {
 			$line = @fgets($fp);
@@ -26,7 +29,7 @@
 		$weeklyusage=round($weeklyusage,2);
 	}
 
-	$fp = fopen('/var/www/meteredusage.txt','r');
+	$fp = fopen('/tmp/meteredusage.txt','r');
 	if($fp) {
 		$line = @fgets($fp);
 		$meteredusage = round(substr($line,0,strpos($line,' '))/1024,2);

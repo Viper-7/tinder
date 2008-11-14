@@ -765,7 +765,7 @@ class TinderDir
 		begin
 			return @watcher.scan_now
 		rescue Exception => ex
-			puts 'Fatal   : ' + ex
+			puts 'DirScan : ' + ex
 		end
 	end
 
@@ -820,7 +820,7 @@ class TinderRSS
 				result.each_hash {|x| @ignore.push x["Line"] }
 			end
 		rescue Exception => ex
-			puts 'Fatal   : ' + ex
+			puts 'RSS     : ' + ex
 		end
 	end
 
@@ -883,7 +883,7 @@ class TinderRSS
 				}
 			end
 		rescue Exception => ex
-			puts 'Fatal   : ' + ex
+			puts 'RSS     : ' + ex
 		end
 	end
 

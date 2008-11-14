@@ -68,9 +68,9 @@ class TinderChannel
 
     def checkPing
 	if @ping
-		@tinderBot.status 'Heartbeat.'
+		@tinderBot.status 'Heartbeat: ' + Time.now.to_s
 	else
-		@tinderBot.status 'Ping Timeout - Killing Server'
+		@tinderBot.status 'Ping Timeout - Restarting Server'
 		@tinderBot.halt
 	end
     end

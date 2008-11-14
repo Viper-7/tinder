@@ -14,7 +14,7 @@ class TinderServer
         @tinderBots = Array.new
         @buffer = Array.new
         @open = false
-        @debug = true
+        @debug = false
         @ping = true
     end
 

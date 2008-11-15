@@ -10,5 +10,5 @@ grandtotal = grandtotal % 86400
 hours = (grandtotal / 3600).to_i.to_s
 grandtotal = grandtotal % 3600
 minutes = (grandtotal / 60).to_i.to_s
-seconds = (grandtotal % 60).to_f.round(1).to_s
+seconds = (grandtotal % 60).to_f.round.to_s
 puts "#{days} Days, #{hours} Hours, #{minutes} Minutes, #{seconds} Seconds"

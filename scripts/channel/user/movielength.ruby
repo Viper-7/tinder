@@ -1,4 +1,8 @@
-grandtotal=open('/tmp/durationlist.txt','r').each_line.first.to_i
+mysql = Mysql.init()
+mysql.connect('cerberus','db','db')
+mysql.select_db('viper7')
+
+grandtotal=mysql.query("SELECT SUM(duration) FROM imdbfiles GROUP BY duration").fetch_row[0].to_i
 days = (grandtotal / 86400).to_i.to_s
 grandtotal = grandtotal % 86400
 hours = (grandtotal / 3600).to_i.to_s

@@ -17,8 +17,9 @@ parent.each{|filename|
 	movie=filename.gsub(/\.[^\.]*$/,'')
 	filename = mysql.escape_string(filename).gsub(/\&/,'\\\&').gsub(/ /,'\ ')
 
-	qry = mysql.query("SELECT imdbid FROM imdbfiles WHERE filename='#{filename}'")
-	next if qry.num_rows > 0 
+	qry = mysql.query("SELECT ID FROM imdbfiles WHERE filename='#{filename}'")
+	next if qry.num_rows > 0
+	
 	
 	part = 0
 	movie =~ / - ([\d]) of [\d]/
@@ -45,10 +46,16 @@ parent.each{|filename|
 		imdbid = mysql.insert_id
 	end
 	
+	dbpart = 0
+	qry = mysql.query("SELECT MAX(part) FROM imdbfiles WHERE imdbid='#{imdbid}' GROUP BY part")
+	dbpart = qry.fetch_row[0] if qry.num_rows > 0
+	
 	if part > 0
 		puts "Adding ID\##{imdbid}: #{movie} - Part #{part} - #{duration} secs"
+		mysql.query("DELETE FROM imdbfiles WHERE imdbid='#{imdbid}' AND part=0") if dbpart == 0
 	else
 		puts "Adding ID\##{imdbid}: #{movie} - #{duration} secs"
+		mysql.query("DELETE FROM imdbfiles WHERE imdbid='#{imdbid}'")
 	end
 	mysql.query("INSERT INTO imdbfiles SET imdbid='#{imdbid}', Filename='#{filename}', Duration=#{duration}, Part=#{part}")
 }
@@ -75,7 +82,6 @@ qry.each{|movie|
 				text = open("http://www.google.com.au/search?btnI=1&q=" + URI.escape(movie).gsub(/ /,'+').gsub(/&/,'%26') + "+site%3Aimdb.com").read
 			}
 		rescue Exception => ex
-			puts ex
 		end
 		break if text.length > 0
 	end
@@ -117,7 +123,7 @@ qry.each{|movie|
 				imdburl = mysql.escape_string('http://www.imdb.com' + line.to_s.chomp)
 			}
 		end
-		puts x[0] if imdburl.length == 0
+
 		x[0].scan(/<h5>Tagline:<\/h5>(.*?)(?: <a class="tn15more inline"|<\/div>)/m) { |block|
 			tagline = mysql.escape_string(block[0].chomp.gsub(/\n/,''))
 		}
@@ -137,22 +143,25 @@ qry.each{|movie|
 	}
 
 	movieid = 0
-	if imdburl.length > 0
-		qry = mysql.query("SELECT ID FROM imdb WHERE Name='#{dbtitle}'")
-		if qry.num_rows > 0
-			movieid = qry.fetch_row[0]
+	qry = mysql.query("SELECT ID FROM imdb WHERE Name='#{dbtitle}'")
+	if qry.num_rows > 0
+		movieid = qry.fetch_row[0]
+		if imdburl.length > 0
 			duration = mysql.query("SELECT SUM(duration) from imdbfiles WHERE imdbid=#{movieid} GROUP BY imdbid").fetch_row[0]
 			mysql.query("UPDATE imdb SET title='#{title}', plot='#{plot}', duration='#{duration}', tagline='#{tagline}', boxurl='#{boxlink}', releasedate='#{releasedate}', rating='#{rating}', imdburl='#{imdburl}' WHERE ID=#{movieid}")
+			mysql.query("DELETE FROM imdbtags WHERE imdbid=#{movieid}")
+			tags.each {|x|
+				x=CGI.unescapeHTML(x.gsub(/&#160;/,'-'))
+				mysql.query("INSERT INTO imdbtags SET imdbid=#{movieid}, tag='#{x}'")
+			}
+		else
+			puts "No IMDB Record!"
+			mysql.query("DELETE FROM imdbfiles WHERE imdbid=#{movieid}")
+			mysql.query("DELETE FROM imdb WHERE ID=#{movieid}")
+			mysql.query("DELETE FROM imdbtags WHERE imdbid=#{movieid}")
 		end
 	else
-		puts "No IMDB Record!"
+		puts "Database Error!!"
 	end
-
-	
-	mysql.query("DELETE FROM imdbtags WHERE imdbid=#{movieid}")
-	tags.each {|x|
-		x=CGI.unescapeHTML(x.gsub(/&#160;/,'-'))
-		mysql.query("INSERT INTO imdbtags SET imdbid=#{movieid}, tag='#{x}'")
-	}
 }
 

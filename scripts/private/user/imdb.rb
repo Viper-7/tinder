@@ -137,7 +137,8 @@ movies.each{|movie|
 		dbtitle = movie.gsub(/\'/,'\\\'').gsub(/\&/,'\\\&')
 		qry = mysql.query("SELECT ID FROM imdb WHERE Name='#{dbtitle}'")
 		if qry.num_rows > 0
-			mysql.query("UPDATE imdb SET title='#{title}', plot='#{plot}', duration='#{duration}', tagline='#{tagline}', boxurl='#{boxlink}', releasedate='#{releasedate}', rating='#{rating}', imdburl='#{imdburl}' WHERE Filename='#{filename}'")
+			dbid = qry.fetch_row[0]
+			mysql.query("UPDATE imdb SET title='#{title}', plot='#{plot}', duration='#{duration}', tagline='#{tagline}', boxurl='#{boxlink}', releasedate='#{releasedate}', rating='#{rating}', imdburl='#{imdburl}' WHERE ID=#{dbid}")
 			movieid = qry.fetch_row[0]
 		end
 	else

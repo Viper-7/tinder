@@ -9,19 +9,24 @@ mysql = Mysql.init()
 mysql.connect('cerberus','db','db')
 mysql.select_db('viper7')
 
-movies = Array.new
-
 parent = Dir.new('/opt/filestore/Movies')
 parent.rewind
 parent.each{|filename|
-	next if filename == '.' or filename == '..' or filename == 'Thumbs.db'
+	next if filename == '.' or filename == '..' or filename == 'Thumbs.db' or filename == 'movieslist.txt' or filename == 'movieslist' or File.directory? parent.path + '/' + filename
 
-	title=filename.gsub(/ - [\d] of [\d]/,'').gsub(/\.[^\.]*$/,'')
-	movies.push title if !movies.include? title
-	title=title.gsub(/\'/,'\\\'').gsub(/\&/,'\\\&')
-
+	movie=filename.gsub(/\.[^\.]*$/,'')
 	filename = mysql.escape_string(filename).gsub(/\&/,'\\\&').gsub(/ /,'\ ')
-	path = parent.path + '/' + filename
+
+	qry = mysql.query("SELECT imdbid FROM imdbfiles WHERE filename='#{filename}'")
+	next if qry.num_rows > 0 
+	
+	part = 0
+	movie =~ / - ([\d]) of [\d]/
+	part = $1.to_i if $1
+	movie=movie.gsub(/ - [\d] of [\d]/,'')
+	title=movie.gsub(/\'/,'\\\'').gsub(/\&/,'\&')
+
+	path = parent.path + '/' + filename.gsub(/\(/,'\(').gsub(/\)/,'\)')
 
 	duration = `avidentify #{path} 2>/dev/null| grep Duration | cut -f 4 -d ' ' | cut -f 1 -d ,`.chop
 	duration = 0 if duration == 'N/A' or duration == ''
@@ -32,14 +37,6 @@ parent.each{|filename|
 		duration = ($1.to_i * 3600) + ($2.to_i * 60) + $3.to_i + ($4.to_f / 10)
 	end
 	
-	qry = mysql.query("SELECT imdbid FROM imdbfiles WHERE filename='#{title}'")
-	if qry.num_rows > 0 
-		imdbid = qry.fetch_row[0]
-		mysql.query("DELETE FROM imdbtags WHERE imdbid=#{imdbid}")
-		mysql.query("DELETE FROM imdbfiles WHERE imdbid=#{imdbid}")
-		mysql.query("DELETE FROM imdb WHERE ID=#{imdbid}")
-	end
-
 	imdbid = 0
 	qry = mysql.query("SELECT ID FROM imdb WHERE Name='#{title}'")
 	imdbid = qry.fetch_row[0] if qry.num_rows > 0 
@@ -48,11 +45,17 @@ parent.each{|filename|
 		imdbid = mysql.insert_id
 	end
 	
-	puts "Setting duration to #{duration} secs on ID\##{imdbid}: #{filename}"
-	mysql.query("INSERT INTO imdbfiles SET imdbid='#{imdbid}', Filename='#{filename}', Duration='#{duration}'")
+	if part > 0
+		puts "Adding ID\##{imdbid}: #{movie} - Part #{part} - #{duration} secs"
+	else
+		puts "Adding ID\##{imdbid}: #{movie} - #{duration} secs"
+	end
+	mysql.query("INSERT INTO imdbfiles SET imdbid='#{imdbid}', Filename='#{filename}', Duration=#{duration}, Part=#{part}")
 }
 
-movies.each{|movie|
+qry = mysql.query("SELECT Name FROM imdb where imdburl=''")
+qry.each{|movie|
+	movie = movie[0]
 	tags = Array.new
 	boxlink = ""
 	title = ""
@@ -62,6 +65,8 @@ movies.each{|movie|
 	releasedate = ""
 	rating = 0
 	text = ""
+
+	dbtitle = movie.gsub(/\'/,'\\\'').gsub(/\&/,'\\\&')	
 	
 	puts "Processing video #{movie}"
 	3.times do
@@ -69,7 +74,7 @@ movies.each{|movie|
 			timeout(10) {
 				text = open("http://www.google.com.au/search?btnI=1&q=" + URI.escape(movie).gsub(/ /,'+').gsub(/&/,'%26') + "+site%3Aimdb.com").read
 			}
-		rescue Timeout::Error => ex
+		rescue Exception => ex
 			puts ex
 		end
 		break if text.length > 0
@@ -133,13 +138,11 @@ movies.each{|movie|
 
 	movieid = 0
 	if imdburl.length > 0
-		puts "#{title} - #{duration} secs"
-		dbtitle = movie.gsub(/\'/,'\\\'').gsub(/\&/,'\\\&')
 		qry = mysql.query("SELECT ID FROM imdb WHERE Name='#{dbtitle}'")
 		if qry.num_rows > 0
-			dbid = qry.fetch_row[0]
-			mysql.query("UPDATE imdb SET title='#{title}', plot='#{plot}', duration='#{duration}', tagline='#{tagline}', boxurl='#{boxlink}', releasedate='#{releasedate}', rating='#{rating}', imdburl='#{imdburl}' WHERE ID=#{dbid}")
 			movieid = qry.fetch_row[0]
+			duration = mysql.query("SELECT SUM(duration) from imdbfiles WHERE imdbid=#{movieid} GROUP BY imdbid").fetch_row[0]
+			mysql.query("UPDATE imdb SET title='#{title}', plot='#{plot}', duration='#{duration}', tagline='#{tagline}', boxurl='#{boxlink}', releasedate='#{releasedate}', rating='#{rating}', imdburl='#{imdburl}' WHERE ID=#{movieid}")
 		end
 	else
 		puts "No IMDB Record!"

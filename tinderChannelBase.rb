@@ -46,7 +46,7 @@ class TinderChannel
     	@uptime = 0
 
 	@mysql = Mysql.init()
-	@mysql.connect('kodiak','db','db')
+	@mysql.connect('cerberus','db','db')
 	@mysql.select_db('viper7')
     end
 

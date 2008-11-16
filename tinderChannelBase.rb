@@ -906,7 +906,8 @@ class TinderRSS
 		count = 0
 		@allow.each {|x|
 			count += 1
-			response += "/#{x}/ "
+			x=x.gsub(/\./,' ')
+			response += "#{x} "
 			response += "\n" if count % 5 == 0
 		}
 		return response
@@ -917,7 +918,8 @@ class TinderRSS
 		count = 0
 		@ignore.each {|x|
 			count += 1
-			response += "/#{x}/ "
+			x=x.gsub(/\./,' ')
+			response += "#{x} "
 			response += "\n" if count % 5 == 0
 		}
 		return response

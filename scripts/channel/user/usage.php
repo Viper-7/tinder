@@ -13,7 +13,8 @@
 			$month = substr($line,0,2);
 			$monthlyusage[$month] += round(substr($line,strpos($line,' ')+1)/1024,2);
 		}
-		//array_pop($monthlyusage);
+		array_pop($monthlyusage);
+		array_pop($monthlyusage);
 		array_pop($log);
 		fclose($fp);
 

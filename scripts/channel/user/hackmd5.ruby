@@ -6,18 +6,15 @@ begin
 	text = open("http://wordd.org/" + $*.first).read
 rescue
 	begin
-		puts 'attempting alternate'
 		text2 = open("http://www.google.com.au/search?btnI=1&q=#{$*.first}+site%3Asecure.sensepost.com",{'Referer'=>'http://www.google.com.au/ig'}).read
 	rescue RuntimeError => ex
 		ex.to_s =~ /-> (.*)$/
 		text2 = open($1).read
-		puts 'done reading'
 		
 		text2.scan(/(\w*)\s*==>\s*#{$*.first}/) {|x|
 			text2 = x
 			break
 		}
-		puts 'done scanning'
 	end
 end
 

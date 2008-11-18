@@ -405,6 +405,7 @@ class TinderBot
     end
 
     def serverText(msg)
+    	ping
         case msg.strip
             when /^:(.+)![~]?(.+?) MODE #(.+?) (.+?) :(.+)$/	# User!~ident@host MODE  Channel Mode :Message
             	channelEvent $3, $2, $1, $4, $5
@@ -432,15 +433,18 @@ class TinderBot
     end
 
     def channelText(channel, host, nick, msg)
+    	ping
     	@channels.find{|x| x.channel==channel}.channelText(nick, host, msg)
 	@dumpchans.each{|x| sendChannel "\##{channel} \<#{nick}\> #{msg}", x[0] if channel==x[1] and x[2].match(msg)}
     end
 
     def channelEvent(channel, host, nick, event, msg = "")
+    	ping
     	@channels.find{|x| x.channel==channel}.channelEvent(channel, host, nick, event, msg)
     end
 
     def privateText(nick, host, msg)
+    	ping
     	@channels.first.privateText(nick, host, msg)
     end
 

@@ -808,6 +808,7 @@ class TinderRSS
 						# no rescue for you
 					end
 
+					puts "#{category}: #{x.title} - #{x.link} #{filesize}"
 					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 				}
 
@@ -888,6 +889,7 @@ class TinderRSS
 					end
 
 					if !@buffer.include?("#{category}: #{x.title} - #{x.link} #{filesize}")
+						puts "#{category}: #{x.title} - #{x.link} #{filesize}"
 						@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 						if @announce
 							hit = false

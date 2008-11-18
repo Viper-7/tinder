@@ -974,15 +974,12 @@ class TinderRSS
 	end
 
 	def latest
-		begin
-			if @type == 'nzb'
-				@buffer.last =~ /^(.+?): (.+) - (.+?)(.+?)$/
-				return "#{$1}: #{$2} - #{cacheNZB($3)} #{$4.chomp}"
-			else
-				@buffer.last =~ /^(.+?): (.+) - (.+?)$/
-				return "#{$1}: #{$2} - #{tinyURL($3)}"
-			end
-		rescue
+		if @type == 'nzb'
+			@buffer.last =~ /^(.+?): (.+) - (.+?)(.+?)$/
+			return "#{$1}: #{$2} - #{cacheNZB($3)} #{$4.chomp}"
+		else
+			@buffer.last =~ /^(.+?): (.+) - (.+?)$/
+			return "#{$1}: #{$2} - #{tinyURL($3)}"
 		end
 	end
 end

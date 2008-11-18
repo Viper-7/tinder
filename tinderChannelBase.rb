@@ -571,7 +571,7 @@ class TinderChannel
 				DRb.stop_service
 				break
 			when /^REHASH$/
-    				sendPrivate "Roger that, " + nick, nick
+    				sendPrivate "Roger that " + nick, nick
 				@tinderBot.status "Status  : Killed server by request from " + host
 				@graceful = true
 				@tinderBot.close

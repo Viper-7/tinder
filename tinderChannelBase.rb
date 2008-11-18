@@ -478,7 +478,7 @@ class TinderChannel
 						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
 						break
 					when /help/
-						x.help
+						resp = x.help
 					when /^$/
 						resp = "count"
 						count += x.count

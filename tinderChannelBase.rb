@@ -846,7 +846,7 @@ class TinderRSS
 			timeout(10) do
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls.split('.+').first).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
 					if !rlstime.include? 'd' and name.match(/#{rls}/i)
-						output = "#{name} was released #{rlstime.chomp} ago, no NZB yet :("
+						output = "#{name} was released #{rlstime.chomp} ago, no #{@type} yet :("
 						break
 					end
 				}
@@ -859,7 +859,7 @@ class TinderRSS
 	def tinyURL(url)
 		output = url
 		resp = open("http://tinyurl.viper-7.com/?url=#{url}").read
-		output = resp if resp.length > 1
+		output = resp if resp != ''
 		
 		return output
 	end

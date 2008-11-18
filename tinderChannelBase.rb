@@ -856,7 +856,7 @@ class TinderRSS
 
 
 		begin
-			timeout(10) do
+			timeout(15) do
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls.split('.+').first).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
 					if rls.match(/720[pP]?$/)
 						if !rlstime.include? 'd' and name.match(/#{rls}/i)
@@ -882,7 +882,7 @@ class TinderRSS
 		name = ''
 		text = ''
 		begin
-			timeout(10) do
+			timeout(20) do
 				text = open("http://eztv.it/index.php?main=calendar").read
 			end
 		rescue Exception => ex

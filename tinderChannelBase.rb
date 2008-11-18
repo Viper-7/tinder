@@ -880,7 +880,7 @@ class TinderRSS
 					filesize = ""
 					category = ""
 					begin
-						category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
+						category = x.category.to_s.gsub(/<\/?[^>]*>/, "").gsub(/&gt;/,'>').gsub(/&lt;/,'<')
 						x.description =~ /size:<\/b> (.+?)<br>/i
 						filesize = ' [' + $1 + ']'
 					rescue

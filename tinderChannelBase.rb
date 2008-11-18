@@ -867,7 +867,7 @@ class TinderRSS
 							output = "#{name} was released #{rlstime.chomp} ago, no #{@type} yet :("
 							break
 						end
-					end if
+					end
 				}
 			end
 		rescue

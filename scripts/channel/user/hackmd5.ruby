@@ -1,6 +1,10 @@
 require 'open-uri'
 
-text = open("http://wordd.org/" + $*.first).read
+text = ''
+begin
+	text = open("http://wordd.org/" + $*.first).read
+rescue
+end
 text.scan(/<h1>(.*?)<\/h1>/) {|x|
 	puts x
 	break

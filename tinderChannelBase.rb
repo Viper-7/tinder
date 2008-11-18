@@ -881,6 +881,7 @@ class TinderRSS
 		output = ''
 		name = ''
 		text = ''
+		puts rls
 		begin
 			timeout(20) do
 				text = open("http://eztv.it/index.php?main=calendar").read
@@ -889,6 +890,7 @@ class TinderRSS
 			puts ex
 		end
 		text.scan(/<td class="forum_thread_header" width="90%" valign="top">\w*(.+)\w*<[^>]*>(.*?)<br\/>/m) {|day,block|
+			p block
 			block[0].scan(/<font size="1">(.*?)<\/font>/) {|line|
 				puts line
 				if line.match(/#{rls}/i)

@@ -985,7 +985,7 @@ class TinderRSS
 				return "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 			else
 				return "#{$1}: #{$2} - #{tinyURL($3)} #{$4}"
-			end if
+			end
 		rescue
 		end
 	end

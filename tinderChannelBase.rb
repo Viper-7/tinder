@@ -860,7 +860,7 @@ class TinderRSS
 		page = ''
 		output = ''
 		begin
-			timeout(3)
+			timeout(3) do
 				page = open(url).read
 			end
 		rescue

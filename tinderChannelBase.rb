@@ -900,6 +900,7 @@ class TinderRSS
 		if output != ''
 			output = "Settle down! #{name} isn't due until #{output}!"
 		end
+		return output
 	end
 	
 	def tinyURL(url)

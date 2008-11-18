@@ -878,7 +878,7 @@ class TinderRSS
 
 	def tinyURL(url)
 		output = url.chomp
-		resp = open("http://tinyurl.viper-7.com/?url=#{output}").read
+		resp = open("http://urlborg.com/api/56698-8d89/url/create/#{output}").read
 		output = resp if resp != ''
 		
 		return output

@@ -845,7 +845,7 @@ class TinderRSS
 		output = ''
 		begin
 			timeout(10) do
-				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls).read =~ /^([^^]*)\^(.*?)\^TV\^\^/
+				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls).read =~ /([^^]*)\^(.*?)\^TV\^\^/
 				output = "#{$2} was released #{$1} ago, no NZB yet :(" if $1 != nil and !$1.include? 'd'
 			end
 		rescue

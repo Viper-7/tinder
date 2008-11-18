@@ -6,7 +6,6 @@ begin
 	text = open("http://wordd.org/" + $*.first).read
 rescue
 	text2 = open("http://www.google.com.au/search?btnI=1&q=#{$*.first}+site%3Asecure.sensepost.com").read
-	text.scan
 end
 
 if text == '' and text2 == ''

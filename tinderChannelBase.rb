@@ -876,7 +876,7 @@ class TinderRSS
 					begin
 						category = x.category.to_s.gsub(/<\/?[^>]*>/, "").gsub(/&gt;/,'>').gsub(/&lt;/,'<')
 						x.description =~ /size:<\/b> (.+?)<br>/i
-						filesize = ' [' + $1 + ']'
+						filesize = '[' + $1 + ']'
 					rescue
 						# no rescue for you
 					end
@@ -955,7 +955,7 @@ class TinderRSS
 	def search(args)
 	    	args = args.gsub(/ /,'.+')
 	    	output = ""
-		@buffer.each {|x|
+		@buffer.map{|x|
 			if x.match(/#{args}/i)
 				begin
 					if @type == 'nzb'

@@ -51,4 +51,6 @@ if output == ''
 	end
 end
 
+output = 'Decryption Failed :(' if output == ''
+
 puts output

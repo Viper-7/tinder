@@ -857,8 +857,8 @@ class TinderRSS
 	end
 
 	def tinyURL(url)
-		output = url
-		resp = open("http://tinyurl.viper-7.com/?url=#{url}").read
+		output = url.chomp
+		resp = open("http://tinyurl.viper-7.com/?url=#{output}").read
 		output = resp if resp != ''
 		
 		return output
@@ -881,8 +881,8 @@ class TinderRSS
 						# no rescue for you
 					end
 
-					if !@buffer.include?("#{category}: #{x.title} - #{x.link}#{filesize}")
-						@buffer.push("#{category}: #{x.title} - #{x.link}#{filesize}")
+					if !@buffer.include?("#{category}: #{x.title} - #{x.link} #{filesize}")
+						@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 						if @announce
 							hit = false
 
@@ -897,7 +897,7 @@ class TinderRSS
 								if @type == 'nzb'
 									@channel.sendChannel "New #{category}: #{x.title} - #{cacheNZB(x.link)} #{filesize}"
 								else
-									@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
+									@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)}"
 								end
 							else
 								@tinderBot.status 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"

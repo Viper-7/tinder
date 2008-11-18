@@ -893,14 +893,18 @@ class TinderRSS
 			day = $1
 			block[0].scan(/<font size='1'>(.*?)<\/font>/) {|line|
 				if line[0].match(/#{rls}/i)
-					output = day.chomp
+					output = (Date.parse(day.chomp)+1).strftime('%A')
 					name = line[0]
 					break 2
 				end
 			}
 		}
 		if output != ''
-			output = "Settle down! #{name} isn't due until #{output}!"
+			if output == Date.today.strftime('%A')
+				output = "#{name} is due today, but hasn't been pre'd yet"
+			else
+				output = "Settle down! #{name} isn't due until #{output}!"
+			end
 		end
 		return output
 	end

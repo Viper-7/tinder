@@ -906,7 +906,11 @@ class TinderRSS
 			if output.match(Date.today.strftime('%A'))
 				output = "#{name} is due today, but hasn't been pre'd yet"
 			else
-				output = "Settle down! #{name} isn't due until #{output}!"
+				if output.match((Date.today+1).strftime('%A'))
+					output = "Chill out! #{name} isn't due until tomorrow!"
+				else
+					output = "Settle down! #{name} isn't due until #{output}!"
+				end
 			end
 		end
 		return output

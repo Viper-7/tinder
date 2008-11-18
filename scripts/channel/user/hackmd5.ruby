@@ -7,8 +7,10 @@ begin
 rescue
 	text2 = open("http://www.google.com.au/search?btnI=1&q=#{$*.first}+site%3Asecure.sensepost.com").each_line{|x|
 		x =~ /(\w*)\s*==>/
-		puts $1 if $1 != nil
-		break
+		if $1 != nil
+			puts $1 
+			break
+		end
 	}
 end
 

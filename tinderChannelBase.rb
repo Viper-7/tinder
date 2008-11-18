@@ -845,8 +845,9 @@ class TinderRSS
 		output = ''
 		begin
 			timeout(10) do
-				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls).read =~ /([^^]*)\^(.*?)\^TV\^\^/
-				output = "#{$2} was released #{$1} ago, no NZB yet :(" if $1 != nil and !$1.include? 'd'
+				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
+					output = "#{name} was released #{rlstime} ago, no NZB yet :("; break if !rlstime.include? 'd'
+				}
 			end
 		rescue
 		end

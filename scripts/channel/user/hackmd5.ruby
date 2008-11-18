@@ -28,10 +28,8 @@ if output == ''
 	puts 'no wordd'
 	begin
 		url = URI.parse('http://gdataonline.com/seekhash.php')
-		puts url.host
 		req = Net::HTTP.new(url.host, url.port).start {|http|
-			puts 'got http'
-			response = HTTP.request_post('/seekhash.php',"hash=#{md5}",{'User-Agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.8) Gecko/20050511 Firefox/1.0.4', 'Referer' => 'http://gdataonline.com/seekhash.php'})
+			response = Net::HTTP.request_post('/seekhash.php',"hash=#{md5}",{'User-Agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.8) Gecko/20050511 Firefox/1.0.4', 'Referer' => 'http://gdataonline.com/seekhash.php'})
 			response.read_body.scan(/<td width="35%"><b>([^\?<]*)<\/b><\/td>/) {|x|
 				output = x
 				break

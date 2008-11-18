@@ -872,7 +872,7 @@ class TinderRSS
 			end
 		rescue
 		end
-		return output
+		return output.split("\n").join('')
 	end
 
 	def tinyURL(url)

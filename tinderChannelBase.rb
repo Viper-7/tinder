@@ -900,7 +900,7 @@ class TinderRSS
 			}
 		}
 		if output != ''
-			if output == Date.today.strftime('%A')
+			if output.chomp == Date.today.strftime('%A').chomp
 				output = "#{name} is due today, but hasn't been pre'd yet"
 			else
 				output = "Settle down! #{name} isn't due until #{output}!"

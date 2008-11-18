@@ -8,6 +8,7 @@ require 'rss/2.0'
 require 'open-uri'
 require 'mysql'
 require 'uri'
+require 'cgi'
 
 require 'rubygems'
 require 'open4'
@@ -477,7 +478,7 @@ class TinderChannel
 					when /help/
 						x.help
 					when /^$/
-						resp = 'count'
+						resp = "#{count}"
 						count += x.count
 					else
 						resp2 = x.search args

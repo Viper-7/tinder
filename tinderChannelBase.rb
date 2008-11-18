@@ -877,14 +877,19 @@ class TinderRSS
 		return output.split("\n").join('')
 	end
 
+	require 'rubygems'
+	require 'open-uri'
+	require 'nokogiri'
+	require 'cgi'
+	
 	def tinyURL(url)
 		resp = ''
 		begin
 			doc = Nokogiri::XML(open("http://urlborg.com/api/56698-8d89/url/create/" + CGI.escape(url.chomp)).read)
-			resp = doc.xpath('//response/o_url').text
-		rescue
+			resp = doc.xpath('//response/s_url').text
+		rescue Exception => ex
+			puts ex
 		end
-		
 		return resp
 	end
 

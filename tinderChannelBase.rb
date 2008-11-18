@@ -841,7 +841,7 @@ class TinderRSS
 	end
 
 	def checkPre(args)
-		rls = args.split(' ').first
+		rls = args.split('.+').first
 		pre = open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls).read
 		pre =~ /(\d*m \d*s)\^(.*?)\^TV\^\^/
 		output = ''

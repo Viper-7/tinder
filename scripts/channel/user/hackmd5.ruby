@@ -7,9 +7,10 @@ require 'uri'
 output = ''
 md5 = $*.first
 begin
-	doc = Nokogiri::XML(open("http://md5.rednoize.com/?q=#{$*.first}&xml").read)
+	doc = Nokogiri::XML(open("http://md5.rednoize.com/?q=#{md5}&xml").read)
 	output = doc.xpath('//md5/ResultString').text
-rescue
+rescue Exception => ex
+	puts ex
 end
 
 

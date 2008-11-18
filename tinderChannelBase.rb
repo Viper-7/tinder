@@ -901,7 +901,7 @@ class TinderRSS
 			}
 		}
 		if output != ''
-			puts "!#{output}!" + Date.today.strftime('%A') + "!"
+			puts ".#{output}." + Date.today.strftime('%A') + "."
 			if output.match(Date.today.strftime('%A'))
 				output = "#{name} is due today, but hasn't been pre'd yet"
 			else

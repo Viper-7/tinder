@@ -31,7 +31,7 @@ if output == ''
 		req = Net::HTTP.new(url.host, url.port).start {|http|
 			response = http.post('/seekhash.php',"hash=#{md5}",{'User-Agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.8) Gecko/20050511 Firefox/1.0.4', 'Referer' => 'http://gdataonline.com/seekhash.php'})
 			puts 'made request'
-			p response
+			p response.read_body
 			response.read_body.scan(/<td width="35%"><b>(.*?)<\/b><\/td>/i) {|x|
 				output = x
 				break

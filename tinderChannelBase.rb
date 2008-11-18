@@ -956,16 +956,32 @@ class TinderRSS
 	    	args = args.gsub(/ /,'.+')
 	    	output = ""
 		@buffer.map{|x|
-			if x.match(/#{args}/i)
-				begin
-					if @type == 'nzb'
-						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
-						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
-					else
-						x =~ /^(.+?): (.+) - (.+?)$/
-						output = "#{$1}: #{$2} - #{tinyURL($3)}"
+			if !args.match(/720[pP]?$/)
+				if x.match(/#{args}/i)
+					begin
+						if @type == 'nzb'
+							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
+							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+						else
+							x =~ /^(.+?): (.+) - (.+?)$/
+							output = "#{$1}: #{$2} - #{tinyURL($3)}"
+						end
+					rescue
 					end
-				rescue
+				end
+			else
+				if x.match(/#{args}/i)
+					next if x.match(/720[pP]?$/)
+					begin
+						if @type == 'nzb'
+							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
+							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+						else
+							x =~ /^(.+?): (.+) - (.+?)$/
+							output = "#{$1}: #{$2} - #{tinyURL($3)}"
+						end
+					rescue
+					end
 				end
 			end
 		}

@@ -882,7 +882,7 @@ class TinderRSS
 		begin
 			resp = open("http://urlborg.com/api/56698-8d89/url/create/#{url.chomp}").read
 			doc = Nokogiri::XML(resp)
-			resp = doc.xpath(//response/o_url).text
+			resp = doc.xpath('//response/o_url').text
 		rescue
 			resp = ''
 		end

@@ -877,10 +877,30 @@ class TinderRSS
 		return output.split("\n").join('')
 	end
 
-	require 'rubygems'
-	require 'open-uri'
-	require 'nokogiri'
-	require 'cgi'
+	def checkScreening(rls)
+		output = ''
+		name = ''
+		text = ''
+		begin
+			timeout(10) do
+				text = open("http://eztv.it/index.php?main=calendar").read
+			end
+		rescue Exception => ex
+			puts ex
+		end
+		text.scan(/<td class="forum_thread_header" width="90%" valign="top">\w*(.+)\w*<[^>]*>(.*?)<br\/>/m) {|day,block|
+			block[0].scan(/<font size="1">(.*?)<\/font>/) {|line|
+				if line.match(/#{rls}/)
+					output = day[0]
+					name = line
+					break 2
+				end
+			}
+		}
+		if output != ''
+			output = "Settle down! #{name} isn't due until #{output}!"
+		end
+	end
 	
 	def tinyURL(url)
 		resp = ''
@@ -1015,6 +1035,7 @@ class TinderRSS
 			end
 		}
 		output = checkPre(args) if output == ""
+		output = checkScreening(args) if output == ""
 		return output
 	end
 

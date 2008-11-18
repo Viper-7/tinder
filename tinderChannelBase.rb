@@ -480,7 +480,7 @@ class TinderChannel
 					when /help/
 						x.help
 					when /^$/
-						resp = "#{count}"
+						resp = "count"
 						count += x.count
 					else
 						resp2 = x.search args
@@ -995,6 +995,7 @@ class TinderRSS
 			response += "\"#{x}\" "
 			response += "\n" if count % 5 == 0
 		}
+		response = "No allowed #{@type}'s" if response == ""
 		return response
 	end
 
@@ -1008,6 +1009,7 @@ class TinderRSS
 			response += "\n" if count % 5 == 0
 		}
 		return response
+		response = "No ignored #{@type}'s" if response == ""
 	end
 
 	def search(args)

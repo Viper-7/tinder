@@ -20,6 +20,7 @@ text.scan(/<h1>(.*?)<\/h1>/) {|x|
 } if text != ''
 
 text2.scan(/br>([^<]*)</) {|x|
-	puts x
+	x =~ /^(\w*)\s*==>\s*.*$/
+	puts $1 if $1 != nil
 	break
 } if text2 != ''

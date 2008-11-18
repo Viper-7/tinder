@@ -485,7 +485,7 @@ class TinderChannel
 					else
 						resp2 = x.search args
 						resp = resp2 if resp2.length > 1
-						resp = 'No Hits :(' if resp == ""
+						resp = "#{args} was not found in recent #{command.chomp}'s, the PreDB, or the EZTV Calendar" if resp == ""
 				end
 			end
 		end
@@ -861,13 +861,13 @@ class TinderRSS
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls.split('.+').first).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
 					if rls.match(/720[pP]?$/)
 						if !rlstime.include? 'd' and name.match(/#{rls}/i)
-							output = "#{name} was released #{rlstime.chomp} ago, no #{@type} yet :("
+							output = "#{name} was released #{rlstime.chomp} ago, But there's no #{@type.capitalize} yet :("
 							break
 						end
 					else
 						if !rlstime.include? 'd' and name.match(/#{rls}/i)
 							next if name.match(/720[pP]?/)
-							output = "#{name} was released #{rlstime.chomp} ago, no #{@type} yet :("
+							output = "#{name} was released #{rlstime.chomp} ago, But there's no #{@type.capitalize} yet :("
 							break
 						end
 					end

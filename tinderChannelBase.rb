@@ -265,20 +265,24 @@ class TinderChannel
 	    					end
 
 	    					@tinderBot.status "Exec    : '" + cmdline + "'"
-
-						popen4(cmdline) {|stdout, stderr, stdin, pipe|
-							begin
-								timeout(30) do
-									response = stdout.readlines.join("").to_s
-									response = stderr.readlines.join("").to_s if response == ""
+						
+						if command.chomp == 'hackmd5'
+							response = exec(cmdline)
+						else
+							popen4(cmdline) {|stdout, stderr, stdin, pipe|
+								begin
+									timeout(30) do
+										response = stdout.readlines.join("").to_s
+										response = stderr.readlines.join("").to_s if response == ""
+									end
+								rescue Exception => ex
+									Process.kill 'KILL', pipe
+									response = "Command timed out - " + ex.to_s
+								ensure
+									response = "No Output." if response == ""
 								end
-							rescue Exception => ex
-								Process.kill 'KILL', pipe
-								response = "Command timed out - " + ex.to_s
-							ensure
-								response = "No Output." if response == ""
-							end
-						}
+							}
+						end
 	    				end
 	    			end
 	    		end

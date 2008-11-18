@@ -858,7 +858,7 @@ class TinderRSS
 
 	def tinyURL(url)
 		page = ''
-		output = ''
+		output = url
 		begin
 			timeout(3) do
 				page = open(url).read
@@ -964,11 +964,12 @@ class TinderRSS
 		@buffer.each {|x|
 			if x.match(/#{args}/i)
 				begin
-					x =~ /^(.+?): (.+) - (.+?)(.+?)$/
 					if @type == 'nzb'
-						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4.chomp}"
+						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
+						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 					else
-						output = "#{$1}: #{$2} - #{tinyURL($3)} #{$4.chomp}"
+						x =~ /^(.+?): (.+) - (.+?)$/
+						output = "#{$1}: #{$2} - #{tinyURL($3)}"
 					end
 				rescue
 				end
@@ -980,11 +981,12 @@ class TinderRSS
 
 	def latest
 		begin
-			@buffer.last =~ /^(.+?): (.+) - (.+?)(.+?)$/
 			if @type == 'nzb'
+				@buffer.last =~ /^(.+?): (.+) - (.+?)(.+?)$/
 				return "#{$1}: #{$2} - #{cacheNZB($3)} #{$4.chomp}"
 			else
-				return "#{$1}: #{$2} - #{tinyURL($3)} #{$4.chomp}"
+				@buffer.last =~ /^(.+?): (.+) - (.+?)$/
+				return "#{$1}: #{$2} - #{tinyURL($3)}"
 			end
 		rescue
 		end

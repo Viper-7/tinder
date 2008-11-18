@@ -475,11 +475,7 @@ class TinderChannel
 						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
 						break
 					when /help/
-						resp = '@' + command.chomp + ' latest - Lists the latest ' + command.chomp + "\n"
-						resp += '@' + command.chomp + ' list - Lists the currently allowed ' + command.chomp + "'s\n"
-						resp += '@' + command.chomp + ' listignore - Lists the currently ignored ' + command.chomp + "'s\n"
-						resp += '@' + command.chomp + ' <search> - Searches the cache for an ' + command.chomp + "\n"
-						resp += 'Adding "is bad" or "is good" to the end of a search will ignore or announce new ' + command.chomp + "'s with that name on release" + "\n"
+						x.help
 					when /^$/
 						resp = 'count'
 						count += x.count
@@ -822,6 +818,18 @@ class TinderRSS
 		end
 	end
 
+	def help
+		resp = '@' + @type + ' latest - Lists the latest ' + @type + "\n"
+		resp += '@' + @type + ' list - Lists the currently allowed ' + @type + "'s\n"
+		resp += '@' + @type + ' listignore - Lists the currently ignored ' + @type + "'s\n"
+		resp += '@' + @type + ' <search> - Searches the cache for an ' + @type + '.'
+		if @type == 'nzb' or @type == 'torrent'
+			resp += ' Add 720 to your search to see 720p releases\n'
+		else
+			resp += "\n"
+		end
+		resp += 'Adding "is good" or "is bad" to the end of a search will announce or ignore new ' + command.chomp + "'s with that name as they are released" + "\n"
+	end
 
 	def cacheNZB(outLink)
 		begin
@@ -842,13 +850,23 @@ class TinderRSS
 
 	def checkPre(rls)
 		output = ''
+
+
 		begin
 			timeout(10) do
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls.split('.+').first).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
-					if !rlstime.include? 'd' and name.match(/#{rls}/i)
-						output = "#{name} was released #{rlstime.chomp} ago, no #{@type} yet :("
-						break
-					end
+					if rls.match(/720[pP]?$/)
+						if !rlstime.include? 'd' and name.match(/#{rls}/i)
+							output = "#{name} was released #{rlstime.chomp} ago, no #{@type} yet :("
+							break
+						end
+					else
+						if !rlstime.include? 'd' and name.match(/#{rls}/i)
+							next if name.match(/720[pP]?/)
+							output = "#{name} was released #{rlstime.chomp} ago, no #{@type} yet :("
+							break
+						end
+					end if
 				}
 			end
 		rescue

@@ -841,11 +841,15 @@ class TinderRSS
 	end
 
 	def checkPre(args)
-		rls = args.split('.+').first
-		pre = open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls).read
-		pre =~ /(\d*m \d*s)\^(.*?)\^TV\^\^/
+		rls = args.gsub(/\.\+/,'.')
 		output = ''
-		output = "#{$2} was released #{$1} ago, no NZB yet :(" if $1 != nil and !$1.include? 'd'
+		begin
+			timeout(10) do
+				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls).read =~ /([^\^]*)\^(.*?)\^TV\^\^/
+				output = "#{$2} was released #{$1} ago, no NZB yet :(" if $1 != nil and !$1.include? 'd'
+			end
+		rescue
+		end
 		return output
 	end
 

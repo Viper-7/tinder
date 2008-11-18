@@ -27,7 +27,7 @@ end
 if output == ''
 	puts 'no wordd'
 	begin
-		Net::HTTP.post_form(URI.parse('http://gdataonline.com/seekhash.php'),{'code',md5}) {|x|
+		Net::HTTP.post_form(URI.parse('http://gdataonline.com/seekhash.php'),{'hash',md5}) {|x|
 			output = x
 			break
 		}

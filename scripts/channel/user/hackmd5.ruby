@@ -5,7 +5,11 @@ text2 = ''
 begin
 	text = open("http://wordd.org/" + $*.first).read
 rescue
-	text2 = open("http://www.google.com.au/search?btnI=1&q=#{$*.first}+site%3Asecure.sensepost.com").read
+	text2 = open("http://www.google.com.au/search?btnI=1&q=#{$*.first}+site%3Asecure.sensepost.com").each_line{|x|
+		x =~ /(\w*)\s*==>/
+		puts $1 if $1 != nil
+		break
+	}
 end
 
 if text == '' and text2 == ''
@@ -18,8 +22,8 @@ text.scan(/<h1>(.*?)<\/h1>/) {|x|
 	break
 } if text != ''
 
-text2.scan(/br>([^<]*)</) {|x|
-	x =~ /^(\w*)\s*==>\s*.*$/
-	puts $1 if $1 != nil
-	break
-} if text2 != ''
+#text2.scan(/br>([^<]*)</) {|x|
+#	x =~ /(\w*)\s*==>/
+#	puts $1 if $1 != nil
+#	break
+#} if text2 != ''

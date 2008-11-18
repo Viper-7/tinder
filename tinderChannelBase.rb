@@ -840,10 +840,13 @@ class TinderRSS
 		end
 	end
 
-	def checkPre(rls)
-		pre = open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=#{rls}").read
+	def checkPre(args)
+		rls = args.split(' ').first
+		pre = open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls).read
 		pre =~ /(\d*m \d*s)\^(.*?)\^TV\^\^/
-		return "#{$2} was released #{$1} ago, no NZB yet :(" if $1 != nil and !$1.include? 'd'
+		output = ''
+		output = "#{$2} was released #{$1} ago, no NZB yet :(" if $1 != nil and !$1.include? 'd'
+		return output
 	end
 
 	def tinyURL(url)

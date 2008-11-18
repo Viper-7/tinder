@@ -4,7 +4,7 @@ require 'nokogiri'
 require 'net/http'
 require 'uri'
 
-
+output=''
 if output == ''
 	begin
 		open("http://wordd.org/#{md5}").read.scan(/<h1>(.*?)<\/h1>/) {|x|

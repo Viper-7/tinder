@@ -6,7 +6,15 @@ require 'uri'
 
 output = ''
 md5 = $*.first
+begin
+	res = open("http://md5.rednoize.com/?q=#{md5}&xml").read
+	doc = Nokogiri::XML(res)
+	output = doc.search('//md5:Result/ResultString',{'md5' => 'http://md5.rednoize.com'}).text
+rescue Exception => ex
+	puts ex
+end
 
+if output == ''
 	begin
 		url = URI.parse('http://gdataonline.com/seekhash.php')
 		req = Net::HTTP.new(url.host, url.port).start {|http|
@@ -19,5 +27,28 @@ md5 = $*.first
 	rescue Exception => ex
 		puts ex
 	end
+end
+
+if output == ''
+	begin
+		open("http://wordd.org/#{md5}").read.scan(/<h1>(.*?)<\/h1>/) {|x|
+			output = x
+			break
+		}
+	rescue
+	end
+end
+
+if output == ''
+	begin
+		open("http://www.google.com.au/search?btnI=1&q=#{$*.first}+site%3Asecure.sensepost.com",{'Referer'=>'http://www.google.com.au/ig'}).read
+	rescue RuntimeError => ex
+		ex.to_s =~ /-> (.*)$/
+		open($1).read.scan(/(\w*)\s*==>\s*#{md5}/) {|x|
+			output = x
+			break
+		}
+	end
+end
 
 puts output

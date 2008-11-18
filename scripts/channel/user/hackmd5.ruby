@@ -9,7 +9,8 @@ rescue
 		text2 = open("http://www.google.com.au/search?btnI=1&q=#{$*.first}+site%3Asecure.sensepost.com",{'Referer'=>'http://www.google.com.au/ig'}).read
 	rescue RuntimeError => ex
 		ex =~ /-> (.*)$/
-		text2 = open($1.to_s).read
+		puts $1
+		text2 = open($1).read
 	end
 	
 	text2.scan(/(\w*)\s*==>/) {|x|

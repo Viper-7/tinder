@@ -832,7 +832,7 @@ class TinderRSS
 		else
 			resp += "\n"
 		end
-		resp += 'Adding "is good" or "is bad" to the end of a search will announce or ignore new ' + command.chomp + "'s with that name as they are released" + "\n"
+		resp += 'Adding "is good" or "is bad" to the end of a search will announce or ignore new ' + @type + "'s with that name as they are released" + "\n"
 	end
 
 	def cacheNZB(outLink)

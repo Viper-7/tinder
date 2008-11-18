@@ -857,7 +857,17 @@ class TinderRSS
 	end
 
 	def tinyURL(url)
-		return open("http://tinyurl.viper-7.com/?url=#{url}").read
+		page = ''
+		output = ''
+		begin
+			timeout(3)
+				page = open(url).read
+			end
+		rescue
+		end
+		
+		output = open("http://tinyurl.viper-7.com/?url=#{url}").read if page.length > 20
+		return output
 	end
 
 	def poll
@@ -889,8 +899,12 @@ class TinderRSS
 							end
 
 
-							if hit
-								@channel.sendChannel "New #{category}: #{x.title} - #{cacheNZB(x.link)} #{filesize}"
+							if hit 
+								if @type == 'nzb'
+									@channel.sendChannel "New #{category}: #{x.title} - #{cacheNZB(x.link)} #{filesize}"
+								else
+									@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)} #{filesize}"
+								end
 							else
 								@tinderBot.status 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
 							end
@@ -951,7 +965,11 @@ class TinderRSS
 			if x.match(/#{args}/i)
 				begin
 					x =~ /^(.+?): (.+) - (.+?) (.+?)$/
-					output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+					if @type == 'nzb'
+						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+					else
+						output = "#{$1}: #{$2} - #{tinyURL($3)} #{$4}"
+					end
 				rescue
 				end
 			end
@@ -963,7 +981,11 @@ class TinderRSS
 	def latest
 		begin
 			@buffer.last =~ /^(.+?): (.+) - (.+?) (.+?)$/
-			return "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+			if @type == 'nzb'
+				return "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+			else
+				return "#{$1}: #{$2} - #{tinyURL($3)} #{$4}"
+			end if
 		rescue
 		end
 	end

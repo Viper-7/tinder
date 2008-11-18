@@ -268,7 +268,7 @@ class TinderChannel
 
 						popen4(cmdline) {|stdout, stderr, stdin, pipe|
 							begin
-								timeout(10) do
+								timeout(30) do
 									response = stdout.readlines.join("").to_s
 									response = stderr.readlines.join("").to_s if response == ""
 								end

@@ -1011,11 +1011,11 @@ class TinderRSS
 	def latest
 		output = ''
 		if @type == 'nzb'
-			@buffer.last =~ /^(.+?): (.+) - (.+?)(.+?)$/
-			output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4.chomp}" if $3 != nil
+			@buffer.last =~ /^(.+?): (.+) - (.+?) (.+?)$/
+			output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}" if $3 != nil
 		else
 			@buffer.last =~ /^(.+?): (.+) - (.+?)$/
-			output = "#{$1}: #{$2} - #{tinyURL($3)}" if $3 != nil
+			output = "#{$1}: #{$2} - #{tinyURL($3.chomp)}" if $3 != nil
 		end
 		return output
 	end

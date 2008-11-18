@@ -832,7 +832,7 @@ class TinderRSS
 	                        filename = @count.to_s
 	                        filename = $1 if $1 != nil
 				open('/var/www/nzb/' + filename + '.nzb', "w").write(nzb)
-				return 'http://www.viper-7.com/nzb/' + filename + '.nzb'
+				return tinyURL('http://www.viper-7.com/nzb/' + filename + '.nzb')
 			end
 		rescue Exception => ex
 			@tinderBot.status ex

@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'rubygems'
 require 'nokogiri'
 require 'net/http'
 require 'uri'

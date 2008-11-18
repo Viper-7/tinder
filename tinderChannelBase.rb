@@ -828,9 +828,9 @@ class TinderRSS
 				@count += 1
 				nzb = open('http://www.nzbsrus.com/takelogin.php?username=viper7&pass=ddrgh7').read
 				nzb = open(outLink, {'User-Agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3', 'Cookie' => 'userZone=-660; uid=104223; pass=ed1303786609789d6cdd24430248d19e; phpbb2mysql_data=a%3A2%3A%7Bs%3A11%3A%22autologinid%22%3Bs%3A32%3A%22b8aa492b883332fd7984001340267ffc%22%3Bs%3A6%3A%22userid%22%3Bs%3A5%3A%2276579%22%3B%7D; phpbb2mysql_sid=1b152ae6c5bf4f3f67a805c7e1a48597;'}).read
-	                        outLink =~ /.*\/(.*?)/
+	                        outLink =~ /^.*\/(.*?)\.nzbdlnzb$/
 	                        filename = @count.to_s
-	                        filename = $1.to_s if $1 != nil
+	                        filename = $1 if $1 != nil
 				open('/var/www/nzb/' + filename + '.nzb', "w").write(nzb)
 				return 'http://www.viper-7.com/nzb/' + filename + '.nzb'
 			end

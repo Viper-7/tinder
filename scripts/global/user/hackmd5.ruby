@@ -11,7 +11,7 @@ begin
 	doc = Nokogiri::XML(res)
 	output = doc.search('//md5:Result/ResultString',{'md5' => 'http://md5.rednoize.com'}).text
 rescue Exception => ex
-	puts '1' + ex
+	puts ex
 end
 
 if output == ''
@@ -25,7 +25,7 @@ if output == ''
 			}
 		}
 	rescue Exception => ex
-		puts '2' + ex
+		puts ex
 	end
 end
 
@@ -35,8 +35,7 @@ if output == ''
 			output = x
 			break
 		}
-	rescue Exception => ex
-		puts '3' + ex
+	rescue
 	end
 end
 

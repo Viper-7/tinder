@@ -808,7 +808,6 @@ class TinderRSS
 						# no rescue for you
 					end
 
-					puts "#{category}: #{x.title} - #{x.link} #{filesize}"
 					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 				}
 
@@ -883,14 +882,13 @@ class TinderRSS
 					begin
 						category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
 						x.description =~ /size:<\/b> (.+?)<br>/i
-						filesize = '[' + $1 + ']'
+						filesize = ' [' + $1 + ']'
 					rescue
 						# no rescue for you
 					end
 
-					if !@buffer.include?("#{category}: #{x.title} - #{x.link} #{filesize}")
-						puts "#{category}: #{x.title} - #{x.link} #{filesize}"
-						@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
+					if !@buffer.include?("#{category}: #{x.title} - #{x.link}#{filesize}")
+						@buffer.push("#{category}: #{x.title} - #{x.link}#{filesize}")
 						if @announce
 							hit = false
 
@@ -966,11 +964,11 @@ class TinderRSS
 		@buffer.each {|x|
 			if x.match(/#{args}/i)
 				begin
-					x =~ /^(.+?): (.+) - (.+?) (.+?)$/
+					x =~ /^(.+?): (.+) - (.+?)(.+?)$/
 					if @type == 'nzb'
-						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4.chomp}"
 					else
-						output = "#{$1}: #{$2} - #{tinyURL($3)} #{$4}"
+						output = "#{$1}: #{$2} - #{tinyURL($3)} #{$4.chomp}"
 					end
 				rescue
 				end
@@ -982,11 +980,11 @@ class TinderRSS
 
 	def latest
 		begin
-			@buffer.last =~ /^(.+?): (.+) - (.+?) (.+?)$/
+			@buffer.last =~ /^(.+?): (.+) - (.+?)(.+?)$/
 			if @type == 'nzb'
-				return "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+				return "#{$1}: #{$2} - #{cacheNZB($3)} #{$4.chomp}"
 			else
-				return "#{$1}: #{$2} - #{tinyURL($3)} #{$4}"
+				return "#{$1}: #{$2} - #{tinyURL($3)} #{$4.chomp}"
 			end
 		rescue
 		end

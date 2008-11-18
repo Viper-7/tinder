@@ -983,7 +983,7 @@ class TinderRSS
 							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 						else
-							x =~ /^(.+?): (.+) - (.+?)$/
+							x =~ /^(.+?): (.+) - (.+?) $/
 							output = "#{$1}: #{$2} - #{tinyURL($3)}"
 						end
 					rescue
@@ -997,7 +997,7 @@ class TinderRSS
 							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 						else
-							x =~ /^(.+?): (.+) - (.+?)$/
+							x =~ /^(.+?): (.+) - (.+?) $/
 							output = "#{$1}: #{$2} - #{tinyURL($3)}"
 						end
 					rescue
@@ -1015,7 +1015,7 @@ class TinderRSS
 			@buffer.last =~ /^(.+?): (.+) - (.+?) (.+?)$/
 			output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}" if $3 != nil
 		else
-			@buffer.last =~ /^(.+?): (.+) - (.+?)$/
+			@buffer.last =~ /^(.+?): (.+) - (.+?) $/
 			output = "#{$1}: #{$2} - #{tinyURL($3)}" if $3 != nil
 		end
 		return output

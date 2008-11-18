@@ -889,7 +889,7 @@ class TinderRSS
 			puts ex
 		end
 		text.scan(/<td class='forum_thread_header' valign='top' width='90%'>\n        (.*?)?\n    </m) {|block|
-			block[0] =~ /$([^<]*)</
+			block[0] =~ /^(.*?)</
 			day = $1
 			block[0].scan(/<font size='1'>(.*?)<\/font>/) {|line|
 				if line[0].match(/#{rls}/i)

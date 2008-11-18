@@ -12,6 +12,7 @@ require 'cgi'
 
 require 'rubygems'
 require 'open4'
+require 'nokogiri'
 
 STDOUT.sync = true
 tinderChannels = Array.new
@@ -877,11 +878,16 @@ class TinderRSS
 	end
 
 	def tinyURL(url)
-		output = url.chomp
-		resp = open("http://urlborg.com/api/56698-8d89/url/create/#{output}").read
-		output = resp if resp != ''
+		resp = ''
+		begin
+			resp = open("http://urlborg.com/api/56698-8d89/url/create/#{url.chomp}").read
+			doc = Nokogiri::XML(resp)
+			resp = doc.xpath(//response/o_url).text
+		rescue
+			resp = ''
+		end
 		
-		return output
+		return resp
 	end
 
 	def poll

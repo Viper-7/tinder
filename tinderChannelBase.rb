@@ -880,8 +880,8 @@ class TinderRSS
 	def tinyURL(url)
 		resp = ''
 		begin
-			doc = Nokogiri::XML(open("http://urlborg.com/api/56698-8d89/url/create/#{url.chomp}").read)
-			resp = doc.xpath('//response').at('o_url').text
+			doc = Nokogiri::XML(open("http://urlborg.com/api/56698-8d89/url/create/" + CGI.escape(url.chomp)).read)
+			resp = doc.xpath('//response/o_url').text
 		rescue
 			resp = ''
 		end

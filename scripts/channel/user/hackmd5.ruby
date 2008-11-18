@@ -10,7 +10,7 @@ begin
 	res = open("http://md5.rednoize.com/?q=#{md5}&xml").read
 	puts res
 	doc = Nokogiri::XML(res)
-	output = doc.child[1].child[1].text
+	output = doc.xpath('//md5').at('ResultString').text
 rescue Exception => ex
 	puts ex
 end

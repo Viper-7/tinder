@@ -892,9 +892,9 @@ class TinderRSS
 			block[0] =~ /$([^<]*)</
 			day = $1
 			block[0].scan(/<font size='1'>(.*?)<\/font>/) {|line|
-				if line.match(/#{rls}/i)
+				if line[0].match(/#{rls}/i)
 					output = day.chomp
-					name = line
+					name = line[0]
 					break 2
 				end
 			}

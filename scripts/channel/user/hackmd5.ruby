@@ -35,7 +35,8 @@ if output == ''
 			output = x
 			break
 		}
-	rescue
+	rescue Exception => ex
+		puts ex
 	end
 end
 

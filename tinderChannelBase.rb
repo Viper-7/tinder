@@ -860,13 +860,13 @@ class TinderRSS
 		page = ''
 		output = url
 		begin
-			timeout(3) do
+			timeout(10) do
 				page = open(url).read
 			end
 		rescue
 		end
 		
-		output = open("http://tinyurl.viper-7.com/?url=#{url}").read if page.length > 20
+		output = open("http://tinyurl.viper-7.com/?url=#{url}").read if page.length > 1
 		return output
 	end
 

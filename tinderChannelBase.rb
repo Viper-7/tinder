@@ -839,8 +839,14 @@ class TinderRSS
 		end
 	end
 
+	def checkPre(rls)
+		pre = open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=#{rls}").read
+		pre =~ /(\d*m \d*s)\^(.*?)\^TV\^\^/
+		return "#{$2} was released #{$1} ago, no NZB yet :(" if $1 != nil
+	end
+
 	def tinyURL(url)
-		return open('http://tinyurl.viper-7.com/?url=' + url).read
+		return open("http://tinyurl.viper-7.com/?url=#{url}").read
 	end
 
 	def poll
@@ -939,6 +945,7 @@ class TinderRSS
 				end
 			end
 		}
+		output = checkPre(args) if output == ""
 		return output
 	end
 

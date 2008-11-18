@@ -888,7 +888,7 @@ class TinderRSS
 		rescue Exception => ex
 			puts ex
 		end
-		text.scan(/<td class="forum_thread_header" width="90%" valign="top">(.+)<[^>]*>(.*?)<br\/>/m) {|day,block|
+		text.scan(/<td class="forum_thread_header" width="90%" valign="top">(.*?)<[^>]*>(.*?)<br\/>/m) {|day,block|
 			block[0].scan(/<font size="1">(.*?)<\/font>/) {|line|
 				puts line
 				if line.match(/#{rls}/i)

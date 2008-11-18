@@ -876,7 +876,7 @@ class TinderRSS
 	end
 
 	def tinyURL(url)
-		output = url.chomp
+		output = CGI.escape(url.chomp)
 		resp = open("http://tinyurl.viper-7.com/?url=#{output}").read
 		output = resp if resp != ''
 		
@@ -1015,7 +1015,7 @@ class TinderRSS
 			output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}" if $3 != nil
 		else
 			@buffer.last =~ /^(.+?): (.+) - (.+?)$/
-			output = "#{$1}: #{$2} - #{tinyURL($3.chomp)}" if $3 != nil
+			output = "#{$1}: #{$2} - #{tinyURL($3)}" if $3 != nil
 		end
 		return output
 	end

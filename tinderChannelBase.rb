@@ -995,7 +995,7 @@ class TinderRSS
 			response += "\"#{x}\" "
 			response += "\n" if count % 5 == 0
 		}
-		response = "No allowed #{@type}'s" if response == ""
+		response = "No #{@type}'s in the Allow list, '@#{@type} help' for help adding one" if response == ""
 		return response
 	end
 
@@ -1009,7 +1009,7 @@ class TinderRSS
 			response += "\n" if count % 5 == 0
 		}
 		return response
-		response = "No ignored #{@type}'s" if response == ""
+		response = "No #{@type}'s in the Ignore list, '@#{@type} help' for help adding one" if response == ""
 	end
 
 	def search(args)

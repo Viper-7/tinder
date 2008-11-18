@@ -801,7 +801,7 @@ class TinderRSS
 					filesize = ""
 					category = ""
 					begin
-						category = x.category.to_s.gsub(/<\/?[^>]*>/, "")
+						category = x.category.to_s.gsub(/<\/?[^>]*>/, "").gsub(/&gt;/,'>').gsub(/&lt;/,'<')
 						x.description =~ /size:<\/b> (.+?)<br>/i
 						filesize = '[' + $1 + ']'
 					rescue
@@ -857,16 +857,10 @@ class TinderRSS
 	end
 
 	def tinyURL(url)
-		page = ''
 		output = url
-		begin
-			timeout(10) do
-				page = open(url).read
-			end
-		rescue
-		end
+		resp = open("http://tinyurl.viper-7.com/?url=#{url}").read
+		output = resp if resp.length > 1
 		
-		output = open("http://tinyurl.viper-7.com/?url=#{url}").read if page.length > 1
 		return output
 	end
 

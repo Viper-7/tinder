@@ -828,7 +828,7 @@ class TinderRSS
 		resp += '@' + @type + ' listignore - Lists the currently ignored ' + @type + "'s\n"
 		resp += '@' + @type + ' <search> - Searches the cache for an ' + @type + '.'
 		if @type == 'nzb' or @type == 'torrent'
-			resp += ' Add 720 to your search to see 720p releases\n'
+			resp += " Add 720 to your search to see 720p releases\n"
 		else
 			resp += "\n"
 		end

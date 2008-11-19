@@ -1024,7 +1024,6 @@ class TinderRSS
 				if x.match(/#{args}/i)
 					begin
 						if @type == 'nzb'
-							puts 'nzb'
 							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 						else

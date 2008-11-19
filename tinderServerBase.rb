@@ -74,7 +74,6 @@ class TinderServer
 	        puts "tinderBot - Added Bot" if @debug == true
 	        p @tinderBots
 	    	return newBot
-	    	newBot = nil
 	else
 		puts 'error: Client tried to create a bot with no server'
 	end
@@ -338,8 +337,8 @@ class TinderBot
 
     attr_accessor :spamTime, :tinderServer, :channels, :open, :dumpchans, :lastStatus
 
-    def initialize(client)
-    	@tinderServer = client
+    def initialize(server)
+    	@tinderServer = server
         @channels = Array.new
     	@dumpchans = Array.new
 	@open = true

@@ -71,11 +71,14 @@ class TinderChannel
 
     def checkPing
 	if @ping
-		@tinderBot.status 'Heartbeat: ' + Time.now.to_s
 	else
 		@tinderBot.status 'Ping Timeout - Restarting Server'
 		@tinderBot.halt
 	end
+    end
+
+    def clearPing
+    	@ping = false
     end
 
     def ping
@@ -88,7 +91,7 @@ class TinderChannel
     	begin
 		@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
 		@rssWatchers.each{|x| x.poll} if @uptime % 480 == 0
-		@ping = false if (@uptime + 230) % 240 == 0
+		@tinderBot.clearPing if @ping and (@uptime + 230) % 240 == 0
 		checkPing if (@uptime + 1) % 240 == 0
 	rescue Exception => ex
 		@tinderBot.status ex
@@ -112,9 +115,8 @@ class TinderChannel
 			output = "#{$1}tinder#{$2}"
 		end
 	}
-	if output == ""
-		output = "Client Fail"
-	end
+	output = "Client Fail" if output == ""
+
 	return output[3..-1]
     end
 
@@ -246,7 +248,7 @@ class TinderChannel
 	    					args = args.gsub(/wget/, 'wgot')
 	    					lang = ext
 
-	    					ENV['IIBOT_DIR'] = filename.split('/')[0..2].join('/')
+	    					ENV['IIBOT_DIR'] = filename.match(/^(.+)\/.+?\/.+?\/.+?$/)[1] # iiBot script compatibilty
 	    					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'
 	    					ENV['IIBOT_SCRIPT_DIR'] = ENV['IIBOT_DIR'] + '/scripts'
 

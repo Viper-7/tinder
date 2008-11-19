@@ -1030,7 +1030,8 @@ class TinderRSS
 							x =~ /^(.+?): (.+) - (.+?) $/
 							output = "#{$1}: #{$2} - #{tinyURL($3)}"
 						end
-					rescue
+					rescue Exception => ex
+						puts ex
 					end
 				end
 			else
@@ -1044,7 +1045,8 @@ class TinderRSS
 							x =~ /^(.+?): (.+) - (.+?) $/
 							output = "#{$1}: #{$2} - #{tinyURL($3)}"
 						end
-					rescue
+					rescue Exception => ex
+						puts ex
 					end
 				end
 			end

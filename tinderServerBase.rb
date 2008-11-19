@@ -379,6 +379,18 @@ class TinderBot
 	}
     end
 
+    def clearPing
+	@channels.each {|x|
+		begin
+			timeout(5) do
+				x.clearPing
+			end
+		rescue Exception => ex
+			# Don't Die
+		end
+	}
+    end
+
     def nick
     	return @tinderServer.nick
     end

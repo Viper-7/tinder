@@ -1020,7 +1020,7 @@ class TinderRSS
 	    	args = args.gsub(/ /,'.+')
 	    	output = ""
 		@buffer.map{|x|
-			if args.match(/720[pP]?$/)
+			if /720[pP]?$/.match(/#{args}/i)
 				if x.match(/#{args}/i)
 					begin
 						if @type == 'nzb'

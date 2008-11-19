@@ -964,7 +964,7 @@ class TinderRSS
 									@channel.sendChannel "New #{category}: #{x.title} - #{tinyURL(x.link)}"
 								end
 							else
-								@tinderBot.status 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
+								puts 'Ignored : ' + "New #{category}: #{x.title} #{filesize}"
 							end
 						end
 					end

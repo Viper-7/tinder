@@ -8,7 +8,7 @@ while true
 	begin
 		port = 7777
 		10.times do
-			@bots.push DRbServer::new("druby://:#{port}", @tinderServer)
+			@bots.push DRb.start_service("druby://:#{port}", @tinderServer)
 			puts @bots.last.uri
 			port += 1
 		end

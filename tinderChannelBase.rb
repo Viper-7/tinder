@@ -1115,6 +1115,7 @@ class DirectoryWatcher
    attr_accessor :known_files
    attr_accessor :known_file_stats
 
+
    # Creates a new directory watcher.
    #
    # _dir_::    The path (relative to the current working directory) of the

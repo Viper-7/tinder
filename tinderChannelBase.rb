@@ -1017,12 +1017,11 @@ class TinderRSS
 	end
 
 	def search(args)
-	    	args = args.gsub(/ /,'.+')
 	    	output = ""
 		@buffer.map{|x|
-			if args.to_s.match(/720[pP]?/)
+			if args.match(/720[pP]?/)
+			    	args = args.gsub(/ /,'.+')
 				if x.match(/#{args}/i)
-					next if x.match(/720[pP]?/)
 					begin
 						if @type == 'nzb'
 							puts 'nzb'
@@ -1037,7 +1036,9 @@ class TinderRSS
 					end
 				end
 			else
+			    	args = args.gsub(/ /,'.+')
 				if x.match(/#{args}/i)
+					next if x.match(/720[pP]?/)
 					begin
 						if @type == 'nzb'
 							x =~ /^(.+?): (.+) - (.+?) (.+?)$/

@@ -1020,7 +1020,7 @@ class TinderRSS
 	    	args = args.gsub(/ /,'.+')
 	    	output = ""
 		@buffer.map{|x|
-			if /720[pP]?$/.match(/#{args}/i)
+			if /720[pP]?$/.match(/#{args.to_s}/i)
 				puts '720'
 				if x.match(/#{args}/i)
 					begin

@@ -14,7 +14,6 @@ require 'rubygems'
 require 'open4'
 require 'nokogiri'
 
-
 STDOUT.sync = true
 tinderChannels = Array.new
 

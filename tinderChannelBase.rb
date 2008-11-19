@@ -764,7 +764,7 @@ class TinderDir
 		begin
 			return @watcher.scan_now
 		rescue Exception => ex
-			@tinderBot.status 'DirScan : ' + ex
+			puts 'DirScan : ' + ex
 		end
 	end
 
@@ -819,7 +819,7 @@ class TinderRSS
 				result.each_hash {|x| @ignore.push x["Line"] }
 			end
 		rescue Exception => ex
-			@tinderBot.status 'RSS     : ' + ex
+			puts 'RSS     : ' + ex
 		end
 	end
 
@@ -850,7 +850,7 @@ class TinderRSS
 				return tinyURL('http://www.viper-7.com/nzb/' + filename + '.nzb')
 			end
 		rescue Exception => ex
-			@tinderBot.status ex
+			puts ex
 		end
 	end
 
@@ -971,7 +971,7 @@ class TinderRSS
 				}
 			end
 		rescue Exception => ex
-			@tinderBot.status 'RSS     : ' + ex
+			puts 'RSS     : ' + ex
 		end
 	end
 

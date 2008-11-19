@@ -1020,11 +1020,10 @@ class TinderRSS
 	    	args = args.gsub(/ /,'.+')
 	    	output = ""
 		@buffer.map{|x|
-			if /720[pP]?/.match(/#{args.to_s}/i)
+			if /720[pP]?/.match(/#{args.untaint.to_s}/i)
 				if x.match(/#{args}/i)
 					begin
 						if @type == 'nzb'
-							puts 'nzb'
 							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 						else

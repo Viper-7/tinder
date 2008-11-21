@@ -21,7 +21,7 @@ class TinderServer
     def disconnect
         @buffer.push "QUIT :Tinder :D\n"
         sleep 2
-        @tcpSocket.close if @tcpSocket
+        @tcpSocket.close if @tcpSocket != nil
         @tcpSocket = nil
         restart
         DRB.stop_service
@@ -188,7 +188,7 @@ class TinderServer
     def halt
     	@open = false
     	@connected = false
-    	@tcpSocket.close
+    	@tcpSocket.close if @tcpSocket != nil
 	@tcpSocket = nil
     	@tinderBots.each {|x|
 		begin

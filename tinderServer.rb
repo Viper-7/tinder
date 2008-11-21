@@ -7,11 +7,8 @@ load 'tinderServerBase.rb'
 while true
 	begin
 		port = 7777
-		10.times do
-			@bots.push DRb.start_service("druby://:#{port}", @tinderServer)
-			puts @bots.last.uri
-			port += 1
-		end
+		@bots.push DRb.start_service("druby://:#{port}", @tinderServer)
+		puts @bots.last.uri
 		@bots.first.thread.join
 	rescue Exception => ex
 		puts ex

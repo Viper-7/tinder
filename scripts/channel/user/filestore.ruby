@@ -12,7 +12,7 @@ end
 class Dir
 	def size_summary
 		folders = {}
-		%x"du -sLc #{self.path}/* 2>&1".scan(/^(.+?)\t(?:.+\/)?(\w+)/) {|size,name|
+		%x"du -sLc #{self.path}/*".scan(/^(.+?)\t(?:.+\/)?(\w+)/) {|size,name|
 			folders[name] = 0 if !folders[name]
 			folders[name] += (size.to_i * 1024)
 		}

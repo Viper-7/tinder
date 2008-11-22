@@ -950,8 +950,8 @@ class TinderRSS
 						# no rescue for you
 					end
 
-					if !@buffer.include?("#{category}: #{x.title} - #{x.link}\s?#{filesize}")
-						@buffer.push("#{category}: #{x.title} - #{x.link}\s?#{filesize}")
+					if !@buffer.include?("#{category}: #{x.title} - #{x.link} #{filesize}")
+						@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 						if @announce
 							hit = false
 
@@ -1031,7 +1031,7 @@ class TinderRSS
 				if x.match(/#{args}/i)
 					begin
 						if @type == 'nzb'
-							x =~ /^(.+?): (.+) - (.+?)\s?(.+?)$/
+							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 						else
 							x =~ /^(.+?): (.+) - (.+?)\s?$/
@@ -1047,7 +1047,7 @@ class TinderRSS
 					next if x.match(/720[pP]?/)
 					begin
 						if @type == 'nzb'
-							x =~ /^(.+?): (.+) - (.+?)\s?(.+?)$/
+							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 						else
 							x =~ /^(.+?): (.+) - (.+?)\s?$/
@@ -1067,7 +1067,7 @@ class TinderRSS
 	def latest
 		output = ''
 		if @type == 'nzb'
-			@buffer.last =~ /^(.+?): (.+) - (.+?)\s?(.+?)$/
+			@buffer.last =~ /^(.+?): (.+) - (.+?) (.+?)$/
 			output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}" if $3 != nil
 		else
 			@buffer.last =~ /^(.+?): (.+) - (.+?)\s?$/

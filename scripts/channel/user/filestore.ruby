@@ -1,16 +1,10 @@
-class Float
-	def round_to(x)
-		(self * 10**x).round.to_f / 10**x
-	end
-end
-
 class Numeric
 	def hr_bytes
 		case
-			when self < 1024 ** 2: (self.to_f / 1024).round_to(2).to_s + 'Kb'
-			when self < 1024 ** 3: (self.to_f / (1024 ** 2)).round_to(1).to_s + 'Mb'
-			when self < 1024 ** 4: (self.to_f / (1024 ** 3)).round.to_s + 'Gb'
-			when self < 1024 ** 5: (self.to_f / (1024 ** 4)).round_to(2).to_s + 'Tb'
+			when self < 1024 ** 2: "%.2fKb" % (self.to_f / 1024)
+			when self < 1024 ** 3: "%dMb" % (self.to_f / (1024 ** 2))
+			when self < 1024 ** 4: "%dGb" % (self.to_f / (1024 ** 3))
+			when self < 1024 ** 5: "%.2fTb" % (self.to_f / (1024 ** 4))
 		end
 	end
 end

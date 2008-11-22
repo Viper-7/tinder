@@ -429,9 +429,11 @@ class TinderChannel
 	end
 	resp = ""
 	count = 0
+	rsshit = false
 	begin
 		@rssWatchers.each do |x|
 			if x.type.match(/^#{command.chomp}$/i)
+				rsshit = true
 				case args
 					when /^latest$/i
 						resp2 = x.latest
@@ -490,7 +492,7 @@ class TinderChannel
 				end
 			end
 		end
-		resp = "#{args} was not found in recent #{command.chomp}'s, the PreDB, or the EZTV Calendar" if resp == ""
+		resp = "#{args} was not found in recent #{command.chomp}'s, the PreDB, or the EZTV Calendar" if resp == "" and rsshit
 	rescue Exception => ex
 		resp = ex.to_s
 	end

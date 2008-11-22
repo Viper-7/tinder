@@ -331,8 +331,8 @@ class TinderChannel
 				popen4('ruby /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
 						timeout(5) do
-							response = stdout.readlines.join('').to_s
-							response = stderr.readlines.join('').to_s if response == ""
+							response = stdout.readlines.join("").to_s
+							response = stderr.readlines.join("").to_s if response == ""
 						end
 					rescue Exception => ex
 						Process.kill 'KILL', pipe
@@ -836,11 +836,10 @@ class TinderRSS
 	end
 
 	def cacheNZB(outLink)
-		output = ''
+		output = ""
 		begin
 			timeout(15) do
 				@count += 1
-				puts "outLink: #{outLink}"
 				nzb = open(outLink, {'User-Agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3', 'Cookie' => 'userZone=-660; uid=104223; pass=ed1303786609789d6cdd24430248d19e; phpbb2mysql_data=a%3A2%3A%7Bs%3A11%3A%22autologinid%22%3Bs%3A32%3A%22b8aa492b883332fd7984001340267ffc%22%3Bs%3A6%3A%22userid%22%3Bs%3A5%3A%2276579%22%3B%7D; phpbb2mysql_sid=1b152ae6c5bf4f3f67a805c7e1a48597;'}).read
 	                        outLink =~ /^.*\/(.*?)\.nzbdlnzb$/
 	                        filename = @count.to_s
@@ -851,15 +850,13 @@ class TinderRSS
 		rescue Exception => ex
 			puts ex
 		end
-		puts "output: #{output}"
-		output = tinyURL(output) if output != ''
-		puts "tinyoutput: #{output}"
-		output = outLink if output == ''
+		output = tinyURL(output) if output != ""
+		output = outLink if output == ""
 		return output
 	end
 
 	def checkPre(rls)
-		output = ''
+		output = ""
 
 
 		begin
@@ -881,13 +878,13 @@ class TinderRSS
 			end
 		rescue
 		end
-		return output.split("\n").join('')
+		return output.split("\n").join("")
 	end
 
 	def checkScreening(rls)
-		output = ''
-		name = ''
-		text = ''
+		output = ""
+		name = ""
+		text = ""
 		begin
 			timeout(20) do
 				text = open("http://eztv.it/index.php?main=calendar").read
@@ -906,7 +903,7 @@ class TinderRSS
 				end
 			}
 		}
-		if output != ''
+		if output != ""
 			puts ".#{output}." + Date.today.strftime('%A') + "."
 			if output.match(Date.today.strftime('%A'))
 				output = "#{name} is due today, but hasn't been pre'd yet"
@@ -922,7 +919,7 @@ class TinderRSS
 	end
 	
 	def tinyURL(url)
-		resp = ''
+		resp = ""
 		begin
 			doc = Nokogiri::XML(open("http://urlborg.com/api/56698-8d89/url/create/" + CGI.escape(url.chomp)).read)
 			resp = doc.xpath('//response/s_url').text
@@ -959,7 +956,6 @@ class TinderRSS
 									@ignore.each {|z| hit = true if !/#{z}/i.match(x.title)}
 								end
 							end
-
 
 							if hit 
 								if @type == 'nzb'
@@ -1023,7 +1019,7 @@ class TinderRSS
 	end
 
 	def search(args)
-	    	output = ''
+	    	output = ""
 		@buffer.map{|x|
 			if args.match(/720[pP]?/)
 			    	args = args.gsub(/ /,'.+')
@@ -1050,13 +1046,13 @@ class TinderRSS
 				end
 			end
 		}
-		output = checkPre(args) if output == ''
-		output = checkScreening(args) if output == ''
+		output = checkPre(args) if output == ""
+		output = checkScreening(args) if output == ""
 		return output
 	end
 
 	def latest
-		output = ''
+		output = ""
 		if @type == 'nzb'
 			@buffer.last =~ /^(.+?): (.+) - (.+?) (.+?)$/
 			output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}" if $3 != nil

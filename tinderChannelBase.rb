@@ -1020,7 +1020,7 @@ class TinderRSS
 
 	def search(args)
 	    	output = ""
-		@buffer.map{|x|
+		@buffer.each{|x|
 			if args.match(/720[pP]?/)
 			    	args = args.gsub(/ /,'.+')
 				if x.match(/#{args}/i)

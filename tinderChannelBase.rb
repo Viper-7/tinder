@@ -1050,13 +1050,13 @@ class TinderRSS
 				end
 			end
 		}
-		puts output
+		puts "1: #{output}"
 		if output == ""
 			output = checkPre(args)
-			puts output
+			puts "2: #{output}"
 			output = checkScreening(args) if output == ""
 		end
-		puts output
+		puts "3: #{output}"
 		
 		return output
 	end

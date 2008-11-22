@@ -485,8 +485,12 @@ class TinderChannel
 						count += x.count
 					else
 						resp2 = x.search args
-						resp = resp2 if resp2.length > 1
-						resp = "#{args} was not found in recent #{command.chomp}'s, the PreDB, or the EZTV Calendar" if resp == ""
+						if resp2.length > 1
+							resp = resp2
+							break
+						else
+							resp = "#{args} was not found in recent #{command.chomp}'s, the PreDB, or the EZTV Calendar" if resp == ""
+						end
 				end
 			end
 		end
@@ -1050,13 +1054,10 @@ class TinderRSS
 				end
 			end
 		}
-		puts "1: #{output}"
 		if output == ""
 			output = checkPre(args)
-			puts "2: #{output}"
 			output = checkScreening(args) if output == ""
 		end
-		puts "3: #{output}"
 		
 		return output
 	end

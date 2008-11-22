@@ -932,7 +932,7 @@ class TinderRSS
 	def poll
 		begin
 			timeout(20) do
-				content = open(@url,,{'User-Agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.8) Gecko/20050511 Firefox/1.0.4', 'Referer' => 'http://www.nzbsrus.com'}).read
+				content = open(@url,{'User-Agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.8) Gecko/20050511 Firefox/1.0.4', 'Referer' => 'http://www.nzbsrus.com'}).read
 				rss = RSS::Parser.parse(content, false)
 
 				rss.items.each{|x|

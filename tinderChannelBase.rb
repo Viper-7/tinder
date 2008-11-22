@@ -811,6 +811,7 @@ class TinderRSS
 					rescue
 						# no rescue for you
 					end
+					puts "#{category}: #{x.title} - #{x.link} #{filesize}"
 					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 				}
 
@@ -1027,9 +1028,9 @@ class TinderRSS
 		@buffer.each{|x|
 			if args.match(/720[pP]?/)
 			    	args = args.gsub(/ /,'.+')
-				if x.match(/#{args}/i)
+				if x.match(/.+?: .*?#{args}/i)
 					if @type == 'nzb'
-						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
+						x =~ /^(.+?): (.+) - (.+?) (.*?)$/
 						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 						break
 					else
@@ -1040,8 +1041,9 @@ class TinderRSS
 				end
 			else
 			    	args = args.gsub(/ /,'.+')
-				if x.match(/#{args}/i)
+				if x.match(/.+?: .*?#{args}/i)
 					next if x.match(/720[pP]?/)
+					next if x.match(/1080[iIpP]?/)
 					if @type == 'nzb'
 						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"

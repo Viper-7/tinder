@@ -852,7 +852,7 @@ class TinderRSS
 		rescue Exception => ex
 			puts ex
 		end
-		output = outLink if output = ''
+		output = outLink if output == ''
 		return output
 	end
 

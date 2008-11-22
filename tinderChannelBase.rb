@@ -808,7 +808,7 @@ class TinderRSS
 						# no rescue for you
 					end
 
-					@buffer.push("#{category}: #{x.title} - #{x.link}\s?#{filesize}")
+					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 				}
 
 				result = @channel.mysql.query("SELECT Line FROM #{@type}allow")

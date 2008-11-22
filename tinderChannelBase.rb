@@ -808,7 +808,7 @@ class TinderRSS
 						# no rescue for you
 					end
 
-					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
+					@buffer.push("#{category}: #{x.title} - #{x.link}\s?#{filesize}")
 				}
 
 				result = @channel.mysql.query("SELECT Line FROM #{@type}allow")
@@ -846,11 +846,12 @@ class TinderRSS
 	                        filename = @count.to_s
 	                        filename = $1 if $1 != nil
 				open('/var/www/nzb/' + filename + '.nzb', "w").write(nzb)
-				output = tinyURL('http://www.viper-7.com/nzb/' + filename + '.nzb')
+				output = 'http://www.viper-7.com/nzb/' + filename + '.nzb'
 			end
 		rescue Exception => ex
 			puts ex
 		end
+		output = tinyURL(output) if output != ''
 		output = outLink if output == ''
 		return output
 	end
@@ -946,8 +947,8 @@ class TinderRSS
 						# no rescue for you
 					end
 
-					if !@buffer.include?("#{category}: #{x.title} - #{x.link} #{filesize}")
-						@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
+					if !@buffer.include?("#{category}: #{x.title} - #{x.link}\s?#{filesize}")
+						@buffer.push("#{category}: #{x.title} - #{x.link}\s?#{filesize}")
 						if @announce
 							hit = false
 
@@ -1027,10 +1028,10 @@ class TinderRSS
 				if x.match(/#{args}/i)
 					begin
 						if @type == 'nzb'
-							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
+							x =~ /^(.+?): (.+) - (.+?)\s?(.+?)$/
 							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 						else
-							x =~ /^(.+?): (.+) - (.+?) $/
+							x =~ /^(.+?): (.+) - (.+?)\s?$/
 							output = "#{$1}: #{$2} - #{tinyURL($3)}"
 						end
 					rescue Exception => ex
@@ -1043,10 +1044,10 @@ class TinderRSS
 					next if x.match(/720[pP]?/)
 					begin
 						if @type == 'nzb'
-							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
+							x =~ /^(.+?): (.+) - (.+?)\s?(.+?)$/
 							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
 						else
-							x =~ /^(.+?): (.+) - (.+?) $/
+							x =~ /^(.+?): (.+) - (.+?)\s?$/
 							output = "#{$1}: #{$2} - #{tinyURL($3)}"
 						end
 					rescue Exception => ex
@@ -1063,10 +1064,10 @@ class TinderRSS
 	def latest
 		output = ''
 		if @type == 'nzb'
-			@buffer.last =~ /^(.+?): (.+) - (.+?) (.+?)$/
+			@buffer.last =~ /^(.+?): (.+) - (.+?)\s?(.+?)$/
 			output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}" if $3 != nil
 		else
-			@buffer.last =~ /^(.+?): (.+) - (.+?) $/
+			@buffer.last =~ /^(.+?): (.+) - (.+?)\s?$/
 			output = "#{$1}: #{$2} - #{tinyURL($3)}" if $3 != nil
 		end
 		return output

@@ -808,7 +808,6 @@ class TinderRSS
 						# no rescue for you
 					end
 					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
-					puts @buffer.last
 				}
 
 				result = @channel.mysql.query("SELECT Line FROM #{@type}allow")
@@ -1024,37 +1023,29 @@ class TinderRSS
 	end
 
 	def search(args)
-	    	output = ""
+	    	output = ''
 		@buffer.map{|x|
 			if args.match(/720[pP]?/)
 			    	args = args.gsub(/ /,'.+')
 				if x.match(/#{args}/i)
-					begin
-						if @type == 'nzb'
-							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
-							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
-						else
-							x =~ /^(.+?): (.+) - (.+?)\s?$/
-							output = "#{$1}: #{$2} - #{tinyURL($3)}"
-						end
-					rescue Exception => ex
-						puts ex
+					if @type == 'nzb'
+						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
+						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+					else
+						x =~ /^(.+?): (.+) - (.+?)\s?$/
+						output = "#{$1}: #{$2} - #{tinyURL($3)}"
 					end
 				end
 			else
 			    	args = args.gsub(/ /,'.+')
 				if x.match(/#{args}/i)
 					next if x.match(/720[pP]?/)
-					begin
-						if @type == 'nzb'
-							x =~ /^(.+?): (.+) - (.+?) (.+?)$/
-							output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
-						else
-							x =~ /^(.+?): (.+) - (.+?)\s?$/
-							output = "#{$1}: #{$2} - #{tinyURL($3)}"
-						end
-					rescue Exception => ex
-						puts ex
+					if @type == 'nzb'
+						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
+						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+					else
+						x =~ /^(.+?): (.+) - (.+?)\s?$/
+						output = "#{$1}: #{$2} - #{tinyURL($3)}"
 					end
 				end
 			end

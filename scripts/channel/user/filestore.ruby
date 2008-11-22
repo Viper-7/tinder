@@ -2,8 +2,8 @@ class Numeric
 	def hr_bytes
 		case
 			when self < 1024 ** 2: "%.2fKb" % (self.to_f / 1024)
-			when self < 1024 ** 3: "%dMb" % (self.to_f / (1024 ** 2))
-			when self < 1024 ** 4: "%dGb" % (self.to_f / (1024 ** 3))
+			when self < 1024 ** 3: "%dMb" % (self / (1024 ** 2))
+			when self < 1024 ** 4: "%dGb" % (self / (1024 ** 3))
 			when self < 1024 ** 5: "%.2fTb" % (self.to_f / (1024 ** 4))
 		end
 	end

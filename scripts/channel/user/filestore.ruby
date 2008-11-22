@@ -5,7 +5,7 @@ class Float
 end
 
 class Integer
-	def hrsize
+	def hr_bytes
 		case
 			when self < 1024 ** 2: (self.to_f / 1024).round_to(2).to_s + 'Kb'
 			when self < 1024 ** 3: (self.to_f / (1024 ** 2)).round_to(1).to_s + 'Mb'
@@ -16,7 +16,7 @@ class Integer
 end
 
 class Dir
-	def sizesummary
+	def size_summary
 		folders = {}
 		%x"du -sLc #{self.path}/* 2>&1".scan(/^(.+?)\t(?:.+\/)?([^\/\ ]+?)(?: .+?)?$/) {|size,name|
 			folders[name] = 0 if !folders[name]
@@ -24,14 +24,14 @@ class Dir
 		}
 		return folders
 	end
-end		
+end
 
 totalsize = 0
-Dir.new('/opt/filestore').sizesummary.each{|name,size|
+Dir.new('/opt/filestore').size_summary.each{|name,size|
 	case name
 		when 'Random': next
-		when 'total': totalsize = size.hrsize
-		else print "#{size.hrsize} of #{name}, "
+		when 'total': totalsize = size.hr_bytes
+		else print "#{size.hr_bytes} of #{name}, "
 	end
 }
 puts "#{totalsize} Total"

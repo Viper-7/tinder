@@ -485,7 +485,7 @@ class TinderChannel
 						count += x.count
 					else
 						resp2 = x.search args
-						if resp2.length > 1
+						if resp2 != ""
 							resp = resp2
 							break
 						else
@@ -852,7 +852,7 @@ class TinderRSS
 				output = 'http://www.viper-7.com/nzb/' + filename + '.nzb'
 			end
 		rescue Exception => ex
-			puts ex
+			puts "#{ex} - #{ex.backtrace}"
 		end
 		output = tinyURL(output) if output != ""
 		output = outLink if output == ""
@@ -894,7 +894,7 @@ class TinderRSS
 				text = open("http://eztv.it/index.php?main=calendar").read
 			end
 		rescue Exception => ex
-			puts ex
+			puts "#{ex} - #{ex.backtrace}"
 		end
 		text.scan(/<td class='forum_thread_header' valign='top' width='90%'>\n        (.*?)?\n    </m) {|block|
 			block[0] =~ /^(.*?)</
@@ -928,7 +928,7 @@ class TinderRSS
 			doc = Nokogiri::XML(open("http://urlborg.com/api/56698-8d89/url/create/" + CGI.escape(url.chomp)).read)
 			resp = doc.xpath('//response/s_url').text
 		rescue Exception => ex
-			puts ex
+			puts "#{ex} - #{ex.backtrace}"
 		end
 		return resp
 	end

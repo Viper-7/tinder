@@ -486,7 +486,7 @@ class TinderChannel
 					else
 						resp2 = x.search args
 						resp = resp2 if resp != ''
-						break if resp.match(/http:/i)
+						break if resp.match(/http/i)
 				end
 			end
 		end
@@ -1028,10 +1028,12 @@ class TinderRSS
 					if @type == 'nzb'
 						x =~ /^(.+?): (.+) - (.+?) (.*?)$/
 						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+						puts output
 						break
 					else
 						x =~ /^(.+?): (.+) - (.+?)\s?$/
 						output = "#{$1}: #{$2} - #{tinyURL($3)}"
+						puts output
 						break
 					end
 				end
@@ -1043,10 +1045,12 @@ class TinderRSS
 					if @type == 'nzb'
 						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+						puts output
 						break
 					else
 						x =~ /^(.+?): (.+) - (.+?)\s?$/
 						output = "#{$1}: #{$2} - #{tinyURL($3)}"
+						puts output
 						break
 					end
 				end

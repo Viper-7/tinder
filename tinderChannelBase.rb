@@ -1027,9 +1027,11 @@ class TinderRSS
 					if @type == 'nzb'
 						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+						break
 					else
 						x =~ /^(.+?): (.+) - (.+?)\s?$/
 						output = "#{$1}: #{$2} - #{tinyURL($3)}"
+						break
 					end
 				end
 			else
@@ -1039,15 +1041,23 @@ class TinderRSS
 					if @type == 'nzb'
 						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+						break
 					else
 						x =~ /^(.+?): (.+) - (.+?)\s?$/
 						output = "#{$1}: #{$2} - #{tinyURL($3)}"
+						break
 					end
 				end
 			end
 		}
-		output = checkPre(args) if output == ""
-		output = checkScreening(args) if output == ""
+		puts output
+		if output == ""
+			output = checkPre(args)
+			puts output
+			output = checkScreening(args) if output == ""
+		end
+		puts output
+		
 		return output
 	end
 

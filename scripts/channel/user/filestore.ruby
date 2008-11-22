@@ -4,7 +4,7 @@ class Float
 	end
 end
 
-class Integer
+class Numeric
 	def hr_bytes
 		case
 			when self < 1024 ** 2: (self.to_f / 1024).round_to(2).to_s + 'Kb'
@@ -18,7 +18,7 @@ end
 class Dir
 	def size_summary
 		folders = {}
-		%x"du -sLc #{self.path}/* 2>&1".scan(/^(.+?)\t(?:.+\/)?([^\/\ ]+?)(?: .+?)?$/) {|size,name|
+		%x"du -sLc #{self.path}/* 2>&1".scan(/^(.+?)\t(?:.+\/)?(\w+)/) {|size,name|
 			folders[name] = 0 if !folders[name]
 			folders[name] += (size.to_i * 1024)
 		}

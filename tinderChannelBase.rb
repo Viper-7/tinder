@@ -837,6 +837,7 @@ class TinderRSS
 	end
 
 	def cacheNZB(outLink)
+		output = ''
 		begin
 			timeout(30) do
 				@count += 1
@@ -846,11 +847,13 @@ class TinderRSS
 	                        filename = @count.to_s
 	                        filename = $1 if $1 != nil
 				open('/var/www/nzb/' + filename + '.nzb', "w").write(nzb)
-				return tinyURL('http://www.viper-7.com/nzb/' + filename + '.nzb')
+				output = tinyURL('http://www.viper-7.com/nzb/' + filename + '.nzb')
 			end
 		rescue Exception => ex
 			puts ex
 		end
+		output = outLink if output = ''
+		return output
 	end
 
 	def checkPre(rls)

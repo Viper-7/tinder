@@ -485,7 +485,7 @@ class TinderChannel
 						count += x.count
 					else
 						resp2 = x.search args
-						if resp2 != ""
+						if resp2.match(/ub0/i) or x == @rssWatchers.last
 							resp = resp2
 							break
 						else

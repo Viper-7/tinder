@@ -1040,9 +1040,9 @@ class TinderRSS
 				end
 			else
 			    	args = args.gsub(/ /,'.+')
-				if x.match(/.+?: .*?#{args}/i)
-					next if x.match(/720[pP]?/)
-					next if x.match(/1080[iIpP]?/)
+				if x.match(/.+?: .*?#{args} -/i)
+					next if x.match(/.+?: .*720[pP]? -/)
+					next if x.match(/.+?: .*1080[pP]? -/)
 					if @type == 'nzb'
 						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"

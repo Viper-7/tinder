@@ -1026,11 +1026,11 @@ class TinderRSS
 				if x.match(/#{args}/i)
 					if @type == 'nzb'
 						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
-						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+						output = "#{$1}: #{$2} - #{cacheNZB($3[0])} #{$4}"
 						break
 					else
 						x =~ /^(.+?): (.+) - (.+?)\s?$/
-						output = "#{$1}: #{$2} - #{tinyURL($3)}"
+						output = "#{$1}: #{$2} - #{tinyURL($3[0])}"
 						break
 					end
 				end
@@ -1040,11 +1040,11 @@ class TinderRSS
 					next if x.match(/720[pP]?/)
 					if @type == 'nzb'
 						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
-						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
+						output = "#{$1}: #{$2} - #{cacheNZB($3[0])} #{$4}"
 						break
 					else
 						x =~ /^(.+?): (.+) - (.+?)\s?$/
-						output = "#{$1}: #{$2} - #{tinyURL($3)}"
+						output = "#{$1}: #{$2} - #{tinyURL($3[0])}"
 						break
 					end
 				end
@@ -1065,10 +1065,10 @@ class TinderRSS
 		output = ""
 		if @type == 'nzb'
 			@buffer.last =~ /^(.+?): (.+) - (.+?) (.+?)$/
-			output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}" if $3 != nil
+			output = "#{$1}: #{$2} - #{cacheNZB($3[0])} #{$4}" if $3 != nil
 		else
 			@buffer.last =~ /^(.+?): (.+) - (.+?)\s?$/
-			output = "#{$1}: #{$2} - #{tinyURL($3)}" if $3 != nil
+			output = "#{$1}: #{$2} - #{tinyURL($3[0])}" if $3 != nil
 		end
 		return output
 	end

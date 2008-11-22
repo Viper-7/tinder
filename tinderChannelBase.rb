@@ -807,7 +807,7 @@ class TinderRSS
 					rescue
 						# no rescue for you
 					end
-
+					puts "<#{x.link}>"
 					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 				}
 

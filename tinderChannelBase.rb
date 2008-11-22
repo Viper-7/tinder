@@ -485,15 +485,12 @@ class TinderChannel
 						count += x.count
 					else
 						resp2 = x.search args
-						if resp2.match(/ub0/i) or x == @rssWatchers.last
-							resp = resp2
-							break
-						else
-							resp = "#{args} was not found in recent #{command.chomp}'s, the PreDB, or the EZTV Calendar" if resp == ""
-						end
+						resp = resp2
+						break if x == @rssWatchers.last
 				end
 			end
 		end
+		resp = "#{args} was not found in recent #{command.chomp}'s, the PreDB, or the EZTV Calendar" if resp == ""
 	rescue Exception => ex
 		resp = ex.to_s
 	end

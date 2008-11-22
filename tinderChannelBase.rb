@@ -89,7 +89,7 @@ class TinderChannel
     	@uptime = 5 if @uptime > 964
     	begin
 		@dirWatchers.each{|x| x.poll} if @uptime % 20 == 0
-		@rssWatchers.each{|x| x.poll} if @uptime % 480 == 0
+		@rssWatchers.each{|x| x.poll} if @uptime % 960 == 0
 		@tinderBot.clearPing if @ping and (@uptime + 230) % 240 == 0
 		checkPing if (@uptime + 1) % 240 == 0
 	rescue Exception => ex

@@ -117,7 +117,7 @@ tinderServer, tinderBot = addServer("irc.gamesurge.net", "6667", "Tinder")
 tinderChannels = addChannels(tinderBot, ["codeworkshop", "v7test", "ausquake", "premiumgamer", "slashquit"], 'TinderChannel')
 tinderChannels.push addChannel(tinderBot, "nesreca", 'TinderNesreca')
 addDirWatcher tinderChannels, '/mnt/thorc/Dropbox/My Dropbox/nesreca', "Dropbox", 'http://dropbox.viper-7.com/', "nesreca", true
-addRSSWatcher tinderChannels, ["http://www.nzbsrus.com/rssfeed.php?cat=91","http://www.nzbsrus.com/rssfeed.php?cat=75"], "nzb", "nesreca", true
+addRSSWatcher tinderChannels, ["http://www.nzbsrus.com/rssfeed.php?cat=75", "http://www.nzbsrus.com/rssfeed.php?cat=91"], "nzb", "nesreca", true
 addRSSWatcher tinderChannels, ["http://rss.thepiratebay.org/205"], "torrent", "nesreca", true
 addAdminHost tinderChannels, 'Viper-7!druss@viper-7.com'
 addAdminHost tinderChannels, 'perverse!lolol@viper-7.com'

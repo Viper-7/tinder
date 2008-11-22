@@ -811,7 +811,6 @@ class TinderRSS
 					rescue
 						# no rescue for you
 					end
-					puts "#{category}: #{x.title} - #{x.link} #{filesize}"
 					@buffer.push("#{category}: #{x.title} - #{x.link} #{filesize}")
 				}
 
@@ -855,7 +854,6 @@ class TinderRSS
 		rescue Exception => ex
 			puts "#{ex} - #{ex.backtrace}"
 		end
-		output = tinyURL(output) if output != ""
 		output = outLink if output == ""
 		return output
 	end
@@ -958,7 +956,8 @@ class TinderRSS
 
 							@allow.each do |y|
 								if /#{y}/i.match(x.title)
-									@ignore.each {|z| hit = true if !/#{z}/i.match(x.title)}
+									hit = true
+									@ignore.each {|z| hit = false if /#{z}/i.match(x.title)}
 								end
 							end
 

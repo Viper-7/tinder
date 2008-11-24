@@ -27,7 +27,7 @@ get '/*' do
 	cmd = args.shift
 	args = ' ' + CGI.unescape(args.join("/"))
 
-	out = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
+	out = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private']).split("\n").join("<BR/>\n")
 
 	if out[0,7] == 'http://'
 		redirect out

@@ -536,6 +536,7 @@ class TinderChannel
 		response = resp if resp != ""
 		@tinderBot.status "Output  : " + response
 	else
+		p response.match(/<BR[\/]?>/)
 		response = response.split("\n").join("<BR/>\n") if !response.match(/<BR[\/]?>/)
 		
 		while response.match(/\002/)

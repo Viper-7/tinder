@@ -1,6 +1,6 @@
 <?php
 	if ($argv[1] == "") {
-		echo "Usage: @rapidshare http://www.viper-7.com/myfile.zip -::- Hosts files on Rapidshare and 4 other servers"
+		echo "Usage: @rapidshare http://www.viper-7.com/myfile.zip -::- Hosts files on Rapidshare and 4 other servers";
 	} else {
 		$url=$argv[1];
 		echo "Downloading " . $url . ". This may take a few minutes : ";

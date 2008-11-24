@@ -297,7 +297,7 @@ class TinderChannel
 							args = '"' + args + '"'
 						end
 
-						cmdline = Escape.shell_command("#{lang} #{filename}.#{ext}", args) + ' 2>&1'
+						cmdline = Escape.shell_command(["#{lang} #{filename}.#{ext}", args]) + ' 2>&1'
 
 	    					@tinderBot.status "Exec    : '" + cmdline + "'" if @tinderBot
 						

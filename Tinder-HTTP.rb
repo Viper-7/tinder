@@ -17,8 +17,8 @@ get '/*' do
 	out = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private']).split("\n").join("<BR/>\n")
 	
 	if out.match(/\002/)
-		out.scan(/(.*)\002(.*)\002/) {|x,y|
-			out = x + '<B>' + y + '</B>'
+		out.scan(/(.*)\002(.*)\002(.*)/) {|x,y,z|
+			out = x + '<B>' + y + '</B>' + z
 		}
 		out.scan(/^(.*)\002(.*)$/) {|x,y|
 			out = x + '<B>' + y + '</B>'

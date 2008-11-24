@@ -36,20 +36,23 @@ class TinderChannel
     attr_accessor :channel, :tinderBot, :nick, :graceful, :uptime, :adminHosts
     attr_accessor :dirWatchers, :rssWatchers, :dumpnicks, :mysql, :ping
 
-    def initialize(channel, tinderBot)
+    def initialize(channel)
 	@dirWatchers = Array.new
 	@rssWatchers = Array.new
 	@adminHosts = Array.new
         @channel = channel
         @graceful = false
-        @tinderBot = tinderBot
-    	@tinderBot.addChannel(self)
     	@dumpnicks = Array.new
     	@uptime = 0
 
 	@mysql = Mysql.init()
 	@mysql.connect('cerberus','db','db')
 	@mysql.select_db('viper7')
+    end
+
+    def setTinderBot
+        @tinderBot = tinderBot
+    	@tinderBot.addChannel(self)
     end
 
     def popen4(command, mode="t")
@@ -623,11 +626,11 @@ def addServer(server,port,nick)
 	return tinderServer1, tinderBot1
 end
 
-def addChannels(tinderBot,channels,type)
+def addChannels(channels,type)
 	tinderChannels = Array.new
 
 	channels.each {|x|
-		tinderChannels.push Module.const_get(type).new(x.to_s, tinderBot)
+		tinderChannels.push Module.const_get(type).new(x.to_s)
 	}
 	return tinderChannels
 end

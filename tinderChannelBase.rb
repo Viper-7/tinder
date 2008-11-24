@@ -268,7 +268,7 @@ class TinderChannel
 	    						cmdline = "#{lang} #{filename}.#{ext}" + ' 2>&1'
 	    					end
 
-	    					@tinderBot.status "Exec    : '" + cmdline + "'"
+	    					@tinderBot.status "Exec    : '" + cmdline + "'" if @tinderBot
 						
 						popen4(cmdline) {|stdout, stderr, stdin, pipe|
 							begin
@@ -462,7 +462,7 @@ class TinderChannel
 								resp = "Already Ignoring #{args}"
 							end
 						end
-						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
+						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules" if @tinderBot
 						break
 					when /^(.+?) is (?:good|fine|ok|sick|cool|mad|orsm|grouse|grouce|awesome|great|mine)$/i
 						args = $1.gsub(/ /,'.')
@@ -481,7 +481,7 @@ class TinderChannel
 								resp = "Already Allowing #{args}"
 							end
 						end
-						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules"
+						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules" if @tinderBot
 						break
 					when /help/
 						resp = x.help
@@ -501,7 +501,7 @@ class TinderChannel
 	end
 	resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
 	response = resp if resp != ""
-	@tinderBot.status "Output  : " + response
+	@tinderBot.status "Output  : " + response if @tinderBot
 	return response
     end
 
@@ -680,7 +680,7 @@ def addDirWatcher(channels, path, name, url = "", channel = "", recursive = fals
 		end
 	end
 
-	y.tinderBot.status "Status  : Indexed #{count} files in #{name.downcase}\\#{File.basename(path).downcase}"
+	y.tinderBot.status "Status  : Indexed #{count} files in #{name.downcase}\\#{File.basename(path).downcase}" if y.tinderBot
 end
 
 def addRecursiveDirectoryWatcher(path, name, url, channel)
@@ -739,7 +739,7 @@ def addRSSWatcher(tinderChannels, url, type = "link", channel = "", announce = f
 		}
 	end
 
-	y.tinderBot.status "Status  : Indexed #{count} #{type}'s"
+	y.tinderBot.status "Status  : Indexed #{count} #{type}'s" if y.tinderBot
 end
 
 class TinderDir

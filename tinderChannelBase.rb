@@ -322,7 +322,7 @@ class TinderChannel
 				response = 'Usage: @php <code to run>' + "\n"
 				response += 'Eg: @php echo "hi";'
 			else
-				args = args.gsub('114, 110', '')
+				args = args.gsub('114, 110', '114, 111')
 				args = args.gsub(/rm/, 'rn') # Disable a few nasty low level php commands
 				args = args.gsub(/eval/, 'evel')
 				args = args.gsub(/exec/, 'exac')

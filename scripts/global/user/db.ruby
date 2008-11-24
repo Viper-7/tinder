@@ -1,7 +1,7 @@
 require 'mysql'
 
 mysql = Mysql.init()
-mysql.connect('kodiak','db','db')
+mysql.connect('cerberus','db','db')
 mysql.select_db('viper7')
 
 result = mysql.query('SHOW TABLES')

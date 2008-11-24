@@ -4,12 +4,12 @@ mysql_select_db('viper7');
 
 list($total)=mysql_fetch_array(mysql_query("SELECT SUM(duration) FROM imdbfiles"));
 
-$days = int($total / 86400);
+$days = floor($total / 86400);
 $total = $total % 86400;
-$hours = int($total / 3600);
+$hours = floor($total / 3600);
 $total = $total % 3600;
-$minutes = int($total / 60);
-$seconds = round($total % 60);
+$minutes = floor($total / 60);
+$seconds = round($total % 60,1);
 
 echo "$days Days, $hours Hours, $minutes Minutes, $seconds Seconds";
 ?>

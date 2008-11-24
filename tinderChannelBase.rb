@@ -167,51 +167,94 @@ class TinderChannel
     end
 
     def help(commandtypes)
-    	lines = ""
-    	commandtypes.each{|z|
-    		response = z.capitalize + ' Commands: '
-    		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
-	    	for folder in folders
-	    		Find.find(folder) do |path|
-	    			if FileTest.directory?(path)
-					next
-	    			else
-					next if !path.include? '.'
-					next if path.include? '.svn'
-	    				begin
-		    				path =~ /^.+\/(.+?)\.(.+)/
-		    				ext = $2
-		    				filename = $1
-		    				response += '@' + filename + ' '
-	    				rescue
-	    				end
-	    			end
-	    		end
-	    	end
-
-		if z == "global"
-		    	response += '@php @ruby @tcl '
-		end
-
-	    	if z == "channel"
-		    	dirNames = Array.new
-		    	@dirWatchers.each do |x|
-		    		dirNames.push x.name if !dirNames.include? x.name
+    	if @channel != 'www'
+	    	lines = ""
+	    	commandtypes.each{|z|
+	    		response = z.capitalize + ' Commands: '
+	    		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
+		    	for folder in folders
+		    		Find.find(folder) do |path|
+		    			if FileTest.directory?(path)
+						next
+		    			else
+						next if !path.include? '.'
+						next if path.include? '.svn'
+		    				begin
+			    				path =~ /^.+\/(.+?)\.(.+)/
+			    				ext = $2
+			    				filename = $1
+			    				response += '@' + filename + ' '
+		    				rescue
+		    				end
+		    			end
+		    		end
 		    	end
-			dirNames.each{|x| response += '@' + x.downcase + ' '}
-
-		    	rssTypes = Array.new
-		    	@rssWatchers.each do |x|
-		    		rssTypes.push x.type if !rssTypes.include? x.type
+	
+			if z == "global"
+			    	response += '@php @ruby @tcl '
+			end
+	
+		    	if z == "channel"
+			    	dirNames = Array.new
+			    	@dirWatchers.each do |x|
+			    		dirNames.push x.name if !dirNames.include? x.name
+			    	end
+				dirNames.each{|x| response += '@' + x.downcase + ' '}
+	
+			    	rssTypes = Array.new
+			    	@rssWatchers.each do |x|
+			    		rssTypes.push x.type if !rssTypes.include? x.type
+			    	end
+				rssTypes.each{|x| response += '@' + x.downcase + ' '}
+				response += '@quote @addquote '
+			end
+	
+		    	lines += response + "\n"
+		}
+		lines += 'Type a command to see its usage'
+		return lines
+	else
+	    	lines = ""
+	    	commandtypes.each{|z|
+	    		response = z.capitalize + ' Commands: '
+	    		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
+		    	for folder in folders
+		    		Find.find(folder) do |path|
+		    			if FileTest.directory?(path)
+						next
+		    			else
+						next if !path.include? '.'
+						next if path.include? '.svn'
+		    				begin
+			    				path =~ /^.+\/(.+?)\.(.+)/
+			    				ext = $2
+			    				filename = $1
+			    				response += "<A HREF=#{filename}>#{filename}</A> "
+		    				rescue
+		    				end
+		    			end
+		    		end
 		    	end
-			rssTypes.each{|x| response += '@' + x.downcase + ' '}
-			response += '@quote @addquote '
-		end
-
-	    	lines += response + "\n"
-	}
-	lines += 'Type a command to see its usage'
-	return lines
+	
+		    	if z == "channel"
+			    	dirNames = Array.new
+			    	@dirWatchers.each do |x|
+			    		dirNames.push x.name if !dirNames.include? x.name
+			    	end
+				dirNames.each{|x| response += "<A HREF=#{x.downcase}>#{x.downcase}</A> "}
+	
+			    	rssTypes = Array.new
+			    	@rssWatchers.each do |x|
+			    		rssTypes.push x.type if !rssTypes.include? x.type
+			    	end
+				rssTypes.each{|x| response += "<A HREF=#{x.downcase}>#{x.downcase}</A> "}
+			end
+	
+		    	lines += response + "\n"
+		}
+		lines += 'Type a command to see its usage'
+		return lines
+	end
     end
 
     def customCommands

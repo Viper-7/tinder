@@ -6,6 +6,5 @@
 		echo "Downloading " . $url . ". This may take a few minutes : ";
 		$result=file_get_contents("http://tinyload.com/api/1.0/transload.txt?url=" . $url . "&sites=1,2,3,4,5");
 		echo $result;
-		echo "Done Uploading!";
 	}
 ?>

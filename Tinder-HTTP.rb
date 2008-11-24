@@ -18,6 +18,7 @@ get '/*' do
 	
 	if out.match(/\002/)
 		out.scan(/^(.*)\002(.*)\002|$(.*)$/) {|x,y,z|
+			z = '' if z == nil
 			out = x + '<B>' + y + '</B>' + z
 		}
 	end

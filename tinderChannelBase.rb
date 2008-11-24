@@ -11,6 +11,7 @@ require 'uri'
 require 'cgi'
 require 'date'
 require 'rubygems'
+require 'escape'
 require 'open4'
 require 'nokogiri'
 
@@ -279,19 +280,10 @@ class TinderChannel
 
 	    				if command.chomp == File.basename(filename.downcase)
 	    					hit = true
-
-	    					args = args.gsub(/\|/, ':')
-	    					args = args.gsub(/\//, '\/')
-	    					args = args.gsub(/\!/, '\!')
-	    					args = args.gsub(/\?/, '\?')
-	    					args = args.gsub(/\[/, '\[')
-	    					args = args.gsub(/\]/, '\]')
-	    					args = args.gsub(/\(/, '\(')
-	    					args = args.gsub(/\)/, '\)')
-	    					args = args.gsub(/\"/, '\"')
-	    					args = args.gsub(/\'/, "\\\'")
-	    					args = args.gsub(/wget/, 'wgot')
+						
 	    					lang = ext
+
+					    	args = args.gsub(/\|/,':')
 
 	    					ENV['IIBOT_DIR'] = filename.match(/^(.+)\/.+?\/.+?\/.+?$/)[1] # iiBot script compatibilty
 	    					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'
@@ -304,18 +296,10 @@ class TinderChannel
 							end
 							args = '"' + args + '"'
 						end
-	    					if args.length > 0
-						    	args = args.gsub(/\|/,':')
-	    						cmdline = "#{lang} #{filename}.#{ext} #{args}" + ' 2>&1'
-	    					else
-	    						cmdline = "#{lang} #{filename}.#{ext}" + ' 2>&1'
-	    					end
 
-	    					if @tinderBot
-	    						@tinderBot.status "Exec    : '" + cmdline + "'"
-	    					else
-	    						puts "Exec    : '" + cmdline + "'"
-	    					end
+						cmdline = escape.shell_command("#{lang} #{filename}.#{ext}", args) + ' 2>&1'
+
+	    					@tinderBot.status "Exec    : '" + cmdline + "'" if @tinderBot
 						
 						popen4(cmdline) {|stdout, stderr, stdin, pipe|
 							begin
@@ -477,79 +461,80 @@ class TinderChannel
 	rescue Exception => ex
 		response = ex.to_s
 	end
-	resp = ""
-	count = 0
-	rsshit = false
-	begin
-		@rssWatchers.each do |x|
-			if x.type.match(/^#{command.chomp}$/i)
-				rsshit = true
-				case args
-					when /^latest$/i
-						resp2 = x.latest
-						resp = resp2 if resp2 != ""
-					when /(listallow|list)/
-						resp = x.listallow
-					when /listignore/
-						resp = x.listignore
-					when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay|ass|fail|no good|stupid|retarded)/i
-						args = $1.gsub(/ /,'.')
-						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
-						z = result.fetch_row[0]
-						if z != "0" or args[-1,1] == '!'
-							@mysql.query("DELETE FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
-							resp = "Stopped Allowing #{args}"
-						end
-						if z == "0" or args[-1,1] == '!'
-							result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
-							if result.fetch_row[0] == "0" or args[-1,1] == '!'
-								@mysql.query("INSERT INTO #{x.type}ignore SET Line=\"#{args}\"")
-								resp = "Started Ignoring #{args}"
-							else
-								resp = "Already Ignoring #{args}"
-							end
-						end
-						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules" if @tinderBot
-						break
-					when /^(.+?) is (?:good|fine|ok|sick|cool|mad|orsm|grouse|grouce|awesome|great|mine)$/i
-						args = $1.gsub(/ /,'.')
-						result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
-						z = result.fetch_row[0]
-						if z != "0" or args[-1,1] == '!'
-							@mysql.query("DELETE FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
-							resp = "Stopped Ignoring #{args}"
-						end
-						if z == "0" or args[-1,1] == '!'
+	if channel != 'www'
+		resp = ""
+		count = 0
+		rsshit = false
+		begin
+			@rssWatchers.each do |x|
+				if x.type.match(/^#{command.chomp}$/i)
+					rsshit = true
+					case args
+						when /^latest$/i
+							resp2 = x.latest
+							resp = resp2 if resp2 != ""
+						when /(listallow|list)/
+							resp = x.listallow
+						when /listignore/
+							resp = x.listignore
+						when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay|ass|fail|no good|stupid|retarded)/i
+							args = $1.gsub(/ /,'.')
 							result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
-							if result.fetch_row[0] == "0" or args[-1,1] == '!'
-								@mysql.query("INSERT INTO #{x.type}allow SET Line=\"#{args}\"")
-								resp = "Started Allowing #{args}"
-							else
-								resp = "Already Allowing #{args}"
+							z = result.fetch_row[0]
+							if z != "0" or args[-1,1] == '!'
+								@mysql.query("DELETE FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
+								resp = "Stopped Allowing #{args}"
 							end
-						end
-						@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules" if @tinderBot
-						break
-					when /help/
-						resp = x.help
-					when /^$/
-						resp = "count"
-						count += x.count
-					else
-						resp2 = x.search args
-						resp = resp2 if resp != ''
-						break if resp.match(/http/i)
+							if z == "0" or args[-1,1] == '!'
+								result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
+								if result.fetch_row[0] == "0" or args[-1,1] == '!'
+									@mysql.query("INSERT INTO #{x.type}ignore SET Line=\"#{args}\"")
+									resp = "Started Ignoring #{args}"
+								else
+									resp = "Already Ignoring #{args}"
+								end
+							end
+							@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules" if @tinderBot
+							break
+						when /^(.+?) is (?:good|fine|ok|sick|cool|mad|orsm|grouse|grouce|awesome|great|mine)$/i
+							args = $1.gsub(/ /,'.')
+							result = @mysql.query("SELECT COUNT(*) FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
+							z = result.fetch_row[0]
+							if z != "0" or args[-1,1] == '!'
+								@mysql.query("DELETE FROM #{x.type}ignore WHERE Line LIKE \"#{args}\"")
+								resp = "Stopped Ignoring #{args}"
+							end
+							if z == "0" or args[-1,1] == '!'
+								result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
+								if result.fetch_row[0] == "0" or args[-1,1] == '!'
+									@mysql.query("INSERT INTO #{x.type}allow SET Line=\"#{args}\"")
+									resp = "Started Allowing #{args}"
+								else
+									resp = "Already Allowing #{args}"
+								end
+							end
+							@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules" if @tinderBot
+							break
+						when /help/
+							resp = x.help
+						when /^$/
+							resp = "count"
+							count += x.count
+						else
+							resp2 = x.search args
+							resp = resp2 if resp != ''
+							break if resp.match(/http/i)
+					end
 				end
 			end
+			resp = "#{args} was not found in recent #{command.chomp}'s, the PreDB, or the EZTV Calendar" if resp == "" and rsshit
+		rescue Exception => ex
+			resp = ex.to_s
 		end
-		resp = "#{args} was not found in recent #{command.chomp}'s, the PreDB, or the EZTV Calendar" if resp == "" and rsshit
-	rescue Exception => ex
-		resp = ex.to_s
-	end
-	resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
-	response = resp if resp != ""
-	@tinderBot.status "Output  : " + response if @tinderBot
-	if @channel == 'www' 
+		resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
+		response = resp if resp != ""
+		@tinderBot.status "Output  : " + response
+	else
 		response = response.split("\n").join("<BR/>\n")
 		
 		while response.match(/\002/)

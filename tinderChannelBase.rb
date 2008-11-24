@@ -268,7 +268,11 @@ class TinderChannel
 	    						cmdline = "#{lang} #{filename}.#{ext}" + ' 2>&1'
 	    					end
 
-	    					@tinderBot.status "Exec    : '" + cmdline + "'" if @tinderBot
+	    					if @tinderBot
+	    						@tinderBot.status "Exec    : '" + cmdline + "'"
+	    					else
+	    						puts "Exec    : '" + cmdline + "'"
+	    					end
 						
 						popen4(cmdline) {|stdout, stderr, stdin, pipe|
 							begin

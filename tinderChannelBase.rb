@@ -549,6 +549,16 @@ class TinderChannel
 	resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
 	response = resp if resp != ""
 	@tinderBot.status "Output  : " + response if @tinderBot
+	if @channel == 'www' 
+		response.split("\n").join("<BR/>\n")
+		
+		while response.match(/\002/)
+			response.scan(/^([^\002]*)\002([^\002]*)(?:\002|$)([^\002]*)$/) {|x,y,z|
+				z = '' if !z
+				response = x + '<B>' + y + '</B>' + z
+			}
+		end
+	end
 	return response
     end
 

@@ -14,14 +14,7 @@ get '/*' do
 	cmd = 'help' if cmd == '' or cmd == nil
 	args = CGI.unescape(args.join("/"))
 
-	out = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private']).split("\n").join("<BR/>\n")
-	
-	while out.match(/\002/)
-		out.scan(/^([^\002]*)\002([^\002]*)(?:\002|$)([^\002]*)$/) {|x,y,z|
-			z = '' if !z
-			out = x + '<B>' + y + '</B>' + z
-		}
-	end
+	out = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
 	
 	if out[0,7] == 'http://'
 		redirect out

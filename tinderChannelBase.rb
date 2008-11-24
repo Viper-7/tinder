@@ -50,7 +50,7 @@ class TinderChannel
 	@mysql.select_db('viper7')
     end
 
-    def setTinderBot
+    def setTinderBot(tinderBot)
         @tinderBot = tinderBot
     	@tinderBot.addChannel(self)
     end

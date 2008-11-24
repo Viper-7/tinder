@@ -291,13 +291,10 @@ class TinderChannel
 
 						if command.chomp == "bf"
 							args =~ /^(.+?) (.+)$/
-							if !($2.nil? rescue true)
-								args = $1 + '" "' + $2
-							end
-							args = '"' + args + '"'
+							cmdline = Escape.shell_command(["#{lang}","#{filename}.#{ext}", $1, $2]) + ' 2>&1' if !($2.nil? rescue true)
+						else
+							cmdline = Escape.shell_command(["#{lang}","#{filename}.#{ext}", args]) + ' 2>&1'
 						end
-
-						cmdline = Escape.shell_command(["#{lang} #{filename}.#{ext}", args]) + ' 2>&1'
 
 	    					@tinderBot.status "Exec    : '" + cmdline + "'" if @tinderBot
 						

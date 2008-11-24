@@ -5,7 +5,6 @@ require 'sinatra'
 require 'cgi'
 require 'tinderChannelBase.rb'
 
-debug = false
 tinderChannel = TinderChannel.new('www')
 
 get '/*' do
@@ -13,7 +12,7 @@ get '/*' do
 	args = params["splat"].first.split('/')
 	cmd = args.shift
 	cmd = 'help' if cmd == '' or cmd == nil
-	args = ' ' + CGI.unescape(args.join("/"))
+	args = CGI.unescape(args.join("/"))
 
 	out = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private']).split("\n").join("<BR/>\n")
 
@@ -21,6 +20,6 @@ get '/*' do
 		redirect out
 	else
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>' + "\n" + 
-		'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">' + "\n" + out + "\n</html>"
+		'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><body>' + "\n" + out + "\n</body></html>"
 	end
 end

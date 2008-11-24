@@ -550,7 +550,7 @@ class TinderChannel
 	response = resp if resp != ""
 	@tinderBot.status "Output  : " + response if @tinderBot
 	if @channel == 'www' 
-		response.split("\n").join("<BR/>\n")
+		response = response.split("\n").join("<BR/>\n")
 		
 		while response.match(/\002/)
 			response.scan(/^([^\002]*)\002([^\002]*)(?:\002|$)([^\002]*)$/) {|x,y,z|

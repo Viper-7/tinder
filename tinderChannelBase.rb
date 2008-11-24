@@ -283,7 +283,7 @@ class TinderChannel
 						
 	    					lang = ext
 
-					    	args = args.gsub(/\|/,':')
+					    	args = args.gsub(/\|/,':').gsub(/"/,"'")
 
 	    					ENV['IIBOT_DIR'] = filename.match(/^(.+)\/.+?\/.+?\/.+?$/)[1] # iiBot script compatibilty
 	    					ENV['IIBOT_TEMP_DIR'] = ENV['IIBOT_DIR'] + '/tmp'

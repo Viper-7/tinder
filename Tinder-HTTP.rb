@@ -25,8 +25,7 @@ get '/*' do
 	out = ''
 	args = params["splat"].first.split('/')
 	cmd = args.shift
-	cmd = 'help' if cmd == ''
-	puts cmd
+	cmd = 'help' if cmd == '' or cmd == nil
 	args = ' ' + CGI.unescape(args.join("/"))
 
 	out = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private']).split("\n").join("<BR/>\n")

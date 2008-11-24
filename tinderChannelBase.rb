@@ -325,6 +325,7 @@ class TinderChannel
 				args = args.gsub(/rm/, 'rn') # Disable a few nasty low level php commands
 				args = args.gsub(/eval/, 'evel')
 				args = args.gsub(/exec/, 'exac')
+				args = args.gsub(/system/, 'sistem')
 				args = args.gsub(/fork/, 'fark')
 				args = args.gsub(/mail/, 'm@il')
 				args = args.gsub(/\[\\n\]/, "\n")
@@ -353,6 +354,8 @@ class TinderChannel
 			else
 				args = args.gsub(/rm/, 'rn')
 				args = args.gsub(/exec/, 'exac')
+				args = args.gsub(/system/, 'sistem')
+				args = args.gsub(/\%x/, '%z')
 				args = args.gsub(/fork/, 'fark')
 				args = args.gsub(/mail/, 'm@il')
 				args = args.gsub(/\[\\n\]/, "\n")
@@ -380,6 +383,7 @@ class TinderChannel
 			else
 				args = args.gsub(/rm/, 'rn')
 				args = args.gsub(/exec/, 'exac')
+				args = args.gsub(/system/, 'sistem')
 				args = args.gsub(/fork/, 'fark')
 				args = args.gsub(/mail/, 'm@il')
 				args = args.gsub(/\[\\n\]/, "\n")

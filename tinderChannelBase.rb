@@ -909,7 +909,6 @@ class TinderRSS
 		output = ""
 		begin
 			timeout(15) do
-				puts rls
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls.split('.+').first).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
 					rlstime = rlstime.split("\n").join("").gsub(/[_\.]/,' ')
 					if rls.match(/720[pP]?$/)
@@ -954,14 +953,14 @@ class TinderRSS
 			}
 		}
 		if output != ""
-			puts ".#{output}." + Date.today.strftime('%A') + "."
-			if output.match(Date.today.strftime('%A'))
+			puts ".#{output}." + (Date.today - 1).strftime('%A') + "."
+			if output.match(/#{(Date.today - 1).strftime('%A')}/i)
 				output = "#{name} is due today, but hasn't been pre'd yet"
 			else
-				if output.match((Date.today+1).strftime('%A'))
+				if output.match((Date.today).strftime('%A'))
 					output = "Chill out! #{name} isn't due until tomorrow!"
 				else
-					output = "Settle down! #{name} isn't due until #{output}!"
+					output = "Settle down! #{name} isn't due until #{(Date.today + 1).strftime('%A')}!"
 				end
 			end
 		end

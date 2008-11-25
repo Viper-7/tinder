@@ -912,12 +912,14 @@ class TinderRSS
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls.split('.+').first).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
 					rlstime = rlstime.split("\n").join("").gsub(/[_\.]/,' ')
 					if rls.match(/720[pP]?$/)
-						if name.match(/#{rls}/i)
+						rls2 = rls.gsub(/ /,'.+')
+						if name.match(/#{rls2}/i)
 							output = "#{name} was released #{rlstime.chomp} ago, But there's no #{@type.capitalize} yet :("
 							break
 						end
 					else
-						if name.match(/#{rls}/i)
+						rls2 = rls.gsub(/ /,'.+')
+						if name.match(/#{rls2}/i)
 							next if name.match(/720[pP]?/)
 							output = "#{name} was released #{rlstime.chomp} ago, But there's no #{@type.capitalize} yet :("
 							break

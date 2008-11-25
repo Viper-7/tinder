@@ -911,11 +911,14 @@ class TinderRSS
 			timeout(15) do
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls.split('.+').first).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
 					rlstime = rlstime.split("\n").join("").gsub(/[_\.]/,' ')
+					puts rls
 					if rls.match(/720[pP]?$/)
 						rls2 = rls.gsub(/ /,'.+')
+						puts rls2
 						if name.match(/#{rls2}/i)
 							output = "#{name} was released #{rlstime.chomp} ago, But there's no #{@type.capitalize} yet :("
 							break
+							puts output
 						end
 					else
 						rls2 = rls.gsub(/ /,'.+')

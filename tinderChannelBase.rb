@@ -909,7 +909,9 @@ class TinderRSS
 		output = ""
 		begin
 			timeout(15) do
+				puts rls
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls.split('.+').first).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
+					puts name
 					if rls.match(/720[pP]?$/)
 						if !rlstime.include? 'd' and name.match(/#{rls}/i)
 							output = "#{name} was released #{rlstime.chomp} ago, But there's no #{@type.capitalize} yet :("
@@ -1085,7 +1087,7 @@ class TinderRSS
 				end
 			else
 			    	args2 = args.gsub(/ /,'.+')
-				if x.match(/.+?: .*?#{args2} -/i)
+				if x.match(/.+?: .*?#{args2}/i)
 					next if x.match(/.+?: .*720[pP]?.*? -/)
 					next if x.match(/.+?: .*1080[pP]?.*? -/)
 					if @type == 'nzb'

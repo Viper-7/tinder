@@ -928,7 +928,6 @@ class TinderRSS
 			end
 		rescue
 		end
-		puts output
 		return output
 	end
 
@@ -1104,8 +1103,8 @@ class TinderRSS
 			end
 		}
 		
-		output = checkPre(args) if output == ""
-		output = checkScreening(args) if output == ""
+		output = checkPre(args) if output == ''
+		output = checkScreening(args) if output == ''
 		
 		return output
 	end

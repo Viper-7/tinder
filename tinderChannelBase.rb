@@ -928,7 +928,8 @@ class TinderRSS
 			end
 		rescue
 		end
-		return output.split("\n").join("")
+		puts output
+		return output
 	end
 
 	def checkScreening(rls)

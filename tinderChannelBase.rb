@@ -910,6 +910,7 @@ class TinderRSS
 		begin
 			timeout(15) do
 				rls3 = rls.gsub(/\.\+720[pP]?/,'')
+				puts rls3
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls3.split('.+').join('.')).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
 					rlstime = rlstime.split("\n").join("").gsub(/[_\.]/,' ')
 					puts rls

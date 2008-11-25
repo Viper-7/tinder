@@ -912,10 +912,8 @@ class TinderRSS
 				rls3 = rls.gsub(/ 720[pP]?/,'')
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls3.split(' ').join('.')).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
 					rlstime = rlstime.split("\n").join("").gsub(/[_\.]/,' ')
-					puts rls
 					if rls.match(/720[pP]?$/)
 						rls2 = rls.gsub(/ /,'.+')
-						puts rls2
 						if name.match(/#{rls2}/i)
 							output = "#{name} was released #{rlstime.chomp} ago, But there's no #{@type.capitalize} yet :("
 							break

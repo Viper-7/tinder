@@ -907,8 +907,6 @@ class TinderRSS
 
 	def checkPre(rls)
 		output = ""
-
-
 		begin
 			timeout(15) do
 				open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls.split('.+').first).read.scan(/([^^]*)\^(.*?)\^TV\^\^/){|rlstime,name|
@@ -1073,34 +1071,30 @@ class TinderRSS
 	    	output = ""
 		@buffer.each{|x|
 			if args.match(/720[pP]?/)
-			    	args = args.gsub(/ /,'.+')
-				if x.match(/.+?: .*?#{args}.*?/i)
+			    	args2 = args.gsub(/ /,'.+')
+				if x.match(/.+?: .*?#{args2}.*?/i)
 					if @type == 'nzb'
 						x =~ /^(.+?): (.+) - (.+?) (.*?)$/
 						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
-						puts output
 						break
 					else
 						x =~ /^(.+?): (.+) - (.+?)\s?$/
 						output = "#{$1}: #{$2} - #{tinyURL($3)}"
-						puts output
 						break
 					end
 				end
 			else
-			    	args = args.gsub(/ /,'.+')
-				if x.match(/.+?: .*?#{args} -/i)
+			    	args2 = args.gsub(/ /,'.+')
+				if x.match(/.+?: .*?#{args2} -/i)
 					next if x.match(/.+?: .*720[pP]?.*? -/)
 					next if x.match(/.+?: .*1080[pP]?.*? -/)
 					if @type == 'nzb'
 						x =~ /^(.+?): (.+) - (.+?) (.+?)$/
 						output = "#{$1}: #{$2} - #{cacheNZB($3)} #{$4}"
-						puts output
 						break
 					else
 						x =~ /^(.+?): (.+) - (.+?)\s?$/
 						output = "#{$1}: #{$2} - #{tinyURL($3)}"
-						puts output
 						break
 					end
 				end

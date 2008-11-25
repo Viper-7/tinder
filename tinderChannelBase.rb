@@ -1106,10 +1106,9 @@ class TinderRSS
 				end
 			end
 		}
-		if output == ""
-			output = checkPre(args)
-			output = checkScreening(args) if output == ""
-		end
+		
+		output = checkPre(args) if output == ""
+		output = checkScreening(args) if output == ""
 		
 		return output
 	end

@@ -536,7 +536,7 @@ class TinderChannel
 		end
 		resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
 		response = resp if resp != ""
-		@tinderBot.status "Output  : " + response
+		@tinderBot.status "Output  : " + response if @tinderBot
 	else
 		response = response.gsub(/(\n)/,"<BR/>\n")
 		

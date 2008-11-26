@@ -4,6 +4,7 @@ require 'open-uri'
 require 'timeout'
 
 def checkPre(rls)
+	puts rls
 	output = ""
 	begin
 		timeout(15) do

@@ -13,15 +13,12 @@ def checkPre(rls)
 				name = name.gsub(/[_\.]/,' ')
 				if rls.match(/720[pP]?$/)
 					rls2 = rls.gsub(/ /,'.+')
-					if name.match(/#{rls2}/i)
+					if name.match(/720/)
 						puts "#{type}: #{name} was released #{rlstime.chomp} ago"
 					end
 				else
 					rls2 = rls.gsub(/ /,'.+')
-					if name.match(/#{rls2}/i)
-						next if name.match(/720[pP]?/)
-						puts "#{type}: #{name} was released #{rlstime.chomp} ago"
-					end
+					puts "#{type}: #{name} was released #{rlstime.chomp} ago"
 				end
 			}
 		end

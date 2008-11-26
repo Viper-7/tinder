@@ -8,10 +8,7 @@ def checkPre(rls)
 	begin
 		timeout(15) do
 			rls3 = rls.gsub(/ 720[pP]?/,'')
-			puts "http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls3.split(' ').join('.')
-			puts open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls3.split(' ').join('.')).read
-			rls3.scan(/([^^]*)\^([^^]*)\^([^^]*)\^\^/){|rlstime,name,type|
-				puts name
+			open("http://scnsrc.net/pre/bots.php?user=betauser38&pass=ye9893V&results=5&search=" + rls3.split(' ').join('.')).read.scan(/([^^]*)\^([^^]*)\^([^^]*)\^\^/){|rlstime,name,type|
 				rlstime = rlstime.split("\n").join("")
 				name = name.gsub(/[_\.]/,' ')
 				if rls.match(/720[pP]?$/)

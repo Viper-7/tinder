@@ -31,4 +31,4 @@ def checkPre(rls)
 	end
 end
 
-checkPre($*)
+checkPre($*.join(' '))

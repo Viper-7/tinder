@@ -3,7 +3,7 @@ require 'cgi'
 
 outarr = []
 
-CGI.unescape($*.join(' ')).downcase.unpack('C*').each{|x|
+CGI.unescape($*.join(' ')).unpack('C*').each{|x|
 	x = x - 1 if x > 96
 	
 	if x > 109

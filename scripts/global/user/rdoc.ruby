@@ -47,12 +47,7 @@ def getRDocMethod(baseurl,classname,methodname="",searchtype='class')
 	classes.each {|classurl|
 		data = open("#{baseurl}#{classurl}").read if classurl != classes.first
 		hitcount += 1 if classurl != classes.first
-		if searchtype == 'class'
-			regex = /<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>|<pre>).+?Public Instance methods/im
-		else
-			regex = /<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?Public Instance methods.+?<div class="m-description">(.+?)(?:<h3>|<\/div>|<pre>)/im
-		end
-		data.scan(regex) { 
+		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>|<pre>)/im) { 
 		|anchor,mnames,mdesc|
 			if mnames.include?('<br')
 				mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|
@@ -132,10 +127,8 @@ def getRDocMethod(baseurl,classname,methodname="",searchtype='class')
 	end
 end
 
-if ARGV[0].match(/^(.+)\.(\w+?)$/)
+if ARGV[0].match(/^(.+)\.|\#(\w+?)$/)
 	getRDocMethod('http://www.viper-7.com/rdoc/', $1, $2,'class')
-elseif ARGV[0].match(/^(.+)\#(\w+?)$/)
-	getRDocMethod('http://www.viper-7.com/rdoc/', $1, $2,'instance')
 else
 	getRDocMethod('http://www.viper-7.com/rdoc/', ARGV[0])
 end

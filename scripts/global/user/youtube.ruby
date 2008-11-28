@@ -8,11 +8,11 @@ end
 
 if args.first == args.first.to_i.to_s
 	count = 0
-	args.shift
+	limit = args.shift
 	inStr = open("http://www.youtube.com/results?search_query=" + args.join("+")).readlines.join
 	inStr = data.scan(/<div class="vldescbox".*?>(.*?)<div class="vlclearaltl">/im).sort_by{rand}.sort_by{rand}.each {|data|
 		count += 1
-		break if count > args.first.to_i
+		break if count > limit
 		data.scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/im) { |b|
 			b.to_s =~ /<a id=".+?"\s*href="(.+?)"\s*title="(.+?)">/i
 			name, link = $2, $1

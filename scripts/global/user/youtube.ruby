@@ -13,7 +13,7 @@ if args.first.chomp == args.first.to_i.to_s.chomp
 	inStr = open("http://www.youtube.com/results?search_query=" + args.join("+")).read
 	inStr.scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/im) {|b|
 		p b
-		b.to_s =~ /<a id=".+?"\s*href="(.+?)"\s*title="(.+?)">/im
+		b.to_s =~ /<a id=\\?".+?\\?"\s*href=\\?"(.+?)\\?"\s*title=\\?"(.+?)\\?">/i
 		name, link = $2, $1
 		
 		if name != nil

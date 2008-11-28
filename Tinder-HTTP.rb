@@ -12,8 +12,12 @@ get '/*' do
 	args = params["splat"].first.split('/')
 	cmd = args.shift
 	cmd = 'help' if cmd == '' or cmd == nil
-	args = CGI.unescape(args.join(";")).gsub(/http:;/,'http://')
-
+	case cmd
+		when /php|ruby|tcl/
+			args = CGI.unescape(args.join(";")).gsub(/http:;/,'http://')
+		else
+			args = CGI.unescape(args.join(" ")).gsub(/http:;/,'http://')
+	end
 	outStr = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
 	
 	if outStr[0,7] == 'http://'

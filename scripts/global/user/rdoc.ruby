@@ -1,4 +1,4 @@
-def getRDocMethod(baseurl,classname,methodname="",searchtype)
+def getRDocMethod(baseurl,classname,methodname="",searchtype='class')
 	require 'open-uri'
 
 	outarr = Array.new

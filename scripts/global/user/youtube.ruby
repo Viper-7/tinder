@@ -10,7 +10,7 @@ data = data.scan(/<div class="vldescbox".*?>(.*?)<div class="vlclearaltl">/im).s
 
 data.scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/im) { |b|
 	puts b
-	b.to_s =~ /<a id=".+?" title="(.+?)" href="(.+?)">/i
+	b.to_s =~ /<a id=".+?"\s*href="(.+?)"\s*title="(.+?)">/i
 	name, link = $2, $1
 	
 	puts "" + name + " - http://www.youtube.com" + link

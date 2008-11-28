@@ -127,7 +127,7 @@ def getRDocMethod(baseurl,classname,methodname="",searchtype='class')
 	end
 end
 
-if ARGV[0].match(/^(.+)\.|\#(\w+?)$/)
+if ARGV[0].match(/^(.+)(?:\.|#)(\w+?)$/)
 	getRDocMethod('http://www.viper-7.com/rdoc/', $1, $2,'class')
 else
 	getRDocMethod('http://www.viper-7.com/rdoc/', ARGV[0])

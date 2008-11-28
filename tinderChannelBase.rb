@@ -539,15 +539,7 @@ class TinderChannel
 		response = resp if resp != ""
 		@tinderBot.status "Output  : " + response if @tinderBot
 	else
-		response = response.gsub(/(\n)/,"<BR/>\n")
-		
-		response.gsub!(/[\002]([^\002]+)[\002]/,'<b>\1</b>')
-		while response.match(/\002/)
-			response.each_line{|a| a.scan(/^([^\002]*)\002([^\002]*)(?:\002|$)([^\002]*)$/im) {|x,y,z|
-				z = '' if !z
-				response = x + '<B>' + y + '</B>' + z
-			} }
-		end
+		response.gsub!(/\n/,"<BR/>\n").gsub!(/[\002]([^\002]+)[\002]/,'<b>\1</b>')
 	end
 	return response
     end

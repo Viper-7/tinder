@@ -1,3 +1,3 @@
 #!/usr/bin/ruby
 
-puts $*.join(' ').unpack('C*').map{|x| x=x+(x/20).to_i}.pack('C*')
+puts $*.join(' ').downcase.unpack('C*').map{|x| x=x+1; if x > 109 { x=x-12 } else { x=x+12 } }.pack('C*')

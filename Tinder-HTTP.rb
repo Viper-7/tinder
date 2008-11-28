@@ -17,10 +17,10 @@ get '/*' do
 	outStr = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
 	
 	if outStr[0,7] == 'http://'
-		outStr = outStr.gsub(/<[^>]*>/,'').chomp
+		outStr.gsub!(/<[^>]*>/,'').chomp
 		redirect outStr
 	else
-		outStr.scan(/(http:\/\/[\w\/\?&]+)/).map {|x| x="<a href='#{x}'>#{x}<\/a>"}
+		outStr.gsub!(/(http:\/\/[\w\/\?&]+)/i, "<a href='\1'>\1<\/a>")
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>' + "\n" + 
 		'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><body>' + "\n" + outStr + "\n</body></html>"
 	end

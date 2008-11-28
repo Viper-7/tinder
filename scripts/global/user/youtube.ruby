@@ -10,17 +10,15 @@ end
 if args.first.chomp == args.first.to_i.to_s.chomp
 	count = 0
 	limit = args.shift.to_i + 1
-	inStr = open("http://www.youtube.com/results?search_query=" + args.join("+")).readlines.join
+	inStr = open("http://www.youtube.com/results?search_query=" + args.join("+")).read
 	inStr.scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/im) {|b|
-		b.to_s =~ /<a id=".+?"\s*href="(.+?)"\s*title="(.+?)">/i
+		b.to_s =~ /<a id=".+?"\s*href="(.+?)"\s*title="(.+?)">/im
 		name, link = $2, $1
 		
 		if name != nil
 			count += 1
 			break if count > limit
 			puts "" + name + " - http://www.youtube.com" + link
-		else
-			puts 'flail'
 		end
 	}
 else

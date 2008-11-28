@@ -263,7 +263,7 @@ class TinderChannel
     end
 
     def runCommand(command, args, nick, host, commandtypes)
-    	sendChannel 'Searching, This may take a few moments' if command == 'nzbsearch'
+    	sendChannel 'Searching, This may take a few moments' if command == 'nzbsearch' and @tinderBot != nil
     	response = ""
     	hit = false
     	commandtypes.each{|z|

@@ -11,7 +11,7 @@ if args.first.chomp == args.first.to_i.to_s.chomp
 	count = 0
 	limit = args.shift.to_i + 1
 	inStr = open("http://www.youtube.com/results?search_query=" + args.join("+")).readlines.join
-	inStr.scan(/<div\s*class="vltitle">(.*?)<\span>/im).sort_by{rand}.each {|data|
+	inStr.scan(/<div\s*class="vltitle">(.*?)<\/span>/im).sort_by{rand}.each {|data|
 		p data
 		count += 1
 		break if count > limit

@@ -1,7 +1,9 @@
 #!/usr/bin/ruby
 require 'cgi'
 
-puts CGI.unescape($*.join(' ')).downcase.unpack('C*').map{|x|
+outarr = []
+
+CGI.unescape($*.join(' ')).downcase.unpack('C*').each{|x|
 	x = x + 1 if x > 96
 	if x < 112 and x > 96 
 		x = x + 12
@@ -10,4 +12,7 @@ puts CGI.unescape($*.join(' ')).downcase.unpack('C*').map{|x|
 			x = x - 12
 		end
 	end
-}.pack('C*')
+	outarr.push x
+}
+
+puts x.pack('C*')

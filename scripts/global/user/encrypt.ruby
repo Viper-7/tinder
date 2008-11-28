@@ -7,4 +7,5 @@ puts $*.join(' ').downcase.unpack('C*').map{|x|
 	else
 		x=x+12 if x > 96
 	end
+	p x
 }.pack('C*')

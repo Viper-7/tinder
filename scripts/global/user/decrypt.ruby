@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
+require 'cgi'
 
-puts $*.join(' ').downcase.unpack('C*').map{|x|
+puts CGI.unescape($*.join(' ')).downcase.unpack('C*').map{|x|
 	x = x
 	x = x - 1 if x > 96
 	if x < 111

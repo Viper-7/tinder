@@ -20,7 +20,7 @@ def cacheNZB(outLink)
 	return output
 end
 
-inStr = open('http://www.nzbsrus.com/nzbbrowse.php?searchwhere=title&search=' + $*.join('+')).read
+inStr = open('http://www.nzbsrus.com/nzbbrowse.php?searchwhere=title&search=' + $*.join('+').split(' ').join('+')).read
 line = inStr.match(/<table class="nzbindex2" cellspacing="0" cellpadding="0">.+?<tr>(.+?)<\/tr>/im)[0]
 title = line.match(/<font class="nzbtitle">(.+?)<\/font>/)[0]
 puts line

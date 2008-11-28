@@ -9,7 +9,7 @@ end
 
 if args.first.chomp == args.first.to_i.to_s.chomp
 	count = 0
-	limit = args.shift.to_i + 1
+	limit = args.shift.to_i
 	inStr = open("http://www.youtube.com/results?search_query=" + args.join("+")).read
 	inStr.scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/im) {|b|
 		b.to_s =~ /<a id=\\?".+?\\?"\s*href=\\?"(.+?)\\?"\s*title=\\?"(.+?)\\?">/i
@@ -32,4 +32,3 @@ else
 		puts "" + name + " - http://www.youtube.com" + link
 	}
 end
-

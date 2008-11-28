@@ -51,6 +51,7 @@ def getRDocMethod(baseurl,classname,methodname="",searchtype='class')
 			regex = /<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>|<pre>).+?Public Instance methods/im
 		else
 			regex = /<a name="(.+?)">.+?<span class="method-name">(.+?)<\/span>.+?Public Instance methods.+?<div class="m-description">(.+?)(?:<h3>|<\/div>|<pre>)/im
+		end
 		data.scan(regex) { 
 		|anchor,mnames,mdesc|
 			if mnames.include?('<br')

@@ -47,7 +47,7 @@ def getRDocMethod(baseurl,classname,methodname="",searchtype='class')
 	classes.each {|classurl|
 		data = open("#{baseurl}#{classurl}").read if classurl != classes.first
 		hitcount += 1 if classurl != classes.first
-		data.scan(/<a name="(.+?)">.+?<span class="method-name">([^(<\[]+?)<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>|<pre>)/im) { 
+		data.scan(/<a name="(.+?)">.+?<span class="method-name">(.+?)\(?<\/span>.+?<div class="m-description">(.+?)(?:<h3>|<\/div>|<pre>)/im) { 
 		|anchor,mnames,mdesc|
 			if mnames.include?('<br')
 				mnames.scan(/(.+?)<br[ \/]*>/im) {|mname|

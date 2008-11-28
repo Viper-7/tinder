@@ -23,7 +23,7 @@ count = 0
 inStr.scan(/<table class="nzbindex2" cellspacing="0" cellpadding="0">.+?<tr>(.+?)<\/tr>/im) {|line|
 	count += 1
 	break if count > 3
-	link = 'http://www.nzbsrus.com/nzbdownload.php/' + line.match(/<a href="nzbdownload.php\/(.+?)">/im)[1]
-	title = line.match(/<font class="nzbtitle">(.+?)<\/font>/)[0].gsub(/(?:<[^>]*?>|&[^;]*?;|\n)/,'').chomp
+	link = 'http://www.nzbsrus.com/nzbdownload.php/' + line[0].match(/<a href="nzbdownload.php\/(.+?)">/im)[1]
+	title = line[0].match(/<font class="nzbtitle">(.+?)<\/font>/)[0].gsub(/(?:<[^>]*?>|&[^;]*?;|\n)/,'').chomp
 	puts "#{title} - #{cacheNZB(link)}"
 }

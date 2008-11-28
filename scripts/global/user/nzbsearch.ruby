@@ -22,6 +22,7 @@ inStr = open('http://www.nzbsrus.com/nzbbrowse.php?searchwhere=title&search=' + 
 inStr = inStr.match(/<table class="nzbindex2" cellspacing="0" cellpadding="0">(.+)<p align="center">/im)[1]
 count = 0
 inStr.scan(/<tr>(.+?)<\/tr>/im) {|line|
+	next if !line[0].match(/nzbdownload.php/im)
 	count += 1
 	break if count > 3 or line == nil
 	link = 'http://www.nzbsrus.com/nzbdownload.php/' + line[0].match(/<a href="nzbdownload.php\/(.+?)">/im)[1]

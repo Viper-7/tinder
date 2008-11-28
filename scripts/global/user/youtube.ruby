@@ -1,6 +1,6 @@
 require 'open-uri'
 require 'cgi'
-args = CGI.unescape($*).join(' ').split(' ')
+args = CGI.unescape($*.join(' ')).split(' ')
 
 if args.join("") == ""
 	puts "@youtube <search string>  : Searches YouTube and returns a random video"

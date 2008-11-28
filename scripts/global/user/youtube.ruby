@@ -1,11 +1,12 @@
 require 'open-uri'
-args = $*
+require 'cgi'
+args = CGI.unescape($*).join(' ').split(' ')
 
 if args.join("") == ""
 	puts "@youtube <search string>  : Searches YouTube and returns a random video"
 	exit
 end
-p args.first
+
 if args.first.chomp == args.first.to_i.to_s.chomp
 	puts 'hi'
 	count = 0

@@ -259,7 +259,7 @@ class TinderChannel
     end
 
     def customCommands
-	return 'dump|_@'
+	return 'dump|.\@'
     end
 
     def runCommand(command, args, nick, host, commandtypes)

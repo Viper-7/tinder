@@ -5,6 +5,6 @@ puts $*.join('+').downcase.unpack('C*').map{|x|
 	if x > 111
 		x=x-12
 	else
-		x=x+12 if x > 96
+		x=x+12
 	end
 }.pack('C*')

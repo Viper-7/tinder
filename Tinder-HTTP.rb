@@ -8,16 +8,17 @@ require 'tinderChannelBase.rb'
 tinderChannel = TinderChannel.new('www')
 
 get '/*' do
-	out = ''
+	outStr = ''
 	args = params["splat"].first.split('/')
 	cmd = args.shift
 	cmd = 'help' if cmd == '' or cmd == nil
 	args = CGI.unescape(args.join(";")).gsub(/http:;/,'http://')
 
-	out = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
+	outStr = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
 	
-	if out[0,7] == 'http://'
-		redirect out.gsub(/<[^>]*>/,'').chomp
+	if outStr[0,7] == 'http://'
+		outStr = outStr.gsub(/<[^>]*>/,'').chomp
+		redirect outStr
 	else
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>' + "\n" + 
 		'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><body>' + "\n" + out + "\n</body></html>"

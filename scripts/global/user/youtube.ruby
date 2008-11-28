@@ -11,7 +11,7 @@ if args.first.chomp == args.first.to_i.to_s.chomp
 	count = 0
 	limit = args.shift.to_i + 1
 	inStr = open("http://www.youtube.com/results?search_query=" + args.join("+")).readlines.join
-	inStr.scan(/<div\s*class="vltitle">(.*?)<div class="hide">/im) {|data|
+	inStr.scan(/<div\s*class="vldescbox"(.*?)<div class="hide">/im) {|data|
 		data[0].scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/im) {|b|
 			b.to_s =~ /<a id=".+?"\s*href="(.+?)"\s*title="(.+?)">/i
 			name, link = $2, $1

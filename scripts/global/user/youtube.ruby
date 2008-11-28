@@ -12,7 +12,7 @@ if args.first.chomp == args.first.to_i.to_s.chomp
 	limit = args.shift.to_i + 1
 	inStr = open("http://www.youtube.com/results?search_query=" + args.join("+")).read
 	inStr.scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/im) {|b|
-		b.to_s =~ /<a id=\\?"[^"]+?\\?"\s*href=\\?"([^"]+?)\\?"\s*title=\\?"([^"]+?)\\?">/i
+		b.to_s =~ /<a id=\\?".+?\\?"\s*href=\\?"(.+?)\\?"\s*title=\\?"(.+?)\\?">/i
 		name, link = $2, $1
 		
 		if name != nil

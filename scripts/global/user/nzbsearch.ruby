@@ -32,7 +32,7 @@ begin
 		outStr += "#{title} - #{cacheNZB(link)}\n"
 	}
 rescue
-	outStr = 'No Results' if outStr == ''
+	outStr = "No Results\n" if outStr == ''
 ensure
 	puts outStr
 end

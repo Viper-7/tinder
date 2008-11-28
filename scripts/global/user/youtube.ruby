@@ -18,7 +18,6 @@ if args.first.chomp == args.first.to_i.to_s.chomp
 			
 			if name != nil
 				count += 1
-				break if count > limit
 				puts "" + name + " - http://www.youtube.com" + link
 			end
 		}

@@ -6,7 +6,8 @@ if args.join("") == ""
 	exit
 end
 
-if args.first == args.first.to_i.to_s
+if args.first.chomp == args.first.to_i.to_s.chomp
+	puts 'hi'
 	count = 0
 	limit = args.shift
 	inStr = open("http://www.youtube.com/results?search_query=" + args.join("+")).readlines.join

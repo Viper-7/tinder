@@ -5,7 +5,7 @@ outarr = []
 
 CGI.unescape($*.join(' ')).downcase.unpack('C*').each{|x|
 	x = x - 1 if x > 97
-	if x > 108
+	if x > 112
 		x = x - 12
 	else
 		if x > 96

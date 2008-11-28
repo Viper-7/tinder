@@ -2,9 +2,9 @@
 
 puts $*.join(' ').downcase.unpack('C*').map{|x|
 	x=x-1
-	if x > 109
-		x=x-12
-	else
+	if x <= 109
 		x=x+12
+	else
+		x=x-12
 	end
 }.pack('C*')

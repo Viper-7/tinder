@@ -12,16 +12,15 @@ if args.first.chomp == args.first.to_i.to_s.chomp
 	limit = args.shift.to_i + 1
 	inStr = open("http://www.youtube.com/results?search_query=" + args.join("+")).readlines.join
 	inStr.scan(/<div\s*class="vltitle">(.*?)<div class="hide">/im).sort_by{rand}.each {|data|
-		p data
-		p count
-		p limit
-		count += 1
-		break if count > limit
 		data[0].scan(/<div class="vlshortTitle">(.*?)<div class="vllongTitle">/im) {|b|
 			b.to_s =~ /<a id=".+?"\s*href="(.+?)"\s*title="(.+?)">/i
 			name, link = $2, $1
 			
-			puts "" + name + " - http://www.youtube.com" + link if name != nil
+			if name != nil
+				count += 1
+				break if count > limit
+				puts "" + name + " - http://www.youtube.com" + link
+			end
 		}
 	}
 else

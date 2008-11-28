@@ -24,7 +24,7 @@ get '/*' do
 		outStr.gsub!(/<[^>]*>/,'').chomp
 		redirect outStr
 	else
-		outStr.gsub!(/(http:\/\/[\w\/\?&\.\=\_\#\@\!]+)/i, '<a href="\1">\1</a>')
+		outStr.gsub!(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>')
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>' + "\n" + 
 		'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><body>' + "\n" + outStr + "\n</body></html>"
 	end

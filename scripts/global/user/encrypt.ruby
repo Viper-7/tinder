@@ -15,4 +15,4 @@ CGI.unescape($*.join(' ')).downcase.unpack('C*').each{|x|
 	outarr.push x
 }
 
-puts x.pack('C*')
+puts outarr.pack('C*')

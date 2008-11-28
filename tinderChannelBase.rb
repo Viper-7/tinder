@@ -542,7 +542,7 @@ class TinderChannel
 		response = response.gsub(/(\n)/,"<BR/>\n")
 		
 		while response.match(/\002/)
-			response.scan(/^([^\002]*)\002([^\002]*)(?:\002|$)([^\002]*)$/im) {|x,y,z|
+			response.each_line.scan(/^([^\002]*)\002([^\002]*)(?:\002|$)([^\002]*)$/im) {|x,y,z|
 				z = '' if !z
 				response = x + '<B>' + y + '</B>' + z
 			}

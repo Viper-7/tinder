@@ -6,11 +6,11 @@ outarr = []
 CGI.unescape($*.join(' ')).downcase.unpack('C*').each{|x|
 	x = x + 1 if x > 96
 	
-	if x > 110
-		x = x - 14
+	if x > 111
+		x = x - 15
 	else
 		if x > 96
-			x = x + 14
+			x = x + 15
 		end
 	end
 	outarr.push x

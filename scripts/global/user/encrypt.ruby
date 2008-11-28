@@ -7,5 +7,4 @@ puts $*.join('"').downcase.unpack('C*').map{|x|
 	else
 		x=x+12
 	end
-	puts x
 }.pack('C*')

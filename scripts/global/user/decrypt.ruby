@@ -9,7 +9,7 @@ CGI.unescape($*.join(' ')).downcase.unpack('C*').each{|x|
 	if x > 110
 		x = x - 14
 	else
-		if x > 96
+		if x > 97
 			x = x + 14
 		end
 	end

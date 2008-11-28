@@ -19,6 +19,8 @@ if args.first.chomp == args.first.to_i.to_s.chomp
 			count += 1
 			break if count > limit
 			puts "" + name + " - http://www.youtube.com" + link
+		else
+			puts 'flail'
 		end
 	}
 else

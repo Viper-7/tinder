@@ -25,4 +25,4 @@ line = inStr.match(/<table class="nzbindex2" cellspacing="0" cellpadding="0">.+?
 link = 'http://www.nzbsrus.com/nzbdownload.php/' + line.match(/<a href="nzbdownload.php\/(.+?)">/im)[1]
 title = line.match(/<font class="nzbtitle">(.+?)<\/font>/)[0].gsub(/(?:<[^>]*?>|&[^;]*?;|\n)/,'').chomp
 puts title
-puts link
+puts cacheNZB(link)

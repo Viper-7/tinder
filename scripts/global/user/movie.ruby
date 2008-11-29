@@ -1,6 +1,5 @@
 require 'movie.rb'
 
-Movie.connect
 newMovie = Movie.fetch_by_name('%' + $*.join(' ').gsub(/(?:and|&|or|of|the|!|')/,'').split(/\s*/).join('%') + '%').first
 if newMovie.nil?
 	puts 'No Match :('

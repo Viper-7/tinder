@@ -4,6 +4,6 @@ newMovie = Movie.fetch_by_name('%' + $*.map{|x| x=x.gsub(/and|&|or|of|the|!|'/,'
 if newMovie.nil?
 	puts 'No Match :('
 else
-	newMovie.cache
+	newMovie.first.cache
 	puts "#{newMovie.name} - http://www.viper-7.com/flv/?imdbid=#{newMovie.imdbid}"
 end

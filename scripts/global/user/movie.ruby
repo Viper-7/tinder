@@ -1,6 +1,6 @@
 require 'movie.rb'
 
-newMovie = Movie.fetch_by_name('%' + $*.join(' ').split(' ').map{|x| x=x.gsub(/and|&|or|of|the|!|'/,'').chomp}.join('%') + '%').first
+newMovie = Movie.fetch_by_name('%' + $*.map{|x| x=x.gsub(/and|&|or|of|the|!|'/,'').chomp}.join('%') + '%').first
 if newMovie.nil?
 	puts 'No Match :('
 else

@@ -1,6 +1,7 @@
 require 'open-uri'
+require 'cgi'
 
-open("http://www.google.com.au/search?num=1&q=" + $*.join("+")).each_line { |line| 
+open("http://www.google.com.au/search?num=1&q=" + CGI.escape($*.join("+"))).each_line { |line| 
 	line.scan(/<li class=g>(.*?)<\/div><\/div><br/) { |a|
 		a[0].scan(/<h3 class=r>(.*?)<cite>/) { |b|
 			b=b.to_s

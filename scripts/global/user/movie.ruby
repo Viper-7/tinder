@@ -1,5 +1,5 @@
 require 'mysql'
-require 'movie.rb'
+require '../movie.rb'
 
 newMovie = Movie.fetch_by_name('%' + $*.join(' ').chomp + '%')
 newMovie.cache

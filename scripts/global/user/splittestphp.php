@@ -28,12 +28,12 @@
 		$val = split(',',$instr);
 		$val = $val[1];
 	}
-	echo 'PHP split' . (mktime() + microtime()) - $time;
+	echo 'PHP split' . (mktime() + microtime()) - $time . '<BR>';
 	$time=(mktime() + microtime());
 
 	for($x=0;$x<100000;$x++) {
 		$val = preg_match('/^.+?,(.+?),/',$instr);
 		$val = $val[1];
 	}
-	echo 'PHP split' . (mktime() + microtime()) - $time;
+	echo 'PHP split' . (mktime() + microtime()) - $time . '<BR>';
 ?>

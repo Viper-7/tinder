@@ -13,4 +13,4 @@ class RSS::Parser
 	end	
 end
 
-puts RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read).render
+puts RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read).class

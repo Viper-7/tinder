@@ -1,4 +1,4 @@
-require 'open-uri'; require 'rss/1.0'; require 'rss/2.0'; require 'haml'
+require 'open-uri'; require 'rss/1.0'; require 'rss/2.0'; require 'rubygems'; require 'haml'
 
 rss = RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read)
 rss.items.each{|item|

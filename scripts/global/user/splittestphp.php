@@ -14,26 +14,26 @@
 		$val = substr($instr,$tok,strpos($instr,',',$tok)-$tok);
 	}
 
-	echo 'PHP token' . (mktime() + microtime()) - $time . '<BR>';
+	echo 'PHP token' . ((mktime() + microtime()) - $time) . '<BR>';
 	$time=(mktime() + microtime());
 
 	for($x=0;$x<100000;$x++) {
 		$val = get_field($instr,',',1);
 	}
 
-	echo 'PHP token function' . (mktime() + microtime()) - $time . '<BR>';
+	echo 'PHP token function' . ((mktime() + microtime()) - $time) . '<BR>';
 	$time=(mktime() + microtime());
 
 	for($x=0;$x<100000;$x++) {
 		$val = split(',',$instr);
 		$val = $val[1];
 	}
-	echo 'PHP split' . (mktime() + microtime()) - $time . '<BR>';
+	echo 'PHP split' . ((mktime() + microtime()) - $time) . '<BR>';
 	$time=(mktime() + microtime());
 
 	for($x=0;$x<100000;$x++) {
 		$val = preg_match('/^.+?,(.+?),/',$instr);
 		$val = $val[1];
 	}
-	echo 'PHP split' . (mktime() + microtime()) - $time . '<BR>';
+	echo 'PHP split' . ((mktime() + microtime()) - $time) . '<BR>';
 ?>

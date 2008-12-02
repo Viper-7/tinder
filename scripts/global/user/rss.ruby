@@ -3,7 +3,7 @@ require 'rubygems'; require 'open-uri'; require 'rss'; require 'haml'
 class RSS::Rss::Channel::Item
 	def render
 		sout = "
-\#item#{count}
+\#item
   .title= link
   .description= description
   .date= date"

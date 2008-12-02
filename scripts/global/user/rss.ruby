@@ -2,7 +2,8 @@ require 'rubygems'; require 'open-uri'; require 'rss'; require 'haml'
 
 class RSS::Rss::Channel::Item
 	def render
-		template = '#item
+		template = '
+#item
   .title= link
   .description= description
   .date= date'

@@ -3,10 +3,10 @@ require 'rubygems'; require 'open-uri'; require 'rss'; require 'haml'
 class RSS::Rss::Channel::Item
 	def render
 		template = '
-%p#item
-  .title= link
-  .description= description
-  .date= date'
+%p.item
+  #title= link
+  #description= description
+  #date= date'
 		print Haml::Engine.new(template).render(self)
 	end	
 end

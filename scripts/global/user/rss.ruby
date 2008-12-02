@@ -1,14 +1,12 @@
-require 'rubygems'; require 'open-uri'; require 'rss'; require 'haml'
+require 'rubygems'; require 'rss'; require 'haml'
 
 class RSS::Rss::Channel::Item
 	def render
 		template = '
 %p.item
-  .head
-    .title= title
-    .link= link
-  .description= description
-  .date= date'
+  .title= title
+  .link= link
+  .date= dc:date'
 		print Haml::Engine.new(template).render(self)
 	end	
 end

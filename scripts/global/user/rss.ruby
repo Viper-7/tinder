@@ -2,11 +2,13 @@ require 'rubygems'; require 'open-uri'; require 'rss'; require 'haml'
 
 class RSS::Rss
 	def render
+		count = 0
 		self.items.each{|item|
-			sout = ".item
-  .title => #{item.link}}
-  .description => #{item.description}
-  .date => #{item.date}"
+			count += 1
+			sout = "#item#{count}
+  .title= #{item.link}}
+  .description= #{item.description}
+  .date= #{item.date}"
 			puts Haml::Engine.new(sout).render
 		}
 	end	

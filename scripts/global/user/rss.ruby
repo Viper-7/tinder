@@ -6,7 +6,8 @@ class RSS::Rss::Channel::Item
 #item
   .title= link
   .description= description
-  .date= date'
+  .date= date
+%br'
 		print Haml::Engine.new(template).render(self)
 	end	
 end

@@ -539,7 +539,7 @@ class TinderChannel
 		response = resp if resp != ""
 		@tinderBot.status "Output  : " + response if @tinderBot
 	else
-		response.gsub!(/\n/,"<BR/>\n").gsub!(/[\002]([^\002]+)[\002]/,'<b>\1</b>') if !response.nil?
+		response.gsub!(/\n/,"<BR/>\n").gsub!(/[\002]([^\002]+)[\002]/,'<b>\1</b>') if !response == ''
 	end
 	return response
     end

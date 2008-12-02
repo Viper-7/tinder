@@ -3,13 +3,11 @@ require 'rubygems'; require 'open-uri'; require 'rss'; require 'haml'
 class RSS::Parser
 	def render
 		self.items.each{|item|
-			sout << END
-.item
+			sout = ".item
   %a{ :href => '#{item.link}'}
     #{item.title}
   #{item.description}
-  #{item.date}
-END
+  #{item.date}"
 			puts Haml::Engine.new(sout).render
 		}
 	end	

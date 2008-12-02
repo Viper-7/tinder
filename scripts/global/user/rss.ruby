@@ -14,4 +14,3 @@ class RSS::Parser
 end
 
 puts RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read).render
-}

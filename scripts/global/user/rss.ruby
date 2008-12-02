@@ -12,6 +12,5 @@ class RSS::Rss::Channel::Item
 end
 
 RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read).items.each{|item|
-	puts item.class
-#	item.render
+	item.render
 }

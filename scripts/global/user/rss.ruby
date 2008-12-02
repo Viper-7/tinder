@@ -13,6 +13,5 @@ end
 
 rss = RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read)
 rss.items.each{|item|
-	puts item.index
 	item.render
 }

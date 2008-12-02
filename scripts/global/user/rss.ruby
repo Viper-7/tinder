@@ -1,6 +1,6 @@
 require 'rubygems'; require 'open-uri'; require 'rss'; require 'haml'
 
-class RSS::Parser
+class RSS::Rss
 	def render
 		self.items.each{|item|
 			sout = ".item

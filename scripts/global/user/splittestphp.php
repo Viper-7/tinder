@@ -35,5 +35,5 @@
 		$val = preg_match('/^.+?,(.+?),/',$instr);
 		$val = $val[1];
 	}
-	echo 'PHP split ' . ((mktime() + microtime()) - $time) . '<BR>';
+	echo 'PHP regex ' . ((mktime() + microtime()) - $time) . '<BR>';
 ?>

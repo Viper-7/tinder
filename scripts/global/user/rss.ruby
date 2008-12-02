@@ -4,7 +4,8 @@ class RSS::Rss
 	def render
 		count = 0
 		self.items.each{|item|
-			sout = "\#item#{count}
+			sout = "
+\#item#{count}
   .title= link
   .description= description
   .date= date"
@@ -14,4 +15,7 @@ class RSS::Rss
 	end	
 end
 
-RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read).render
+RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read).items.each{|item|
+	puts item.class
+#	item.render
+}

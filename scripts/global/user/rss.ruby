@@ -2,11 +2,10 @@ require 'rubygems'; require 'open-uri'; require 'rss'; require 'haml'
 
 class RSS::Rss::Channel::Item
 	def render
-		sout = '
-#item
-  .title= link
-  .description= description
-  .date= Date'
+		sout = '#item'
+		sout += '  .title= link'
+		sout += '  .description= description'
+		sout += '  .date= date'
 		print Haml::Engine.new(sout).render(self)
 	end	
 end

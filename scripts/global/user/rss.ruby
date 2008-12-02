@@ -6,9 +6,9 @@ class RSS::Rss
 		self.items.each{|item|
 			count += 1
 			sout = "#item#{count}
-  .title= #{item.link}}
-  .description= #{item.description}
-  .date= #{item.date}"
+  .title= item.link
+  .description= item.description
+  .date= item.date"
 			puts Haml::Engine.new(sout).render
 		}
 	end	

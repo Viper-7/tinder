@@ -3,7 +3,7 @@ require 'rubygems'; require 'open-uri'; require 'rss'; require 'haml'
 class RSS::Rss::Channel::Item
 	def render
 		template = '
-%p.item
+%p.item#= count
   .title= link
   .description= description
   .date= date'
@@ -13,5 +13,6 @@ end
 
 rss = RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read)
 rss.items.each{|item|
+	puts item.index
 	item.render
 }

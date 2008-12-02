@@ -3,7 +3,7 @@ require 'rubygems'; require 'open-uri'; require 'rss'; require 'haml'
 class RSS::Rss::Channel::Item
 	def render
 		template = '
-%p.item#= count
+%p.item
   .title= link
   .description= description
   .date= date'

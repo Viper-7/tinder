@@ -10,6 +10,7 @@ class RSS::Rss
   .title= #{item.link}
   .description= #{item.description}
   .date= #{item.date}"
+  			puts sout
 			puts Haml::Engine.new(sout).render
 		}
 	end	

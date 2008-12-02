@@ -6,7 +6,7 @@ class RSS::Rss
 		self.items.each{|item|
 			count += 1
 			sout = "
-#item#{count}
+\#item#{count}
   .title= #{item.link}
   .description= #{item.description}
   .date= #{item.date}"

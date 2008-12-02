@@ -11,6 +11,7 @@ class RSS::Rss::Channel::Item
 	end	
 end
 
-RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read).items.each{|item|
+rss = RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read)
+rss.items.each{|item|
 	item.render
 }

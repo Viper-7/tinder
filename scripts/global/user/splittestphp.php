@@ -32,7 +32,8 @@
 	$time=(mktime() + microtime());
 
 	for($x=0;$x<100000;$x++) {
-		$val = preg_match('/^.+?,(.+?),/',$instr)[1];
+		$val = preg_match('/^.+?,(.+?),/',$instr);
+		$val = $val[1];
 	}
 	echo 'PHP split' . (mktime() + microtime()) - $time;
 ?>

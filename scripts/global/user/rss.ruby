@@ -4,9 +4,9 @@ class RSS::Rss::Channel::Item
 	def render
 		template = '
 %p.item
-  #title= link
-  #description= description
-  #date= date'
+  .title= link
+  .description= description
+  .date= date'
 		print Haml::Engine.new(template).render(self)
 	end	
 end

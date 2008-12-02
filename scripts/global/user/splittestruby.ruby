@@ -19,14 +19,14 @@ puts 'Ruby match regex: ' + (Time.now.to_f - start).to_s + '<BR>'
 start = Time.now.to_f
 
 100000.times do
-	val = instr.split(',')
+	val = instr.split(',')[1]
 end
 
 puts 'Ruby split char: ' + (Time.now.to_f - start).to_s + '<BR>'
 start = Time.now.to_f
 
 100000.times do
-	val = instr.split(/,/)
+	val = instr.split(/,/)[1]
 end
 
 puts 'Ruby split regex: ' + (Time.now.to_f - start).to_s + '<BR>'

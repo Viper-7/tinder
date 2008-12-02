@@ -4,10 +4,9 @@ class RSS::Rss
 	def render
 		self.items.each{|item|
 			sout = ".item
-  %a{ :href => '#{item.link}'}
-    #{item.title}
-  #{item.description}
-  #{item.date}"
+  .title => #{item.link}}
+  .description => #{item.description}
+  .date => #{item.date}"
 			puts Haml::Engine.new(sout).render
 		}
 	end	

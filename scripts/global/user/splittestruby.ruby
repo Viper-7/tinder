@@ -7,14 +7,14 @@ start = Time.now.to_f
 	val = instr.split(',')
 end
 
-puts Time.now.to_f - start
+puts Time.now.to_f - start + '<BR>'
 start = Time.now.to_f
 
 100000.times do
 	val = instr.split(/,/)
 end
 
-puts Time.now.to_f - start
+puts Time.now.to_f - start + '<BR>'
 start = Time.now.to_f
 
 100000.times do
@@ -22,9 +22,12 @@ start = Time.now.to_f
 	val = instr[tok,instr.index(',',tok)-tok]
 end
 
-puts Time.now.to_f - start
+puts Time.now.to_f - start + '<BR>'
 start = Time.now.to_f
 
 100000.times do
 	val = instr.match(/^.+?,(.+?),/)[0]
 end
+
+puts Time.now.to_f - start + '<BR>'
+

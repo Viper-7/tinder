@@ -738,6 +738,8 @@ def addRecursiveDirectoryWatcher(path, name, url, channel)
 end
 
 def addDirectoryWatcher(path, name, url, channel)
+	break if !FileTest.directory?(path)
+
 	dirWatcher = TinderDir.new(path, name, url, channel) if channel != nil
 
 	dirWatcher.watcher.on_add = Proc.new{ |the_file, stats_hash|

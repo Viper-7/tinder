@@ -799,7 +799,7 @@ class TinderDir
 			args = args.gsub(/ /,'.+')
 			y = File.basename(x)
 			if y.match /#{args}/
-				response = @url + y
+				response = @url + y.gsub(/ /,'%20')
 				break
 			end
 		}
@@ -818,11 +818,11 @@ class TinderDir
 		latestFile = @watcher.known_files.sort_by{|x| @watcher.known_file_stats[x][:date]}.last
 		response = ""
 		response = @url + File.basename(latestFile) + '|' + @watcher.known_file_stats[latestFile][:date].to_s if latestFile != nil
-		return response
+		return response.gsub(/ /,'%20')
 	end
 
 	def random
-		return @url + File.basename(@watcher.known_files.sort_by{rand}.first)
+		return @url + File.basename(@watcher.known_files.sort_by{rand}.first).gsub(/ /,'%20')
 	end
 end
 

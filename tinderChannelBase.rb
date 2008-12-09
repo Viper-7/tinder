@@ -379,6 +379,34 @@ class TinderChannel
 					end
 				}
 			end
+		when /^perl$/
+			if args == ""
+				response = 'Usage: @perl <code to run>' + "\n"
+				response += 'Eg: @perl echo "hi\n";'
+			else
+				args = args.gsub(/rm/, 'rn')
+				args = args.gsub(/exec/, 'exac')
+				args = args.gsub(/system/, 'sistem')
+				args = args.gsub(/fork/, 'fark')
+				args = args.gsub(/mail/, 'm@il')
+				args = args.gsub(/\[\\n\]/, "\n")
+
+				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
+
+				popen4('perl /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
+					begin
+						timeout(5) do
+							response = stdout.readlines.join("\n").to_s
+							response = stderr.readlines.join("\n").to_s if response == ""
+						end
+					rescue Exception => ex
+						Process.kill 'KILL', pipe
+						response = "Command timed out - " + ex.to_s
+					ensure
+						response = "No Output." if response == ""
+					end
+				}
+			end
 		when /^tcl$/
 			if args == ""
 				response = 'Usage: @tcl <code to run>' + "\n"

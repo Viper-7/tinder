@@ -9,7 +9,7 @@ offlinearr=[]
 doc = Nokogiri::HTML(open('http://steamcommunity.com/id/' + $*.join('') + '/friends').read)
 doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<p><a class=".+?" href=".+?">(.+?)<\/a>.+?<span class="friendSmallText">(.+?)<\/span>/im).each {|profile,img,name,status|
 	friend = {}
-	friend[:name] = CGI.unescape(name)
+	friend[:name] = CGI.unescapeHTML(name)
 	friend[:avatar] = img
 	friend[:url] = profile
 	friend[:status] = status

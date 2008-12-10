@@ -6,7 +6,7 @@ require 'cgi'
 require 'tinderChannelBase.rb'
 
 port = $*.join('').to_i
-
+p $*.join('').to_i
 tinderChannel = TinderChannel.new('www')
 
 get '/*' do

@@ -22,7 +22,8 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 }
 
 y=''
-onlinearr.count.to_s + ' friends Online (not in a game): ' + onlinearr.each{|x|
+print onlinearr.count.to_s + ' friends Online (not in a game): '
+onlinearr.each{|x|
 	y = y + x[:name] + ", "
 	if y.length > 350
 		puts y[0,y.length - 2]
@@ -31,7 +32,8 @@ onlinearr.count.to_s + ' friends Online (not in a game): ' + onlinearr.each{|x|
 }
 puts y[0,y.length - 2]
 y=''
-offlinearr.count.to_s + " friends Offline: " + offlinearr.each{|x| 
+print offlinearr.count.to_s + " friends Offline: "
+offlinearr.each{|x| 
 	y = y + x[:name] + ", "
 	if y.length > 350
 		puts y[0,y.length - 2]

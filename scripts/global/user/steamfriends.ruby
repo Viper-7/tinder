@@ -33,16 +33,17 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 
 y=''
 gamesarr.each{|z|
-	print z.count.to_s + ' friends Playing ' + z[0]
 	gamesarr[z[0]].each{|x|
 		y = y + x[:name] + ", "
-		if y.length > 350
-			puts y[0,y.length - 2]
-			y = ''
-		end
 	}
+	print y[0,y.length - 2]
+	if z.count < 3
+		print 'is' 
+	else
+		print 'are'
+	end
+	puts ' Playing ' + z[0]
 }
-puts y[0,y.length - 2]
 y=''
 print onlinearr.count.to_s + ' friends Online (not in a game): '
 onlinearr.each{|x|

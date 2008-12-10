@@ -20,8 +20,8 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 	if ingame
 		friend[:status] = 'In-Game'
 		friend[:game] = ingame[1]
-		gamesarr[game] = [] if gamesarr[game].nil?
-		gamesarr[game].push friend
+		gamesarr[ingame[1]] = [] if gamesarr[ingame[1]].nil?
+		gamesarr[ingame[1]].push friend
 	else
 		if status == 'Online'
 			onlinearr.push friend

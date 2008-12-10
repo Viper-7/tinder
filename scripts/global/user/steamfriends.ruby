@@ -42,7 +42,7 @@ gamesarr.each{|z|
 	else
 		print ' are'
 	end
-	puts ' Playing ' + z[0]
+	puts ' playing ' + z[0]
 }
 y=''
 print onlinearr.count.to_s + ' friends Online (not in a game): '

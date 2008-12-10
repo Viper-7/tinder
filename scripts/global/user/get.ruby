@@ -3,4 +3,4 @@ require 'cgi'
 
 url = $*.join('/').tr(';','/').tr(' ','+')
 
-puts open(url).read.gsub(/<[^>]*>/,'')
+puts open(url).read

@@ -23,8 +23,8 @@ get '/*' do
 	outStr = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
 	
 	if outStr[0,7] == 'http://'
-		outStr.gsub!(/<[^>]*>/,'').chomp
-		redirect outStr
+		outStr.gsub!(/<[^>]*>/,'')
+		redirect outStr.chomp
 	else
 		outStr.gsub!(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>')
 		if outStr.match(/<html/) 

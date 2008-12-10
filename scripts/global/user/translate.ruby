@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'cgi'
+require 'json'
 
 lang = '|en'
 args = $*.join(' ').split(' ')
@@ -13,11 +14,10 @@ case t0.chomp.length
 		args.unshift(t0)
 end
 puts 'http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + args.join('+') + '&langpair=' + CGI.escape(lang)
-inTxt = open('http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + args.join('+') + '&langpair=' + CGI.escape(lang)).read
-result = inTxt.match(/"translatedText":"(.+?)","/)
+inObj = JSON.parse(open('http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + args.join('+') + '&langpair=' + CGI.escape(lang)).read)
 
-if result.nil?
+if inObj.nil?
 	puts 'Failed to translate'
 else
-	puts result[1]
+	puts inObj['translatedText']
 end

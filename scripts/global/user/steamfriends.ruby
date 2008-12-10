@@ -12,7 +12,8 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<p><a cl
 	friend[:avatar] = img
 	friend[:url] = profile
 	friend[:status] = status
-
+	p friend
+	
 	if status == 'Online'
 		onlinearr.push friend
 	else

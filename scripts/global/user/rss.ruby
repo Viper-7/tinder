@@ -13,6 +13,7 @@ end
 rss = RSS::Parser.parse(open($*.join('+')).read)
 count = 0
 rss.items.each{|item|
+	item.title += ' - '
 	item.link += '<BR/>'
 	break if count > 3
 	item.render

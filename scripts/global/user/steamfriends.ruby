@@ -37,7 +37,7 @@ gamesarr.each{|z|
 		y = y + x[:name] + ", "
 	}
 	print y[0,y.length - 2]
-	if z.count < 3
+	if gamesarr[z[0]].count < 3
 		print ' is'
 	else
 		print ' are'

@@ -6,5 +6,5 @@ onlinearr=[]
 offlinearr=[]
 
 doc = Nokogiri::HTML(open('http://steamcommunity.com/id/' + $*.join('') + '/friends').read)
-p doc.xpath('//html/body/center///div/div')
+p doc.css('div#memberList')
 

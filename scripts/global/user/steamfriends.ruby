@@ -23,7 +23,7 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 
 y=''
 onlinearr.count.to_s + ' friends Online (not in a game): ' + onlinearr.map{|x|
-	y += x[:name] + ", "
+	y = y + x[:name] + ", "
 	if y.length > 350
 		puts y[0,y.length - 2]
 		y = ''
@@ -32,7 +32,7 @@ onlinearr.count.to_s + ' friends Online (not in a game): ' + onlinearr.map{|x|
 puts y[0,y.length - 2]
 y=''
 offlinearr.count.to_s + " friends Offline: " + offlinearr.map{|x| 
-	y += x[:name] + ", "
+	y = y + x[:name] + ", "
 	if y.length > 350
 		puts y[0,y.length - 2]
 		y = ''

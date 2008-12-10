@@ -34,13 +34,12 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 y=''
 gamesarr.each{|z|
 	print z.count.to_s + ' friends Playing ' + z[0]
-	z.each{|x|
-		p x
-#		y = y + x[:name] + ", "
-#		if y.length > 350
-#			puts y[0,y.length - 2]
-#			y = ''
-#		end
+	gamesarr[z[0]].each{|x|
+		y = y + x[:name] + ", "
+		if y.length > 350
+			puts y[0,y.length - 2]
+			y = ''
+		end
 	}
 }
 puts y[0,y.length - 2]

@@ -13,12 +13,17 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 	friend[:avatar] = img
 	friend[:url] = profile
 	friend[:status] = status
-	puts status
 	
-	if status == 'Online'
-		onlinearr.push friend
+	ingame = status.match(/^<span class="linkFriend_in-game">In-Game<br \/>(.+)$/)
+	if ingame
+		friend[:status] = 'In-Game'
+		friend[:game] = ingame[1]
 	else
-		offlinearr.push friend
+		if status == 'Online'
+			onlinearr.push friend
+		else
+			offlinearr.push friend
+		end
 	end
 }
 

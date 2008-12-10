@@ -3,6 +3,7 @@ require 'rubygems'
 require 'nokogiri'
 require 'cgi'
 
+gamesarr={}
 onlinearr=[]
 offlinearr=[]
 
@@ -19,7 +20,8 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 	if ingame
 		friend[:status] = 'In-Game'
 		friend[:game] = ingame[1]
-		puts friend[:name] + " is playing " + friend[:game]
+		gamesarr[game] = [] if gamesarr[game].nil?
+		gamesarr[game].push friend
 	else
 		if status == 'Online'
 			onlinearr.push friend
@@ -29,6 +31,17 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 	end
 }
 
+y=''
+gamesarr.each{|x|
+	print x.count.to_s + ' friends Playing '
+	p x
+	y = y + x[:name] + ", "
+	if y.length > 350
+		puts y[0,y.length - 2]
+		y = ''
+	end
+}
+puts y[0,y.length - 2]
 y=''
 print onlinearr.count.to_s + ' friends Online (not in a game): '
 onlinearr.each{|x|

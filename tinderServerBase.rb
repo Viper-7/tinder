@@ -165,7 +165,7 @@ class TinderServer
 			lines = 999
 			break
 		end
-		lines += 1 if line.length > 2
+		lines += 1 if line.chomp.length > 1
 	}
 	msg = "Response too long" if lines > 15
 	msg.each_line{|line| send "PRIVMSG ##{channel} :#{line}" if line.length > 2}

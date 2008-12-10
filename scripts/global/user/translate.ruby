@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'cgi'
+require 'rubygems'
 require 'json'
 
 lang = '|en'

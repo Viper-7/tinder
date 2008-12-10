@@ -23,17 +23,18 @@ JSON.parse(out).each {|friend|
 		end
 	else
 		if friend['lastTime'] > 0 then
-			if friend['lastDay'].to_i > 0 then
-				offlinearr.push  friend['name'] + ' for ' + friend['lastDay'] + ' Days'
-			else
-				offlinearr.push  friend['name'] + ' for ' + friend['lastHour'] + ' Hrs, ' + friend['lastMin'] + ' Mins'
-			end
+			offlinearr.push friend['name']
+#			if friend['lastDay'].to_i > 0 then
+#				offlinearr.push  friend['name'] + ' for ' + friend['lastDay'] + ' Days'
+#			else
+#				offlinearr.push  friend['name'] + ' for ' + friend['lastHour'] + ' Hrs, ' + friend['lastMin'] + ' Mins'
+#			end
 		else
 #			puts friend['name'] + ' - Never seen online'
 		end
 	end
 }
 
-puts 'Online (not in a game): ' + onlinearr.join(", ") if onlinearr.length > 0
+puts onlinearr.count.to_s ' friends Online (not in a game): ' + onlinearr.join(", ") if onlinearr.length > 0
 #puts 'Offline: ' + offlinearr.join(" ") if offlinearr.length > 0
-puts offlinearr.count.to_s + " friends offline"
+puts offlinearr.count.to_s + " friends Offline: " + offlinearr.join(", ")

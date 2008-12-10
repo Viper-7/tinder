@@ -9,7 +9,7 @@ else
 	args.unshift(t0)
 end
 
-inTxt = open('http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + args.join('+') + '&langpair=|' + lang).read
+inTxt = open('http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + args.join('+') + '&langpair=%7C' + lang).read
 result = inTxt.match(/"translatedText":"(.+?)","/)
 
 if result.nil?

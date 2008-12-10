@@ -29,6 +29,7 @@ onlinearr.count.to_s + ' friends Online (not in a game): ' + onlinearr.map{|x|
 		y = ''
 	end
 }
+puts y[0,y.length - 2]
 y=''
 offlinearr.count.to_s + " friends Offline: " + offlinearr.map{|x| 
 	y += x[:name] + ", "

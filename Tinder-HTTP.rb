@@ -14,7 +14,7 @@ get '/*' do
 	cmd = args.shift
 	cmd = 'help' if cmd == '' or cmd == nil
 	case cmd
-		when /get/
+		when /get|rss/
 			args = args.join('/').gsub(/http\:\//,'http://')
 		when /php|ruby|tcl/
 			args = CGI.unescape(args.join(";")).gsub(/http:;/,'http://')

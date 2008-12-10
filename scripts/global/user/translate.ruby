@@ -12,7 +12,7 @@ case t0.chomp.length
 	else
 		args.unshift(t0)
 end
-
+puts CGI.escape(lang)
 inTxt = open('http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + args.join('+') + '&langpair=' + CGI.escape(lang)).read
 result = inTxt.match(/"translatedText":"(.+?)","/)
 

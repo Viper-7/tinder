@@ -18,7 +18,7 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 	ingame = status.match(/^<span class="linkFriend_in-game">In-Game<br\/>(.+)$/i)
 	if ingame
 		friend[:status] = 'In-Game'
-		friend[:game] = ingame[0]
+		friend[:game] = ingame[1]
 		puts friend[:name] + " is playing " + friend[:game]
 	else
 		if status == 'Online'

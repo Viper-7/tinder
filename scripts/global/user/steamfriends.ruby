@@ -6,7 +6,7 @@ require 'cgi'
 onlinearr=[]
 offlinearr=[]
 
-doc = Nokogiri::HTML(open('http://steamcommunity.com/id/' + $*.join('') + '/friends').read)
+doc = Nokogiri::HTML(open('http://steamcommunity.com/id/' + $*.join('') + '/friends',{'Cookie'=>'timezoneOffset=39600,0; steamLogin=76561197969367824%7C%7C51EE8217AA3DFAF8563CF84C41865F8993CF603D'}).read)
 puts doc.css('div#memberList').to_s
 doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class="linkFriend.+?" href=".+?">(.+?)<\/a>.+?<span class="friendSmallText">(.+?)<\/span>/im).each {|profile,img,name,status|
 	puts name

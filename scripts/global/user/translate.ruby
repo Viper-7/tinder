@@ -16,9 +16,8 @@ case t0.chomp.length
 end
 
 inTxt = open('http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + args.join('+') + '&langpair=' + CGI.escape(lang)).read
-puts inTxt
 inObj = JSON.parse(inTxt)
-
+p inObj
 if inObj['translatedText'].nil?
 	puts 'Failed to translate'
 else

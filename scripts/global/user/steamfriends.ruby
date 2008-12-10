@@ -38,9 +38,9 @@ gamesarr.each{|z|
 	}
 	print y[0,y.length - 2]
 	if z.count < 3
-		print 'is' 
+		print ' is'
 	else
-		print 'are'
+		print ' are'
 	end
 	puts ' Playing ' + z[0]
 }

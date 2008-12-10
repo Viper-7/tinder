@@ -6,12 +6,13 @@ args = $*.join(' ').split(' ')
 t0 = args.shift
 case t0.chomp.length
 	when 5
-		lang = t0.gsub(/:/,'|')
+		lang = t0.gsub(/\:/,'|')
 	when 2
 		lang = '|' + t0
 	else
 		args.unshift(t0)
 end
+puts 'http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + args.join('+') + '&langpair=' + CGI.escape(lang)
 inTxt = open('http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + args.join('+') + '&langpair=' + CGI.escape(lang)).read
 result = inTxt.match(/"translatedText":"(.+?)","/)
 

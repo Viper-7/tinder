@@ -1,5 +1,5 @@
 require 'open-uri'
 require 'cgi'
 
-url = $*.join('/').gsub(/ /,'+')
+url = $*.join('/').gsub(/\s/,'+')
 puts open(url).read.gsub(/<[^>]*>/,'')

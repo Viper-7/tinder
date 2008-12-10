@@ -8,7 +8,7 @@ args = $*.join(' ').split(' ')
 t0 = args.shift
 case t0.chomp.length
 	when 5
-		lang = t0.gsub(/\:/,'|')
+		lang = t0.tr(/\:/,'|')
 	when 2
 		lang = '|' + t0
 	else

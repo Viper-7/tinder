@@ -1,4 +1,6 @@
 require 'open-uri'
 require 'cgi'
 
-puts open(CGI.escape($*.join('+'))).read
+url = $*.join(' ')
+url = url.match(/^(.*)\/(.*?)$/)
+puts open(url[1] + '/' + CGI.escape(url[2])).read

@@ -5,8 +5,6 @@ require 'sinatra'
 require 'cgi'
 require 'tinderChannelBase.rb'
 
-port = $*.join('')
-
 tinderChannel = TinderChannel.new('www')
 
 get '/*' do

@@ -21,5 +21,5 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 	end
 }
 
-puts onlinearr.count.to_s + ' friends Online (not in a game): ' + onlinearr.map{|x| x[:name]}.join(", ") if onlinearr.length > 0
-puts offlinearr.count.to_s + " friends Offline: " + offlinearr.map{|x| x[:name]}.join(", ")
+puts onlinearr.count.to_s + ' friends Online (not in a game): ' + onlinearr.map{|x| x[:name]}.join(", ")[0,400] if onlinearr.length > 0
+puts offlinearr.count.to_s + " friends Offline: " + offlinearr.map{|x| x[:name]}.join(", ")[0,400]

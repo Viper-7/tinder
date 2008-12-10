@@ -5,9 +5,10 @@ class RSS::Rss::Channel::Item
 		template = '
 %p.item
   .title= title
-  .link= link'
+  .link= link
+%br'
 		print Haml::Engine.new(template).render(self)
-	end	
+	end
 end
 
 rss = RSS::Parser.parse(open($*.join('+')).read)

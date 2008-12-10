@@ -19,12 +19,13 @@ doc.css('div#memberList').to_s.scan(/<a href="(.*?)"><img src="(.*?)".+?<a class
 	if ingame
 		friend[:status] = 'In-Game'
 		friend[:game] = ingame[1]
-	end
-	
-	if status == 'Online'
-		onlinearr.push friend
+		puts friend[:name] + " is playing " + friend[:game]
 	else
-		offlinearr.push friend
+		if status == 'Online'
+			onlinearr.push friend
+		else
+			offlinearr.push friend
+		end
 	end
 }
 

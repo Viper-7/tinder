@@ -5,7 +5,7 @@ require 'sinatra'
 require 'cgi'
 require 'tinderChannelBase.rb'
 
-application.options.port = 4700
+port = $*.join('').to_i
 
 tinderChannel = TinderChannel.new('www')
 

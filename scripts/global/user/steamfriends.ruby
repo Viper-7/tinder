@@ -35,6 +35,6 @@ JSON.parse(out).each {|friend|
 	end
 }
 
-puts onlinearr.count.to_s ' friends Online (not in a game): ' + onlinearr.join(", ") if onlinearr.length > 0
+puts onlinearr.count.to_s + ' friends Online (not in a game): ' + onlinearr.join(", ") if onlinearr.length > 0
 #puts 'Offline: ' + offlinearr.join(" ") if offlinearr.length > 0
 puts offlinearr.count.to_s + " friends Offline: " + offlinearr.join(", ")

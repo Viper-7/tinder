@@ -6,7 +6,7 @@ class RSS::Rss::Channel::Item
 %p.item
   .title= title
   .link= link
-%br'
+  %br/'
 		print Haml::Engine.new(template).render(self)
 	end
 end

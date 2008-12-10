@@ -10,7 +10,10 @@ class RSS::Rss::Channel::Item
 	end	
 end
 
-rss = RSS::Parser.parse(open('http://www.overclockers.com.au/files/ocau_news.rss').read)
+rss = RSS::Parser.parse(open($*.join('+')).read)
+count = 0
 rss.items.each{|item|
+	break if count > 3
 	item.render
+	count += 1
 }

@@ -545,7 +545,7 @@ class TinderChannel
 		end
 		resp = "#{count.to_s} #{command.chomp}'s indexed - '@#{command.chomp} help' for help" if resp == "count"
 		response = resp if resp != ""
-		response = response.gsub(/<\\?B>/i,'').gsub(/<[\/]?TITLE.*?>/i,'').gsub(/<A.+?HREF=(?:'|")(http.+?)(?:'|").*?>(.*?)<\/A>/i,'\2 [ \1 ] ').gsub(/<(?:style|script)>.+?<\/(?:style|script)>/i,'').gsub(/\n/m,'').gsub(/<BR[\/]?>/,"\n").gsub(/<[^>]*>/,'').chomp
+		response = response.gsub(/<\\?B>/i,'').gsub(/<[\/]?TITLE.*?>/i,'').gsub(/<A.+?HREF=(?:'|")(http[^'">]+).*?>(.*?)<\/A>/i,'\2 [ \1 ] ').gsub(/<(?:style|script)>.+?<\/(?:style|script)>/i,'').gsub(/\n/m,'').gsub(/<BR[\/]?>/,"\n").gsub(/<[^>]*>/,'').chomp
 		@tinderBot.status "Output  : " + response if @tinderBot
 	else
 		response.gsub!(/\n/,"<BR/>\n").gsub!(/[\002]([^\002]+)[\002]/,'<b>\1</b>') if !response == ''

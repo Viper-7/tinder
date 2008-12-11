@@ -4,10 +4,10 @@ require 'rubygems'
 require 'mongrel'
 require 'sinatra'
 require 'cgi'
-require 'ruby-prof'
+require 'profile'
 require 'tinderChannelBase.rb'
 
-RubyProf.start
+Profiler__.start_profile
 
 tinderChannel = TinderChannel.new('www')
 
@@ -40,6 +40,5 @@ get '/*' do
 	end
 end
 
-result = RubyProf.stop
-printer = RubyProf::FlatPrinter.new(result)
-printer.print(STDOUT, 0)
+Profiler__.stop_profile
+Profiler__.print_profile($stderr)

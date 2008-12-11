@@ -323,14 +323,7 @@ class TinderChannel
 				response = 'Usage: @php <code to run>' + "\n"
 				response += 'Eg: @php echo "hi";'
 			else
-				args = args.gsub('114, 110', '114, 111')
-				args = args.gsub(/rm/, 'rn') # Disable a few nasty low level php commands
-				args = args.gsub(/eval/, 'evel')
-				args = args.gsub(/exec/, 'exac')
-				args = args.gsub(/shell/, 'sh3ll')
-				args = args.gsub(/system/, 'sistem')
-				args = args.gsub(/fork/, 'fark')
-				args = args.gsub(/mail/, 'm@il')
+				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 				args = "<?php\n" + args + "\n?>"
 
@@ -355,14 +348,7 @@ class TinderChannel
 				response = 'Usage: @ruby <code to run>' + "\n"
 				response += 'Eg: @ruby puts "hi"'
 			else
-				args = args.gsub('114, 110', '')
-				args = args.gsub(/rm/, 'rn')
-				args = args.gsub(/exec/, 'exac')
-				args = args.gsub(/system/, 'sistem')
-				args = args.gsub(/popen/, 'qopen')
-				args = args.gsub(/\%x/, '%z')
-				args = args.gsub(/fork/, 'fark')
-				args = args.gsub(/mail/, 'm@il')
+				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
@@ -386,11 +372,7 @@ class TinderChannel
 				response = 'Usage: @perl <code to run>' + "\n"
 				response += 'Eg: @perl echo "hi\n";'
 			else
-				args = args.gsub(/rm/, 'rn')
-				args = args.gsub(/exec/, 'exac')
-				args = args.gsub(/system/, 'sistem')
-				args = args.gsub(/fork/, 'fark')
-				args = args.gsub(/mail/, 'm@il')
+				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
@@ -414,11 +396,7 @@ class TinderChannel
 				response = 'Usage: @tcl <code to run>' + "\n"
 				response += 'Eg: @tcl puts hi'
 			else
-				args = args.gsub(/rm/, 'rn')
-				args = args.gsub(/exec/, 'exac')
-				args = args.gsub(/system/, 'sistem')
-				args = args.gsub(/fork/, 'fark')
-				args = args.gsub(/mail/, 'm@il')
+				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }

@@ -646,7 +646,6 @@ class TinderChannel
 				@tinderBot.rehash
 				@tinderBot = nil
 				DRb.stop_service
-				break
 			when /^REHASH$/
     				sendPrivate "Roger that " + nick, nick
 				@tinderBot.status "Status  : Killed server by request from " + host
@@ -654,7 +653,6 @@ class TinderChannel
 				@tinderBot.close
 				@tinderBot = nil
 				DRb.stop_service
-				break
 			when /^@dump$/
 				@dumpnicks.push nick if !@dumpnicks.include? nick
 				@tinderBot.status "Now dumping to #{nick}!#{host}"
@@ -663,7 +661,6 @@ class TinderChannel
 				@tinderBot.status "Stopped dumping to #{nick}!#{host}"
 			when /^SAY \##{@channel} (.+)$/i
 				sendChannel $1
-				break
 
 		end
 	end

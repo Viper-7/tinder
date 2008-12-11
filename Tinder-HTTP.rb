@@ -42,4 +42,4 @@ end
 
 result = RubyProf.stop
 printer = RubyProf::FlatPrinter.new(result)
-printer.print('/tmp/tinderprof', 0)
+printer.print(STDOUT, 0)

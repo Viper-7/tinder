@@ -29,7 +29,7 @@ get '/*' do
 			args = CGI.unescape(args.join(" "))
 	end
 	
-	args.gsub!('##@',"/")
+#	args.gsub!('##@',"/")
 	args.gsub!(/http:\//,'http://')
 	
 	outStr = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])

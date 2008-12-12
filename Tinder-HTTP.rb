@@ -15,7 +15,7 @@ tinderChannel = TinderChannel.new('www')
 
 get '/*' do
 	outStr = ''
-	args = params["splat"].first.gsub('\/','##@').split('/')
+	args = params["splat"].first.gsub('://','##%').gsub('\/','##@').split('/')
 	cmd = args.shift
 	cmd = 'help' if cmd == '' or cmd == nil
 	case cmd
@@ -30,7 +30,7 @@ get '/*' do
 	end
 	
 	args.gsub!('##@',"/")
-	args.gsub!(/http:\//,'http://')
+	args.gsub!('##@',"://")
 	
 	outStr = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
 	

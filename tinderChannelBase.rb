@@ -492,6 +492,11 @@ class TinderChannel
 						when /(listallow|list)/
 							resp = x.listallow
 						when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay|ass|fail|no good|stupid|retarded|nbg)/i
+							if args == 'Viper-7' or args == 'Tinder'
+								resp = 'Fuck you neg -_-'
+								break
+							end
+							
 							args = $1.gsub(/ /,'.')
 							result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
 							z = result.fetch_row[0]

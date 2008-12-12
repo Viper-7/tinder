@@ -1,7 +1,6 @@
 require 'movie.rb'
-require 'rand'
 
-newMovie = Movie.fetch_by_name('%' + $*.join(' ').gsub(/(?:and|&|or|of|the|!|')/,'').split(/\s*/).join('%') + '%').sort{rand}.first
+newMovie = Movie.fetch_by_name('%' + $*.join(' ').gsub(/(?:and|&|or|of|the|!|')/,'').split(/\s*/).join('%') + '%').sort_by{rand}.first
 if newMovie.nil?
 	puts 'No Match :('
 else

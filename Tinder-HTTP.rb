@@ -24,7 +24,7 @@ get '/*' do
 		when /php/
 			args = CGI.unescape(args.join("/")).gsub(/http:\//,'http://')
 		when /ruby|tcl/
-			args = CGI.unescape(args.join("\n")).gsub(/http:\//,'http://').tr('@','/')
+			args = CGI.unescape(args.join("/")).gsub(/http:\//,'http://').tr('@',"\n")
 		else
 			args = CGI.unescape(args.join(" ")).gsub(/http:;/,'http://')
 	end

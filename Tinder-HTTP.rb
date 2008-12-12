@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require 'mongrel'
 require 'sinatra'
 require 'cgi'
 require 'tinderChannelBase.rb'

@@ -420,8 +420,8 @@ class TinderChannel
 			response = response + usage
 		when /^help$/
 			response = help(commandtypes)
-		when /^ping$/
-			response = 'pong'
+		when /^yo$/
+			response = 'sup'
 		when /^#{customCommands}/
 			hit = true
 		when /^dump/

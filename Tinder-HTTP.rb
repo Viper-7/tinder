@@ -26,7 +26,8 @@ get '/*' do
 		else
 			args = CGI.unescape(args.join(" ")).gsub(/http:;/,'http://')
 	end
-	outStr = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
+	# outStr = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
+	outStr = 'hello world'
 	
 	if outStr[0,7] == 'http://'
 		outStr.gsub!(/<[^>]*>/,'')

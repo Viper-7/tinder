@@ -745,26 +745,26 @@ def addRecursiveDirectoryWatcher(path, name, url, channel)
 end
 
 def addDirectoryWatcher(path, name, url, channel)
-	break if !FileTest.directory?(path)
-
-	dirWatcher = TinderDir.new(path, name, url, channel) if channel != nil
-
-	dirWatcher.watcher.on_add = Proc.new{ |the_file, stats_hash|
-		if channel.uptime > 5
-			y = the_file.path.to_s.split(/\//).last.gsub(/ /,'%20')
-			channel.sendChannel url + "#{y} Added to #{name}!"
-		end
-	}
-
-	dirWatcher.watcher.on_modify = Proc.new{ |the_file, stats_hash|
-	}
-
-	dirWatcher.watcher.on_remove = Proc.new{ |stats_hash|
-	}
-
-	count = dirWatcher.poll()
-	channel.dirWatchers.push dirWatcher
-	return count
+	if FileTest.directory?(path)
+		dirWatcher = TinderDir.new(path, name, url, channel) if channel != nil
+	
+		dirWatcher.watcher.on_add = Proc.new{ |the_file, stats_hash|
+			if channel.uptime > 5
+				y = the_file.path.to_s.split(/\//).last.gsub(/ /,'%20')
+				channel.sendChannel url + "#{y} Added to #{name}!"
+			end
+		}
+	
+		dirWatcher.watcher.on_modify = Proc.new{ |the_file, stats_hash|
+		}
+	
+		dirWatcher.watcher.on_remove = Proc.new{ |stats_hash|
+		}
+	
+		count = dirWatcher.poll()
+		channel.dirWatchers.push dirWatcher
+		return count
+	end
 end
 
 def addRSSWatcher(tinderChannels, url, type = "link", channel = "", announce = false)

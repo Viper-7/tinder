@@ -22,7 +22,7 @@ get '/*' do
 		when /get|rss/
 			args = args.join('/').gsub(/http\:\//,'http://')
 		when /php|ruby|tcl/
-			args = CGI.unescape(args.join("/")).gsub(/http:;/,'http://')
+			args = CGI.unescape(args.join("/")).gsub(/http://,'http://')
 		else
 			args = CGI.unescape(args.join(" ")).gsub(/http:;/,'http://')
 	end

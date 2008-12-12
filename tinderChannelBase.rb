@@ -492,7 +492,7 @@ class TinderChannel
 						when /(listallow|list)/
 							resp = x.listallow
 						when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay|ass|fail|no good|stupid|retarded|nbg)/i
-							if $1 == 'Viper-7' or $1 == 'Tinder'
+							if $1.downcase == 'viper-7' or $1.downcase == 'tinder'
 								resp = 'Fuck you neg -_-'
 								break
 							end

@@ -21,8 +21,10 @@ get '/*' do
 	case cmd
 		when /get|rss/
 			args = args.join('/').gsub(/http\:\//,'http://')
-		when /php|ruby|tcl/
+		when /php/
 			args = CGI.unescape(args.join("/")).gsub(/http:\//,'http://')
+		when /ruby|tcl/
+			args = CGI.unescape(args.join("\n")).gsub(/http:\//,'http://')
 		else
 			args = CGI.unescape(args.join(" ")).gsub(/http:;/,'http://')
 	end

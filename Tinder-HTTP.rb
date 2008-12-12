@@ -15,19 +15,23 @@ tinderChannel = TinderChannel.new('www')
 
 get '/*' do
 	outStr = ''
-	args = params["splat"].first.split('/')
+	args = params["splat"].first.gsub('\/','##@').split('/')
 	cmd = args.shift
 	cmd = 'help' if cmd == '' or cmd == nil
 	case cmd
 		when /get|rss/
-			args = args.join('/').gsub(/http\:\//,'http://')
+			args = args.join('/')
 		when /php/
-			args = CGI.unescape(args.join("/")).gsub(/http:\//,'http://')
+			args = CGI.unescape(args.join(";\n"))
 		when /ruby|tcl/
-			args = CGI.unescape(args.join("/")).gsub(/http:\//,'http://').gsub(';',"\n")
+			args = CGI.unescape(args.join("\n"))
 		else
-			args = CGI.unescape(args.join(" ")).gsub(/http:;/,'http://')
+			args = CGI.unescape(args.join(" "))
 	end
+	
+	args.gsub!('##@',"/")
+	args.gsub!(/http:\//,'http://')
+	
 	outStr = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
 	
 	if outStr[0,7] == 'http://'

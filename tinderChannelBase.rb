@@ -491,7 +491,7 @@ class TinderChannel
 							resp = x.listignore
 						when /(listallow|list)/
 							resp = x.listallow
-						when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay|ass|fail|no good|stupid|retarded)/i
+						when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay|ass|fail|no good|stupid|retarded|nbg)/i
 							args = $1.gsub(/ /,'.')
 							result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")
 							z = result.fetch_row[0]
@@ -529,6 +529,8 @@ class TinderChannel
 							end
 							@tinderBot.status "Status  : Refreshed #{x.refresh} #{x.type} rules" if @tinderBot
 							break
+						when /^(.+?) is nice$/i
+							resp = "That's nice."
 						when /help/
 							resp = x.help
 						when /^$/

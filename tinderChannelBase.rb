@@ -352,7 +352,7 @@ class TinderChannel
 				args = args.gsub(/\[\\n\]/, "\n")
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
-
+				
 				popen4('ruby /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
 						timeout(5) do

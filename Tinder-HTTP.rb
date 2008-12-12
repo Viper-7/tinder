@@ -32,7 +32,7 @@ get '/*' do
 		outStr.gsub!(/<[^>]*>/,'')
 		redirect outStr.chomp
 	else
-		outStr.gsub!(/(?!"|href[ ='"]*)(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>')
+		outStr.gsub!(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>') if !outStr.match(/<[^>]*>/)
 		if outStr.match(/<html/) 
 			outStr
 		else

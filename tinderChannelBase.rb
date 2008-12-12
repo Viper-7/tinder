@@ -873,7 +873,8 @@ class TinderRSS
 				result.each_hash {|x| @ignore.push x["Line"] }
 			end
 		rescue Exception => ex
-			puts 'RSS     : ' + ex.backtrace.to_s
+			puts 'RSS     : ' + "#{ex} - #{ex.backtrace}"
+
 		end
 	end
 
@@ -1029,7 +1030,7 @@ class TinderRSS
 				}
 			end
 		rescue Exception => ex
-			puts 'RSS     : ' + ex
+			puts 'RSS     : ' + "#{ex} - #{ex.backtrace}"
 		end
 	end
 

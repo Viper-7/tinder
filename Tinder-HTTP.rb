@@ -1,5 +1,11 @@
 #!/usr/bin/ruby
 
+class String
+	def each
+		self.split($/).each { |e| yield e }
+	end
+end
+
 require 'rubygems'
 require 'sinatra'
 require 'cgi'

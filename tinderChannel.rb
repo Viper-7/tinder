@@ -118,8 +118,8 @@ tinderChannels = addChannels(["codeworkshop", "v7test", "ausquake", "premiumgame
 tinderChannels.push addChannel("nesreca", 'TinderNesreca')
 tinderChannels.each {|x| x.setTinderBot(tinderBot)}
 addDirWatcher tinderChannels, '/mnt/thorc/Dropbox/My Dropbox/nesreca', "Dropbox", 'http://dropbox.viper-7.com/', "nesreca", true
-addRSSWatcher tinderChannels, ["http://www.nzbsrus.com/rssfeed.php?cat=75", "http://www.nzbsrus.com/rssfeed.php?cat=91"], "nzb", "nesreca", true
-addRSSWatcher tinderChannels, ["http://rss.thepiratebay.org/205"], "torrent", "nesreca", true
+# addRSSWatcher tinderChannels, ["http://www.nzbsrus.com/rssfeed.php?cat=75", "http://www.nzbsrus.com/rssfeed.php?cat=91"], "nzb", "nesreca", true
+# addRSSWatcher tinderChannels, ["http://rss.thepiratebay.org/205"], "torrent", "nesreca", true
 addAdminHost tinderChannels, 'Viper-7!druss@viper-7.com'
 addAdminHost tinderChannels, 'perverse!lolol@viper-7.com'
 connect tinderServer, tinderBot, tinderChannels

@@ -487,10 +487,10 @@ class TinderChannel
 						when /^latest$/i
 							resp2 = x.latest
 							resp = resp2 if resp2 != ""
-						when /(listallow|list)/
-							resp = x.listallow
 						when /listignore/
 							resp = x.listignore
+						when /(listallow|list)/
+							resp = x.listallow
 						when /^(.+?) is (?:shit|bad|poo|terrible|crap|gay|ass|fail|no good|stupid|retarded)/i
 							args = $1.gsub(/ /,'.')
 							result = @mysql.query("SELECT COUNT(*) FROM #{x.type}allow WHERE Line LIKE \"#{args}\"")

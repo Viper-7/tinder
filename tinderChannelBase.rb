@@ -250,10 +250,10 @@ class TinderChannel
 			    	end
 				rssTypes.each{|x| response += "<A HREF=#{x.downcase}>#{x.downcase}</A> "}
 			end
-	
+			
 		    	lines += response + "\n"
 		}
-		lines += 'Type a command to see its usage'
+		lines += 'Click a command to see its usage'
 		return lines
 	end
     end

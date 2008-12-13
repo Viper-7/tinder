@@ -31,11 +31,15 @@ def get_html(params, tinderChannel)
 	args.gsub!('##@',"/")
 	args.gsub!('##@',"://")
 	
-	return tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
+	return tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private','system','www'])
 end
 
 
 tinderChannel = TinderChannel.new('www')
+
+get '/text/*' do
+	get_html(params, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')
+end
 
 get '/soap/*' do
 	outStr = get_html(params, tinderChannel)
@@ -109,24 +113,6 @@ get '/json/*' do
 	else
 		outputArr['url'] = ''
 		outStr.gsub!(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
-		outputArr['body'] = outStr.chomp
-		outputArr.to_json
-	end
-end
-
-get '/plain/*' do
-	outStr = get_html(params, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')
-
-	outputArr = {}
-	
-	outputArr['command'] = params['splat'].first
-	
-	if outStr[0,7] == 'http://' and !outStr.match(/ /)
-		outStr.gsub!(/<[^>]*>/,'')
-		outputArr['body'] = outStr.chomp
-		outputArr['url'] = outStr.chomp
-	else
-		outputArr['url'] = ''
 		outputArr['body'] = outStr.chomp
 		outputArr.to_json
 	end

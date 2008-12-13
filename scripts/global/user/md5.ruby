@@ -70,7 +70,7 @@ if output == ''
 	if md5.match(/^[a-zA-Z0-9]{32}$/)
 		output = 'Decryption Failed :(' 
 	else
-		output = 'Manual: ' + MD5.new(md5).to_s
+		output = MD5.new(md5).to_s
 	end
 end
 

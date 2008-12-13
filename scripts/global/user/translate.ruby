@@ -9,7 +9,7 @@ t0 = args.shift
 if t0.chomp.length == 5 and t0[2,1] == ':'
 	lang = t0[0,2] + '|' + t0[3,2]
 else
-	if t0.chomp.length == 2
+	if t0.chomp.length == 2 or (t0.chomp.length == 5 and t0[2,1] == '-')
 		lang = '|' + t0
 	else
 		args.unshift(t0)

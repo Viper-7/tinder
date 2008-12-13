@@ -3,6 +3,7 @@ require 'rubygems'
 require 'nokogiri'
 require 'net/http'
 require 'uri'
+require 'cgi'
 
 output = ''
 md5 = $*.first
@@ -47,7 +48,9 @@ end
 
 if output == ''
 	begin
-		open("http://www.google.com.au/search?btnI=1&q=#{$*.first}+site%3Asecure.sensepost.com",{'Referer'=>'http://www.google.com.au/ig'}).read
+		p open("http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=#{CGI.escape($*.join)}+site%3Asecure.sensepost.com&num=1").read
+		
+		# open("http://www.google.com.au/search?btnI=1&q=#{$*.first}+site%3Asecure.sensepost.com",{'Referer'=>'http://www.google.com.au/ig'}).read
 	rescue RuntimeError => ex
 		ex.to_s =~ /-> (.*)$/
 		open($1).read.scan(/(\w*)\s*==>\s*#{md5}/) {|x|

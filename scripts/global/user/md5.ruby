@@ -56,8 +56,10 @@ if output == ''
 
 		if !inObj['responseData'].nil?
 			open(inObj['responseData']['url']).read.scan(/(\w*)\s*==>\s*#{md5}/) {|x|
-			output = x
-		}
+				output = x
+			}
+		end
+		
 	rescue Exception => ex
 		puts ex
 	end

@@ -53,7 +53,7 @@ if output == ''
 		inTxt = open("http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=#{CGI.escape($*.join)}+site%3Asecure.sensepost.com&num=1").read
 		inObj = JSON.parse(inTxt) if !inTxt.nil?
 
-		if !inObj['responseData'].nil?
+		if !inObj['responseData']['results'].nil?
 			inObj['responseData']['results'][0]['content'].scan(/(\w*)\s*==\&gt\;\s*<b>#{md5}/) {|x|
 				output = x
 			}

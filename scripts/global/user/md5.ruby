@@ -52,7 +52,7 @@ end
 if output == ''
 	begin
 		inTxt = open("http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=#{CGI.escape($*.join)}+site%3Asecure.sensepost.com&num=1").read
-		inObj = JSON.parse(inTxt)
+		inObj = JSON.parse(inTxt) if !inTxt.nil?
 
 		if !inObj['responseData'].nil?
 			open(inObj['responseData']['url']).read.scan(/(\w*)\s*==>\s*#{md5}/) {|x|
@@ -62,6 +62,7 @@ if output == ''
 		
 	rescue Exception => ex
 		puts ex
+		puts ex.backtrace
 	end
 end
 

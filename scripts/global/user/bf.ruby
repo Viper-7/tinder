@@ -1,5 +1,5 @@
 i=0;l=[];d=[];p=0;c=0
-99999.times {|x| d[x]=0}
+99999.times{|x| d[x]=0}
 x=$stdin.read.match(/^((?:[+-<>\[\].,]*\s*)*)(.*?)$/m)
 a=x[2].unpack('C*')
 x=x[1].gsub(/\s/m,'')

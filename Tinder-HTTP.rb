@@ -11,9 +11,7 @@ require 'sinatra'
 require 'cgi'
 require 'tinderChannelBase.rb'
 
-tinderChannel = TinderChannel.new('www')
-
-def get_html(params)
+def get_html(params, tinderChannel)
 	args = params["splat"].first.gsub('://','##%').gsub('\/','##@').split('/')
 	cmd = args.shift
 	cmd = 'help' if cmd == '' or cmd == nil
@@ -34,13 +32,16 @@ def get_html(params)
 	return tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
 end
 
+
+tinderChannel = TinderChannel.new('www')
+
 get '/xml/*' do
-	outStr = get_html(params)
+	outStr = get_html(params, tinderChannel)
 	outStr
 end
 
 get '/*' do
-	outStr = get_html(params)
+	outStr = get_html(params, tinderChannel)
 	
 	if outStr[0,7] == 'http://'
 		outStr.gsub!(/<[^>]*>/,'')

@@ -4,6 +4,7 @@ require 'nokogiri'
 require 'net/http'
 require 'uri'
 require 'cgi'
+require 'json'
 
 output = ''
 md5 = $*.first
@@ -50,14 +51,12 @@ end
 
 if output == ''
 	begin
-		p open("http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=#{CGI.escape($*.join)}+site%3Asecure.sensepost.com&num=1").read
-		
-		# open("http://www.google.com.au/search?btnI=1&q=#{$*.first}+site%3Asecure.sensepost.com",{'Referer'=>'http://www.google.com.au/ig'}).read
-	rescue RuntimeError => ex
-		ex.to_s =~ /-> (.*)$/
-		open($1).read.scan(/(\w*)\s*==>\s*#{md5}/) {|x|
+		inTxt = open("http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=#{CGI.escape($*.join)}+site%3Asecure.sensepost.com&num=1").read
+		inObj = JSON.parse(inTxt)
+
+		if !inObj['responseData'].nil?
+			open(inObj['responseData']['url']).read.scan(/(\w*)\s*==>\s*#{md5}/) {|x|
 			output = x
-			break
 		}
 	rescue Exception => ex
 		puts ex

@@ -27,7 +27,7 @@ ab -n 120 -c 5 http://viper-7.com/tinder/soap/benchruby | grep "Requests per sec
 echo "---"
 echo -n "Plain Text: Native Ruby		"
 ab -n 120 -c 5 http://viper-7.com/tinder/text/yo | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
-echo -n "Plain Text: Webserver		"
+echo -n "Plain Text: Webserver PHP	"
 ab -n 120 -c 5 http://viper-7.com/robots.txt | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
-echo -n "Plain Text: Webserver PHP		"
+echo -n "Plain Text: Webserver		"
 ab -n 120 -c 5 http://viper-7.com/robots.txt | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1

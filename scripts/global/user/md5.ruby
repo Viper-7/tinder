@@ -11,8 +11,8 @@ output = ''
 md5 = CGI.escape($*.first)
 
 if md5 == ''
-	puts 'Usage: @md5 <string>   - Returns an MD5 hash for the supplied string<BR>'
-	puts '       @md5 <md5 hash> - Attempts to decrypt the supplied MD5 hash using an array of methods'
+	puts 'Usage: @md5 [string]   - Returns an MD5 hash for the supplied string<BR>'
+	puts '       @md5 [md5 hash] - Attempts to decrypt the supplied MD5 hash using an array of methods'
 	exit
 end
 

@@ -55,7 +55,7 @@ if output == ''
 		inObj = JSON.parse(inTxt) if !inTxt.nil?
 
 		if !inObj['responseData'].nil?
-			open(inObj['responseData']['url']).read.scan(/(\w*)\s*==>\s*#{md5}/) {|x|
+			open(inObj['responseData']['uri']).read.scan(/(\w*)\s*==>\s*#{md5}/) {|x|
 				output = x
 			}
 		end

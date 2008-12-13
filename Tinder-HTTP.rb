@@ -13,12 +13,7 @@ require 'tinderChannelBase.rb'
 
 tinderChannel = TinderChannel.new('www')
 
-get '/xml/*' do
-	"wsup"
-end
-
-get '/*' do
-	outStr = ''
+def get_html(params)
 	args = params["splat"].first.gsub('://','##%').gsub('\/','##@').split('/')
 	cmd = args.shift
 	cmd = 'help' if cmd == '' or cmd == nil
@@ -36,7 +31,16 @@ get '/*' do
 	args.gsub!('##@',"/")
 	args.gsub!('##@',"://")
 	
-	outStr = tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
+	return tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private'])
+end
+
+get '/xml/*' do
+	outStr = get_html(params)
+	outStr
+end
+
+get '/*' do
+	outStr = get_html(params)
 	
 	if outStr[0,7] == 'http://'
 		outStr.gsub!(/<[^>]*>/,'')

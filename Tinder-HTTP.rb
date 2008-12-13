@@ -38,7 +38,7 @@ tinderChannel = TinderChannel.new('www')
 
 get '/soap/*' do
 	outStr = get_html(params, tinderChannel)
-	outputArr = []
+	outputArr = {}
 	
 	outputArr['command'] = params['splat'].first
 	

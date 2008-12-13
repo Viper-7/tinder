@@ -14,3 +14,4 @@ when ',';d[p]=a[c]?a[c]:0;c+=1
 when '[';l.push i
 when ']';d[p]>0?i=l.last: l.pop
 end;i+=1;end
+print "\n"

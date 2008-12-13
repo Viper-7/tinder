@@ -114,6 +114,24 @@ get '/json/*' do
 	end
 end
 
+get '/plain/*' do
+	outStr = get_html(params, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')
+
+	outputArr = {}
+	
+	outputArr['command'] = params['splat'].first
+	
+	if outStr[0,7] == 'http://' and !outStr.match(/ /)
+		outStr.gsub!(/<[^>]*>/,'')
+		outputArr['body'] = outStr.chomp
+		outputArr['url'] = outStr.chomp
+	else
+		outputArr['url'] = ''
+		outputArr['body'] = outStr.chomp
+		outputArr.to_json
+	end
+end
+
 get '/*' do
 	outStr = get_html(params, tinderChannel)
 	

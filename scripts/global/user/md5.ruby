@@ -16,10 +16,6 @@ if md5 == ''
 	exit
 end
 
-if !md5.match(/^[a-zA-Z0-9]{32}$/)
-	puts MD5.new(md5).to_s
-end
-
 begin
 	res = open("http://md5.rednoize.com/?q=#{md5}&xml").read
 	doc = Nokogiri::XML(res)
@@ -70,6 +66,12 @@ if output == ''
 	end
 end
 
-output = 'Decryption Failed :(' if output == ''
+if output == ''
+	if md5.match(/^[a-zA-Z0-9]{32}$/)
+		output = 'Decryption Failed :(' 
+	else
+		output = MD5.new(md5).to_s
+	end
+end
 
 puts output

@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+﻿#!/usr/bin/ruby
 
 require 'rubygems'
 require 'builder'
@@ -59,9 +59,9 @@ get '/soap/*' do
 		xml = ::Builder::XmlMarkup.new( :target => $outStr, :indent => 0 )
 		
 		xml.tinderResponse do 
-			outputArr.each do | name, choice |
-				xml.response( choice, 'type'=>name )
-			end
+			xml.command( outputArr['command'] )
+			xml.url( outputArr['url'] )
+			xml.body( outputArr['body'] )
 		end
 
 		 '<?xml version="1.0" encoding="utf-8"?>' + "\n" + 

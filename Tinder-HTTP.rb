@@ -56,7 +56,8 @@ get '/soap/*' do
 		
 		xml.tinderResponse do 
 			output.each do | name, choice |
-				xml.tinderResponse( name ) = choice
+				element = xml.tinderResponse( name ) 
+				eval("element.#{choice}")
 			end
 		end
 

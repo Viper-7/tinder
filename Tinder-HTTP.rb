@@ -109,7 +109,7 @@ get '/json/*' do
 	else
 		outputArr['url'] = ''
 		outputArr['body'] = outStr.gsub(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
-		
+		p outputArr['body']
 		outputArr.to_json
 	end
 end

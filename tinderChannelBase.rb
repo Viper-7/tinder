@@ -210,7 +210,7 @@ class TinderChannel
 				response += '@quote @addquote '
 			end
 	
-		    	lines += response + "\n"
+		    	lines += response + "<BR>\n"
 		}
 		lines += 'Type a command to see its usage'
 		return lines

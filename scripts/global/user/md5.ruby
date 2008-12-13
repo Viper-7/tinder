@@ -14,13 +14,12 @@ if md5 == ''
 	exit
 end
 
-=begin
 begin
 	res = open("http://md5.rednoize.com/?q=#{md5}&xml").read
 	doc = Nokogiri::XML(res)
 	output = doc.search('//md5:Result/ResultString',{'md5' => 'http://md5.rednoize.com'}).text
-rescue Exception => ex
-	puts ex
+rescue
+	output = ''
 end
 
 if output == ''
@@ -33,8 +32,8 @@ if output == ''
 				break
 			}
 		}
-	rescue Exception => ex
-		puts ex
+	rescue 
+		output = ''
 	end
 end
 
@@ -45,9 +44,9 @@ if output == ''
 			break
 		}
 	rescue
+		output = ''
 	end
 end
-=end
 
 if output == ''
 	begin
@@ -60,9 +59,8 @@ if output == ''
 			}
 		end
 		
-	rescue Exception => ex
-		puts ex
-		puts ex.backtrace
+	rescue
+		output = ''
 	end
 end
 

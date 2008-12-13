@@ -8,7 +8,7 @@ require 'json'
 require 'md5'
 
 output = ''
-md5 = $*.first
+md5 = CGI.escape($*.first)
 
 if md5 == ''
 	puts 'Usage: @md5 <string>   - Returns an MD5 hash for the supplied string<BR>'

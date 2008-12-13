@@ -1,16 +1,17 @@
 #!/usr/bin/ruby
 
+require 'rubygems'
+require 'builder'
+require 'sinatra'
+require 'cgi'
+require 'json'
+require 'tinderChannelBase.rb'
+
 class String
 	def each
 		self.split($/).each { |e| yield e }
 	end
 end
-
-require 'rubygems'
-require 'builder'
-require 'sinatra'
-require 'cgi'
-require 'tinderChannelBase.rb'
 
 def get_html(params, tinderChannel)
 	args = params["splat"].first.gsub('://','##%').gsub('\/','##@').split('/')
@@ -92,6 +93,24 @@ get '/xml/*' do
 		end
 
 		$outStr
+	end
+end
+
+get '/json/*' do
+	outStr = get_html(params, tinderChannel)
+	outputArr = {}
+	
+	outputArr['command'] = params['splat'].first
+	
+	if outStr[0,7] == 'http://' and !outStr.match(/ /)
+		outStr.gsub!(/<[^>]*>/,'')
+		outputArr['body'] = outStr.chomp
+		outputArr['url'] = outStr.chomp
+	else
+		outputArr['url'] = ''
+		outputArr['body'] = outStr.gsub(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
+		
+		outputArr.to_json
 	end
 end
 

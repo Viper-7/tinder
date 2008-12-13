@@ -16,7 +16,7 @@ else
 	end
 end
 
-inTxt = open('http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + args.join('+') + '&langpair=' + CGI.escape(lang)).read
+inTxt = open('http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' + CGI.escape(args.join(' ')) + '&langpair=' + CGI.escape(lang)).read
 inObj = JSON.parse(inTxt)
 
 if inObj['responseData'].nil?

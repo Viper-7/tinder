@@ -1,8 +1,8 @@
 i=0;l=[];d=[];p=0;c=0
 99999.times {|x| d[x]=0}
-x=$*.join.match(/^((?:[+-<>\[\].,]*\s*)*)(.*?)$/m)
-a=x[2].unpack('C*')
-x=x[1].gsub(/\s/m,'')
+x=$*.join.split(' ')
+a=x[1].unpack('C*')
+x=x[0].gsub(/\s/m,'')
 while i<x.length
 case x[i]
 when '<';p-=1

@@ -16,12 +16,12 @@ ab -n 120 -c 3 http://viper-7.com/tinder/text/benchbash | grep "Requests per sec
 echo "---"
 echo -n "JSON: Ruby		"
 ab -n 120 -c 5 http://viper-7.com/tinder/json/benchruby | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
+echo -n "JSON: PHP		"
+ab -n 120 -c 5 http://viper-7.com/tinder/json/benchphp | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
+echo "---"
 echo -n "XML: Ruby		"
 ab -n 120 -c 5 http://viper-7.com/tinder/xml/benchruby | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
 echo -n "SOAP: Ruby		"
 ab -n 120 -c 5 http://viper-7.com/tinder/soap/benchruby | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
 echo -n "HTML: Ruby		"
 ab -n 120 -c 5 http://viper-7.com/tinder/benchruby | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
-echo "---"
-echo -n "JSON: PHP		"
-ab -n 120 -c 5 http://viper-7.com/tinder/json/benchphp | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1

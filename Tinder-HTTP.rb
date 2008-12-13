@@ -38,16 +38,16 @@ tinderChannel = TinderChannel.new('www')
 
 get '/soap/*' do
 	outStr = get_html(params, tinderChannel)
-	output = []
+	outputArr = []
 	
-	output['command'] = params['splat'].first
+	outputArr['command'] = params['splat'].first
 	
 	if outStr[0,7] == 'http://' and !outStr.match(/ /)
 		outStr.gsub!(/<[^>]*>/,'')
-		output['body'] = outStr.chomp
-		output['url'] = outStr.chomp
+		outputArr['body'] = outStr.chomp
+		outputArr['url'] = outStr.chomp
 	else
-		output['body'] = outStr.gsub(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
+		outputArr['body'] = outStr.gsub(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
 		outStr = ''
 		
 		xml = Builder::XmlMarkup.new( :target => outStr )
@@ -55,7 +55,7 @@ get '/soap/*' do
 		xml.instruct! :xml, :version => "1.1", :encoding => "US-ASCII"
 		
 		xml.tinderResponse do 
-			output.each do | name, choice |
+			outputArr.each do | name, choice |
 				element = xml.tinderResponse( name ) 
 				eval("element.#{choice}")
 			end

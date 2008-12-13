@@ -13,7 +13,7 @@ if md5 == ''
 	exit
 end
 
-==begin
+=begin
 begin
 	res = open("http://md5.rednoize.com/?q=#{md5}&xml").read
 	doc = Nokogiri::XML(res)
@@ -46,7 +46,8 @@ if output == ''
 	rescue
 	end
 end
-==end
+=end
+
 if output == ''
 	begin
 		p open("http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=#{CGI.escape($*.join)}+site%3Asecure.sensepost.com&num=1").read

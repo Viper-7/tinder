@@ -54,6 +54,8 @@ if output == ''
 			output = x
 			break
 		}
+	rescue Exception => ex
+		puts ex
 	end
 end
 

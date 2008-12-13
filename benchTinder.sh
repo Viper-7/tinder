@@ -13,14 +13,14 @@ ab -n 120 -c 3 http://viper-7.com/tinder/text/benchtcl | grep "Requests per seco
 echo -n "Plain Text: Bash"
 ab -n 120 -c 3 http://viper-7.com/tinder/text/benchbash | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
 echo "---"
-echo -n "JSON: Python"
-ab -n 120 -c 5 http://viper-7.com/tinder/json/benchpython | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
-echo -n "XML: Python"
-ab -n 120 -c 5 http://viper-7.com/tinder/xml/benchpython | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
-echo -n "SOAP: Python"
-ab -n 120 -c 5 http://viper-7.com/tinder/soap/benchpython | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
-echo -n "HTML: Python"
-ab -n 120 -c 5 http://viper-7.com/tinder/benchpython | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
+echo -n "JSON: Ruby"
+ab -n 120 -c 5 http://viper-7.com/tinder/json/benchruby | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
+echo -n "XML: Ruby"
+ab -n 120 -c 5 http://viper-7.com/tinder/xml/benchruby | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
+echo -n "SOAP: Ruby"
+ab -n 120 -c 5 http://viper-7.com/tinder/soap/benchruby | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
+echo -n "HTML: Ruby"
+ab -n 120 -c 5 http://viper-7.com/tinder/benchruby | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
 echo "---"
 echo -n "JSON: PHP"
 ab -n 120 -c 5 http://viper-7.com/tinder/json/benchphp | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1

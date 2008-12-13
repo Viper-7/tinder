@@ -52,8 +52,6 @@ get '/soap/*' do
 		
 		xml = ::Builder::XmlMarkup.new( :target => $outStr, :indent => 0 )
 		
-		xml.instruct! :xml, :version => "1.1", :encoding => "US-ASCII"
-		
 		xml.tinderResponse do 
 			outputArr.each do | name, choice |
 				xml.response( choice, 'type'=>name )

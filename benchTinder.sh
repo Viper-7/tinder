@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "(Interface: Scripting Language   # hits / second)"
 echo -n "Plain Text: Ruby"
 ab -n 120 -c 5 http://viper-7.com/tinder/text/benchruby | grep "Requests per second" | cut -d ':' -f 2 | cut -d '[' -f 1
 echo -n "Plain Text: PHP"

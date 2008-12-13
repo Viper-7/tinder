@@ -7,7 +7,7 @@ lang = '|en'
 args = $*.join(' ').split(' ')
 t0 = args.shift
 case t0.chomp.length
-	when 5
+	when 5 and t0[2,1] == ':'
 		lang = t0[0,2] + '|' + t0[3,2]
 	when 2
 		lang = '|' + t0

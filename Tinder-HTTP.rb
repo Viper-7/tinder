@@ -7,10 +7,10 @@ class String
 end
 
 require 'rubygems'
+require 'builder'
 require 'sinatra'
 require 'cgi'
 require 'tinderChannelBase.rb'
-require 'builder'
 
 def get_html(params, tinderChannel)
 	args = params["splat"].first.gsub('://','##%').gsub('\/','##@').split('/')
@@ -50,7 +50,7 @@ get '/soap/*' do
 		outputArr['body'] = outStr.gsub(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
 		outStr = ''
 		
-		xml = Builder::XmlMarkup.new( :target => outStr )
+		xml = Builder::XmlMarkup.new( :target => outStr, :indent => 0 )
 		
 		xml.instruct! :xml, :version => "1.1", :encoding => "US-ASCII"
 		

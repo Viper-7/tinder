@@ -21,11 +21,11 @@
 	$result2=str_replace(' results','',$result2);
 	
 	$response = $result1 . " vs " . $result2;
-	$response .= "\n";
+	$response .= "<BR>\n";
 	if (str_replace(',','',$result1) > str_replace(',','',$result2)) {
-		$response .= $word1 . " Wins!\n";
+		$response .= '<B>' . $word1 . " Wins!</B><BR>";
 	} else {
-		$response .= $word2 . " Wins!\n";
+		$response .= '<B>' . $word2 . " Wins!</B><BR>";
 	}
 	echo $response;
 ?>

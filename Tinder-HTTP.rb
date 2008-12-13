@@ -47,6 +47,7 @@ get '/soap/*' do
 		outputArr['body'] = outStr.chomp
 		outputArr['url'] = outStr.chomp
 	else
+		outputArr['url'] = ''
 		outputArr['body'] = outStr.gsub(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
 		$outStr = ''
 		
@@ -62,6 +63,35 @@ get '/soap/*' do
 		 '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' + "\n" + 
 		 '<soap:Body>' + $outStr + '</soap:Body>' + "\n" + 
 		 '</soap:Envelope>'
+	end
+end
+
+get '/xml/*' do
+	outStr = get_html(params, tinderChannel)
+	outputArr = {}
+	
+	outputArr['command'] = params['splat'].first
+	
+	if outStr[0,7] == 'http://' and !outStr.match(/ /)
+		outStr.gsub!(/<[^>]*>/,'')
+		outputArr['body'] = outStr.chomp
+		outputArr['url'] = outStr.chomp
+	else
+		outputArr['url'] = ''
+		outputArr['body'] = outStr.gsub(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
+		$outStr = ''
+		
+		xml = ::Builder::XmlMarkup.new( :target => $outStr, :indent => 0 )
+		
+		xml.instruct! :xml, :version => "1.1", :encoding => "utf-8"
+		
+		xml.tinderResponse do 
+			outputArr.each do | name, choice |
+				xml.response( choice, 'type'=>name )
+			end
+		end
+
+		$outStr
 	end
 end
 

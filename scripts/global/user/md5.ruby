@@ -55,7 +55,8 @@ if output == ''
 		inObj = JSON.parse(inTxt) if !inTxt.nil?
 
 		if !inObj['responseData'].nil?
-			inObj['responseData'][0]['titleNoFormatting'].scan(/(\w*)\s*==>\s*#{md5}/) {|x|
+			p inObj['responseData']
+			inObj['responseData']['titleNoFormatting'].scan(/(\w*)\s*==>\s*#{md5}/) {|x|
 				output = x
 			}
 		end

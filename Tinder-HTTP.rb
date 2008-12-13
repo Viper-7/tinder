@@ -48,9 +48,9 @@ get '/soap/*' do
 		outputArr['url'] = outStr.chomp
 	else
 		outputArr['body'] = outStr.gsub(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
-		outStr = ''
+		$outStr = ''
 		
-		xml = Builder::XmlMarkup.new( :target => outStr, :indent => 0 )
+		xml = Builder::XmlMarkup.new( :target => $outStr, :indent => 0 )
 		
 		xml.instruct! :xml, :version => "1.1", :encoding => "US-ASCII"
 		
@@ -62,7 +62,7 @@ get '/soap/*' do
 
 		 '<?xml version="1.0" encoding="utf-8"?>' + "\n" + 
 		 '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' + "\n" + 
-		 '<soap:Body>' + outStr + '</soap:Body>' + "\n" + 
+		 '<soap:Body>' + $outStr + '</soap:Body>' + "\n" + 
 		 '</soap:Envelope>'
 	end
 end

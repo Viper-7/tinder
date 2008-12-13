@@ -5,13 +5,19 @@ require 'net/http'
 require 'uri'
 require 'cgi'
 require 'json'
+require 'md5'
 
 output = ''
 md5 = $*.first
+
 if md5 == ''
 	puts 'Usage: @md5 <string>   - Returns an MD5 hash for the supplied string<BR>'
 	puts '       @md5 <md5 hash> - Attempts to decrypt the supplied MD5 hash using an array of methods'
 	exit
+end
+
+if !md5.match(/^[a-zA-Z0-9]{32}$/)
+	puts MD5.new(md5).to_s
 end
 
 begin
@@ -39,17 +45,6 @@ end
 
 if output == ''
 	begin
-		open("http://wordd.org/#{md5}").read.scan(/<h1>(.*?)<\/h1>/) {|x|
-			output = x
-			break
-		}
-	rescue
-		output = ''
-	end
-end
-
-if output == ''
-	begin
 		inTxt = open("http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=#{CGI.escape($*.join)}+site%3Asecure.sensepost.com&num=1").read
 		inObj = JSON.parse(inTxt) if !inTxt.nil?
 
@@ -59,6 +54,17 @@ if output == ''
 			}
 		end
 		
+	rescue
+		output = ''
+	end
+end
+
+if output == ''
+	begin
+		open("http://wordd.org/#{md5}").read.scan(/<h1>(.*?)<\/h1>/) {|x|
+			output = x
+			break
+		}
 	rescue
 		output = ''
 	end

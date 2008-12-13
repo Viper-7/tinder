@@ -13,6 +13,10 @@ require 'tinderChannelBase.rb'
 
 tinderChannel = TinderChannel.new('www')
 
+get '/xml/*' do
+	"wsup"
+end
+
 get '/*' do
 	outStr = ''
 	args = params["splat"].first.gsub('://','##%').gsub('\/','##@').split('/')

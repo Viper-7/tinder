@@ -114,7 +114,7 @@ end
 
 
 tinderServer, tinderBot = addServer("WebIRC.GameSurge.net", "6667", "Tinder")
-tinderChannels = addChannels(["codeworkshop", "v7test", "ausquake", "premiumgamer", "slashquit"], 'TinderChannel')
+tinderChannels = addChannels(["codeworkshop", "v7test", "playtopia", "ausquake", "premiumgamer", "slashquit"], 'TinderChannel')
 tinderChannels.push addChannel("nesreca", 'TinderNesreca')
 tinderChannels.each {|x| x.setTinderBot(tinderBot)}
 addDirWatcher tinderChannels, '/mnt/thorc/Dropbox/My Dropbox/nesreca', "Dropbox", 'http://dropbox.viper-7.com/', "nesreca", true

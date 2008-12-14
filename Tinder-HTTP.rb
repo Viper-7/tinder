@@ -59,7 +59,7 @@ get '/soap' do
 		
 		xml = ::Builder::XmlMarkup.new( :target => $outStr, :indent => 0 )
 		
-		xml.tinderResponseResponse('xmlns'=>'http://tinder.viper-7.com') do 
+		xml.tinderResponseResponse('xmlns'=>'http://www.viper-7.com/tinder/soap') do 
 			xml.command( outputArr['command'], 'xsi:type'=>'xsd:string' )
 			xml.url( outputArr['url'], 'xsi:type'=>'xsd:string' )
 			xml.body( outputArr['body'], 'xsi:type'=>'xsd:string' )

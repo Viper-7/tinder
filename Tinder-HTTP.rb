@@ -13,8 +13,8 @@ class String
 	end
 end
 
-def get_html(params, tinderChannel)
-	args = params["splat"].first.gsub('://','##%').gsub('\/','##@').split('/')
+def get_html(param, tinderChannel)
+	args = param.gsub('://','##%').gsub('\/','##@').split('/')
 	cmd = args.shift
 	cmd = 'help' if cmd == '' or cmd == nil
 	case cmd
@@ -38,14 +38,14 @@ end
 tinderChannel = TinderChannel.new('www')
 
 get '/text/*' do
-	get_html(params, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')
+	get_html(params['splat'].first, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')
 end
 
 get '/soap' do
-	outStr = get_html(params, tinderChannel)
+	outStr = get_html('help', tinderChannel)
 	outputArr = {}
 	
-	outputArr['command'] = params['splat'].first
+	outputArr['command'] = 'help'
 	
 	if outStr[0,7] == 'http://' and !outStr.match(/ /)
 		outStr.gsub!(/<[^>]*>/,'')
@@ -72,7 +72,7 @@ get '/soap' do
 end
 
 get '/xml/*' do
-	outStr = get_html(params, tinderChannel)
+	outStr = get_html(params['splat'].first, tinderChannel)
 	outputArr = {}
 	
 	outputArr['command'] = params['splat'].first
@@ -101,7 +101,7 @@ get '/xml/*' do
 end
 
 get '/json/*' do
-	outStr = get_html(params, tinderChannel)
+	outStr = get_html(params['splat'].first, tinderChannel)
 	outputArr = {}
 	
 	outputArr['command'] = params['splat'].first
@@ -119,7 +119,7 @@ get '/json/*' do
 end
 
 get '/*' do
-	outStr = get_html(params, tinderChannel)
+	outStr = get_html(params['splat'].first, tinderChannel)
 	
 	if outStr[0,7] == 'http://' and !outStr.match(/ /)
 		outStr.gsub!(/<[^>]*>/,'')

@@ -64,7 +64,7 @@ get '/soap/*' do
 			xml.body( outputArr['body'], 'xsi:type'=>'xsd:string' )
 		end
 
-		 '<?xml version="1.0" encoding="utf-8"?>' + "\n" + 
+		 '<?xml version="1.0" encoding="US-ASCII"?>' + "\n" + 
 		 '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' + "\n" + 
 		 '<soap:Body>' + $outStr + '</soap:Body>' + "\n" + 
 		 '</soap:Envelope>'

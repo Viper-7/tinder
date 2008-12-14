@@ -53,7 +53,8 @@ get '/soap' do
 		outputArr['url'] = outStr.chomp
 	else
 		outputArr['url'] = ''
-		outputArr['body'] = outStr.gsub(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
+		outStr.gsub!(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
+		outputArr['body'] = outStr
 		$outStr = ''
 		
 		xml = ::Builder::XmlMarkup.new( :target => $outStr, :indent => 0 )
@@ -83,7 +84,8 @@ get '/xml/*' do
 		outputArr['url'] = outStr.chomp
 	else
 		outputArr['url'] = ''
-		outputArr['body'] = outStr.gsub(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
+		outStr.gsub!(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
+		outputArr['body'] = outStr
 		$outStr = ''
 		
 		xml = ::Builder::XmlMarkup.new( :target => $outStr, :indent => 0 )

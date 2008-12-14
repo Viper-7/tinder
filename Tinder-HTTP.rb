@@ -42,10 +42,10 @@ get '/text/*' do
 end
 
 get '/soap' do
-	outStr = get_html('help', tinderChannel)
+	outStr = get_html(nil, tinderChannel)
 	outputArr = {}
 	
-	outputArr['command'] = 'help'
+	outputArr['command'] = ''
 	
 	if outStr[0,7] == 'http://' and !outStr.match(/ /)
 		outStr.gsub!(/<[^>]*>/,'')

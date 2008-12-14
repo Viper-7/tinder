@@ -42,7 +42,7 @@ get '/text/*' do
 end
 
 get '/soap' do
-	outStr = get_html(nil, tinderChannel)
+	outStr = get_html('', tinderChannel)
 	outputArr = {}
 	
 	outputArr['command'] = ''

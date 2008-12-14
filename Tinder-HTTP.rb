@@ -41,7 +41,7 @@ get '/text/*' do
 	get_html(params, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')
 end
 
-get '/soap/*' do
+get '/soap' do
 	outStr = get_html(params, tinderChannel)
 	outputArr = {}
 	

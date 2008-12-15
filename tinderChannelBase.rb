@@ -323,7 +323,7 @@ class TinderChannel
 				response = 'Usage: @php <code to run>' + "\n"
 				response += 'Eg: @php echo "hi"'
 			else
-				args.gsub!(or /(?:114, 110)|rm|eval|exec|shell|system|fork|mail/i,'BLOCKED COMMAND')
+				args.gsub!(or /(?:114, 110)|rm|eval|exec|shell|system|fork|mail|socket/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 				args = "<?php\n" + args + "\n?>"
 
@@ -348,7 +348,7 @@ class TinderChannel
 				response = 'Usage: @ruby <code to run>' + "\n"
 				response += 'Eg: @ruby puts "hi"'
 			else
-				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
+				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail|socket/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }

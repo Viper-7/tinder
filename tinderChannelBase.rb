@@ -331,7 +331,7 @@ class TinderChannel
 				popen4('php /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
 						timeout(5) do
-							response = stdout.readlines.join("\n").to_s
+							response = stdout.readlines.join('').to_s
 							response = stderr.readlines.join("\n").to_s if response == ""
 						end
 					rescue Exception => ex
@@ -555,7 +555,7 @@ class TinderChannel
 		response = response.gsub(/<\\?B>/i,'').gsub(/<[\/]?TITLE.*?>/i,'').gsub(/<A.+?HREF\s?=\s?(?:'|")(http.+?)(?:'|").*?>(.*?)<\/A>/i,'\2 [ \1 ] ').gsub(/<(?:style|script)>.+?<\/(?:style|script)>/i,'').gsub(/\n/m,'').gsub(/<BR[\/]?>/,"\n").gsub(/<[^>]*>/,'').chomp
 		@tinderBot.status "Output  : " + response if @tinderBot
 	else
-		response.gsub!(/\n/m,"<BR/>") if !response.match(/<[^>]*>/) and !response == ''
+		response.gsub!(/\n/m,"<BR/>") if !response.match(/<[^>]*>/) and !response==''
 		response.gsub!(/[\002]([^\002]+)(?:[\002]|$)/,'<b>\1</b>') if !response == ''
 	end
 	return response

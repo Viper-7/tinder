@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+﻿#!/usr/bin/ruby
 
 require 'rubygems'
 require 'builder'
@@ -34,8 +34,9 @@ def get_html(param, tinderChannel)
 	return tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private','system','www'])
 end
 
-
-tinderChannel = TinderChannel.new('www')
+tinderServer, tinderBot = addServer("WebIRC.GameSurge.net", "6667", "Tinder")
+tinderChannel = addChannel("www", 'TinderChannel')
+tinderChannel.setTinderBot(tinderBot)
 
 get '/text/*' do
 	get_html(params['splat'].first, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')

@@ -321,9 +321,9 @@ class TinderChannel
 		when /^php$/
 			if args == ""
 				response = 'Usage: @php <code to run>' + "\n"
-				response += 'Eg: @php echo "hi";'
+				response += 'Eg: @php echo "hi"'
 			else
-				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|fork|mail/i,'BLOCKED COMMAND')
+				args.gsub!(or /(?:114, 110)|rm|eval|exec|shell|system|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 				args = "<?php\n" + args + "\n?>"
 

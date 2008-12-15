@@ -336,7 +336,8 @@ class TinderBot
     include DRbUndumped
 
     attr_accessor :spamTime, :tinderServer, :channels, :open, :dumpchans, :lastStatus
-
+    attr_reader :nick
+    
     def initialize(server)
     	@tinderServer = server
         @channels = Array.new
@@ -350,7 +351,8 @@ class TinderBot
 
         if @tinderServer.connected == true
         	@open = true
-	    	@tinderServer.joinChannel channel.channel.to_s if channel.channel.to_s != 'www'
+	    	@tinderServer.joinChannel channel.channel if channel.channel != 'www'
+	    	@nick = @tinderServer.nick
 		channel.connected
 	end
     end
@@ -389,10 +391,6 @@ class TinderBot
 			# Don't Die
 		end
 	}
-    end
-
-    def nick
-    	return @tinderServer.nick
     end
 
     def send(msg)

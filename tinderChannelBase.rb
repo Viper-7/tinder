@@ -555,8 +555,8 @@ class TinderChannel
 		response = response.gsub(/<\\?B>/i,'').gsub(/<[\/]?TITLE.*?>/i,'').gsub(/<A.+?HREF\s?=\s?(?:'|")(http.+?)(?:'|").*?>(.*?)<\/A>/i,'\2 [ \1 ] ').gsub(/<(?:style|script)>.+?<\/(?:style|script)>/i,'').gsub(/\n/m,'').gsub(/<BR[\/]?>/,"\n").gsub(/<[^>]*>/,'').chomp
 		@tinderBot.status "Output  : " + response if @tinderBot
 	else
-		response.gsub!(/\n/,"<BR/>") if !response.match(/<[^>]*>/) and !response==''
-		response.gsub!(/[\002]([^\002]+)(?:[\002]|$)/,'<b>\1</b>') if !response == ''
+		response.gsub!(/\n/,'<BR/>') if !response.match(/<[^>]*>/) and response != ''
+		response.gsub!(/[\002]([^\002]+)(?:[\002]|$)/,'<b>\1</b>') if response != ''
 	end
 	return response
     end

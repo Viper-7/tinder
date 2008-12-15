@@ -317,9 +317,12 @@ class TinderChannel
 	}
 	case command.chomp
 		when /^php$/
-			if args == ""
+			if args == "" and @channel == 'www'
+				response = 'Usage: /php/<code to run>/<second line>' + "\n"
+				response += 'Eg: /php/echo "hi<BR>"'
+			elsif args == ""
 				response = 'Usage: @php <code to run>' + "\n"
-				response += 'Eg: @php echo "hi"'
+				response += 'Eg: @php echo "hi<BR>"'
 			else
 				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|fork|mail|socket|fopen|fsockopen|exit/i,'BLOCKED COMMAND')
 				args = "<?php\n" + args + "\n?>"
@@ -341,9 +344,12 @@ class TinderChannel
 				}
 			end
 		when /^ruby$/
-			if args == ""
+			if args == "" and @channel == 'www'
+				response = 'Usage: /ruby/<code to run>/<second line>' + "\n"
+				response += 'Eg: /ruby/puts "hi<BR>"'
+			elsif args == ""
 				response = 'Usage: @ruby <code to run>' + "\n"
-				response += 'Eg: @ruby puts "hi"'
+				response += 'Eg: @ruby puts "hi<BR>"'
 			else
 				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail|socket/i,'BLOCKED COMMAND')
 
@@ -364,9 +370,12 @@ class TinderChannel
 				}
 			end
 		when /^perl$/
-			if args == ""
+			if args == "" and @channel == 'www'
+				response = 'Usage: /perl/<code to run>/<second line>' + "\n"
+				response += 'Eg: /perl/echo "hi<BR>"'
+			elsif args == ""
 				response = 'Usage: @perl <code to run>' + "\n"
-				response += 'Eg: @perl echo "hi\n";'
+				response += 'Eg: @perl echo "hi<BR>";'
 			else
 				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
@@ -388,9 +397,12 @@ class TinderChannel
 				}
 			end
 		when /^tcl$/
-			if args == ""
+			if args == "" and @channel == 'www'
+				response = 'Usage: /tcl/<code to run>/<second line>' + "\n"
+				response += 'Eg: /tcl/puts "hi<BR>"'
+			elsif args == ""
 				response = 'Usage: @tcl <code to run>' + "\n"
-				response += 'Eg: @tcl puts hi'
+				response += 'Eg: @tcl puts hi<BR>'
 			else
 				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")

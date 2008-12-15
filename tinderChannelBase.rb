@@ -325,7 +325,7 @@ class TinderChannel
 				response += 'Eg: @php echo "hi&lt;BR&gt;"'
 			else
 				args.gsub!(/(?:114, 110)|rm|-rf|eval|exec|shell|system|fork|mail|socket|fopen|fsockopen|exit/i,'BLOCKED COMMAND')
-				args = "<?php\n" + args.gsub(/&$p/,'+') + "\n?>"
+				args = "<?php\n" + args.gsub(/&\$p/,'+') + "\n?>"
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 
@@ -353,7 +353,7 @@ class TinderChannel
 			else
 				args.gsub!(/(?:114, 110)|rm|-rf|eval|exec|shell|system|popen|\%x|fork|mail|socket/i,'BLOCKED COMMAND')
 
-				File.open('/tmp/tinderScript', 'w') {|f| f.write(args.gsub(/&$p/,'+')) }
+				File.open('/tmp/tinderScript', 'w') {|f| f.write(args.gsub(/&\$p/,'+')) }
 				
 				popen4('ruby /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
@@ -380,7 +380,7 @@ class TinderChannel
 				args.gsub!(/(?:114, 110)|-rf|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 
-				File.open('/tmp/tinderScript', 'w') {|f| f.write(args.gsub(/&$p/,'+')) }
+				File.open('/tmp/tinderScript', 'w') {|f| f.write(args.gsub(/&\$p/,'+')) }
 
 				popen4('perl /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin
@@ -407,7 +407,7 @@ class TinderChannel
 				args.gsub!(/(?:114, 110)|-rf|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 
-				File.open('/tmp/tinderScript', 'w') {|f| f.write(args.gsub(/&$p/,'+')) }
+				File.open('/tmp/tinderScript', 'w') {|f| f.write(args.gsub(/&\$p/,'+')) }
 
 				popen4('tclsh /tmp/tinderScript') {|stdout, stderr, stdin, pipe|
 					begin

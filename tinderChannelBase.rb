@@ -170,7 +170,7 @@ class TinderChannel
 	    	lines = ""
 	    	commandtypes.each{|z|
 	    		response = z.capitalize + ' Commands: '
-	    		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
+	    		folders = ["scripts/#{z}/builtin","scripts/#{z}/user"]
 		    	for folder in folders
 		    		Find.find(folder) do |path|
 		    			if FileTest.directory?(path)
@@ -216,7 +216,7 @@ class TinderChannel
 	    	lines = ""
 	    	commandtypes.each{|z|
 	    		response = z.capitalize + ' Commands: '
-	    		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
+	    		folders = ["scripts/#{z}/builtin","scripts/#{z}/user"]
 		    	for folder in folders
 		    		Find.find(folder) do |path|
 		    			if FileTest.directory?(path)
@@ -265,7 +265,7 @@ class TinderChannel
     	response = ""
     	hit = false
     	commandtypes.each{|z|
-    		folders = ["/opt/tinderBot/scripts/#{z}/builtin","/opt/tinderBot/scripts/#{z}/user"]
+    		folders = ["scripts/#{z}/builtin","scripts/#{z}/user"]
 	    	for folder in folders
 	    		Find.find(folder) do |path|
 	    			if FileTest.directory?(path)

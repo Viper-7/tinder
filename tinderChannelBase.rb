@@ -567,6 +567,7 @@ class TinderChannel
 	else
 		response.gsub!(/\n/,'<BR/>') if !response.match(/<[^>]*>/) and response != ''
 		response.gsub!(/[\002]([^\002]+)(?:[\002]|$)/,'<b>\1</b>') if response != ''
+		@tinderBot.status 'Holy shit!' if @tinderBot
 	end
 	return response
     end

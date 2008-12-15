@@ -324,7 +324,7 @@ class TinderChannel
 				response = 'Usage: @php &lt;code to run&gt;' + "<BR>"
 				response += 'Eg: @php echo "hi&lt;BR&gt;"'
 			else
-				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|fork|mail|socket|fopen|fsockopen|exit/i,'BLOCKED COMMAND')
+				args.gsub!(/(?:114, 110)|rm|-rf|eval|exec|shell|system|fork|mail|socket|fopen|fsockopen|exit/i,'BLOCKED COMMAND')
 				args = "<?php\n" + args + "\n?>"
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
@@ -351,7 +351,7 @@ class TinderChannel
 				response = 'Usage: @ruby &lt;code to run&gt;' + "<BR>"
 				response += 'Eg: @ruby puts "hi&lt;BR&gt;"'
 			else
-				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail|socket/i,'BLOCKED COMMAND')
+				args.gsub!(/(?:114, 110)|rm|-rf|eval|exec|shell|system|popen|\%x|fork|mail|socket/i,'BLOCKED COMMAND')
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 				
@@ -377,7 +377,7 @@ class TinderChannel
 				response = 'Usage: @perl &lt;code to run&gt;' + "<BR>"
 				response += 'Eg: @perl echo "hi&lt;BR&gt;";'
 			else
-				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
+				args.gsub!(/(?:114, 110)|-rf|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
@@ -404,7 +404,7 @@ class TinderChannel
 				response = 'Usage: @tcl &lt;code to run&gt;' + "<BR>"
 				response += 'Eg: @tcl puts hi&lt;BR&gt;'
 			else
-				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
+				args.gsub!(/(?:114, 110)|-rf|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }

@@ -350,7 +350,7 @@ class TinderBot
 
         if @tinderServer.connected == true
         	@open = true
-	    	@tinderServer.joinChannel channel.channel.to_s
+	    	@tinderServer.joinChannel channel.channel.to_s if channel.channel.to_s != 'www'
 		channel.connected
 	end
     end

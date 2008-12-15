@@ -54,7 +54,7 @@ get '/soap' do
 	else
 		outputArr['url'] = ''
 		outStr.gsub!(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
-		outputArr['body'] = outStr
+		outputArr['body'] = outStr.gsub(/<BR[\/]?>/m,"\n").chomp
 		$outStr = ''
 		
 		xml = ::Builder::XmlMarkup.new( :target => $outStr, :indent => 0 )
@@ -85,7 +85,7 @@ get '/xml/*' do
 	else
 		outputArr['url'] = ''
 		outStr.gsub!(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>').chomp if !outStr.match(/<[^>]*>/)
-		outputArr['body'] = outStr
+		outputArr['body'] = outStr.gsub(/<BR[\/]?>/m,"\n").chomp
 		$outStr = ''
 		
 		xml = ::Builder::XmlMarkup.new( :target => $outStr, :indent => 0 )
@@ -115,7 +115,7 @@ get '/json/*' do
 	else
 		outputArr['url'] = ''
 		outStr.gsub!(/(http:\/\/[\w\/\?&\.\=\_\#\@\!-]+)/i, '<a href="\1">\1</a>') if !outStr.match(/<[^>]*>/)
-		outputArr['body'] = outStr.chomp
+		outputArr['body'] = outStr.gsub(/<BR[\/]?>/m,"\n").chomp
 		outputArr.to_json
 	end
 end

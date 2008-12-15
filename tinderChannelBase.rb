@@ -324,7 +324,6 @@ class TinderChannel
 				response += 'Eg: @php echo "hi"'
 			else
 				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|fork|mail|socket/i,'BLOCKED COMMAND')
-				args = args.gsub(/\[\\n\]/, "\n")
 				args = "<?php\n" + args + "\n?>"
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
@@ -349,7 +348,6 @@ class TinderChannel
 				response += 'Eg: @ruby puts "hi"'
 			else
 				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail|socket/i,'BLOCKED COMMAND')
-				args = args.gsub(/\[\\n\]/, "\n")
 
 				File.open('/tmp/tinderScript', 'w') {|f| f.write(args) }
 				
@@ -557,7 +555,7 @@ class TinderChannel
 		response = response.gsub(/<\\?B>/i,'').gsub(/<[\/]?TITLE.*?>/i,'').gsub(/<A.+?HREF\s?=\s?(?:'|")(http.+?)(?:'|").*?>(.*?)<\/A>/i,'\2 [ \1 ] ').gsub(/<(?:style|script)>.+?<\/(?:style|script)>/i,'').gsub(/\n/m,'').gsub(/<BR[\/]?>/,"\n").gsub(/<[^>]*>/,'').chomp
 		@tinderBot.status "Output  : " + response if @tinderBot
 	else
-		response.gsub!(/\n/,"<BR/>\n") if !response.match(/<[^>]*>/) and !response == ''
+		response.gsub!(/\n/m,"<BR/>\n") if !response.match(/<[^>]*>/) and !response == ''
 		response.gsub!(/[\002]([^\002]+)(?:[\002]|$)/,'<b>\1</b>') if !response == ''
 	end
 	return response

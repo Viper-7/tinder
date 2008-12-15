@@ -2,6 +2,9 @@ require 'tinderChannelBase.rb'
 require 'net/http'
 require 'open-uri'
 require 'mysql'
+require 'drb'
+
+DRb.start_service
 
 class TinderNesreca < TinderChannel
     include DRbUndumped

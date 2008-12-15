@@ -18,8 +18,6 @@ require 'nokogiri'
 STDOUT.sync = true
 tinderChannels = Array.new
 
-DRb.start_service
-
 module Net
   class HTTP
     def HTTP.get_with_headers(uri, headers=nil)

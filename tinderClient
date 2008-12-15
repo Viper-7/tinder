@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd /opt/tinderBot/
+
+while true; do
+	ruby /opt/tinderBot/tinderChannel.rb catapult.viper-7.com > /tmp/tinderClient.log 2> /tmp/tinderClient.log2
+done

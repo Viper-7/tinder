@@ -323,7 +323,7 @@ class TinderChannel
 				response = 'Usage: @php <code to run>' + "\n"
 				response += 'Eg: @php echo "hi"'
 			else
-				args.gsub!(or /(?:114, 110)|rm|eval|exec|shell|system|fork|mail|socket/i,'BLOCKED COMMAND')
+				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|fork|mail|socket/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
 				args = "<?php\n" + args + "\n?>"
 

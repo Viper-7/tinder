@@ -319,10 +319,10 @@ class TinderChannel
 		when /^php$/
 			if args == "" and @channel == 'www'
 				response = 'Usage: /php/&lt;code to run&gt;/&lt;second line&gt;' + "<BR>"
-				response += 'Eg: /php/echo "hi<BR>"'
+				response += 'Eg: /php/echo "hi&lt;BR&gt;"'
 			elsif args == ""
 				response = 'Usage: @php &lt;code to run&gt;' + "<BR>"
-				response += 'Eg: @php echo "hi<BR>"'
+				response += 'Eg: @php echo "hi&lt;BR&gt;"'
 			else
 				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|fork|mail|socket|fopen|fsockopen|exit/i,'BLOCKED COMMAND')
 				args = "<?php\n" + args + "\n?>"
@@ -346,10 +346,10 @@ class TinderChannel
 		when /^ruby$/
 			if args == "" and @channel == 'www'
 				response = 'Usage: /ruby/&lt;code to run&gt;/&lt;second line&gt;' + "<BR>"
-				response += 'Eg: /ruby/puts "hi<BR>"'
+				response += 'Eg: /ruby/puts "hi&lt;BR&gt;"'
 			elsif args == ""
 				response = 'Usage: @ruby &lt;code to run&gt;' + "<BR>"
-				response += 'Eg: @ruby puts "hi<BR>"'
+				response += 'Eg: @ruby puts "hi&lt;BR&gt;"'
 			else
 				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail|socket/i,'BLOCKED COMMAND')
 
@@ -372,10 +372,10 @@ class TinderChannel
 		when /^perl$/
 			if args == "" and @channel == 'www'
 				response = 'Usage: /perl/&lt;code to run&gt;/&lt;second line&gt;' + "<BR>"
-				response += 'Eg: /perl/echo "hi<BR>"'
+				response += 'Eg: /perl/echo "hi&lt;BR&gt;"'
 			elsif args == ""
 				response = 'Usage: @perl &lt;code to run&gt;' + "<BR>"
-				response += 'Eg: @perl echo "hi<BR>";'
+				response += 'Eg: @perl echo "hi&lt;BR&gt;";'
 			else
 				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")
@@ -399,10 +399,10 @@ class TinderChannel
 		when /^tcl$/
 			if args == "" and @channel == 'www'
 				response = 'Usage: /tcl/&lt;code to run&lt;/&lt;second line&gt;' + "<BR>"
-				response += 'Eg: /tcl/puts "hi<BR>"'
+				response += 'Eg: /tcl/puts "hi&lt;BR&gt;"'
 			elsif args == ""
 				response = 'Usage: @tcl &lt;code to run&gt;' + "<BR>"
-				response += 'Eg: @tcl puts hi<BR>'
+				response += 'Eg: @tcl puts hi&lt;BR&gt;'
 			else
 				args.gsub!(/(?:114, 110)|rm|eval|exec|shell|system|popen|\%x|fork|mail/i,'BLOCKED COMMAND')
 				args = args.gsub(/\[\\n\]/, "\n")

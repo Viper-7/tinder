@@ -684,7 +684,7 @@ def addServer(server,port,nick)
 		puts "Failed to connect to Tinder server"
 		exit 0
 	end
-	p tinderServer1.memUsage
+	p tinderServer1.joined
 	tinderServer1.connectServer(server, port, nick)
 	tinderBot1 = tinderServer1.addBot
 	return tinderServer1, tinderBot1

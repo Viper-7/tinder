@@ -35,6 +35,8 @@ def get_html(param, tinderChannel)
 	return tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private','system','www'])
 end
 
+DRb.start_service
+
 tinderServer, tinderBot = addServer("WebIRC.GameSurge.net", "6667", "Tinder")
 tinderChannel = addChannel("www", 'TinderChannel')
 tinderChannel.setTinderBot(tinderBot)

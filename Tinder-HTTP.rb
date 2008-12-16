@@ -8,6 +8,14 @@ require 'json'
 require 'tinderChannelBase.rb'
 require 'drb'
 
+if tinderChannel == nil
+	DRb.start_service
+	
+	tinderServer, tinderBot = getServer
+	tinderChannel = addChannel("www", 'TinderChannel')
+	tinderChannel.tinderBot = tinderBot
+end
+
 class String
 	def each
 		self.split($/).each { |e| yield e }
@@ -34,13 +42,6 @@ def get_html(param, tinderChannel)
 	
 	return tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private','system','www'])
 end
-
-DRb.start_service
-
-tinderServer, tinderBot = getServer
-tinderChannel = addChannel("www", 'TinderChannel')
-tinderChannel.tinderBot = tinderBot
-p tinderChannel
 
 get '/text/*' do
 	get_html(params['splat'].first, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')

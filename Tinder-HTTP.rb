@@ -8,12 +8,13 @@ require 'json'
 require 'tinderChannelBase.rb'
 require 'drb'
 
-if tinderChannel == nil
+
+def initialize
 	DRb.start_service
 	
-	tinderServer, tinderBot = getServer
-	tinderChannel = addChannel("www", 'TinderChannel')
-	tinderChannel.tinderBot = tinderBot
+	$tinderServer, $tinderBot = getServer
+	$tinderChannel = addChannel("www", 'TinderChannel')
+	$tinderChannel.tinderBot = $tinderBot
 end
 
 class String
@@ -22,7 +23,7 @@ class String
 	end
 end
 
-def get_html(param, tinderChannel)
+def get_html(param)
 	args = param.gsub('://','##%').gsub('\/','##@').split('/')
 	cmd = args.shift
 	cmd = 'help' if cmd == '' or cmd == nil
@@ -40,7 +41,7 @@ def get_html(param, tinderChannel)
 	args.gsub!('##@',"/")
 	args.gsub!('##@',"://")
 	
-	return tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private','system','www'])
+	return $tinderChannel.runCommand(cmd, args, 'www', 'host', ['channel','global','private','system','www'])
 end
 
 get '/text/*' do
@@ -48,7 +49,7 @@ get '/text/*' do
 end
 
 get '/soap' do
-	outStr = get_html('', tinderChannel)
+	outStr = get_html('')
 	outputArr = {}
 	
 	outputArr['command'] = ''
@@ -79,7 +80,7 @@ get '/soap' do
 end
 
 get '/xml/*' do
-	outStr = get_html(params['splat'].first, tinderChannel)
+	outStr = get_html(params['splat'].first)
 	outputArr = {}
 	
 	outputArr['command'] = params['splat'].first
@@ -109,7 +110,7 @@ get '/xml/*' do
 end
 
 get '/json/*' do
-	outStr = get_html(params['splat'].first, tinderChannel)
+	outStr = get_html(params['splat'].first)
 	outputArr = {}
 	
 	outputArr['command'] = params['splat'].first
@@ -127,7 +128,7 @@ get '/json/*' do
 end
 
 get '/*' do
-	outStr = get_html(params['splat'].first, tinderChannel)
+	outStr = get_html(params['splat'].first)
 	
 	if outStr[0,7] == 'http://' and !outStr.match(/ /)
 		outStr.gsub!(/<[^>]*>/,'')

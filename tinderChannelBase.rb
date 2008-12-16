@@ -670,6 +670,19 @@ class TinderChannel
     end
 end
 
+def getServer()
+	begin
+		tinderServer1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')
+	rescue
+		puts "Failed to connect to Tinder server"
+		exit 0
+	end
+
+	tinderServer1.open = true
+	tinderBot1 = tinderServer1.addBot
+	return tinderServer1, tinderBot1
+end
+
 def addServer(server,port,nick)
 	begin
 		tinderServer1 = DRbObject.new(nil, 'druby://'+ ARGV[0] +':7777')

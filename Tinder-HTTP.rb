@@ -37,11 +37,9 @@ end
 
 DRb.start_service
 
-p 'Sinatra Connect'
-tinderServer, tinderBot = addServer("WebIRC.GameSurge.net", "6667", "Tinder")
+tinderServer, tinderBot = getServer
 tinderChannel = addChannel("www", 'TinderChannel')
 tinderChannel.tinderBot = tinderBot
-p tinderChannel
 
 get '/text/*' do
 	get_html(params['splat'].first, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')

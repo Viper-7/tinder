@@ -3,8 +3,8 @@ require 'open-uri'
 require 'cgi'
 
 if $*.join('') == ''
-	puts 'Usage: @nzbsearch <search string>'
-	puts "Mirrors the top 3 nzb's matching <search string>"
+	puts 'Usage: @nzbsearch (search string)<BR>'
+	puts "Mirrors the top 3 nzb's matching (search string)<BR>"
 	exit
 end
 
@@ -35,7 +35,7 @@ begin
 		break if count > 3 or line == nil
 		link = 'http://www.nzbsrus.com/nzbdownload.php/' + line[0].match(/<a href="nzbdownload.php\/(.+?)">/im)[1]
 		title = line[0].match(/<font class="nzbtitle">(.+?)<\/font>/)[0].gsub(/(?:<[^>]*?>|&[^;]*?;|\n)/,'').chomp
-		outStr += "#{title} - #{cacheNZB(link)}\n"
+		outStr += "#{title} - #{cacheNZB(link)}<BR>\n"
 	}
 rescue
 	outStr = "No Results\n" if outStr == ''

@@ -4,9 +4,9 @@ require 'rubygems'
 require 'json'
 
 if $*.join('') == ''
-	puts 'Usage: @translate <foreign text>'
-	puts '	     @translate <from lang>:<to lang> <text>'
-	puts '	     @translate de:fr hallo mein neger'
+	puts 'Usage: @translate (foreign text)<BR>'
+	puts '	     @translate (from lang):(to lang) (text)<BR>'
+	puts 'Eg:    @translate de:fr hallo mein neger'
 	exit
 end
 

@@ -1,10 +1,10 @@
 class Numeric
 	def hr_bytes
 		case
-			when self < 1024 ** 2: "%.2fKb" % (self.to_f / 1024)
-			when self < 1024 ** 3: "%dMb" % (self / (1024 ** 2))
-			when self < 1024 ** 4: "%dGb" % (self / (1024 ** 3))
-			when self < 1024 ** 5: "%.2fTb" % (self.to_f / (1024 ** 4))
+			when self < 1024 ** 2; "%.2fKb" % (self.to_f / 1024)
+			when self < 1024 ** 3; "%dMb" % (self / (1024 ** 2))
+			when self < 1024 ** 4; "%dGb" % (self / (1024 ** 3))
+			when self < 1024 ** 5; "%.2fTb" % (self.to_f / (1024 ** 4))
 		end
 	end
 end
@@ -23,8 +23,8 @@ end
 totalsize = 0
 Dir.new('/opt/filestore').size_summary.each{|name,size|
 	case name
-		when 'Random': next
-		when 'total': totalsize = size.hr_bytes
+		when 'Random'; next
+		when 'total'; totalsize = size.hr_bytes
 		else print "#{size.hr_bytes} of #{name}, "
 	end
 }

@@ -44,7 +44,7 @@ def get_html(param)
 end
 
 get '/text/*' do
-	get_html(params['splat'].first, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')
+	get_html(params['splat'].first).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')
 end
 
 get '/soap' do

@@ -1,3 +1,5 @@
+require 'drb'
+require 'tinderChannelBase.rb'
 require 'tinderServerBase.rb'
 
 @tinderServer = TinderServer.new if !@tinderServer

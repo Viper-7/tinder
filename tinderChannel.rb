@@ -1,8 +1,9 @@
+require 'drb'
 require 'tinderChannelBase.rb'
+require 'tinderServerBase.rb'
 require 'net/http'
 require 'open-uri'
 require 'mysql'
-require 'drb'
 
 DRb.start_service
 

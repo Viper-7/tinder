@@ -3,9 +3,6 @@ require 'socket'
 require 'timeout'
 
 class TinderServer
-
-    include DRbUndumped
-
     attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer, :joined
 
     def initialize
@@ -333,8 +330,6 @@ class TinderServer
 end
 
 class TinderBot
-    include DRbUndumped
-
     attr_accessor :spamTime, :tinderServer, :channels, :open, :dumpchans, :lastStatus
     attr_reader :nick
     

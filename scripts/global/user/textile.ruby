@@ -1,3 +1,3 @@
 require 'redcloth'
 
-puts RedCloth.new($*.join("\n")).to_html
+$*.join("\n").split("\n").each{|x| puts RedCloth.new(x).to_html }

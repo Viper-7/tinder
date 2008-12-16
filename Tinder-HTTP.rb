@@ -40,6 +40,7 @@ DRb.start_service
 tinderServer, tinderBot = addServer("WebIRC.GameSurge.net", "6667", "Tinder")
 p tinderServer
 p tinderBot
+tinderBot.status 'hi'
 tinderChannel = addChannel("www", 'TinderChannel')
 tinderChannel.setTinderBot(tinderBot)
 

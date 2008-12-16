@@ -3,6 +3,13 @@ require 'cgi'
 require 'rubygems'
 require 'json'
 
+if $*.join('') == ''
+	puts 'Usage: @translate <foreign text>'
+	puts '	     @translate <from lang>:<to lang> <text>'
+	puts '	     @translate de:fr hallo mein neger'
+	exit
+end
+
 lang = '|en'
 args = $*.join(' ').split(' ')
 t0 = args.shift
@@ -20,6 +27,8 @@ inTxt = open('http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&
 inObj = JSON.parse(inTxt)
 
 if inObj['responseData'].nil?
+	puts 'Failed to translate'
+elsif !inObj['responseData']['translatedText'].ascii_only?
 	puts 'Failed to translate'
 else
 	puts inObj['responseData']['translatedText']

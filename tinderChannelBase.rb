@@ -286,7 +286,7 @@ class TinderChannel
 							args =~ /^(.+?) (.+)$/
 							cmdline = Escape.shell_command(["#{lang}","#{filename}.#{ext}", $1, $2]) + ' 2>&1' if !($2.nil? rescue true)
 						else
-							cmdline = Escape.shell_command(["#{lang}","#{filename}.#{ext}", args]) + ' 2>&1'
+							cmdline = Escape.shell_command(["#{lang}","#{filename}.#{ext}", args.gsub(/&\$p/,'+')]) + ' 2>&1'
 						end
 
 	    					@tinderBot.status "Exec    : '" + cmdline + "'" if @channel != 'www'

@@ -69,7 +69,13 @@ class TinderServer
 	        @tinderBots.push newBot
 	        puts "tinderBot - Added Bot" if @debug == true
 	        p @tinderBots.length.to_s + ' Bots'
-	    	
+	    	@tinderBots.each{|x|
+	    		begin
+	    			x.syn
+	    		rescue
+	    			@tinderBots.delete(x)
+	    		end
+	    	}
 	    	return newBot
 	else
 		puts 'error: Client tried to create a bot with no server'
@@ -339,6 +345,10 @@ class TinderBot
     	@dumpchans = Array.new
 	@open = true
 	@lastStatus = ""
+    end
+    
+    def syn
+    	return 'ack'
     end
 
     def addChannel(channel)

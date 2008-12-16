@@ -1,4 +1,4 @@
-load 'tinderServerBase.rb'
+require 'tinderServerBase.rb'
 
 @tinderServer = TinderServer.new if !@tinderServer
 
@@ -9,7 +9,7 @@ while true
 		port = 7777
 		@bots.push DRb.start_service("druby://:#{port}", @tinderServer)
 		puts @bots.last.uri
-		@bots.first.thread.join
+		@bots.last.thread.join
 	rescue Exception => ex
 		puts ex
 		break

@@ -1,11 +1,10 @@
+require 'drb'
+require 'socket'
+require 'timeout'
 
 class TinderServer
-    require 'drb'
 
     include DRbUndumped
-
-    require 'socket'
-    require 'timeout'
 
     attr_accessor :server, :nick, :port, :open, :tinderBots, :connected, :buffer, :joined
 
@@ -72,7 +71,8 @@ class TinderServer
 	        newBot = TinderBot.new(self)
 	        @tinderBots.push newBot
 	        puts "tinderBot - Added Bot" if @debug == true
-	        p @tinderBots
+	        p @tinderBots.length.to_s + ' Bots'
+	    	
 	    	return newBot
 	else
 		puts 'error: Client tried to create a bot with no server'

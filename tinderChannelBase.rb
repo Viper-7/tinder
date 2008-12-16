@@ -289,7 +289,7 @@ class TinderChannel
 							cmdline = Escape.shell_command(["#{lang}","#{filename}.#{ext}", args]) + ' 2>&1'
 						end
 
-	    					@tinderBot.status "Exec    : '" + cmdline + "'" if @tinderBot
+	    					@tinderBot.status "Exec    : '" + cmdline + "'" if @channel != 'www'
 						
 						popen4(cmdline) {|stdout, stderr, stdin, pipe|
 							begin

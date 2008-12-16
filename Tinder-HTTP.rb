@@ -9,9 +9,8 @@ require 'tinderChannelBase.rb'
 require 'drb'
 
 
-def initialize
+if !$tinderChannel
 	DRb.start_service
-	
 	$tinderServer, $tinderBot = getServer
 	$tinderChannel = addChannel("www", 'TinderChannel')
 	$tinderChannel.tinderBot = $tinderBot

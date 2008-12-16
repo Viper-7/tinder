@@ -39,7 +39,7 @@ DRb.start_service
 
 tinderServer, tinderBot = addServer("WebIRC.GameSurge.net", "6667", "Tinder")
 tinderChannel = addChannel("www", 'TinderChannel')
-tinderChannel.setTinderBot(tinderBot)
+tinderChannel.tinderBot = tinderBot
 
 get '/text/*' do
 	get_html(params['splat'].first, tinderChannel).gsub('<BR[/]*>',"\n").gsub(/<[^>]*>/,'')

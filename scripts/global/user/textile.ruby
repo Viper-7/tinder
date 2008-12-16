@@ -1,3 +1,3 @@
 require 'redcloth'
 
-puts RedCloth.new($*.join(' ')).to_html
+puts RedCloth.new($*.join("\n")).to_html

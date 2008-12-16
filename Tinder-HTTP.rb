@@ -31,7 +31,7 @@ def get_html(param)
 			args = args.join('/')
 		when /php/
 			args = CGI.unescape(args.join(";\n"))
-		when /ruby|tcl/
+		when /ruby|tcl|textile/
 			args = CGI.unescape(args.join("\n"))
 		else
 			args = CGI.unescape(args.join(" "))

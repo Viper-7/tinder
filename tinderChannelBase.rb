@@ -678,6 +678,7 @@ def addServer(server,port,nick)
 		exit 0
 	end
 
+	tinderServer1.open = true
 	tinderServer1.connectServer(server, port, nick)
 	tinderBot1 = tinderServer1.addBot
 	return tinderServer1, tinderBot1

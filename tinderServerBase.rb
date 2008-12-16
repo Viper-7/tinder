@@ -64,18 +64,11 @@ class TinderServer
 
     def addBot
         if @open == true
-        	sleep 0.2
 	        newBot = TinderBot.new(self)
 	        @tinderBots.push newBot
 	        puts "tinderBot - Added Bot" if @debug == true
 	        p @tinderBots.length.to_s + ' Bots'
-	    	@tinderBots.each{|x|
-	    		begin
-	    			x.syn
-	    		rescue
-	    			@tinderBots.delete(x)
-	    		end
-	    	}
+
 	    	return newBot
 	else
 		puts 'error: Client tried to create a bot with no server'
